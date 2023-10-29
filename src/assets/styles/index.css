@@ -42,9 +42,9 @@ img {
 }
 
 main {
-  max-width: 1280px;
+  max-width: 720px;
   padding: 85px 0 0 0;
-  box-sizing: border-box;  
+  box-sizing: border-box;
 }
 
 main > *:not(dialog) { 
@@ -64,7 +64,7 @@ main > *:not(dialog) {
     height: 100%;
     max-height: calc(100vh - 85px);
     background-image: url("../images/logo-round.webp");
-    background-size: 50%;
+    background-size: 40%;
     opacity: 0.2;
     z-index: -1;
 }

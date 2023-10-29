@@ -3,24 +3,23 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 		<meta name="generator" content="{{ eleventy.generator }}">
 		
-        {% assign page_url = "https://www.davidwesst.com" | append: page.url %}
+        {% assign page_url = page.url %}
         {% assign page_description = description %}
         {% assign page_type = type | default: "website" %}
 		{% assign page_image_height = image_height | default: 630 %}
 		{% assign page_image_width = image_width | default: 1200 %}
 		{% assign page_image_mimetype = image_type | default: "image/png" %}
 
-        <link rel="canonical" href="{{ page_url | url  }}" />
+        <link rel="canonical" href="{{ page_url | htmlBaseUrl: 'https://www.davidwesst.com/' }}" />
         <link rel="stylesheet" href="/assets/main.css" />
 
         <title>{{ title }}</title>
 
         <meta name="title" property="og:title" content="{{ title }}" />
         <meta name="type" property="og:type" content="{{ page_type }}" />
-        <meta name="url" property="og:url" content="{{ page_url | url }}" />
+        <meta name="url" property="og:url" content="{{ page_url | htmlBaseUrl: 'https://www.davidwesst.com/'}}" />
         <meta name="description" property="og:description" content="{{ description }}" />
         {% if page_type == "article" %}
         <meta name="author" property="og:article:author" content="{{ site.author }}" />
@@ -34,8 +33,8 @@
 		{% capture page_image %}
 		    {% image_uri image %}
 		{% endcapture %}
-		<meta name="image" property="og:image" content="{{ page_image | strip |  prepend: 'https://www.davidwesst.com' }}" />
-		<meta property="og:image:secure_url" content="{{ page_image | strip | prepend: 'https://www.davidwesst.com' }}" />
+		<meta name="image" property="og:image" content="{{ page_image | strip |  htmlBaseUrl }}" />
+		<meta property="og:image:secure_url" content="{{ page_image | strip | htmlBaseUrl }}" />
 		<meta property="og:image:alt" content="{{ image_alt }}" />
 		{% else %}
 		<meta name="image" property="og:image" content="https://www.davidwesst.com/static/default_og.png" />

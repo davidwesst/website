@@ -1,4 +1,4 @@
-const { EleventyRenderPlugin } = require("@11ty/eleventy");
+const { EleventyRenderPlugin, EleventyHtmlBasePlugin } = require("@11ty/eleventy");
 const pluginRss = require("@11ty/eleventy-plugin-rss");
 const pluginWebc = require("@11ty/eleventy-plugin-webc");
 const pluginImage = require("@11ty/eleventy-img");
@@ -12,6 +12,9 @@ const path = require("path");
 module.exports = function (eleventyConfig) {
   eleventyConfig.addPlugin(pluginRss);
   eleventyConfig.addPlugin(EleventyRenderPlugin);
+   eleventyConfig.addPlugin(EleventyHtmlBasePlugin, {
+    extensions: "html, png, webp"
+  });
   eleventyConfig.addPlugin(pluginWebc, {
     components: [
       "src/_includes/components/*.webc",
