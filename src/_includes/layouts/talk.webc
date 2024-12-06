@@ -1,8 +1,12 @@
 ---
-layout: "base.html"
+
+layout: "layouts/base.html"
+eleventyExcludeFromCollections: ["talk"]
+
 ---
 <header class="page-header">
-    <h1 @text="title"></h1>
+   <!-- <div @html="log(page)"></div> -->
+    <h1 :@text="title"></h1>
     <article class="subTitle" 
         webc:if="coAuthors !== undefined">
         Co-authored by:
@@ -13,7 +17,6 @@ layout: "base.html"
 </header>
 <article @text="description"></article>
 
-<!--
 <article>
     <h2>Delivered at</h2>
     <event-list
@@ -22,6 +25,5 @@ layout: "base.html"
         >
     </event-list>
 </article>
--->
 
 

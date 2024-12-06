@@ -8,7 +8,6 @@ export default async function (eleventyConfig) {
     // setup directories
     eleventyConfig.setInputDirectory("src");
     eleventyConfig.setOutputDirectory("dist");
-    eleventyConfig.setLayoutsDirectory("_layouts");
     eleventyConfig.setIncludesDirectory("_includes");
 
     // setup passthrough directories
@@ -49,9 +48,9 @@ export default async function (eleventyConfig) {
     // webc
     eleventyConfig.addPlugin(pluginWebc, {
         components: [
-            "src/_includes/components/*.webc",
-            "src/_layouts/*.webc",
-            "src/*.webc",
+            "_includes/**/*.webc",
+            "_layouts/*.webc",
+            "*.webc",
             "src:@11ty/eleventy-img/*.webc"
         ]
     });

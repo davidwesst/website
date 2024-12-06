@@ -1,8 +1,9 @@
 <script webc:setup>
     const talks = [].concat(...collections.talk);
-    //talks.every(t => console.dir(t.data?.eventLinks));
+    talks.every(t => console.dir(t.data));
 </script>
 
+Talks go here.
 <menu class="content-list">
     <talk-item webc:for="t of talks" :@talk="t.data"></talk-item>
 </menu>

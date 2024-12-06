@@ -1,5 +1,5 @@
 ---
-layout: base.html
+layout: layouts/base.html
 permalink: "/talks/index.html"
 title: "TALKS // David Wesst"
 description: "The place where I put my conference materials"
@@ -12,4 +12,5 @@ description: "The place where I put my conference materials"
 <section>
     <p>Not sure which talk you are looking for? Check out the <a href="/events/">events</a> section, and see where you might have seen me before.</p>
 </section>
+
 <talk-list></talk-list>

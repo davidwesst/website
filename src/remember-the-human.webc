@@ -1,5 +1,5 @@
 ---
-layout: base.html
+layout: layouts/base.html
 permalink: /remember-the-human/index.html
 title: REMEMBER THE HUMAN // David Wesst
 description: Homepage for Remember the Human, a podcast hosted by David Wesst, about artificial intelligence and the change it brings to the lives of people.
