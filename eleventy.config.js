@@ -1,35 +1,27 @@
-import { EleventyRenderPlugin, EleventyHtmlBasePlugin } from "@11ty/eleventy";
+import { InputPathToUrlTransformPlugin } from "@11ty/eleventy";
 
 import { feedPlugin } from "@11ty/eleventy-plugin-rss";
 import pluginWebc from "@11ty/eleventy-plugin-webc";
-import pluginImage from "@11ty/eleventy-img";
 
-export default async function (eleventyConfig) {
-    // setup directories
-    eleventyConfig.setInputDirectory("src");
-    eleventyConfig.setOutputDirectory("dist");
-    eleventyConfig.setLayoutsDirectory("_layouts");
-    eleventyConfig.setIncludesDirectory("_includes");
+export default function (eleventyConfig) {
+    
+    eleventyConfig.setInputDirectory("content");
+    eleventyConfig.setOutputDirectory("_site");
+    eleventyConfig.setDataDirectory("../data");
+    eleventyConfig.setLayoutsDirectory("../layouts");
 
-    // setup passthrough directories
-    eleventyConfig.addPassthroughCopy({
-        "src/static/": "/static"
-    });
+    /*
+        Plugins
+    */
+    
+    eleventyConfig.addPlugin(InputPathToUrlTransformPlugin);
 
-    // do not use .gitignore for generation
-    eleventyConfig.setUseGitIgnore(false);
-
-    //
-    //  Plugins
-    //
-
-    // rss
     eleventyConfig.addPlugin(feedPlugin, {
         type: "atom",
         outputPath: "/feed.xml",
         collection: {
-            name: "blog", 
-            limit: 0
+            name: "blog",
+            limit: 10    
         },
         metadata: {
             language: "en",
@@ -43,38 +35,10 @@ export default async function (eleventyConfig) {
         }
     });
 
-    // render
-    //eleventyConfig.addPlugin(EleventyRenderPlugin);
-
-    // webc
     eleventyConfig.addPlugin(pluginWebc, {
         components: [
-            "src/_includes/components/*.webc",
-            "src/_layouts/*.webc",
-            "src/*.webc",
-            "src:@11ty/eleventy-img/*.webc"
+            "./components/**/*.webc"
         ]
     });
-
-    // image
-    eleventyConfig.addPlugin(pluginImage.eleventyImageTransformPlugin, {
-        formats: ["webp", "jpeg"],
-        urlPath: "/img/",
-        defaultAttributes: {
-            loading: "lazy",
-            decoding: "async"
-        }
-    });
-
-    //
-    // Filters
-    //
-
-    eleventyConfig.addFilter("formatDate", (value) => {  
-        const date = new Date(value);
-        const dateOptions = { month: "long", day: "numeric", year: "numeric" };
-        const dateString = date.toLocaleDateString("en-CA", dateOptions);
-
-        return dateString;
-    });
-};
+    
+}

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html :lang="metadata.language">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title @text="`${metadata.title} | ${title}`"></title>
+
+    <link rel="stylesheet" href="style/base.css" >
+    <style @raw="getBundle('css')" webc:keep></style>
+</head>
+<body>
+    <site-header></site-header>
+    <main @raw="content"></main>
+</body>
+</html>

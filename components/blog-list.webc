@@ -1,0 +1,23 @@
+<script webc:setup>
+    const blogPosts = collections.blog;
+</script>
+
+<menu>
+    <li webc:for="post of blogPosts">
+        <a :href="post.url">
+            <h3 @text="post.data.title"></h3>
+            <div @text="post.date"></div>
+            <p @text="post.data.description"></p>
+        </a>
+    </li>
+</menu>
+
+<style webc:scoped>
+    menu {
+        list-style-type: none;
+    }
+
+    a {
+        text-decoration: none;
+    }
+</style>

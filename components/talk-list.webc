@@ -1,0 +1,22 @@
+<script webc:setup>
+    const talkCollection = collections.talk;
+</script>
+
+<menu>
+    <li webc:for="talk of talkCollection">
+        <a :href="talk.url">
+            <h3 @text="talk.data.title"></h3>
+            <div @text="talk.data.description"></div>
+        </a>
+    </li>
+</menu>
+
+<style webc:scoped>
+    menu {
+        list-style-type: none;
+    }
+
+    a {
+        text-decoration: none;
+    }
+</style>

@@ -1,0 +1,13 @@
+:root {
+    --font-family: monospace;
+    --background-colour: rgb(240, 240, 240);
+    --foreground-colour: rgb(10, 10, 10);
+}
+
+html,
+body
+{
+    font-family: var(--font-family);
+    background-color: var(--background-colour);
+    color: var(--foreground-colour);
+}
