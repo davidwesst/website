@@ -1,0 +1,59 @@
+---
+title: About
+date: git Last Modified
+---
+
+<header class="page-header">
+    <h2>About DW</h2>
+    <article>
+        <p>Hullo. My name is David Wesst, but you can call me DW or Wessty. I am a solution architect based out of Winnipeg, Manitoba, Canada who loves buliding code, learning tech, and  playing video games while attempting to develop my own.</p>
+        <p>Find me on <a href="https://github.com/davidwesst/">GitHub</a>, <a href="https://ca.linkedin.com/in/davidwesst">LinkedIn</a>, or <a href="https://youtube.com/davidwesst">YouTube</a> once and a while.</p>
+    </article>
+    <article>
+        <h3>Current Building:</h3>
+        <ul>
+            <li>This <a href="https://github.com/davidwesst/website">website</a> out of <a href="https://11ty.dev">Eleventy</a></li>
+            <li>A video game project (TBA)</li>
+        </ul>
+
+        <h3>Currently Learning:</h3>
+        <ul>
+            <li><a href="https://godotengine.org">Godot Engine</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/training/paths/get-started-fabric/"></a>Microsoft Fabric & Power BI</li>
+        </ul>
+
+        <h3>Currently Playing:</h3>
+        <ul>
+            <li>Dragon Quest III HD-2D Remake (Switch)</li>
+            <li>Indiana Jones and the Great Circle (XB)</li>
+        </ul>
+    </article>
+    <article @text="`Last Updated on ${page.date}`"></article>
+</header>
+
+<section>
+    <h2>The Short Version</h2>
+    <article>
+        <p>As a Solution Architect at the University of Manitoba, I specialize in modernizing legacy enterprise systems with a focus on user experience and cloud-centric platforms. With a Bachelor of Computer Science and nine years as a Microsoft MVP, I’ve built expertise in web technologies like HTML, CSS, and .NET, while sharing insights at conferences across North America. Outside work, I channel my passion for video games into designing original creations through Cocoboko Studios, combining technical innovation with creative storytelling.</p>
+    </article>
+</section>
+
+<section>
+    <h2>The Long Version</h2>
+    <article>
+        <h3>My Work</h3>
+        <p>I am a solution architect at the University of Manitoba, that focuses on the migration and of legacy enterprise systems and bringing them into modern, more cloud-focused, and platforms.</p>
+        <p>When I am not working in and around software code, I am usually talking about it in a public venue. Since the late 2000's, I have prepared and delivered original content for in-person technology conferences across North America, and continue that tradition whenever the opportunity arises.</p>
+        <p>Through my career, there has always been a reoccuring theme in my work: user experience focused and customer enablement. Whether I was coding the solution directly, or creating a plan to migrate enterprise resource management (ERP) systems, the focus on the user experience has rarely failed me.</p>
+    </article>
+    <article>
+        <h3>My Professional Origins</h3>
+        <p>In my second year of university, I was trying to raise my GPA and was looking to sign up for a "Computer Usage" course. What I did, was sign-up for "Computer Science" by mistake, and the rest is history, ending with a Bachelor of Computer Science, with Honours and Co-op option.</p>
+        <p>Beyond university, my career stayed in software development, with a heavy emphasis on open web technologies, like HTML, CSS, and JavaScript along with a healthy dose of Microsoft technologies, like .NET, SharePoint, and Microsoft Azure. I was a Microsoft MVP in the area of front-end web dev, formerly Internet Explorer (yes, really) for 9 years running, where I  worked with various other professionals from around the world to help represent the revolution in web technologies as we see it today.</p>
+    </article>
+    <article>
+        <h3>Outside the Office</h3>
+        <p>In the evening, I tend to learn about video games-- my favourite entertainment medium. Although I play as much as I can, my focus for the past many years has been to learn the history, curate my own collection, and attempt to design and development my own original video game creations.</p>
+        <p><a href="cocoboko-studios.webc">Cocoboko Studios</a> is the embodiment of my passion and drive to make video games. Although there are no releases yet-- the company is a work-in-progress and with some blood, sweat, and pixels one day I expect to see my ideas come to life.</p>
+    </article>
+</section>

@@ -1,0 +1,19 @@
+<script webc:setup>
+    const blogPosts = collections.blog.reverse();
+</script>
+
+<menu class="content-list">
+    <li webc:for="post of blogPosts">
+        <a :href="post.url">
+            <img webc:if="post.data.featured_image" 
+                class="featured-image-small"
+                :src="`${post.url}${post.data.featured_image}`" 
+                :alt="post.data.featured_image_alt" 
+            />
+            <h3 @text="post.data.title"></h3>
+            <div @text="post.date"></div>
+            <p @text="post.data.description"></p>
+        </a>
+        <tag-list webc:if="post.data.tags !== undefined" :@items="post.data.tags"></tag-list>
+    </li>
+</menu>

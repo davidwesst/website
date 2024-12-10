@@ -1,0 +1,28 @@
+<script webc:setup>
+    const talkCollection = collections.talk;
+</script>
+
+<menu class="content-list">
+    <li webc:for="talk of talkCollection">
+        <a :href="talk.url">
+            <img webc:if="talk.data.featured_image" 
+            class="featured-image-small"
+            :src="`${talk.url}${talk.data.featured_image}`" 
+            :alt="talk.data.featured_image_alt" 
+            />
+            <h3 @text="talk.data.title"></h3>
+            <div @text="talk.data.description"></div>
+        </a>
+        <tag-list webc:if="talk.data.tags !== undefined" :@items="talk.data.tags"></tag-list>
+    </li>
+</menu>
+
+<style webc:scoped>
+    menu {
+        list-style-type: none;
+    }
+
+    a {
+        text-decoration: none;
+    }
+</style>

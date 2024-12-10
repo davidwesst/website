@@ -1,0 +1,13 @@
+---
+title: Blog
+---
+
+<header class="page-header">
+<article>
+    <p>I have been blogging off and on for over 10 years at this point. This blog captures everything from 2013 onward, but I assure you I was blogging before that. Either way, this blog is a collection of lessons learned, things discovered, and musings I've had over the year about technology and my career though it.</p>
+    <p>I make no commitments to the blog other than, I will share things as they come up and as I feel the need to share.</p>
+    <p>If you're looking for my presentations, checkout the <a href="talks.webc">talks</a> page. Video games thoughts (and no, not game development), then head over to the <a href="gamelog.webc">gamelog</a> page.</p>
+</article>
+</header>
+
+<blog-list></blog-list>

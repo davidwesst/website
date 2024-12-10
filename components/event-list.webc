@@ -1,0 +1,26 @@
+<script webc:setup>
+    // check properties
+</script>
+
+<h3>Delivered at</h3>
+<p webc:if="items === undefined">
+    No events were provided.
+</p>
+<menu webc:elseif="items.length > 0">
+    <li webc:for="i of items">
+        <article @text="i.title"></article>
+        <section webc:if="i.files && i.files.length > 0">
+            <a webc:for="f of i.files" :href="f.url" @text="f.description"></a>
+        </section>
+    </li>
+</menu>
+
+<style webc:scoped>
+    menu {
+        list-style-type: none;
+    }
+
+    menu li {
+        margin: 1em 0;
+    }
+</style>

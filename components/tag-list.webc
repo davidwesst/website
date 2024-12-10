@@ -1,0 +1,30 @@
+<script webc:setup>
+    // something
+</script>
+
+<menu webc:if="items !== undefined">
+    <li webc:for="t of items" @text="t"></li>
+</menu>
+
+<style webc:scoped>
+    menu {
+        display: flex;
+        flex-direction: row;
+        margin: 1em 0;
+        list-style-type: none;
+        padding: 0;
+    }
+
+    menu li {
+        font-family: var(--font-family);
+        font-size: 0.8em;
+        border-radius: 10px;
+        margin: 0.5em 0.25em;
+        padding: 0.25em 0.5em;
+        border: solid 1px var(--foreground-colour)
+    }
+
+    menu li:first-child {
+        margin-left: 0;
+    }
+</style>

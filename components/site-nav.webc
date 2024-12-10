@@ -1,0 +1,16 @@
+<script webc:setup>
+    const socialMediaLinks = socials;
+</script>
+
+<nav class="site-nav">
+    <a href="index.webc">Home</a>
+    <a href="about.webc">About</a>
+    <a href="blog.webc">Blog</a>
+    <!--- <a href="/events">Events</a> --->
+    <a href="talks.webc">Talks</a>
+    <a href="gamelog.webc">Gamelog</a>
+    <!--- <a href="/remember-the-human">Remember The Human</a> --->
+    <a href="cocoboko-studios.webc">Cocoboko Studios</a>
+    |
+    <a webc:for="item of socialMediaLinks" target="_blank" @text="item.name" :href="item.url"></a>
+</nav>

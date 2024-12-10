@@ -1,0 +1,107 @@
+:root {
+    --font-family: monospace;
+    --background-colour: rgb(240, 240, 240);
+    --background-colour-emphasis: rgb(200, 200, 200);
+    --foreground-colour: rgb(10, 10, 10);
+}
+
+html,
+body
+{
+    font-family: var(--font-family);
+    font-size: 14px;
+    background-color: var(--background-colour);
+    color: var(--foreground-colour);
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    display: flex;
+    max-width: 800px;
+    margin: 0 auto;
+    flex-grow: 2;
+}
+
+/*
+    Headers
+*/
+.site-header {
+    margin-bottom: 1em;
+}
+
+.page-header {
+    background-color: var(--background-colour-emphasis);
+    padding: 1em;
+}
+
+/*
+    Footers
+*/
+.site-footer {
+    text-align: center;
+}
+
+/*
+    Images
+*/
+.featured-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+}
+
+.featured-image-small {
+    width: 160px;
+    height: 90px;
+    aspect-ratio: 16 / 9;
+    object-fit: scale-down;
+}
+
+.featured-image-header {
+    width: 100%;
+    height: auto;
+    object-fit: fill;
+}
+
+/*
+    Content Lists
+*/
+.content-list {
+    list-style-type: none;
+    padding: 0.5em 0;
+}
+
+.content-list li {
+    margin: 2em 0;
+}
+
+.content-list li a {
+    text-decoration: none;
+}
+
+.content-list li a:hover {
+    text-decoration: underline;
+}
+
+/*
+    Display Elements
+*/
+.highlight {
+    color: var(--background-colour);
+    background-color: var(--foreground-colour);
+}
+
+.splash {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+}
+
+.splash p {
+    font-size: 2em;
+}

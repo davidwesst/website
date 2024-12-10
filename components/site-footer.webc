@@ -1,0 +1,5 @@
+
+<footer class="site-footer">
+    <site-nav></site-nav>
+    <copyright></copyright> | <span @text="version"></span>
+</footer>

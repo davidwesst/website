@@ -1,13 +1,11 @@
 # TEMP
 exports/
-old_src/
 
 # Application Specific
 dist/
+_site/
 tmp/
-src/_data/content-tags.json
-!src/blog/**
-!src/blog/blog.11tydata.json
+content-tags.json
 
 # Installed tools
 bin/

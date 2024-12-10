@@ -25,8 +25,8 @@ function tagCollectionToString(tagCollection, options) {
 async function createTagDataFile() {
     // process arguments
     const [,,...args] = process.argv;
-    const postDirPath = args[0] || "src/blog/";
-    const tagFileOutputPath = args[1] || "src/_data/content-tags.json";
+    const postDirPath = args[0] || "content/blog/";
+    const tagFileOutputPath = args[1] || "data/content-tags.json";
 
     // read all index.md files in directory and subdirectories
     const posts = await fs.readdir(postDirPath);

@@ -1,0 +1,20 @@
+---
+layout: "base.webc"
+---
+<h1 @text="title"></h1>
+<tag-list :@items="tags"></tag-list>
+<img webc:if="featured_image !== undefined"
+    :src="featured_image" 
+    :alt="featured_image_alt"
+    class="featured-image-header"
+    />
+<article webc:if="coAuthors">
+    Co-authored by 
+    <span webc:for="(author, index) of coAuthors">
+        <span @text="author"></span><span webc:if="coAuthors.length > 1 && index !== coAuthors.length - 1">,</span>
+    </span>  
+</article>
+
+<article @text="description"></article>
+
+<event-list webc:if="deliveredAt" :@items="deliveredAt"></event-list>

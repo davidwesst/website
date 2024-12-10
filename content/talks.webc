@@ -1,0 +1,12 @@
+---
+title: Talks
+---
+<header class="page-header">
+<article>
+    <p>Welcome to the Talks section of the website.</p>
+    <p>I enjoy public speaking. It is something I have been doing since junior high, and it turns out that in tech, there is a whole scene for it (known as "conferences"). Here, you can find details about the various sessions I have delivered.</p>
+    <p>NOTE: I realize that this content only goes back a few years, but I am working on restoring and sharing as many of my old presentations as possible.</p>
+</article>
+</header>
+
+<talk-list></talk-list>

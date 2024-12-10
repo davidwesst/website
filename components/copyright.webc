@@ -1,0 +1,7 @@
+<script webc:setup>
+    const year = 2025;
+</script>
+
+<span>
+    Copyright &#169; 2013-<span @text="year"></span> David Wesst
+</span>

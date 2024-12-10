@@ -1,0 +1,12 @@
+---
+layout: "base.webc"
+---
+<h2 @text="title"></h2>
+<article @text="date"></article>
+<tag-list :@items="tags"></tag-list>
+<img webc:if="featured_image !== undefined"
+    :src="featured_image" 
+    :alt="featured_image_alt"
+    class="featured-image-header"
+    />
+<article @raw="content"></article>
