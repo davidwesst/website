@@ -1,0 +1,6 @@
+[submodule "sources/digital-zuihitsu"]
+	path = sources/digital-zuihitsu
+	url = https://github.com/davidwesst/digital-zuihitsu.git
+[submodule "sources/davidwesst.github.io"]
+	path = sources/davidwesst.github.io
+	url = https://github.com/davidwesst/davidwesst.github.io.git
