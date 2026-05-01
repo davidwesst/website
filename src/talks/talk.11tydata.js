@@ -8,6 +8,7 @@ export default {
     return data.talk.canonicalUrl;
   },
   layout: "base.webc",
+  eleventyExcludeFromSiteIndex: true,
   eleventyComputed: {
     title(data) {
       return data.talk.title;

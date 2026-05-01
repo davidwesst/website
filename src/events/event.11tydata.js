@@ -8,6 +8,7 @@ export default {
     return data.event.canonicalUrl;
   },
   layout: "base.webc",
+  eleventyExcludeFromSiteIndex: true,
   eleventyComputed: {
     title(data) {
       return data.event.title;

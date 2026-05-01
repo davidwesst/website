@@ -3,9 +3,9 @@ title: Site Index
 layout: base.webc
 ---
 <h1>Site Index</h1>
-<p>This page lists the generated pages currently included in the sitemap.</p>
+<p>This page lists the top-level pages on the site.</p>
 <ul>
-  <li webc:for="entry of collections.sitePages">
+  <li webc:for="entry of collections.siteIndexPages">
     <a :href="entry.url" @text="entry.data.title || entry.url"></a>
   </li>
 </ul>
