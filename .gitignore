@@ -1,3 +1,8 @@
+<<<<<<< feature/home-page
 node_modules/
 _site/
 test-results/
+=======
+# Codex/Agent folders
+.codex
+>>>>>>> main
