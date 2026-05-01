@@ -1,0 +1,10 @@
+<section class="event-list">
+  <event-card webc:for="event of items" :@event="event"></event-card>
+</section>
+
+<style webc:scoped>
+  .event-list {
+    display: grid;
+    gap: 0.5rem;
+  }
+</style>

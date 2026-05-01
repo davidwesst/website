@@ -1,0 +1,60 @@
+<script webc:setup>
+  function eventForRef(ref, events = []) {
+    return events.find((event) => event.id === ref.eventId);
+  }
+
+  function coPresentersText(ref) {
+    return (ref.meta?.coPresenters || []).join(", ");
+  }
+</script>
+
+<section webc:if="talk.eventRefs && talk.eventRefs.length" class="talk-events">
+  <h2>Delivered At</h2>
+  <ol>
+    <li webc:for="ref of talk.eventRefs">
+      <article>
+        <h3>
+          <a :href="eventForRef(ref, events).canonicalUrl" @text="eventForRef(ref, events).title"></a>
+        </h3>
+        <p webc:if="eventForRef(ref, events).dates.start">
+          <time :datetime="eventForRef(ref, events).dates.start" @text="eventForRef(ref, events).dates.start"></time>
+          <span webc:if="eventForRef(ref, events).dates.end"> to </span>
+          <time
+            webc:if="eventForRef(ref, events).dates.end"
+            :datetime="eventForRef(ref, events).dates.end"
+            @text="eventForRef(ref, events).dates.end"
+          ></time>
+        </p>
+        <p webc:if="eventForRef(ref, events).location" @text="eventForRef(ref, events).location"></p>
+        <p webc:if="ref.meta && ref.meta.coPresenters && ref.meta.coPresenters.length">
+          Co-presented with <span @text="coPresentersText(ref)"></span>
+        </p>
+        <content-links :@items="ref.links"></content-links>
+      </article>
+    </li>
+  </ol>
+</section>
+
+<style webc:scoped>
+  .talk-events {
+    margin-block-start: 2rem;
+  }
+
+  .talk-events ol {
+    display: grid;
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .talk-events article {
+    border-block-start: 1px solid #d4d4d4;
+    padding-block-start: 1rem;
+  }
+
+  .talk-events h3,
+  .talk-events p {
+    margin-block: 0 0.5rem;
+  }
+</style>

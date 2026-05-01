@@ -1,0 +1,73 @@
+<script webc:setup>
+  function talksForEvent(event, talks = []) {
+    if (!event) {
+      return [];
+    }
+
+    return talks
+      .map((talk) => ({
+        talk,
+        ref: (talk.eventRefs || []).find((ref) => ref.eventId === event.id),
+      }))
+      .filter((entry) => entry.ref);
+  }
+
+  function coPresentersText(ref) {
+    return (ref.meta?.coPresenters || []).join(", ");
+  }
+</script>
+
+<article class="event-detail">
+  <h1 @text="event.title"></h1>
+  <p webc:if="event.dates.start">
+    <time :datetime="event.dates.start" @text="event.dates.start"></time>
+    <span webc:if="event.dates.end"> to </span>
+    <time webc:if="event.dates.end" :datetime="event.dates.end" @text="event.dates.end"></time>
+  </p>
+  <p webc:if="event.location" @text="event.location"></p>
+  <content-links webc:if="event.links && event.links.length" :@items="event.links"></content-links>
+
+  <section webc:if="talksForEvent(event, talks).length">
+    <h2>Talks</h2>
+    <ul class="event-detail__talks">
+      <li webc:for="entry of talksForEvent(event, talks)">
+        <article>
+          <h3><a :href="entry.talk.canonicalUrl" @text="entry.talk.title"></a></h3>
+          <p webc:if="entry.ref.meta && entry.ref.meta.coPresenters && entry.ref.meta.coPresenters.length">
+            Co-presented with <span @text="coPresentersText(entry.ref)"></span>
+          </p>
+          <content-links :@items="entry.ref.links"></content-links>
+        </article>
+      </li>
+    </ul>
+  </section>
+</article>
+
+<style webc:scoped>
+  .event-detail {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .event-detail h1,
+  .event-detail h2,
+  .event-detail h3,
+  .event-detail p {
+    margin: 0;
+  }
+
+  .event-detail__talks {
+    display: grid;
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .event-detail__talks article {
+    border-block-start: 1px solid #d4d4d4;
+    display: grid;
+    gap: 0.5rem;
+    padding-block-start: 1rem;
+  }
+</style>

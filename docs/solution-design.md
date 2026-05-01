@@ -13,6 +13,7 @@ The new website should:
 - merge both source sites into a single 11ty website
 - keep source ingestion separate so each upstream can evolve independently
 - normalize both sources into one canonical content model before rendering
+- keep talks, events, and their assets as canonical authored content in this repository after migration
 - support first-class shared events for talks
 - preserve legacy URLs from both old sites through redirects
 - reduce the number of top-level content types and naming inconsistencies
@@ -45,6 +46,19 @@ Notable characteristics:
 - image metadata is not consistently named across all entries
 - talks embed event-like data inline through `deliveredAt`
 - public URLs are already close to the desired 11ty shape and should be preserved where possible
+
+Talks and embedded talk event data from this source were migration input only. After migration, talks, events, and talk assets are canonical under `src/content` in this repository and should not be loaded from `sources/davidwesst.github.io`.
+
+### Local canonical content
+
+The merged site owns canonical talks and events in:
+
+- `src/content/talks/<slug>/index.md`
+- `src/content/events/<event-id>/index.json`
+
+Talk records use canonical front matter names directly, including `summary`, `media`, `taxonomy`, `eventRefs`, `canonicalUrl`, and `legacyUrls`.
+
+Event records are structured JSON because they are mostly data. Event-specific public links belong on `Event.links`; talk-specific resources such as slides and demos belong on `Document.eventRefs[].links`.
 
 ### `digital-zuihitsu`
 
@@ -159,13 +173,9 @@ Fields:
 
 ### Event Mapping
 
-Talk `deliveredAt[]` records are not kept inline as the only representation.
+Talks reference canonical shared `Event` records through `eventRefs[]`.
 
-Instead:
-
-- extract each delivered event into an `Event` candidate
-- deduplicate those candidates into canonical shared `Event` records
-- attach talk-to-event relationships via `eventRefs[]`
+Legacy `deliveredAt[]` records from `davidwesst.github.io` were converted during migration and should not be introduced in new canonical talk content.
 
 ### Redirect Mapping
 
@@ -193,6 +203,22 @@ Source aliases are resolved during normalization only.
 
 Each source must have its own loader.
 
+### Loader for local canonical talks and events
+
+Responsibilities:
+
+- parse canonical talk Markdown from `src/content/talks`
+- parse canonical event JSON from `src/content/events`
+- discover colocated talk assets
+- preserve canonical legacy URL arrays for redirects
+- validate that every `eventRefs[].eventId` resolves to an authored event
+
+Do not:
+
+- read talk or event data from `sources/davidwesst.github.io`
+- translate legacy field names in templates
+- promote talk-specific slide/demo links to shared `Event.links`
+
 ### Loader for `davidwesst.github.io`
 
 Responsibilities:
@@ -200,7 +226,7 @@ Responsibilities:
 - parse `.webc` singleton pages
 - parse blog markdown entries
 - parse gamelog markdown entries
-- parse talk markdown entries
+- parse talk markdown entries only for one-time migration or historical comparison
 - discover colocated assets
 - collect current public URLs where derivable
 - preserve raw authored front matter in intermediate data
@@ -250,7 +276,7 @@ Key field mappings:
 - `image_credit` / `image-credit` -> `media.credit`
 - `play_data` -> `review.play`
 - `game_ids` -> `review.subjectIds`
-- `deliveredAt` -> extracted `Event` + `eventRefs`
+- legacy `deliveredAt` -> migrated once into canonical event files and talk `eventRefs`
 
 ## Event Identity Rules
 
@@ -356,34 +382,33 @@ Optional aggregate collections:
 
 ## Implementation Steps
 
-### Phase 1: Source Parsing
+### Phase 1: Canonical Content Loading
 
-- create loader modules for each source
-- parse all publishable content and supporting metadata
-- identify all source-local assets
-- identify all known public legacy paths
+- load canonical talks from `src/content/talks`
+- load canonical events from `src/content/events`
+- identify authored colocated assets
+- identify authored legacy paths
 
 Success criteria:
 
-- every source record can be parsed without template involvement
-- raw source metadata is preserved
+- every talk and event record can be parsed without template involvement
+- canonical data contains no legacy field names
 
 ### Phase 2: Canonical Normalization
 
-- convert parsed source records into `Document`
-- convert embedded talk events into `Event` candidates
-- normalize field naming and dates
-- attach provenance and assets
+- convert parsed talk records into `Document`
+- convert parsed event records into `Event`
+- normalize dates, URLs, and links
+- attach local provenance and assets
 
 Success criteria:
 
 - no source-specific names leak past this stage
-- all publishable content is represented by canonical records
+- all talk and event content is represented by canonical records
 
 ### Phase 3: Shared Event Extraction
 
-- dedupe event candidates
-- assign canonical event IDs and URLs
+- validate authored event IDs and URLs
 - link talks through `eventRefs`
 
 Success criteria:

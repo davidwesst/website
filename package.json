@@ -9,7 +9,8 @@
   "scripts": {
     "build": "eleventy",
     "start": "eleventy --serve",
-    "test": "npm run build && playwright test"
+    "test": "npm run test:unit && npm run build && playwright test",
+    "test:unit": "node tests/content-pipeline.test.mjs"
   },
   "repository": {
     "type": "git",
