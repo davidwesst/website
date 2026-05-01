@@ -1,0 +1,35 @@
+{
+  "canonical": [
+    "/talks/",
+    "/talks/example-talk/",
+    "/events/",
+    "/events/example-conference-2025/"
+  ],
+  "redirects": [
+    {
+      "from": "/talks",
+      "to": "/talks/",
+      "status": 301
+    },
+    {
+      "from": "/talks/example-talk",
+      "to": "/talks/example-talk/",
+      "status": 301
+    },
+    {
+      "from": "/events",
+      "to": "/events/",
+      "status": 301
+    },
+    {
+      "from": "/events/example-conference-2025",
+      "to": "/events/example-conference-2025/",
+      "status": 301
+    },
+    {
+      "from": "/talks/legacy-example-talk/",
+      "to": "/talks/example-talk/",
+      "status": 301
+    }
+  ]
+}
