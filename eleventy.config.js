@@ -34,6 +34,13 @@ export default function(eleventyConfig) {
       .filter((item) => item.url && item.outputPath && !item.data.eleventyExcludeFromCollections);
   });
 
+  eleventyConfig.addCollection("siteIndexPages", (collectionApi) => {
+    return collectionApi
+      .getAll()
+      .filter((item) => item.url && item.outputPath && !item.data.eleventyExcludeFromCollections)
+      .filter((item) => !item.data.eleventyExcludeFromSiteIndex);
+  });
+
   eleventyConfig.addCollection("documents", () => getDocuments());
   eleventyConfig.addCollection("talks", () => getDocuments().filter((document) => document.docType === "talk"));
   eleventyConfig.addCollection("events", () => getEvents());
