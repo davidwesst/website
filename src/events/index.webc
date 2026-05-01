@@ -1,0 +1,10 @@
+---
+title: Events
+layout: base.webc
+---
+<header>
+  <h1>Events</h1>
+  <p>Conferences, meetups, and venues where talks have been delivered.</p>
+</header>
+
+<event-list :@items="events"></event-list>

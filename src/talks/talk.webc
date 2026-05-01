@@ -1,0 +1,1 @@
+<talk-detail :@talk="talk" :@events="events"></talk-detail>

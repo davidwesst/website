@@ -1,0 +1,43 @@
+<article class="talk-card">
+  <a :href="talk.canonicalUrl">
+    <img
+      webc:if="talk.media && talk.media.image"
+      :src="talk.media.image"
+      :alt="talk.media.imageAlt || ''"
+      class="talk-card__image"
+    >
+    <h2 @text="talk.title"></h2>
+    <p webc:if="talk.summary" @text="talk.summary"></p>
+  </a>
+</article>
+
+<style webc:scoped>
+  .talk-card {
+    border-block-start: 1px solid #d4d4d4;
+    padding-block: 1rem;
+  }
+
+  .talk-card a {
+    color: inherit;
+    display: grid;
+    gap: 0.75rem;
+    text-decoration: none;
+  }
+
+  .talk-card__image {
+    aspect-ratio: 16 / 9;
+    height: auto;
+    max-width: 24rem;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .talk-card h2 {
+    font-size: 1.35rem;
+    margin: 0;
+  }
+
+  .talk-card p {
+    margin: 0;
+  }
+</style>

@@ -1,0 +1,23 @@
+{
+  "id": "full-stack-manitoba-2024-09",
+  "slug": "full-stack-manitoba-2024-09",
+  "title": "Full Stack Manitoba",
+  "dates": {
+    "start": "2024-09-25",
+    "sort": "2024-09-25"
+  },
+  "location": "Winnipeg, MB, Canada",
+  "links": [
+    {
+      "label": "Event",
+      "url": "http://meetup.com"
+    }
+  ],
+  "canonicalUrl": "/events/full-stack-manitoba-2024-09/",
+  "legacyUrls": [],
+  "meta": {
+    "aliases": [
+      "Full Stack Manitoba"
+    ]
+  }
+}

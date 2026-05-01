@@ -1,0 +1,10 @@
+---
+title: Talks
+layout: base.webc
+---
+<header>
+  <h1>Talks</h1>
+  <p>Sessions, presentations, and panels delivered at conferences and community events.</p>
+</header>
+
+<talk-list :@items="talks"></talk-list>

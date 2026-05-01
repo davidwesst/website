@@ -1,0 +1,24 @@
+{
+  "id": "prairiedevcon-2024-winnipeg",
+  "slug": "prairiedevcon-2024-winnipeg",
+  "title": "Prairie Dev Con 2024 (Winnipeg)",
+  "dates": {
+    "start": "2024-09-23",
+    "end": "2024-09-24",
+    "sort": "2024-09-23"
+  },
+  "location": "Winnipeg, MB, Canada",
+  "links": [
+    {
+      "label": "Event",
+      "url": "https://www.prairiedevcon.com/"
+    }
+  ],
+  "canonicalUrl": "/events/prairiedevcon-2024-winnipeg/",
+  "legacyUrls": [],
+  "meta": {
+    "aliases": [
+      "Prairie Dev Con 2024 (Winnipeg)"
+    ]
+  }
+}
