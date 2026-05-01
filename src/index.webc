@@ -1,0 +1,5 @@
+---
+title: Home
+layout: base.webc
+---
+<home-intro></home-intro>
