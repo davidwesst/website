@@ -348,6 +348,40 @@ time {
   text-transform: capitalize;
 }
 
+.post-list__item {
+  align-items: start;
+  grid-template-columns: 4.5rem 1fr;
+}
+
+.post-list__thumbnail {
+  align-items: center;
+  aspect-ratio: 1;
+  background: var(--color-bg-elevated);
+  border: var(--line);
+  border-radius: var(--radius-sm);
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  width: 4.5rem;
+}
+
+.post-list__thumbnail img {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.post-list__thumbnail-fallback {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.post-list__content {
+  display: grid;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
 .post-list--default .post-list__item[data-series="gamelog"],
 .post-list--default .post-list__item[data-series="dungeonlog"],
 .post-list__item[hidden] {

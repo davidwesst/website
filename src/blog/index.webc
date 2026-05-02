@@ -2,6 +2,24 @@
 title: Blog
 layout: base.webc
 ---
+<script webc:setup>
+  function defaultThumbnailEmoji(series) {
+    return {
+      blog: "💻",
+      gamelog: "🎮",
+      dungeonlog: "⚔️",
+    }[series] || "💻";
+  }
+
+  function defaultThumbnailLabel(series) {
+    return {
+      blog: "Default blog post thumbnail",
+      gamelog: "Default gamelog post thumbnail",
+      dungeonlog: "Default dungeonlog post thumbnail",
+    }[series] || "Default post thumbnail";
+  }
+</script>
+
 <header class="page-header">
   <p class="terminal-prompt">~/davidwesst blog</p>
   <h1>Blog</h1>
@@ -24,10 +42,27 @@ layout: base.webc
 
 <section class="post-list content-list post-list--default" aria-live="polite">
   <article webc:for="post of collections.posts" class="post-list__item content-row" :data-series="post.series">
-    <p class="post-list__series" @text="post.series"></p>
-    <h2><a :href="post.canonicalUrl" @text="post.title"></a></h2>
-    <p webc:if="post.dates && post.dates.published" @text="post.dates.published"></p>
-    <p webc:if="post.summary" @text="post.summary"></p>
+    <div class="post-list__thumbnail">
+      <img
+        webc:if="post.media && post.media.image"
+        :src="post.media.image"
+        :alt="post.media.imageAlt || ''"
+        loading="lazy"
+      >
+      <span
+        webc:if="!post.media || !post.media.image"
+        class="post-list__thumbnail-fallback"
+        role="img"
+        :aria-label="defaultThumbnailLabel(post.series)"
+        @text="defaultThumbnailEmoji(post.series)"
+      ></span>
+    </div>
+    <div class="post-list__content">
+      <p class="post-list__series" @text="post.series"></p>
+      <h2><a :href="post.canonicalUrl" @text="post.title"></a></h2>
+      <p webc:if="post.dates && post.dates.published" @text="post.dates.published"></p>
+      <p webc:if="post.summary" @text="post.summary"></p>
+    </div>
   </article>
 </section>
 
