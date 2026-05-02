@@ -84,6 +84,20 @@ test("site navigation is placed correctly on home and content pages", async ({ r
   expect(talksHtml.indexOf("<nav aria-label=\"Site\"")).toBeLessThan(talksHtml.indexOf("<h1>Talks</h1>"));
 });
 
+test("home page renders social links from site data", async ({ request }) => {
+  const response = await request.get("/");
+  await expect(response).toBeOK();
+  const html = await response.text();
+
+  expect(html).toContain("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css");
+  expect(html).toContain('<a href="https://github.com/davidwesst" target="_blank" rel="noopener noreferrer">');
+  expect(html).toContain('class="fa-brands fa-github"');
+  expect(html).toContain('<a href="https://ca.linkedin.com/in/davidwesst" target="_blank" rel="noopener noreferrer">');
+  expect(html).toContain('class="fa-brands fa-linkedin"');
+  expect(html).toContain('<a href="https://youtube.com/davidwesst" target="_blank" rel="noopener noreferrer">');
+  expect(html).toContain('class="fa-brands fa-youtube"');
+});
+
 test("site index excludes data-generated detail pages", async ({ request }) => {
   const response = await request.get("/site-index/");
   await expect(response).toBeOK();
