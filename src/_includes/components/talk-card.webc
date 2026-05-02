@@ -1,12 +1,47 @@
-<article class="talk-card content-row">
-  <a :href="talk.canonicalUrl">
+<script webc:setup>
+  function eventForRef(ref, allEvents = []) {
+    return allEvents.find((event) => event.id === ref.eventId);
+  }
+
+  function eventSortDate(event) {
+    return event?.dates?.sort || event?.dates?.start || event?.dates?.end || "";
+  }
+
+  function sortedTalkEvents(talk, allEvents = []) {
+    return (talk.eventRefs || [])
+      .map((ref) => eventForRef(ref, allEvents))
+      .filter(Boolean)
+      .sort((first, second) => eventSortDate(second).localeCompare(eventSortDate(first)));
+  }
+</script>
+
+<article
+  class="talk-card content-row"
+  :data-title="talk.title.toLocaleLowerCase()"
+  :data-last-presented="lastPresented || ''"
+>
+  <a webc:if="talk.media && talk.media.image" :href="talk.canonicalUrl" tabindex="-1" aria-hidden="true">
     <img
-      webc:if="talk.media && talk.media.image"
       :src="talk.media.image"
       :alt="talk.media.imageAlt || ''"
       class="talk-card__image"
+      loading="lazy"
     >
-    <h2 @text="talk.title"></h2>
-    <p webc:if="talk.summary" @text="talk.summary"></p>
   </a>
+  <div class="talk-card__content">
+    <p webc:if="lastPresented" class="content-meta">
+      Last presented <time :datetime="lastPresented" @text="lastPresented"></time>
+    </p>
+    <h2><a :href="talk.canonicalUrl" @text="talk.title"></a></h2>
+    <p webc:if="talk.summary" class="content-summary" @text="talk.summary"></p>
+    <section webc:if="sortedTalkEvents(talk, events).length" class="talk-card__events" aria-label="Presented at">
+      <h3>Presented at</h3>
+      <ul>
+        <li webc:for="event of sortedTalkEvents(talk, events)">
+          <a :href="event.canonicalUrl" @text="event.title"></a>
+          <time webc:if="eventSortDate(event)" :datetime="eventSortDate(event)" @text="eventSortDate(event)"></time>
+        </li>
+      </ul>
+    </section>
+  </div>
 </article>

@@ -1,3 +1,92 @@
-<section class="talk-list content-list">
-  <talk-card webc:for="talk of items" :@talk="talk"></talk-card>
+<script webc:setup>
+  function eventForRef(ref, allEvents = []) {
+    return allEvents.find((event) => event.id === ref.eventId);
+  }
+
+  function eventSortDate(event) {
+    return event?.dates?.sort || event?.dates?.start || event?.dates?.end || "";
+  }
+
+  function lastPresentedDate(talk, allEvents = []) {
+    return (talk.eventRefs || [])
+      .map((ref) => eventSortDate(eventForRef(ref, allEvents)))
+      .filter(Boolean)
+      .sort()
+      .at(-1) || "";
+  }
+
+  function talksByLastPresented(talks = [], allEvents = []) {
+    return [...talks].sort((first, second) => {
+      const dateCompare = lastPresentedDate(second, allEvents).localeCompare(lastPresentedDate(first, allEvents));
+
+      if (dateCompare !== 0) {
+        return dateCompare;
+      }
+
+      return first.title.localeCompare(second.title);
+    });
+  }
+</script>
+
+<form class="talk-sort" aria-label="Talk sorting">
+  <button type="button" data-sort="last-presented" aria-pressed="true">Last presented</button>
+  <button type="button" data-sort="title" aria-pressed="false">Title</button>
+</form>
+
+<section class="talk-list content-list" aria-live="polite">
+  <talk-card
+    webc:for="talk of talksByLastPresented(items, events)"
+    :@talk="talk"
+    :@events="events"
+    :@last-presented="lastPresentedDate(talk, events)"
+  ></talk-card>
 </section>
+
+<script webc:keep>
+  (() => {
+    const controls = document.querySelector(".talk-sort");
+    const list = document.querySelector(".talk-list");
+
+    if (!controls || !list) {
+      return;
+    }
+
+    const buttons = [...controls.querySelectorAll("button[data-sort]")];
+
+    function sortTalks(sortMode) {
+      const cards = [...list.querySelectorAll(".talk-card")];
+
+      cards.sort((first, second) => {
+        if (sortMode === "title") {
+          return first.dataset.title.localeCompare(second.dataset.title);
+        }
+
+        const dateCompare = second.dataset.lastPresented.localeCompare(first.dataset.lastPresented);
+
+        if (dateCompare !== 0) {
+          return dateCompare;
+        }
+
+        return first.dataset.title.localeCompare(second.dataset.title);
+      });
+
+      for (const card of cards) {
+        list.append(card);
+      }
+
+      for (const button of buttons) {
+        button.setAttribute("aria-pressed", String(button.dataset.sort === sortMode));
+      }
+    }
+
+    controls.addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-sort]");
+
+      if (!button) {
+        return;
+      }
+
+      sortTalks(button.dataset.sort);
+    });
+  })();
+</script>

@@ -8,4 +8,4 @@ layout: base.webc
   <p class="lede">Sessions, presentations, and panels delivered at conferences and community events.</p>
 </header>
 
-<talk-list :@items="talks"></talk-list>
+<talk-list :@items="talks" :@events="events"></talk-list>
