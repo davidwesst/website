@@ -9,6 +9,7 @@ export default function(eleventyConfig) {
   eleventyConfig.setIncludesDirectory("_includes");
   eleventyConfig.setLayoutsDirectory("_includes/layouts");
   eleventyConfig.setOutputDirectory("_site");
+  eleventyConfig.addPassthroughCopy("src/assets");
 
   eleventyConfig.addPlugin(sitemapPlugin, {
     sitemap: {

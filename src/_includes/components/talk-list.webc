@@ -1,10 +1,3 @@
-<section class="talk-list">
+<section class="talk-list content-list">
   <talk-card webc:for="talk of items" :@talk="talk"></talk-card>
 </section>
-
-<style webc:scoped>
-  .talk-list {
-    display: grid;
-    gap: 0.5rem;
-  }
-</style>
