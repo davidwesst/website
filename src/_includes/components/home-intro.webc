@@ -1,3 +1,44 @@
-<section>
-  <p>This is the home page for david.wes.st</p>
+<script webc:setup>
+  function latestDocuments(items = []) {
+    return [...items]
+      .filter((item) => item.docType !== "page")
+      .sort((first, second) => {
+        const firstDate = first.dates?.sort || first.dates?.published || "";
+        const secondDate = second.dates?.sort || second.dates?.published || "";
+        return secondDate.localeCompare(firstDate);
+      })
+      .slice(0, 5);
+  }
+</script>
+
+<section class="terminal-section home-hero" aria-labelledby="home-title">
+  <p class="terminal-prompt">~/davidwesst whoami</p>
+  <h2 id="home-title">David Wesst</h2>
+  <p class="lede">Technology problem solver using creativity, code, and curiosity.</p>
+</section>
+
+<nav class="terminal-section" aria-labelledby="home-sections-title">
+  <p class="terminal-prompt" id="home-sections-title">~/davidwesst ls</p>
+  <ul class="terminal-links">
+    <li><a href="/blog/">blog/</a></li>
+    <li><a href="/talks/">talks/</a></li>
+    <li><a href="/events/">events/</a></li>
+    <li><a href="/blog/?series=gamelog">gamelog/</a></li>
+    <li><a href="/site-index/">site-index/</a></li>
+  </ul>
+</nav>
+
+<section class="terminal-section" aria-labelledby="latest-title">
+  <p class="terminal-prompt" id="latest-title">~/davidwesst latest</p>
+  <div class="content-list">
+    <article webc:for="item of latestDocuments(documents)" class="content-row">
+      <p class="content-meta">
+        <time webc:if="item.dates && item.dates.published" :datetime="item.dates.published" @text="item.dates.published"></time>
+        <span webc:if="item.series"> / </span>
+        <span webc:if="item.series" @text="item.series"></span>
+      </p>
+      <h2><a :href="item.canonicalUrl" @text="item.title"></a></h2>
+      <p webc:if="item.summary" class="content-summary" @text="item.summary"></p>
+    </article>
+  </div>
 </section>

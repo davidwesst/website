@@ -1,21 +1,9 @@
-<article class="event-card">
+<article class="event-card content-row">
   <h2><a :href="event.canonicalUrl" @text="event.title"></a></h2>
-  <p webc:if="event.dates.start">
+  <p webc:if="event.dates.start" class="content-meta">
     <time :datetime="event.dates.start" @text="event.dates.start"></time>
     <span webc:if="event.dates.end"> to </span>
     <time webc:if="event.dates.end" :datetime="event.dates.end" @text="event.dates.end"></time>
   </p>
-  <p webc:if="event.location" @text="event.location"></p>
+  <p webc:if="event.location" class="content-summary" @text="event.location"></p>
 </article>
-
-<style webc:scoped>
-  .event-card {
-    border-block-start: 1px solid #d4d4d4;
-    padding-block: 1rem;
-  }
-
-  .event-card h2,
-  .event-card p {
-    margin-block: 0 0.5rem;
-  }
-</style>

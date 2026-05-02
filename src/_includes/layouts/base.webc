@@ -1,33 +1,26 @@
 <!doctype html>
+<script webc:setup>
+  const currentYear = new Date().getFullYear();
+</script>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" :content="description || site.description">
+  <link webc:keep rel="stylesheet" href="/assets/site.css">
   <title @text="title ? `${title} | ${site.title}` : site.title"></title>
 </head>
 <body>
-  <header webc:if="page.url === '/'" class="site-header">
-    <h1><a href="/" @text="site.title"></a></h1>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <h1 webc:if="page.url === '/'"><a href="/" @text="site.title"></a></h1>
+    <p webc:if="page.url !== '/'" class="site-title"><a href="/" @text="site.title"></a></p>
     <site-nav :@items="site.navigation" :@current-url="page.url"></site-nav>
   </header>
-  <site-nav webc:if="page.url !== '/'" :@items="site.navigation" :@current-url="page.url"></site-nav>
-  <main @raw="content"></main>
+  <main id="main" class="site-main" @raw="content"></main>
+  <footer class="site-footer">
+    <p>Copyright © <span @text="currentYear"></span> David Wesst</p>
+    <a href="#">Back to top</a>
+  </footer>
 </body>
 </html>
-
-<style>
-  body {
-    margin: 1rem;
-  }
-
-  .site-header {
-    display: grid;
-    gap: 0.5rem;
-    margin-block-end: 1rem;
-  }
-
-  .site-header h1 {
-    margin: 0;
-  }
-</style>

@@ -9,6 +9,7 @@
 </script>
 
 <section webc:if="talk.eventRefs && talk.eventRefs.length" class="talk-events">
+  <p class="terminal-prompt">~/davidwesst talks/events</p>
   <h2>Delivered At</h2>
   <ol>
     <li webc:for="ref of talk.eventRefs">
@@ -34,27 +35,3 @@
     </li>
   </ol>
 </section>
-
-<style webc:scoped>
-  .talk-events {
-    margin-block-start: 2rem;
-  }
-
-  .talk-events ol {
-    display: grid;
-    gap: 1rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .talk-events article {
-    border-block-start: 1px solid #d4d4d4;
-    padding-block-start: 1rem;
-  }
-
-  .talk-events h3,
-  .talk-events p {
-    margin-block: 0 0.5rem;
-  }
-</style>

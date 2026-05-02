@@ -1,4 +1,5 @@
 <article class="talk-detail">
+  <p class="terminal-prompt">~/davidwesst talks/view</p>
   <h1 @text="talk.title"></h1>
   <img
     webc:if="talk.media && talk.media.image"
@@ -6,29 +7,9 @@
     :alt="talk.media.imageAlt || ''"
     class="talk-detail__image"
   >
-  <p webc:if="talk.meta.coAuthors && talk.meta.coAuthors.length">
+  <p webc:if="talk.meta.coAuthors && talk.meta.coAuthors.length" class="content-meta">
     Co-authored by <span webc:for="(author, index) of talk.meta.coAuthors"><span @text="author"></span><span webc:if="index < talk.meta.coAuthors.length - 1">, </span></span>
   </p>
-  <p webc:if="talk.summary" @text="talk.summary"></p>
+  <p webc:if="talk.summary" class="lede" @text="talk.summary"></p>
   <talk-events :@talk="talk" :@events="events"></talk-events>
 </article>
-
-<style webc:scoped>
-  .talk-detail {
-    display: grid;
-    gap: 1rem;
-  }
-
-  .talk-detail__image {
-    aspect-ratio: 16 / 9;
-    height: auto;
-    max-width: 56rem;
-    object-fit: cover;
-    width: 100%;
-  }
-
-  .talk-detail h1,
-  .talk-detail p {
-    margin: 0;
-  }
-</style>

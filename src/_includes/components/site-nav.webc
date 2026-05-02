@@ -1,4 +1,4 @@
-<nav class="site-nav" aria-label="Site">
+<nav aria-label="Site" class="site-nav">
   <ul>
     <li webc:for="item of items">
       <a
@@ -9,24 +9,3 @@
     </li>
   </ul>
 </nav>
-
-<style webc:scoped>
-  .site-nav ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .site-nav a {
-    display: inline-block;
-    padding-block: 0.25rem;
-  }
-
-  .site-nav a[aria-current="page"] {
-    font-weight: 700;
-    text-decoration-thickness: 0.125em;
-  }
-</style>

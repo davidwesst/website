@@ -2,8 +2,28 @@
 title: Blog
 layout: base.webc
 ---
-<header>
+<script webc:setup>
+  function defaultThumbnailEmoji(series) {
+    return {
+      blog: "💻",
+      gamelog: "🎮",
+      dungeonlog: "⚔️",
+    }[series] || "💻";
+  }
+
+  function defaultThumbnailLabel(series) {
+    return {
+      blog: "Default blog post thumbnail",
+      gamelog: "Default gamelog post thumbnail",
+      dungeonlog: "Default dungeonlog post thumbnail",
+    }[series] || "Default post thumbnail";
+  }
+</script>
+
+<header class="page-header">
+  <p class="terminal-prompt">~/davidwesst blog</p>
   <h1>Blog</h1>
+  <p class="lede">Writing, game notes, and campaign logs.</p>
 </header>
 
 <form class="post-filters" aria-label="Post filters">
@@ -20,12 +40,29 @@ layout: base.webc
 
 <p class="post-count" aria-live="polite"></p>
 
-<section class="post-list post-list--default" aria-live="polite">
-  <article webc:for="post of collections.posts" class="post-list__item" :data-series="post.series">
-    <p class="post-list__series" @text="post.series"></p>
-    <h2><a :href="post.canonicalUrl" @text="post.title"></a></h2>
-    <p webc:if="post.dates && post.dates.published" @text="post.dates.published"></p>
-    <p webc:if="post.summary" @text="post.summary"></p>
+<section class="post-list content-list post-list--default" aria-live="polite">
+  <article webc:for="post of collections.posts" class="post-list__item content-row" :data-series="post.series">
+    <div class="post-list__thumbnail">
+      <img
+        webc:if="post.media && post.media.image"
+        :src="post.media.image"
+        :alt="post.media.imageAlt || ''"
+        loading="lazy"
+      >
+      <span
+        webc:if="!post.media || !post.media.image"
+        class="post-list__thumbnail-fallback"
+        role="img"
+        :aria-label="defaultThumbnailLabel(post.series)"
+        @text="defaultThumbnailEmoji(post.series)"
+      ></span>
+    </div>
+    <div class="post-list__content">
+      <p class="post-list__series" @text="post.series"></p>
+      <h2><a :href="post.canonicalUrl" @text="post.title"></a></h2>
+      <p webc:if="post.dates && post.dates.published" @text="post.dates.published"></p>
+      <p webc:if="post.summary" @text="post.summary"></p>
+    </div>
   </article>
 </section>
 
@@ -101,52 +138,3 @@ layout: base.webc
     window.addEventListener("popstate", () => applySeries(selectedSeriesFromUrl()));
   })();
 </script>
-
-<style webc:scoped>
-  .post-filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-block: 1rem;
-  }
-
-  .feed-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-block: 1rem;
-  }
-
-  .post-count {
-    margin-block: 1rem;
-  }
-
-  .post-list {
-    display: grid;
-    gap: 1rem;
-  }
-
-  .post-list__item {
-    border-block-start: 1px solid currentColor;
-    padding-block-start: 1rem;
-  }
-
-  .post-list--default .post-list__item[data-series="gamelog"],
-  .post-list--default .post-list__item[data-series="dungeonlog"] {
-    display: none;
-  }
-
-  .post-list__item[hidden] {
-    display: none;
-  }
-
-  .post-list__series {
-    font-size: 0.875rem;
-    margin: 0;
-    text-transform: capitalize;
-  }
-
-  .post-list h2 {
-    margin-block: 0.25rem;
-  }
-</style>

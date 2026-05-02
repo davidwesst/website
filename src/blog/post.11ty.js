@@ -59,14 +59,17 @@ export default class PostPage {
 
   render(data) {
     const post = data.post;
-    const published = post.dates?.published ? `<p>${escapeHtml(post.dates.published)}</p>` : "";
-    const summary = post.summary ? `<p>${escapeHtml(post.summary)}</p>` : "";
+  const published = post.dates?.published
+    ? `<p class="content-meta"><time datetime="${escapeHtml(post.dates.published)}">${escapeHtml(post.dates.published)}</time></p>`
+    : "";
+  const summary = post.summary ? `<p class="lede">${escapeHtml(post.summary)}</p>` : "";
     const image = post.media?.image
       ? `<img src="${escapeHtml(post.media.image)}" alt="${escapeHtml(post.media.imageAlt || "")}" class="post-image">`
       : "";
 
     return `
       <article class="post-detail">
+        <p class="terminal-prompt">~/davidwesst ${escapeHtml(post.series || "post")}/view</p>
         <p class="post-series">${escapeHtml(post.series)}</p>
         <h1>${escapeHtml(post.title)}</h1>
         ${published}
