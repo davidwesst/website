@@ -28,6 +28,11 @@
   </ul>
 </nav>
 
+<section class="terminal-section" aria-labelledby="home-social-title">
+  <p class="terminal-prompt" id="home-social-title">~/davidwesst connect</p>
+  <social-links :@items="socials"></social-links>
+</section>
+
 <section class="terminal-section" aria-labelledby="latest-title">
   <p class="terminal-prompt" id="latest-title">~/davidwesst latest</p>
   <div class="content-list">

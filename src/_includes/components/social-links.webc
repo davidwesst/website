@@ -1,0 +1,8 @@
+<ul webc:if="items && items.length" class="social-links">
+  <li webc:for="link of items">
+    <a :href="link.url" target="_blank" rel="noopener noreferrer">
+      <i :class="link.icon" aria-hidden="true"></i>
+      <span @text="link.name"></span>
+    </a>
+  </li>
+</ul>

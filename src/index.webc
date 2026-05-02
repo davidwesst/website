@@ -2,4 +2,4 @@
 title: Home
 layout: base.webc
 ---
-<home-intro :@documents="collections.documents"></home-intro>
+<home-intro :@documents="collections.documents" :@socials="socials"></home-intro>
