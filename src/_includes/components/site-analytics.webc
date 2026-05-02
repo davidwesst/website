@@ -1,1 +1,7 @@
-<script webc:root="override" webc:keep defer src="/assets/analytics/simpleanalytics-loader.js"></script>
+<template webc:type="render">
+function() {
+  return `<!-- 100% privacy-first analytics -->
+<script webc:keep data-collect-dnt="true" async src="/assets/analytics/simpleanalytics-loader.js"></script>
+<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"></noscript>`;
+}
+</template>

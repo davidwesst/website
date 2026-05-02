@@ -6,6 +6,7 @@
   const loadScript = (src, onError) => {
     const script = document.createElement("script");
     script.async = true;
+    script.dataset.collectDnt = "true";
     script.src = src;
 
     if (onError) {
