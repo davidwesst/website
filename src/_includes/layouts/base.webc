@@ -1,4 +1,7 @@
 <!doctype html>
+<script webc:setup>
+  const currentYear = new Date().getFullYear();
+</script>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -16,8 +19,8 @@
   </header>
   <main id="main" class="site-main" @raw="content"></main>
   <footer class="site-footer">
-    <p>Copyright © David Wesst</p>
-    <p>11ty static site</p>
+    <p>Copyright © <span @text="currentYear"></span> David Wesst</p>
+    <a href="#">Back to top</a>
   </footer>
 </body>
 </html>

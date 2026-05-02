@@ -204,17 +204,21 @@ samp {
 .site-footer {
   border-block-start: var(--line);
   color: var(--color-muted);
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   font-family: var(--font-mono);
   font-size: 0.875rem;
   gap: var(--space-xs) var(--space-lg);
+  grid-template-columns: 1fr;
   margin-block-start: var(--space-3xl);
   padding-block-start: var(--space-lg);
 }
 
 .site-footer p {
   margin: 0;
+}
+
+.site-footer a {
+  justify-self: start;
 }
 
 .terminal-section,
@@ -278,10 +282,6 @@ time {
   display: grid;
   gap: var(--space-xs);
   padding-block: var(--space-lg);
-}
-
-.content-row:last-child {
-  border-block-end: var(--line);
 }
 
 .content-row h2,
@@ -650,6 +650,14 @@ time {
 
   .site-nav ul {
     justify-content: flex-end;
+  }
+
+  .site-footer {
+    grid-template-columns: 1fr auto;
+  }
+
+  .site-footer a {
+    justify-self: end;
   }
 
   h1,
