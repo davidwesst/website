@@ -1,0 +1,152 @@
+---
+title: Blog
+layout: base.webc
+---
+<header>
+  <h1>Blog</h1>
+</header>
+
+<form class="post-filters" aria-label="Post filters">
+  <label><input type="checkbox" name="series" value="blog" checked> Blog</label>
+  <label><input type="checkbox" name="series" value="gamelog"> Gamelog</label>
+  <label><input type="checkbox" name="series" value="dungeonlog"> Dungeonlog</label>
+</form>
+
+<nav class="feed-links" aria-label="Blog feeds">
+  <a href="/blog/feed.xml">Blog RSS</a>
+  <a href="/blog/gamelog/feed.xml">Gamelog RSS</a>
+  <a href="/blog/dungeonlog/feed.xml">Dungeonlog RSS</a>
+</nav>
+
+<p class="post-count" aria-live="polite"></p>
+
+<section class="post-list post-list--default" aria-live="polite">
+  <article webc:for="post of collections.posts" class="post-list__item" :data-series="post.series">
+    <p class="post-list__series" @text="post.series"></p>
+    <h2><a :href="post.canonicalUrl" @text="post.title"></a></h2>
+    <p webc:if="post.dates && post.dates.published" @text="post.dates.published"></p>
+    <p webc:if="post.summary" @text="post.summary"></p>
+  </article>
+</section>
+
+<script webc:keep>
+  (() => {
+    const form = document.querySelector(".post-filters");
+    const list = document.querySelector(".post-list");
+    const count = document.querySelector(".post-count");
+
+    if (!form || !list) {
+      return;
+    }
+
+    const items = [...document.querySelectorAll(".post-list__item")];
+    const seriesInputs = [...form.querySelectorAll('input[name="series"]')];
+    const defaultSeries = ["blog"];
+
+    function selectedSeriesFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+
+      if (!params.has("series")) {
+        return defaultSeries;
+      }
+
+      return params
+        .get("series")
+        .split(",")
+        .map((value) => value.trim())
+        .filter(Boolean);
+    }
+
+    function applySeries(series) {
+      const selected = new Set(series);
+      let visibleCount = 0;
+
+      for (const input of seriesInputs) {
+        input.checked = selected.has(input.value);
+      }
+
+      for (const item of items) {
+        const isVisible = selected.has(item.dataset.series);
+        item.hidden = !isVisible;
+
+        if (isVisible) {
+          visibleCount += 1;
+        }
+      }
+
+      if (count) {
+        count.textContent = `${visibleCount} posts`;
+      }
+
+      list.classList.remove("post-list--default");
+    }
+
+    function updateUrlFromForm() {
+      const selected = seriesInputs.filter((input) => input.checked).map((input) => input.value);
+      const params = new URLSearchParams(window.location.search);
+
+      if (selected.length === 1 && selected[0] === "blog") {
+        params.delete("series");
+      } else {
+        params.set("series", selected.join(","));
+      }
+
+      const query = params.toString();
+      window.history.replaceState({}, "", query ? `${window.location.pathname}?${query}` : window.location.pathname);
+      applySeries(selected);
+    }
+
+    applySeries(selectedSeriesFromUrl());
+    form.addEventListener("change", updateUrlFromForm);
+    window.addEventListener("popstate", () => applySeries(selectedSeriesFromUrl()));
+  })();
+</script>
+
+<style webc:scoped>
+  .post-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-block: 1rem;
+  }
+
+  .feed-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-block: 1rem;
+  }
+
+  .post-count {
+    margin-block: 1rem;
+  }
+
+  .post-list {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .post-list__item {
+    border-block-start: 1px solid currentColor;
+    padding-block-start: 1rem;
+  }
+
+  .post-list--default .post-list__item[data-series="gamelog"],
+  .post-list--default .post-list__item[data-series="dungeonlog"] {
+    display: none;
+  }
+
+  .post-list__item[hidden] {
+    display: none;
+  }
+
+  .post-list__series {
+    font-size: 0.875rem;
+    margin: 0;
+    text-transform: capitalize;
+  }
+
+  .post-list h2 {
+    margin-block: 0.25rem;
+  }
+</style>

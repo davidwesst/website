@@ -4,6 +4,7 @@ export default {
   url: "https://example.com",
   navigation: [
     { label: "Home", url: "/" },
+    { label: "Blog", url: "/blog/" },
     { label: "Talks", url: "/talks/" },
     { label: "Events", url: "/events/" },
     { label: "Site Index", url: "/site-index/" },
