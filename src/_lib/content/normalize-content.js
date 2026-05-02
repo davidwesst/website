@@ -186,6 +186,36 @@ function normalizePost(raw) {
   });
 }
 
+function normalizePage(raw) {
+  const slug = raw.data.slug || raw.slug;
+  const canonicalUrl = normalizeUrlPath(raw.data.canonicalUrl || `/${slug}/`);
+  const legacyUrls = (raw.data.legacyUrls || [])
+    .map(normalizeLegacyUrl)
+    .filter((legacyUrl) => legacyUrl !== canonicalUrl);
+
+  return removeUndefined({
+    id: raw.data.id || slug,
+    source: raw.data.source || raw.source,
+    docType: raw.data.docType || "page",
+    slug,
+    title: raw.data.title,
+    summary: raw.data.summary,
+    body: {
+      markdown: raw.body,
+    },
+    dates: normalizeDates(raw.data.dates || raw.data),
+    taxonomy: normalizeTaxonomy(raw.data.taxonomy || raw.data),
+    media: normalizeMedia(raw.data.media, canonicalUrl),
+    canonicalUrl,
+    legacyUrls,
+    meta: {
+      nativePath: raw.nativePath,
+      sourceMeta: raw.data.meta?.sourceMeta || {},
+      assets: raw.assets,
+    },
+  });
+}
+
 function normalizeEvent(raw) {
   const event = raw.data;
   const slug = event.slug || event.id;
@@ -307,8 +337,8 @@ function sortDocuments(left, right) {
   return rightSort.localeCompare(leftSort) || left.title.localeCompare(right.title);
 }
 
-export function normalizeContent({ talks = [], events = [], posts = [] }) {
-  const documents = [...talks.map(normalizeTalk), ...posts.map(normalizePost)];
+export function normalizeContent({ talks = [], events = [], posts = [], pages = [] }) {
+  const documents = [...pages.map(normalizePage), ...talks.map(normalizeTalk), ...posts.map(normalizePost)];
   const normalizedEvents = events.map(normalizeEvent);
 
   validateContent(documents, normalizedEvents);
