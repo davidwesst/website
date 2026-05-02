@@ -67,3 +67,21 @@ test("legacy typoed talk URL redirects directly to canonical talk URL", async ({
   expect(response.status()).toBe(301);
   expect(response.headers().location).toBe("/talks/consensus-in-the-chaos/");
 });
+
+test("blog page emits filters, feed links, and client-side filtering script", async ({ request }) => {
+  const response = await request.get("/blog/");
+  await expect(response).toBeOK();
+
+  const html = await response.text();
+
+  expect(html).toContain('<input type="checkbox" name="series" value="blog"');
+  expect(html).toContain('<input type="checkbox" name="series" value="gamelog"');
+  expect(html).toContain('<input type="checkbox" name="series" value="dungeonlog"');
+  expect(html).toContain('<a href="/blog/feed.xml"');
+  expect(html).toContain('<a href="/blog/gamelog/feed.xml"');
+  expect(html).toContain('<a href="/blog/dungeonlog/feed.xml"');
+  expect(html).toContain("<script");
+  expect(html).toContain("window.history.replaceState");
+  expect(html).toContain("item.hidden = !isVisible");
+  expect(html).toContain('params.set("series", selected.join(","))');
+});

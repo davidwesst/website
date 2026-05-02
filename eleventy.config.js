@@ -2,7 +2,7 @@ import pluginWebc from "@11ty/eleventy-plugin-webc";
 import sitemapPlugin from "@quasibit/eleventy-plugin-sitemap";
 import path from "node:path";
 import site from "./src/_data/site.js";
-import { getDocuments, getEvents } from "./src/_lib/content/index.js";
+import { getDocuments, getEvents, getPostDocuments } from "./src/_lib/content/index.js";
 
 export default function(eleventyConfig) {
   eleventyConfig.setInputDirectory("src");
@@ -42,6 +42,9 @@ export default function(eleventyConfig) {
   });
 
   eleventyConfig.addCollection("documents", () => getDocuments());
+  eleventyConfig.addCollection("posts", () => getPostDocuments());
+  eleventyConfig.addCollection("reviews", () => getDocuments().filter((document) => document.docType === "review"));
+  eleventyConfig.addCollection("sessions", () => getDocuments().filter((document) => document.docType === "session"));
   eleventyConfig.addCollection("talks", () => getDocuments().filter((document) => document.docType === "talk"));
   eleventyConfig.addCollection("events", () => getEvents());
 }

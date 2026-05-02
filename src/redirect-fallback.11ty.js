@@ -15,6 +15,10 @@ export default class RedirectFallbackPage {
         alias: "redirect",
       },
       permalink(data) {
+        if (data.redirect.from.includes("?") || data.redirect.from.endsWith("/index.html")) {
+          return false;
+        }
+
         return data.redirect.from;
       },
       eleventyExcludeFromCollections: true,
