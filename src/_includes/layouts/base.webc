@@ -23,5 +23,6 @@
     <p>Copyright © <span @text="currentYear"></span> David Wesst</p>
     <a href="#">Back to top</a>
   </footer>
+  <site-analytics></site-analytics>
 </body>
 </html>
