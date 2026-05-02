@@ -104,12 +104,14 @@ test("loads migrated post content from the new website", () => {
 
 test("loads canonical page content from the new website", () => {
   const pages = loadPages();
+  const pageIds = pages.map((page) => page.data.id).sort();
 
-  assert.equal(pages.length, 1);
-  assert.equal(pages[0].data.id, "about");
-  assert.equal(pages[0].data.docType, "page");
-  assert.equal(pages[0].data.canonicalUrl, "/about/");
-  assert.ok(pages[0].nativePath.includes("src\\content\\pages") || pages[0].nativePath.includes("src/content/pages"));
+  assert.equal(pages.length, 2);
+  assert.deepEqual(pageIds, ["about", "projects"]);
+  assert.ok(pages.every((page) => page.data.docType === "page"));
+  assert.ok(pages.some((page) => page.data.canonicalUrl === "/about/"));
+  assert.ok(pages.some((page) => page.data.canonicalUrl === "/projects/"));
+  assert.ok(pages.every((page) => page.nativePath.includes("src\\content\\pages") || page.nativePath.includes("src/content/pages")));
 });
 
 test("normalizes migrated posts into shared document records", () => {
@@ -124,15 +126,33 @@ test("normalizes migrated posts into shared document records", () => {
 
 test("normalizes migrated pages into shared document records", () => {
   const { documents, redirects } = normalizeLocalContent();
-  const page = documents.find((document) => document.id === "about");
+  const about = documents.find((document) => document.id === "about");
+  const projects = documents.find((document) => document.id === "projects");
 
-  assert.equal(page.docType, "page");
-  assert.equal(page.slug, "about");
-  assert.equal(page.canonicalUrl, "/about/");
-  assert.deepEqual(page.legacyUrls, ["/about.html"]);
+  assert.equal(about.docType, "page");
+  assert.equal(about.slug, "about");
+  assert.equal(about.canonicalUrl, "/about/");
+  assert.deepEqual(about.legacyUrls, ["/about.html"]);
+  assert.equal(projects.docType, "page");
+  assert.equal(projects.slug, "projects");
+  assert.equal(projects.canonicalUrl, "/projects/");
+  assert.ok(projects.legacyUrls.includes("/cocoboko-studios.html"));
+  assert.ok(projects.legacyUrls.includes("/remember-the-human.html"));
   assert.ok(
     redirects.some(
       (redirect) => redirect.from === "/about.html" && redirect.to === "/about/" && redirect.status === 301,
+    ),
+  );
+  assert.ok(
+    redirects.some(
+      (redirect) =>
+        redirect.from === "/cocoboko-studios.html" && redirect.to === "/projects/" && redirect.status === 301,
+    ),
+  );
+  assert.ok(
+    redirects.some(
+      (redirect) =>
+        redirect.from === "/remember-the-human.html" && redirect.to === "/projects/" && redirect.status === 301,
     ),
   );
 });

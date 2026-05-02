@@ -315,6 +315,29 @@ time {
   max-width: 58ch;
 }
 
+.project-entry + .project-entry {
+  border-block-start: var(--line);
+  margin-block-start: var(--space-2xl);
+  padding-block-start: var(--space-2xl);
+}
+
+.project-status {
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  margin-block: 0 var(--space-md);
+}
+
+.project-entry--active .project-status,
+.project-entry--active .project-status span {
+  font-weight: 700;
+}
+
+.project-entry--archived .project-status,
+.project-entry--archived .project-status span {
+  font-style: italic;
+  font-weight: 400;
+}
+
 .post-filters,
 .feed-links {
   display: flex;

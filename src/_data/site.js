@@ -8,5 +8,6 @@ export default {
     { label: "Blog", url: "/blog/" },
     { label: "Talks", url: "/talks/" },
     { label: "Events", url: "/events/" },
+    { label: "Projects", url: "/projects/" },
   ],
 };
