@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { loadEvents, loadPosts, loadTalks } from "../src/_lib/content/loaders/local-content.js";
+import { loadEvents, loadPages, loadPosts, loadTalks } from "../src/_lib/content/loaders/local-content.js";
 import { normalizeContent } from "../src/_lib/content/normalize-content.js";
 import { normalizeTalks, validateRedirects } from "../src/_lib/content/normalize-talks.js";
 
@@ -14,7 +14,7 @@ function test(name, callback) {
 }
 
 function normalizeLocalContent() {
-  return normalizeContent({ talks: loadTalks(), events: loadEvents(), posts: loadPosts() });
+  return normalizeContent({ talks: loadTalks(), events: loadEvents(), posts: loadPosts(), pages: loadPages() });
 }
 
 function normalizeTalkContent() {
@@ -102,6 +102,18 @@ test("loads migrated post content from the new website", () => {
   assert.ok(posts.every((post) => post.nativePath.includes("src\\content\\posts") || post.nativePath.includes("src/content/posts")));
 });
 
+test("loads canonical page content from the new website", () => {
+  const pages = loadPages();
+  const pageIds = pages.map((page) => page.data.id).sort();
+
+  assert.equal(pages.length, 2);
+  assert.deepEqual(pageIds, ["about", "projects"]);
+  assert.ok(pages.every((page) => page.data.docType === "page"));
+  assert.ok(pages.some((page) => page.data.canonicalUrl === "/about/"));
+  assert.ok(pages.some((page) => page.data.canonicalUrl === "/projects/"));
+  assert.ok(pages.every((page) => page.nativePath.includes("src\\content\\pages") || page.nativePath.includes("src/content/pages")));
+});
+
 test("normalizes migrated posts into shared document records", () => {
   const { documents } = normalizeLocalContent();
   const posts = documents.filter((document) => ["blog", "gamelog", "dungeonlog"].includes(document.series));
@@ -110,6 +122,39 @@ test("normalizes migrated posts into shared document records", () => {
   assert.equal(posts.filter((post) => post.docType === "post").length, 138);
   assert.equal(posts.filter((post) => post.docType === "review").length, 14);
   assert.equal(posts.filter((post) => post.docType === "session").length, 12);
+});
+
+test("normalizes migrated pages into shared document records", () => {
+  const { documents, redirects } = normalizeLocalContent();
+  const about = documents.find((document) => document.id === "about");
+  const projects = documents.find((document) => document.id === "projects");
+
+  assert.equal(about.docType, "page");
+  assert.equal(about.slug, "about");
+  assert.equal(about.canonicalUrl, "/about/");
+  assert.deepEqual(about.legacyUrls, ["/about.html"]);
+  assert.equal(projects.docType, "page");
+  assert.equal(projects.slug, "projects");
+  assert.equal(projects.canonicalUrl, "/projects/");
+  assert.ok(projects.legacyUrls.includes("/cocoboko-studios.html"));
+  assert.ok(projects.legacyUrls.includes("/remember-the-human.html"));
+  assert.ok(
+    redirects.some(
+      (redirect) => redirect.from === "/about.html" && redirect.to === "/about/" && redirect.status === 301,
+    ),
+  );
+  assert.ok(
+    redirects.some(
+      (redirect) =>
+        redirect.from === "/cocoboko-studios.html" && redirect.to === "/projects/" && redirect.status === 301,
+    ),
+  );
+  assert.ok(
+    redirects.some(
+      (redirect) =>
+        redirect.from === "/remember-the-human.html" && redirect.to === "/projects/" && redirect.status === 301,
+    ),
+  );
 });
 
 test("preserves davidwesst.github.io blog URL structure", () => {

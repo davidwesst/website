@@ -6,6 +6,7 @@ const SOURCE = "website";
 const TALK_ROOT = path.resolve("src/content/talks");
 const EVENT_ROOT = path.resolve("src/content/events");
 const POST_ROOT = path.resolve("src/content/posts");
+const PAGE_ROOT = path.resolve("src/content/pages");
 
 function discoverAssets(directory) {
   return fs
@@ -105,4 +106,35 @@ export function loadPosts({ root = POST_ROOT } = {}) {
         })
         .filter(Boolean);
     });
+}
+
+export function loadPages({ root = PAGE_ROOT } = {}) {
+  if (!fs.existsSync(root)) {
+    return [];
+  }
+
+  return fs
+    .readdirSync(root, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => {
+      const directory = path.join(root, entry.name);
+      const nativePath = path.join(directory, "index.md");
+
+      if (!fs.existsSync(nativePath)) {
+        return null;
+      }
+
+      const parsed = matter(fs.readFileSync(nativePath, "utf8"));
+
+      return {
+        source: parsed.data.source || SOURCE,
+        type: parsed.data.docType || "page",
+        slug: parsed.data.slug || entry.name,
+        nativePath,
+        body: parsed.content.trim(),
+        data: parsed.data,
+        assets: discoverAssets(directory),
+      };
+    })
+    .filter(Boolean);
 }

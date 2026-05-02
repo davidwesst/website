@@ -20,11 +20,13 @@
 <nav class="terminal-section" aria-labelledby="home-sections-title">
   <p class="terminal-prompt" id="home-sections-title">~/davidwesst ls</p>
   <ul class="terminal-links">
+    <li><a href="/about/">about/</a></li>
+    <li><a href="/projects/">projects/</a></li>
     <li><a href="/blog/">blog/</a></li>
     <li><a href="/talks/">talks/</a></li>
     <li><a href="/events/">events/</a></li>
     <li><a href="/blog/?series=gamelog">gamelog/</a></li>
-    <li><a href="/site-index/">site-index/</a></li>
+    <li><a href="/blog/?series=dungeonlog">dungeonlog/</a></li>
   </ul>
 </nav>
 
