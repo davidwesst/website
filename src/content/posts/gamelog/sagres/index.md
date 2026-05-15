@@ -7,7 +7,6 @@ slug: sagres
 title: Sagres
 dates:
   published: '2025-01-04'
-  sort: '2025-01-04'
 taxonomy:
   tags: []
   categories: []
@@ -16,23 +15,6 @@ legacyUrls:
   - /blog/gamelog/entry.html?slug=sagres
   - /gamelog/sagres/
   - /gamelog/sagres/index.html
-meta:
-  sourceMeta:
-    title: Sagres
-    date: '2025-01-04T11:08-06:00'
-    game_ids:
-      igdb: 213121
-    igdb_url: 'https://www.igdb.com/games/sagres'
-    play_data:
-      started_on: November 2024
-      completed_on: 'November 28, 2024'
-      platform: Steam Deck / PC
-    rating:
-      gameplay: 2
-      narrative: 2
-      style: 2
-      sound: 2
-      overall: 2
 review:
   subjectIds:
     igdb: 213121

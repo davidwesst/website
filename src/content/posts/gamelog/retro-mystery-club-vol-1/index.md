@@ -7,29 +7,12 @@ slug: retro-mystery-club-vol-1
 title: Retro Mystery Club Vol. 1 - The Ise-Shima Case
 dates:
   published: '2026-01-10'
-  sort: '2026-01-10'
 taxonomy:
   tags: []
   categories: []
 canonicalUrl: /blog/gamelog/retro-mystery-club-vol-1/
 legacyUrls:
   - /blog/gamelog/entry.html?slug=retro-mystery-club-vol-1
-meta:
-  sourceMeta:
-    title: Retro Mystery Club Vol. 1 - The Ise-Shima Case
-    date: '2026-01-10T01:31-06:00'
-    game_ids:
-      igdb_id: 260478
-    play_data:
-      started_on: 'January 2, 2026'
-      completed_on: 'January 10, 2026'
-      platform: Steam
-    rating:
-      gameplay: 1
-      narrative: 1
-      style: 2
-      sound: 2
-      overall: 1
 review:
   subjectIds:
     igdb_id: 260478

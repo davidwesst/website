@@ -7,7 +7,6 @@ slug: indiana-jones-and-the-great-circle
 title: Indiana Jones and the Great Circle
 dates:
   published: '2025-01-02'
-  sort: '2025-01-02'
 taxonomy:
   tags: []
   categories: []
@@ -16,22 +15,6 @@ legacyUrls:
   - /blog/gamelog/entry.html?slug=indiana-jones-and-the-great-circle
   - /gamelog/indiana-jones-and-the-great-circle/
   - /gamelog/indiana-jones-and-the-great-circle/index.html
-meta:
-  sourceMeta:
-    title: Indiana Jones and the Great Circle
-    date: '2025-01-02T11:08-06:00'
-    game_ids:
-      igdb_id: 142415
-    play_data:
-      started_on: 'December 25, 2025'
-      completed_on: 'January 2, 2025'
-      platform: XBox Series X
-    rating:
-      gameplay: 2
-      narrative: 3
-      style: 3
-      sound: 2
-      overall: 2
 review:
   subjectIds:
     igdb_id: 142415

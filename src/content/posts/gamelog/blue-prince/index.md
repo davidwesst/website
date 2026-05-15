@@ -7,7 +7,6 @@ slug: blue-prince
 title: Blue Prince
 dates:
   published: '2025-04-20'
-  sort: '2025-04-20'
 taxonomy:
   tags: []
   categories: []
@@ -16,22 +15,6 @@ legacyUrls:
   - /blog/gamelog/entry.html?slug=blue-prince
   - /gamelog/blue-prince/
   - /gamelog/blue-prince/index.html
-meta:
-  sourceMeta:
-    title: Blue Prince
-    date: '2025-04-19T23:12-06:00'
-    game_ids:
-      igdb_id: 149657
-    play_data:
-      started_on: 'April 10, 2025'
-      completed_on: 'April 18, 2025'
-      platform: XBox Series X
-    rating:
-      gameplay: 3
-      narrative: 2
-      style: 2
-      sound: 3
-      overall: 3
 review:
   subjectIds:
     igdb_id: 149657

@@ -7,29 +7,12 @@ slug: kathy-rain-2-soothsayer
 title: 'Kathy Rain 2: Soothsayer'
 dates:
   published: '2026-03-23'
-  sort: '2026-03-23'
 taxonomy:
   tags: []
   categories: []
 canonicalUrl: /blog/gamelog/kathy-rain-2-soothsayer/
 legacyUrls:
   - /blog/gamelog/entry.html?slug=kathy-rain-2-soothsayer
-meta:
-  sourceMeta:
-    title: 'Kathy Rain 2: Soothsayer'
-    date: '2026-03-23T09:23-06:00'
-    game_ids:
-      igdb_id: 322691
-    play_data:
-      started_on: 'March 20, 2026'
-      completed_on: 'March 22, 2026'
-      platform: Steam
-    rating:
-      gameplay: 2
-      narrative: 1
-      style: 2
-      sound: 2
-      overall: 2
 review:
   subjectIds:
     igdb_id: 322691

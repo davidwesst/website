@@ -7,29 +7,12 @@ slug: tr-49
 title: TR-49
 dates:
   published: '2026-02-17'
-  sort: '2026-02-17'
 taxonomy:
   tags: []
   categories: []
 canonicalUrl: /blog/gamelog/tr-49/
 legacyUrls:
   - /blog/gamelog/entry.html?slug=tr-49
-meta:
-  sourceMeta:
-    title: TR-49
-    date: '2026-02-16T21:46-06:00'
-    game_ids:
-      igdb_id: 378335
-    play_data:
-      started_on: 'February 14, 2026'
-      completed_on: 'February 16, 2026'
-      platform: SteamDeck
-    rating:
-      gameplay: 3
-      narrative: 2
-      style: 3
-      sound: 3
-      overall: 2
 review:
   subjectIds:
     igdb_id: 378335

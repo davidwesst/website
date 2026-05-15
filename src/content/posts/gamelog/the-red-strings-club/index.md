@@ -7,7 +7,6 @@ slug: the-red-strings-club
 title: The Red Strings Club
 dates:
   published: '2025-02-19'
-  sort: '2025-02-19'
 taxonomy:
   tags: []
   categories: []
@@ -16,22 +15,6 @@ legacyUrls:
   - /blog/gamelog/entry.html?slug=the-red-strings-club
   - /gamelog/the-red-strings-club/
   - /gamelog/the-red-strings-club/index.html
-meta:
-  sourceMeta:
-    title: The Red Strings Club
-    date: '2025-02-18T22:46-06:00'
-    game_ids:
-      igdb_id: 75247
-    play_data:
-      started_on: 'February 16, 2025'
-      completed_on: 'February 17, 2025'
-      platform: Steam Deck / PC
-    rating:
-      gameplay: 2
-      narrative: 3
-      style: 3
-      sound: 3
-      overall: 3
 review:
   subjectIds:
     igdb_id: 75247

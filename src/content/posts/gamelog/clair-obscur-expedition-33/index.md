@@ -7,7 +7,6 @@ slug: clair-obscur-expedition-33
 title: 'Clair Obscur: Expedition 33'
 dates:
   published: '2025-07-08'
-  sort: '2025-07-08'
 taxonomy:
   tags: []
   categories: []
@@ -16,22 +15,6 @@ legacyUrls:
   - /blog/gamelog/entry.html?slug=clair-obscur-expedition-33
   - /gamelog/clair-obscur-expedition-33/
   - /gamelog/clair-obscur-expedition-33/index.html
-meta:
-  sourceMeta:
-    title: 'Clair Obscur: Expedition 33'
-    date: '2025-07-07T23:51-06:00'
-    game_ids:
-      igdb_id: 305152
-    play_data:
-      started_on: 'May 19, 2025'
-      completed_on: 'July 5, 2025'
-      platform: XBox Series X
-    rating:
-      gameplay: 2
-      narrative: 3
-      style: 3
-      sound: 3
-      overall: 3
 review:
   subjectIds:
     igdb_id: 305152

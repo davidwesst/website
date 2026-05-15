@@ -97,7 +97,7 @@ test("loads migrated post content from the new website", () => {
   const posts = loadPosts();
 
   assert.equal(posts.filter((post) => post.data.series === "blog").length, 138);
-  assert.equal(posts.filter((post) => post.data.series === "gamelog").length, 14);
+  assert.equal(posts.filter((post) => post.data.series === "gamelog").length, 15);
   assert.equal(posts.filter((post) => post.data.series === "dungeonlog").length, 12);
   assert.ok(posts.every((post) => post.nativePath.includes("src\\content\\posts") || post.nativePath.includes("src/content/posts")));
 });
@@ -118,9 +118,9 @@ test("normalizes migrated posts into shared document records", () => {
   const { documents } = normalizeLocalContent();
   const posts = documents.filter((document) => ["blog", "gamelog", "dungeonlog"].includes(document.series));
 
-  assert.equal(posts.length, 164);
+  assert.equal(posts.length, 165);
   assert.equal(posts.filter((post) => post.docType === "post").length, 138);
-  assert.equal(posts.filter((post) => post.docType === "review").length, 14);
+  assert.equal(posts.filter((post) => post.docType === "review").length, 15);
   assert.equal(posts.filter((post) => post.docType === "session").length, 12);
 });
 
@@ -195,6 +195,13 @@ test("keeps gamelog supplemental data in review metadata", () => {
   assert.equal(post.review.subjectIds.igdb_id, 149657);
   assert.equal(post.review.play.platform, "XBox Series X");
   assert.equal(post.review.rating.overall, 3);
+});
+
+test("keeps gamelog front matter focused on canonical fields", () => {
+  const gamelogs = loadPosts().filter((post) => post.data.series === "gamelog");
+
+  assert.ok(gamelogs.every((post) => !post.data.dates.sort));
+  assert.ok(gamelogs.every((post) => !post.data.meta?.sourceMeta));
 });
 
 test("keeps source-specific front matter out of canonical records", () => {

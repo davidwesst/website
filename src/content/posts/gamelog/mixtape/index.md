@@ -5,28 +5,11 @@ series: gamelog
 slug: mixtape
 title: Mixtape
 dates:
-  published: '2026-02-17'
-  sort: '2026-02-17'
+  published: '2026-05-14'
 taxonomy:
   tags: []
   categories: []
 canonicalUrl: /blog/gamelog/mixtape/
-meta:
-  sourceMeta:
-    title: TR-49
-    date: '2026-02-16T21:46-06:00'
-    game_ids:
-      igdb_id: 378335
-    play_data:
-      started_on: 'February 14, 2026'
-      completed_on: 'February 16, 2026'
-      platform: XBox
-    rating:
-      gameplay: 1
-      narrative: 3
-      style: 3
-      sound: 3
-      overall: 2
 review:
   subjectIds:
     igdb_id: 305157
@@ -42,7 +25,7 @@ review:
     overall: 2
 ---
 
-Mixtap is a game full of feelings and nostalgia for GenX-ers and aged Aged Millennials like myself from Beethoven & Dinosaur. It's a fun narrative experience that I enjoyed, but won't be going back to anytime soon.
+Mixtape is a game full of feelings and nostalgia for GenX-ers and aged Aged Millennials like myself from Beethoven & Dinosaur. It's a fun narrative experience that I enjoyed, but won't be going back to anytime soon.
 
 ## What I Didn't Like
 

@@ -7,29 +7,12 @@ slug: little-rocket-lab
 title: Little Rocket Lab
 dates:
   published: '2025-12-30'
-  sort: '2025-12-30'
 taxonomy:
   tags: []
   categories: []
 canonicalUrl: /blog/gamelog/little-rocket-lab/
 legacyUrls:
   - /blog/gamelog/entry.html?slug=little-rocket-lab
-meta:
-  sourceMeta:
-    title: Little Rocket Lab
-    date: '2025-12-30T14:04-06:00'
-    game_ids:
-      igdb_id: 325176
-    play_data:
-      started_on: 'November 15, 2025'
-      completed_on: 'December 29, 2025'
-      platform: Steam / Xbox
-    rating:
-      gameplay: 3
-      narrative: 1
-      style: 2
-      sound: 2
-      overall: 2
 review:
   subjectIds:
     igdb_id: 325176

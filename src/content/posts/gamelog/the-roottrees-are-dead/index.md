@@ -7,7 +7,6 @@ slug: the-roottrees-are-dead
 title: The Roottrees are Dead
 dates:
   published: '2025-02-19'
-  sort: '2025-02-19'
 taxonomy:
   tags: []
   categories: []
@@ -16,22 +15,6 @@ legacyUrls:
   - /blog/gamelog/entry.html?slug=the-roottrees-are-dead
   - /gamelog/the-roottrees-are-dead/
   - /gamelog/the-roottrees-are-dead/index.html
-meta:
-  sourceMeta:
-    title: The Roottrees are Dead
-    date: '2025-02-18T21:22-06:00'
-    game_ids:
-      igdb_id: 288983
-    play_data:
-      started_on: 'February 8, 2025'
-      completed_on: 'February 15, 2025'
-      platform: Steam Deck / PC
-    rating:
-      gameplay: 1
-      narrative: 3
-      style: 2
-      sound: 2
-      overall: 2
 review:
   subjectIds:
     igdb_id: 288983
