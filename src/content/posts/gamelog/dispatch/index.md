@@ -7,29 +7,12 @@ slug: dispatch
 title: Dispatch
 dates:
   published: '2025-12-16'
-  sort: '2025-12-16'
 taxonomy:
   tags: []
   categories: []
 canonicalUrl: /blog/gamelog/dispatch/
 legacyUrls:
   - /blog/gamelog/entry.html?slug=dispatch
-meta:
-  sourceMeta:
-    title: Dispatch
-    date: '2025-12-16T15:01-06:00'
-    game_ids:
-      igdb_id: 325609
-    play_data:
-      started_on: 'November 22, 2025'
-      completed_on: 'November 29, 2025'
-      platform: Steam
-    rating:
-      gameplay: 2
-      narrative: 3
-      style: 3
-      sound: 2
-      overall: 3
 review:
   subjectIds:
     igdb_id: 325609

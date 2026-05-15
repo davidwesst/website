@@ -7,29 +7,12 @@ slug: seance-at-blake-manor
 title: The Séance of Blake Manor
 dates:
   published: '2025-12-17'
-  sort: '2025-12-17'
 taxonomy:
   tags: []
   categories: []
 canonicalUrl: /blog/gamelog/seance-at-blake-manor/
 legacyUrls:
   - /blog/gamelog/entry.html?slug=seance-at-blake-manor
-meta:
-  sourceMeta:
-    title: The Séance of Blake Manor
-    date: '2025-12-17T16:57-06:00'
-    game_ids:
-      igdb_id: 160036
-    play_data:
-      started_on: 'November 28, 2025'
-      completed_on: 'December 14, 2025'
-      platform: Steam
-    rating:
-      gameplay: 2
-      narrative: 3
-      style: 3
-      sound: 3
-      overall: 3
 review:
   subjectIds:
     igdb_id: 160036

@@ -7,7 +7,6 @@ slug: return-to-grace
 title: Return from Grace
 dates:
   published: '2025-01-27'
-  sort: '2025-01-27'
 taxonomy:
   tags: []
   categories: []
@@ -16,22 +15,6 @@ legacyUrls:
   - /blog/gamelog/entry.html?slug=return-to-grace
   - /gamelog/return-to-grace/
   - /gamelog/return-to-grace/index.html
-meta:
-  sourceMeta:
-    title: Return from Grace
-    date: '2025-01-27T10:53-06:00'
-    game_ids:
-      igdb_id: 249377
-    play_data:
-      started_on: 'January 27, 2025'
-      completed_on: 'January 27, 2025'
-      platform: XBox Series X
-    rating:
-      gameplay: 2
-      narrative: 3
-      style: 2
-      sound: 3
-      overall: 3
 review:
   subjectIds:
     igdb_id: 249377

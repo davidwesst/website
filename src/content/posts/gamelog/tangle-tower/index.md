@@ -7,7 +7,6 @@ slug: tangle-tower
 title: Tangle Tower
 dates:
   published: '2025-04-21'
-  sort: '2025-04-21'
 taxonomy:
   tags: []
   categories: []
@@ -16,22 +15,6 @@ legacyUrls:
   - /blog/gamelog/entry.html?slug=tangle-tower
   - /gamelog/tangle-tower/
   - /gamelog/tangle-tower/index.html
-meta:
-  sourceMeta:
-    title: Tangle Tower
-    date: '2025-04-21T12:12-06:00'
-    game_ids:
-      igdb_id: 123775
-    play_data:
-      started_on: 'April 20, 2025'
-      completed_on: 'April 20, 2025'
-      platform: Steam Deck / PC
-    rating:
-      gameplay: 2
-      narrative: 2
-      style: 2
-      sound: 3
-      overall: 2
 review:
   subjectIds:
     igdb_id: 123775
