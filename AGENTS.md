@@ -17,3 +17,8 @@
 - Prefer a data-driven approach over a UI-centric approach.
 - Keep source-specific behavior out of presentation layers when a data model or normalization step is the better fit.
 - Add new code in the smallest coherent unit that keeps responsibilities clear and maintainable.
+- When new code is added, review tests to confirm they are still valid and either refactor or remove/replace tests as necessary.
+
+## Testing
+
+- Run the build and the tests after making code changes to verify the changes should still work
