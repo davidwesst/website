@@ -3,6 +3,10 @@ import { createServer } from "node:http";
 import { extname, join, normalize } from "node:path";
 
 const root = join(process.cwd(), "_site");
+const idleExitMs = 2000;
+const initialIdleExitMs = 15000;
+let idleTimer;
+let requestCount = 0;
 
 const contentTypes = {
   ".html": "text/html; charset=utf-8",
@@ -37,6 +41,13 @@ function loadRedirects() {
 
 const redirects = loadRedirects();
 
+function scheduleIdleExit() {
+  clearTimeout(idleTimer);
+  const timeout = requestCount > 1 ? idleExitMs : initialIdleExitMs;
+  idleTimer = setTimeout(shutdown, timeout);
+  idleTimer.unref();
+}
+
 function resolvePath(urlPath) {
   const safePath = normalize(urlPath).replace(/^(\.\.[/\\])+/, "");
   let filePath = join(root, safePath);
@@ -60,6 +71,10 @@ function resolvePath(urlPath) {
 }
 
 const server = createServer((request, response) => {
+  requestCount += 1;
+  clearTimeout(idleTimer);
+  response.on("finish", scheduleIdleExit);
+
   const requestUrl = new URL(request.url, "http://127.0.0.1");
 
   if (redirects.has(requestUrl.pathname)) {
@@ -84,4 +99,17 @@ const server = createServer((request, response) => {
   createReadStream(filePath).pipe(response);
 });
 
-server.listen(4173, "127.0.0.1");
+server.listen(4173, "127.0.0.1", scheduleIdleExit);
+
+function shutdown() {
+  server.closeAllConnections?.();
+  server.close(() => {
+    process.exit(0);
+  });
+  setTimeout(() => {
+    process.exit(0);
+  }, 1000).unref();
+}
+
+process.on("SIGINT", shutdown);
+process.on("SIGTERM", shutdown);
