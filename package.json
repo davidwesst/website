@@ -31,5 +31,5 @@
     "@quasibit/eleventy-plugin-sitemap": "^2.2.0",
     "markdown-it": "^14.1.1"
   },
-  "packageManager": "pnpm@10.28.1"
+  "packageManager": "pnpm@11.2.1"
 }
