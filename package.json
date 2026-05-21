@@ -9,7 +9,7 @@
   "scripts": {
     "build": "eleventy",
     "start": "eleventy --serve",
-    "test": "npm run test:unit && npm run build && playwright test",
+    "test": "pnpm run test:unit && pnpm run build && playwright test",
     "test:unit": "node tests/content-pipeline.test.mjs"
   },
   "repository": {
@@ -29,6 +29,8 @@
     "@11ty/eleventy-plugin-webc": "^0.11.2",
     "@playwright/test": "^1.59.1",
     "@quasibit/eleventy-plugin-sitemap": "^2.2.0",
+    "gray-matter": "^4.0.3",
     "markdown-it": "^14.1.1"
-  }
+  },
+  "packageManager": "pnpm@11.2.1"
 }
