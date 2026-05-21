@@ -1,31 +1,50 @@
 import { test, expect } from "@playwright/test";
+import { getDocuments, getEvents } from "../src/_lib/content/index.js";
 
 function extractLocs(xml) {
   return [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
 }
 
-test("all generated sitemap paths respond successfully", async ({ request, baseURL }) => {
+async function getSitemapPaths(request) {
   const sitemapResponse = await request.get("/sitemap.xml");
   await expect(sitemapResponse).toBeOK();
 
   const sitemapXml = await sitemapResponse.text();
-  const locations = extractLocs(sitemapXml);
 
-  expect(locations.length).toBeGreaterThan(0);
+  return extractLocs(sitemapXml).map((location) => new URL(location).pathname);
+}
 
-  for (const location of locations) {
-    const url = new URL(location);
-    const response = await request.get(`${baseURL}${url.pathname}`);
+test("all generated sitemap paths respond successfully", async ({ request, baseURL }) => {
+  const sitemapPaths = await getSitemapPaths(request);
 
-    expect(response.ok(), `${url.pathname} should return a success response`).toBeTruthy();
+  expect(sitemapPaths.length).toBeGreaterThan(0);
+
+  for (const path of sitemapPaths) {
+    const response = await request.get(`${baseURL}${path}`);
+
+    expect(response.ok(), `${path} should return a success response`).toBeTruthy();
   }
 });
 
-test("talk and event pages are generated from canonical data", async ({ request }) => {
-  await expect(request.get("/talks/")).resolves.toBeOK();
-  await expect(request.get("/talks/consensus-in-the-chaos/")).resolves.toBeOK();
-  await expect(request.get("/events/")).resolves.toBeOK();
-  await expect(request.get("/events/prairiedevcon-2022-regina/")).resolves.toBeOK();
+test("sitemap includes every canonical content page", async ({ request }) => {
+  const sitemapPaths = await getSitemapPaths(request);
+  const expectedPaths = [
+    ...getDocuments().map((document) => document.canonicalUrl),
+    ...getEvents().map((event) => event.canonicalUrl),
+  ].sort();
+
+  expect(sitemapPaths).toEqual(expect.arrayContaining(expectedPaths));
+  expect(sitemapPaths.filter((path) => path.startsWith("/talks/") && path !== "/talks/").sort()).toEqual(
+    getDocuments()
+      .filter((document) => document.docType === "talk")
+      .map((document) => document.canonicalUrl)
+      .sort(),
+  );
+  expect(sitemapPaths.filter((path) => path.startsWith("/events/") && path !== "/events/").sort()).toEqual(
+    getEvents()
+      .map((event) => event.canonicalUrl)
+      .sort(),
+  );
 });
 
 test("about page is generated from canonical data", async ({ request }) => {

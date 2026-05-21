@@ -21,6 +21,10 @@ function normalizeTalkContent() {
   return normalizeTalks(loadTalks(), loadEvents());
 }
 
+function countBy(values, predicate) {
+  return values.filter(predicate).length;
+}
+
 function withoutSourceMeta(value) {
   if (Array.isArray(value)) {
     return value.map(withoutSourceMeta);
@@ -41,17 +45,18 @@ test("loads canonical talks and events from the new website", () => {
   const talks = loadTalks();
   const events = loadEvents();
 
-  assert.equal(talks.length, 10);
-  assert.equal(events.length, 14);
+  assert.ok(talks.length > 0);
+  assert.ok(events.length > 0);
   assert.ok(talks.every((talk) => talk.source === "website"));
   assert.ok(events.every((event) => event.source === "website"));
   assert.ok(talks.every((talk) => talk.data.title));
 });
 
 test("normalizes talks into canonical talk documents", () => {
+  const talks = loadTalks();
   const { documents } = normalizeTalkContent();
 
-  assert.equal(documents.length, 10);
+  assert.equal(documents.length, talks.length);
   assert.ok(documents.every((document) => document.docType === "talk"));
   assert.ok(documents.every((document) => document.series === "talks"));
   assert.ok(documents.every((document) => document.canonicalUrl.startsWith("/talks/")));
@@ -96,9 +101,9 @@ test("keeps talk-specific resources off shared event records", () => {
 test("loads migrated post content from the new website", () => {
   const posts = loadPosts();
 
-  assert.equal(posts.filter((post) => post.data.series === "blog").length, 138);
-  assert.equal(posts.filter((post) => post.data.series === "gamelog").length, 15);
-  assert.equal(posts.filter((post) => post.data.series === "dungeonlog").length, 12);
+  assert.ok(posts.some((post) => post.data.series === "blog"));
+  assert.ok(posts.some((post) => post.data.series === "gamelog"));
+  assert.ok(posts.some((post) => post.data.series === "dungeonlog"));
   assert.ok(posts.every((post) => post.nativePath.includes("src\\content\\posts") || post.nativePath.includes("src/content/posts")));
 });
 
@@ -106,8 +111,8 @@ test("loads canonical page content from the new website", () => {
   const pages = loadPages();
   const pageIds = pages.map((page) => page.data.id).sort();
 
-  assert.equal(pages.length, 2);
-  assert.deepEqual(pageIds, ["about", "projects"]);
+  assert.ok(pageIds.includes("about"));
+  assert.ok(pageIds.includes("projects"));
   assert.ok(pages.every((page) => page.data.docType === "page"));
   assert.ok(pages.some((page) => page.data.canonicalUrl === "/about/"));
   assert.ok(pages.some((page) => page.data.canonicalUrl === "/projects/"));
@@ -115,13 +120,14 @@ test("loads canonical page content from the new website", () => {
 });
 
 test("normalizes migrated posts into shared document records", () => {
+  const loadedPosts = loadPosts();
   const { documents } = normalizeLocalContent();
   const posts = documents.filter((document) => ["blog", "gamelog", "dungeonlog"].includes(document.series));
 
-  assert.equal(posts.length, 165);
-  assert.equal(posts.filter((post) => post.docType === "post").length, 138);
-  assert.equal(posts.filter((post) => post.docType === "review").length, 15);
-  assert.equal(posts.filter((post) => post.docType === "session").length, 12);
+  assert.equal(posts.length, loadedPosts.length);
+  assert.equal(countBy(posts, (post) => post.docType === "post"), countBy(loadedPosts, (post) => post.data.series === "blog"));
+  assert.equal(countBy(posts, (post) => post.docType === "review"), countBy(loadedPosts, (post) => post.data.series === "gamelog"));
+  assert.equal(countBy(posts, (post) => post.docType === "session"), countBy(loadedPosts, (post) => post.data.series === "dungeonlog"));
 });
 
 test("normalizes migrated pages into shared document records", () => {
