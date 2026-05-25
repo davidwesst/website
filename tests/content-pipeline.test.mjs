@@ -199,8 +199,16 @@ test("keeps gamelog supplemental data in review metadata", () => {
   const post = documents.find((document) => document.id === "gamelog/blue-prince");
 
   assert.equal(post.review.subjectIds.igdb_id, 149657);
-  assert.equal(post.review.play.platform, "XBox Series X");
+  assert.equal(post.review.play.platform, "Xbox Series X");
+  assert.equal(post.review.play.platforms[0].key, "xbox-series-x");
   assert.equal(post.review.rating.overall, 3);
+});
+
+test("derives post summaries from the first markdown paragraph when missing", () => {
+  const { documents } = normalizeLocalContent();
+  const post = documents.find((document) => document.id === "gamelog/tr-49");
+
+  assert.ok(post.summary.startsWith("This game is a solid attempt at a narrative deduction game"));
 });
 
 test("keeps gamelog front matter focused on canonical fields", () => {

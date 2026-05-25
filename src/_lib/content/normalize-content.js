@@ -4,6 +4,14 @@ import { normalizeUrlPath } from "./slug.js";
 const SOURCE = "website";
 const POST_SERIES = new Set(["blog", "gamelog", "dungeonlog"]);
 
+const PLATFORM_ALIASES = [
+  { pattern: /steam\s*deck|steamdeck/i, normalized: "steam-deck", label: "Steam Deck", icon: "🎮" },
+  { pattern: /steam/i, normalized: "steam", label: "Steam", icon: "🖥️" },
+  { pattern: /xbox\s*series\s*x/i, normalized: "xbox-series-x", label: "Xbox Series X", icon: "🟩" },
+  { pattern: /xbox/i, normalized: "xbox", label: "Xbox", icon: "🟩" },
+  { pattern: /pc|windows/i, normalized: "pc", label: "PC", icon: "🖥️" },
+];
+
 function normalizeLegacyUrl(value) {
   const url = String(value);
 
@@ -80,17 +88,96 @@ function normalizeReview(raw = {}) {
     return undefined;
   }
 
+  const normalizedPlay =
+    play && (play.platform || play.startedOn || play.started_on || play.completedOn || play.completed_on)
+      ? normalizePlayMeta(play)
+      : undefined;
+
   return {
     subjectIds: review.subjectIds || raw.game_ids,
-    play: play
-      ? {
-          startedOn: normalizeDate(play.startedOn || play.started_on),
-          completedOn: normalizeDate(play.completedOn || play.completed_on),
-          platform: play.platform,
-        }
-      : undefined,
+    play: normalizedPlay,
     rating: review.rating || raw.rating,
   };
+}
+
+function normalizePlatformEntry(value) {
+  const entry = String(value || "").trim();
+  if (!entry) {
+    return undefined;
+  }
+
+  for (const alias of PLATFORM_ALIASES) {
+    if (alias.pattern.test(entry)) {
+      return {
+        key: alias.normalized,
+        label: alias.label,
+        icon: alias.icon,
+      };
+    }
+  }
+
+  return {
+    key: entry.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""),
+    label: entry,
+    icon: "🎮",
+  };
+}
+
+function normalizePlayMeta(play = {}) {
+  const platformRaw = play.platform;
+  const platformEntries = String(platformRaw || "")
+    .split(/[\/,+]/)
+    .map((value) => normalizePlatformEntry(value))
+    .filter(Boolean);
+  const uniquePlatforms = [...new Map(platformEntries.map((platform) => [platform.key, platform])).values()];
+
+  return removeUndefined({
+    startedOn: normalizeDate(play.startedOn || play.started_on),
+    completedOn: normalizeDate(play.completedOn || play.completed_on),
+    platform: uniquePlatforms.map((platform) => platform.label).join(" / ") || undefined,
+    platforms: uniquePlatforms,
+  });
+}
+
+function extractFirstParagraph(markdown = "") {
+  const lines = String(markdown).split(/\r?\n/);
+  const paragraphLines = [];
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+
+    if (!trimmed) {
+      if (paragraphLines.length) {
+        break;
+      }
+      continue;
+    }
+
+    if (/^(#|!\[|\[.+\]:|>|```|---|\*\s|\d+\.)/.test(trimmed)) {
+      if (paragraphLines.length) {
+        break;
+      }
+      continue;
+    }
+
+    paragraphLines.push(trimmed);
+  }
+
+  const paragraph = paragraphLines.join(" ").replace(/\[(.*?)\]\((.*?)\)/g, "$1").trim();
+  return paragraph || undefined;
+}
+
+function makeListBlurb(rawSummary, markdown, maxLength = 220) {
+  const source = String(rawSummary || "").trim() || extractFirstParagraph(markdown) || "";
+  if (!source) {
+    return undefined;
+  }
+
+  if (source.length <= maxLength) {
+    return source;
+  }
+
+  return `${source.slice(0, maxLength).replace(/\s+\S*$/, "").trimEnd()}…`;
 }
 
 function removeUndefined(value) {
@@ -124,7 +211,7 @@ function normalizeTalk(raw) {
     series: raw.data.series || "talks",
     slug,
     title: raw.data.title,
-    summary: raw.data.summary,
+    summary: makeListBlurb(raw.data.summary, raw.body),
     body: {
       markdown: raw.body,
     },
