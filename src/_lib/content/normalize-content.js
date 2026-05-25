@@ -139,7 +139,25 @@ function normalizePlayMeta(play = {}) {
   });
 }
 
-function extractFirstParagraph(markdown = "") {
+function isTitleIntro(paragraph, title) {
+  if (!title) {
+    return false;
+  }
+
+  const normalizedParagraph = paragraph.toLowerCase();
+  const normalizedTitle = String(title).trim().toLowerCase();
+
+  return normalizedParagraph.startsWith(`${normalizedTitle} is `);
+}
+
+function cleanParagraph(markdown) {
+  return markdown
+    .join(" ")
+    .replace(/\[(.*?)\]\((.*?)\)/g, "$1")
+    .trim();
+}
+
+function extractFirstParagraph(markdown = "", { title } = {}) {
   const lines = String(markdown).split(/\r?\n/);
   const paragraphLines = [];
 
@@ -148,14 +166,22 @@ function extractFirstParagraph(markdown = "") {
 
     if (!trimmed) {
       if (paragraphLines.length) {
-        break;
+        const paragraph = cleanParagraph(paragraphLines);
+        if (paragraph && !isTitleIntro(paragraph, title)) {
+          return paragraph;
+        }
+        paragraphLines.length = 0;
       }
       continue;
     }
 
     if (/^(#|!\[|\[.+\]:|>|```|---|\*\s|\d+\.)/.test(trimmed)) {
       if (paragraphLines.length) {
-        break;
+        const paragraph = cleanParagraph(paragraphLines);
+        if (paragraph && !isTitleIntro(paragraph, title)) {
+          return paragraph;
+        }
+        paragraphLines.length = 0;
       }
       continue;
     }
@@ -163,12 +189,12 @@ function extractFirstParagraph(markdown = "") {
     paragraphLines.push(trimmed);
   }
 
-  const paragraph = paragraphLines.join(" ").replace(/\[(.*?)\]\((.*?)\)/g, "$1").trim();
+  const paragraph = cleanParagraph(paragraphLines);
   return paragraph || undefined;
 }
 
-function makeListBlurb(rawSummary, markdown, maxLength = 220) {
-  const source = String(rawSummary || "").trim() || extractFirstParagraph(markdown) || "";
+function makeListBlurb(rawSummary, markdown, maxLength = 220, options = {}) {
+  const source = String(rawSummary || "").trim() || extractFirstParagraph(markdown, options) || "";
   if (!source) {
     return undefined;
   }
@@ -255,7 +281,7 @@ function normalizePost(raw) {
     series,
     slug,
     title: raw.data.title,
-    summary: raw.data.summary,
+    summary: makeListBlurb(raw.data.summary, raw.body, 220, { title: raw.data.title }),
     body: {
       markdown: raw.body,
     },
