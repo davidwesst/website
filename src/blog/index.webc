@@ -78,7 +78,9 @@ layout: base.webc
     <div class="post-list__content">
       <p class="post-list__series" @text="post.series"></p>
       <h2><a :href="post.canonicalUrl" @text="post.title"></a></h2>
-      <p webc:if="post.dates && post.dates.published" @text="post.dates.published"></p>
+      <p webc:if="post.dates && post.dates.published" class="post-list__date">
+        <time :datetime="post.dates.published" @text="post.dates.published"></time>
+      </p>
       <p webc:if="post.summary" @text="post.summary"></p>
       <p webc:if="post.series === 'gamelog' && post.review && post.review.play" class="post-list__game-meta">
         <span webc:if="post.review.play.platforms && post.review.play.platforms.length" class="post-list__platforms">
@@ -87,7 +89,7 @@ layout: base.webc
             <span @text="platform.label"></span>
           </span>
         </span>
-        <span webc:if="formatGameCompletionDate(post)">Completed <span @text="formatGameCompletionDate(post)"></span></span>
+        <span webc:if="formatGameCompletionDate(post)" class="post-list__completion">Completed <span @text="formatGameCompletionDate(post)"></span></span>
       </p>
     </div>
   </article>

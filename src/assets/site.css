@@ -464,6 +464,11 @@ time {
   min-width: 0;
 }
 
+.post-list__date,
+.post-list__completion {
+  white-space: nowrap;
+}
+
 .post-list__game-meta {
   align-items: center;
   color: var(--color-muted);
