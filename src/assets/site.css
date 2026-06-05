@@ -464,6 +464,41 @@ time {
   min-width: 0;
 }
 
+.post-list__date,
+.post-list__completion {
+  white-space: nowrap;
+}
+
+.post-list__game-meta {
+  align-items: center;
+  color: var(--color-muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-sm);
+  margin: 0;
+}
+
+.post-list__platforms {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+}
+
+.post-list__platform-pill {
+  align-items: center;
+  background: var(--color-bg-elevated);
+  border: var(--line);
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  gap: 0.35rem;
+  padding: 0.1rem 0.4rem;
+}
+
+.post-list__platform-icon {
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
 .post-list--default .post-list__item[data-series="gamelog"],
 .post-list--default .post-list__item[data-series="dungeonlog"],
 .post-list__item[hidden] {
