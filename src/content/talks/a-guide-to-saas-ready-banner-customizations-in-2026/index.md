@@ -35,6 +35,15 @@ eventRefs:
     meta:
       coPresenters:
         - Jackson Bruno
+  - eventId: canheit-2026
+    role: presentedAt
+    label: CANHEIT 2026
+    links:
+      - label: Slides (PDF)
+        url: https://davidwesst-my.sharepoint.com/:b:/p/dw/IQBMsledt6OESKDTokuOnYdRAd4xIRa37JWN8gjF3tMGsGw?e=IExSq1
+    meta:
+      coPresenters:
+        - Jackson Bruno
 canonicalUrl: /talks/a-guide-to-saas-ready-banner-customizations-in-2026/
 legacyUrls: []
 ---
