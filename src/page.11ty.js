@@ -32,18 +32,15 @@ export default class Page {
 
   render(data) {
     const page = data.contentPage;
-    const summary = page.summary ? `<p class="lede">${escapeHtml(page.summary)}</p>` : "";
+    const summary = page.summary ? `<p>${escapeHtml(page.summary)}</p>` : "";
 
     return `
-      <article class="page-detail">
-        <header class="page-header">
-          <p class="terminal-prompt">~/davidwesst ${escapeHtml(page.slug)}</p>
+      <article>
+        <header>
           <h1>${escapeHtml(page.title)}</h1>
           ${summary}
         </header>
-        <div class="page-body">
-          ${markdown.render(page.body.markdown)}
-        </div>
+        ${markdown.render(page.body.markdown)}
       </article>
     `;
   }

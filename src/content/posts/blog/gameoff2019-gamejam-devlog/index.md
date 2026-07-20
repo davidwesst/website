@@ -42,7 +42,7 @@ For the past month I have been participating in the GameOff 2019 Gamejam hosted 
 
 <!--more-->
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PLbTA1UhK0wKjTEEc_wO1n0w_hPAUIeVRf" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<iframe src="https://www.youtube.com/embed/videoseries?list=PLbTA1UhK0wKjTEEc_wO1n0w_hPAUIeVRf" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
 For the past year or so, I've been working on learning and getting into video game development (a.k.a. gamedev) as a sort of side thing to the whole enterprise cloud architect thing that I do during the day.
 

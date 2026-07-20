@@ -1,4 +1,4 @@
-<ul webc:if="items && items.length" class="content-links">
+<ul webc:if="items && items.length">
   <li webc:for="link of items">
     <a :href="link.url" @text="link.label"></a>
   </li>

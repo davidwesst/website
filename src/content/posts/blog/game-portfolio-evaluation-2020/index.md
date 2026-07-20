@@ -42,7 +42,7 @@ meta:
       reflect on my game portfolio to see what I learning objective and goals I
       can set for myself.
 ---
-<iframe width="560" height="315" src="https://www.youtube.com/embed/V_zCHtZIsYw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe src="https://www.youtube.com/embed/V_zCHtZIsYw" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## My Portfolio
 

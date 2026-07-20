@@ -67,7 +67,6 @@ Outside of the lowlights listed above, I liked the downgrading experience. It wa
 
 Just make sure you back up everything before you do.
 
-<div class="clearfix"> </div>
 – 
 Thanks for Playing. ~ DW
 

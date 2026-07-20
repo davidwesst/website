@@ -7,8 +7,10 @@
     "doc": "docs"
   },
   "scripts": {
-    "build": "eleventy",
-    "start": "eleventy --serve",
+    "build": "pnpm run build:site && pnpm run build:css",
+    "build:site": "eleventy",
+    "build:css": "tailwindcss -i ./src/styles/main.css -o ./_site/assets/main.css",
+    "start": "concurrently --kill-others \"eleventy --serve\" \"tailwindcss -i ./src/styles/main.css -o ./_site/assets/main.css --watch=always\"",
     "test": "pnpm run test:unit && pnpm run build && playwright test",
     "test:unit": "node tests/content-pipeline.test.mjs"
   },
@@ -27,10 +29,13 @@
   "dependencies": {
     "@11ty/eleventy": "^3.1.5",
     "@11ty/eleventy-plugin-webc": "^0.11.2",
-    "@playwright/test": "^1.59.1",
+    "@playwright/test": "1.59.1",
     "@quasibit/eleventy-plugin-sitemap": "^2.2.0",
     "gray-matter": "^4.0.3",
-    "markdown-it": "^14.1.1"
+    "markdown-it": "^14.1.1",
+    "tailwindcss": "^4.1.11",
+    "@tailwindcss/cli": "^4.1.11",
+    "concurrently": "^9.2.0"
   },
   "packageManager": "pnpm@11.2.1"
 }

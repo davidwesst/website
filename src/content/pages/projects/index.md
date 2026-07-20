@@ -15,11 +15,11 @@ taxonomy:
   tags: []
   categories: []
 ---
-<section class="project-entry project-entry--active">
+<section>
 
 ## Cocoboko Studios
 
-<p class="project-status">Status: <span>Active</span></p>
+<p>Status: Active</p>
 
 Named after an inside joke I had with my daughter when she was very young, Cocoboko Studios is a work-in-progress company where I attempt to bring my passion for video games to life.
 
@@ -27,11 +27,11 @@ No releases just yet, but keep watching.
 
 </section>
 
-<section class="project-entry project-entry--archived">
+<section>
 
 ## Remember the Human
 
-<p class="project-status">Status: <span>Archived</span></p>
+<p>Status: Archived</p>
 
 Remember the Human was an AI podcast about people.
 

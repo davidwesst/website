@@ -73,9 +73,7 @@ Here is the planned schedule, but being that this is a bit of an experiment, it 
 
 Or, just subscribe by clicking the YouTube button below.  
 
-<script src="https://apis.google.com/js/platform.js"></script>  
-
-<div class="g-ytsubscribe" data-channel="davidwesst" data-layout="default" data-count="hidden"></div>
+Subscribe to [David Wesst on YouTube](https://youtube.com/davidwesst).
 
 ## The Point
 

@@ -19,20 +19,18 @@ function renderReview(review) {
   const rating = review.rating || {};
 
   return `
-    <section class="post-meta">
-      ${play.startedOn ? `<p>Started: ${escapeHtml(play.startedOn)}</p>` : ""}
-      ${play.completedOn ? `<p>Completed: ${escapeHtml(play.completedOn)}</p>` : ""}
-      ${play.platform ? `<p>Platform: ${escapeHtml(play.platform)}</p>` : ""}
+    <dl>
+      ${play.startedOn ? `<dt>Started</dt><dd>${escapeHtml(play.startedOn)}</dd>` : ""}
+      ${play.completedOn ? `<dt>Completed</dt><dd>${escapeHtml(play.completedOn)}</dd>` : ""}
+      ${play.platform ? `<dt>Platform</dt><dd>${escapeHtml(play.platform)}</dd>` : ""}
       ${
         Object.keys(rating).length
-          ? `<ul>
-              ${Object.entries(rating)
-                .map(([key, value]) => `<li>${escapeHtml(key)}: ${escapeHtml(value)}</li>`)
-                .join("")}
-            </ul>`
+          ? Object.entries(rating)
+              .map(([key, value]) => `<dt>${escapeHtml(key)}</dt><dd>${escapeHtml(value)}</dd>`)
+              .join("")
           : ""
       }
-    </section>
+    </dl>
   `;
 }
 
@@ -60,25 +58,22 @@ export default class PostPage {
   render(data) {
     const post = data.post;
   const published = post.dates?.published
-    ? `<p class="content-meta"><time datetime="${escapeHtml(post.dates.published)}">${escapeHtml(post.dates.published)}</time></p>`
+    ? `<p><time datetime="${escapeHtml(post.dates.published)}">${escapeHtml(post.dates.published)}</time></p>`
     : "";
-  const summary = post.summary ? `<p class="lede">${escapeHtml(post.summary)}</p>` : "";
+  const summary = post.summary ? `<p>${escapeHtml(post.summary)}</p>` : "";
     const image = post.media?.image
-      ? `<img src="${escapeHtml(post.media.image)}" alt="${escapeHtml(post.media.imageAlt || "")}" class="post-image">`
+      ? `<img src="${escapeHtml(post.media.image)}" alt="${escapeHtml(post.media.imageAlt || "")}">`
       : "";
 
     return `
-      <article class="post-detail">
-        <p class="terminal-prompt">~/davidwesst ${escapeHtml(post.series || "post")}/view</p>
-        <p class="post-series">${escapeHtml(post.series)}</p>
+      <article>
+        <p>${escapeHtml(post.series)}</p>
         <h1>${escapeHtml(post.title)}</h1>
         ${published}
         ${image}
         ${summary}
         ${renderReview(post.review)}
-        <div class="post-body">
-          ${markdown.render(post.body.markdown)}
-        </div>
+        ${markdown.render(post.body.markdown)}
       </article>
     `;
   }

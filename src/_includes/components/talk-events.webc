@@ -8,8 +8,7 @@
   }
 </script>
 
-<section webc:if="talk.eventRefs && talk.eventRefs.length" class="talk-events">
-  <p class="terminal-prompt">~/davidwesst talks/events</p>
+<section webc:if="talk.eventRefs && talk.eventRefs.length">
   <h2>Delivered At</h2>
   <ol>
     <li webc:for="ref of talk.eventRefs">

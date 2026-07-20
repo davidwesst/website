@@ -34,7 +34,7 @@ To close out the year, I'm kicking off a new project that I've wanted to do for 
 
 I bring you the pilot episode of my (hopefully) [new video series](http://youtu.be/M5OQchl9bQA) Get to the Point.
 
-<iframe width="560" height="315" src="http://www.davidwesst.com//www.youtube.com/embed/M5OQchl9bQA" frameborder="0" allowfullscreen></iframe>
+<iframe src="http://www.davidwesst.com//www.youtube.com/embed/M5OQchl9bQA" allowfullscreen></iframe>
 
 ## Powered by Office Mix
 

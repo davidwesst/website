@@ -24,7 +24,7 @@ meta:
       - html5
     date: 2014-06-24T05:47:21.000Z
 ---
-<iframe width="560" height="315" src="http://www.davidwesst.com//www.youtube.com/embed/-nbC9Pvykv8" frameborder="0" allowfullscreen></iframe>
+<iframe src="http://www.davidwesst.com//www.youtube.com/embed/-nbC9Pvykv8" allowfullscreen></iframe>
 
 Starting Sunday, June 29th I will be hosting a livestream on Twitch I call [Hypertext Gaming](http://twitch.tv/hypertextgaming).
 

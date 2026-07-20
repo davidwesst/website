@@ -11,41 +11,38 @@
   }
 </script>
 
-<section class="terminal-section home-hero" aria-labelledby="home-title">
-  <p class="terminal-prompt">~/davidwesst whoami</p>
+<section aria-labelledby="home-title">
   <h2 id="home-title">David Wesst</h2>
-  <p class="lede">Technology problem solver using creativity, code, and curiosity.</p>
+  <p>Technology problem solver using creativity, code, and curiosity.</p>
 </section>
 
-<nav class="terminal-section" aria-labelledby="home-sections-title">
-  <p class="terminal-prompt" id="home-sections-title">~/davidwesst ls</p>
-  <ul class="terminal-links">
-    <li><a href="/about/">about/</a></li>
-    <li><a href="/projects/">projects/</a></li>
-    <li><a href="/blog/">blog/</a></li>
-    <li><a href="/talks/">talks/</a></li>
-    <li><a href="/events/">events/</a></li>
-    <li><a href="/blog/?series=gamelog">gamelog/</a></li>
-    <li><a href="/blog/?series=dungeonlog">dungeonlog/</a></li>
+<nav aria-labelledby="home-sections-title">
+  <h2 id="home-sections-title">Sections</h2>
+  <ul>
+    <li><a href="/about/">About</a></li>
+    <li><a href="/projects/">Projects</a></li>
+    <li><a href="/blog/">Blog</a></li>
+    <li><a href="/talks/">Talks</a></li>
+    <li><a href="/events/">Events</a></li>
+    <li><a href="/blog/?series=gamelog">Gamelog</a></li>
+    <li><a href="/blog/?series=dungeonlog">Dungeonlog</a></li>
   </ul>
 </nav>
 
-<section class="terminal-section" aria-labelledby="home-social-title">
-  <p class="terminal-prompt" id="home-social-title">~/davidwesst connect</p>
+<section aria-labelledby="home-social-title">
+  <h2 id="home-social-title">Connect</h2>
   <social-links :@items="socials"></social-links>
 </section>
 
-<section class="terminal-section" aria-labelledby="latest-title">
-  <p class="terminal-prompt" id="latest-title">~/davidwesst latest</p>
-  <div class="content-list">
-    <article webc:for="item of latestDocuments(documents)" class="content-row">
-      <p class="content-meta">
-        <time webc:if="item.dates && item.dates.published" :datetime="item.dates.published" @text="item.dates.published"></time>
-        <span webc:if="item.series"> / </span>
-        <span webc:if="item.series" @text="item.series"></span>
-      </p>
-      <h2><a :href="item.canonicalUrl" @text="item.title"></a></h2>
-      <p webc:if="item.summary" class="content-summary" @text="item.summary"></p>
-    </article>
-  </div>
+<section aria-labelledby="latest-title">
+  <h2 id="latest-title">Latest</h2>
+  <article webc:for="item of latestDocuments(documents)">
+    <p>
+      <time webc:if="item.dates && item.dates.published" :datetime="item.dates.published" @text="item.dates.published"></time>
+      <span webc:if="item.series"> / </span>
+      <span webc:if="item.series" @text="item.series"></span>
+    </p>
+    <h3><a :href="item.canonicalUrl" @text="item.title"></a></h3>
+    <p webc:if="item.summary" @text="item.summary"></p>
+  </article>
 </section>

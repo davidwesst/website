@@ -46,8 +46,8 @@ This is a recording of my recent Winnipeg .NET User Group talk about using Micro
 
 It's not the most technical as I go over a ton of topics, at high level, ranging from development tools, to applications. Still, I find this stuff really interesting and hopefully you enjoy it too.
 
-<figure class="video">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/BlXorwQ0DSw" frameborder="0" allowfullscreen></iframe>
+<figure>
+<iframe src="https://www.youtube.com/embed/BlXorwQ0DSw" allowfullscreen></iframe>
 </figure>
 
 You can view the slides [here](https://davidwesst.github.io/windows-not-required) and find their source code [here on GitHub](https://github.com/davidwesst/windows-not-required).

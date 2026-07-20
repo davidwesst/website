@@ -64,12 +64,10 @@ Here are a few CodePen examples from [Jeremy Church](https://j.eremy.net/confuse
 Here's the scoop on [browser compatibility](http://caniuse.com/#feat=rem) in case you're interested.
 
 ### REM Example 
-<p data-height="268" data-theme-id="0" data-slug-hash="qjEBs" data-default-tab="result" data-user="jeremychurch" class='codepen'>See the Pen <a href='http://codepen.io/jeremychurch/pen/qjEBs/'>qjEBs</a> by Jeremy Church (<a href='http://codepen.io/jeremychurch'>@jeremychurch</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
-<script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+<p>See the Pen <a href='http://codepen.io/jeremychurch/pen/qjEBs/'>qjEBs</a> by Jeremy Church (<a href='http://codepen.io/jeremychurch'>@jeremychurch</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
 
 ### EM Example
-<p data-height="268" data-theme-id="0" data-slug-hash="AlxHk" data-default-tab="result" data-user="jeremychurch" class='codepen'>See the Pen <a href='http://codepen.io/jeremychurch/pen/AlxHk/'>AlxHk</a> by Jeremy Church (<a href='http://codepen.io/jeremychurch'>@jeremychurch</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
-<script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+<p>See the Pen <a href='http://codepen.io/jeremychurch/pen/AlxHk/'>AlxHk</a> by Jeremy Church (<a href='http://codepen.io/jeremychurch'>@jeremychurch</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
 
 ## Viewport Units
 This one was new to me, and I like it quite a bit. Considering it's [supported](http://caniuse.com/#feat=viewport-units) across the board, I wish I had known about it sooner.

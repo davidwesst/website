@@ -17,24 +17,23 @@
   }
 </script>
 
-<article class="event-detail">
-  <p class="terminal-prompt">~/davidwesst events/view</p>
+<article>
   <h1 @text="event.title"></h1>
-  <p webc:if="event.dates.start" class="content-meta">
+  <p webc:if="event.dates.start">
     <time :datetime="event.dates.start" @text="event.dates.start"></time>
     <span webc:if="event.dates.end"> to </span>
     <time webc:if="event.dates.end" :datetime="event.dates.end" @text="event.dates.end"></time>
   </p>
-  <p webc:if="event.location" class="lede" @text="event.location"></p>
+  <p webc:if="event.location" @text="event.location"></p>
   <content-links webc:if="event.links && event.links.length" :@items="event.links"></content-links>
 
   <section webc:if="talksForEvent(event, talks).length">
     <h2>Talks</h2>
-    <ul class="event-detail__talks">
+    <ul>
       <li webc:for="entry of talksForEvent(event, talks)">
         <article>
           <h3><a :href="entry.talk.canonicalUrl" @text="entry.talk.title"></a></h3>
-          <p webc:if="entry.ref.meta && entry.ref.meta.coPresenters && entry.ref.meta.coPresenters.length" class="content-summary">
+          <p webc:if="entry.ref.meta && entry.ref.meta.coPresenters && entry.ref.meta.coPresenters.length">
             Co-presented with <span @text="coPresentersText(entry.ref)"></span>
           </p>
           <content-links :@items="entry.ref.links"></content-links>

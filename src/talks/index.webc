@@ -2,10 +2,9 @@
 title: Talks
 layout: base.webc
 ---
-<header class="page-header">
-  <p class="terminal-prompt">~/davidwesst talks</p>
+<header>
   <h1>Talks</h1>
-  <p class="lede">Sessions, presentations, and panels delivered at conferences and community events.</p>
+  <p>Sessions, presentations, and panels delivered at conferences and community events.</p>
 </header>
 
 <talk-list :@items="talks" :@events="events"></talk-list>

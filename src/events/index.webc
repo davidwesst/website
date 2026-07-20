@@ -2,10 +2,9 @@
 title: Events
 layout: base.webc
 ---
-<header class="page-header">
-  <p class="terminal-prompt">~/davidwesst events</p>
+<header>
   <h1>Events</h1>
-  <p class="lede">Conferences, meetups, and venues where talks have been delivered.</p>
+  <p>Conferences, meetups, and venues where talks have been delivered.</p>
 </header>
 
 <event-list :@items="events"></event-list>

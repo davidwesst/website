@@ -2,81 +2,56 @@
 title: Blog
 layout: base.webc
 ---
-<script webc:setup>
-  function defaultThumbnailEmoji(series) {
-    return {
-      blog: "💻",
-      gamelog: "🎮",
-      dungeonlog: "⚔️",
-    }[series] || "💻";
-  }
-
-  function defaultThumbnailLabel(series) {
-    return {
-      blog: "Default blog post thumbnail",
-      gamelog: "Default gamelog post thumbnail",
-      dungeonlog: "Default dungeonlog post thumbnail",
-    }[series] || "Default post thumbnail";
-  }
-</script>
-
-<header class="page-header">
-  <p class="terminal-prompt">~/davidwesst blog</p>
+<header>
   <h1>Blog</h1>
-  <p class="lede">Writing, game notes, and campaign logs.</p>
+  <p>Writing, game notes, and campaign logs.</p>
 </header>
 
-<form class="post-filters" aria-label="Post filters">
+<form data-post-filters aria-label="Post filters">
   <label><input type="checkbox" name="series" value="blog" checked> Blog</label>
   <label><input type="checkbox" name="series" value="gamelog"> Gamelog</label>
   <label><input type="checkbox" name="series" value="dungeonlog"> Dungeonlog</label>
 </form>
 
-<nav class="feed-links" aria-label="Blog feeds">
+<nav aria-label="Blog feeds">
   <a href="/blog/feed.xml">Blog RSS</a>
   <a href="/blog/gamelog/feed.xml">Gamelog RSS</a>
   <a href="/blog/dungeonlog/feed.xml">Dungeonlog RSS</a>
 </nav>
 
-<p class="post-count" aria-live="polite"></p>
+<p data-post-count aria-live="polite"></p>
 
-<section class="post-list content-list post-list--default" aria-live="polite">
-  <article webc:for="post of collections.posts" class="post-list__item content-row" :data-series="post.series">
-    <div class="post-list__thumbnail">
-      <img
-        webc:if="post.media && post.media.image"
-        :src="post.media.image"
-        :alt="post.media.imageAlt || ''"
-        loading="lazy"
-      >
-      <span
-        webc:if="!post.media || !post.media.image"
-        class="post-list__thumbnail-fallback"
-        role="img"
-        :aria-label="defaultThumbnailLabel(post.series)"
-        @text="defaultThumbnailEmoji(post.series)"
-      ></span>
-    </div>
-    <div class="post-list__content">
-      <p class="post-list__series" @text="post.series"></p>
-      <h2><a :href="post.canonicalUrl" @text="post.title"></a></h2>
-      <p webc:if="post.dates && post.dates.published" @text="post.dates.published"></p>
-      <p webc:if="post.summary" @text="post.summary"></p>
-    </div>
+<section data-post-list aria-live="polite" aria-label="Posts">
+  <article
+    webc:for="post of collections.posts"
+    data-post-item
+    :data-series="post.series"
+    :hidden="post.series !== 'blog'"
+  >
+    <img
+      webc:if="post.media && post.media.image"
+      :src="post.media.image"
+      :alt="post.media.imageAlt || ''"
+      loading="lazy"
+    >
+    <p @text="post.series"></p>
+    <h2><a :href="post.canonicalUrl" @text="post.title"></a></h2>
+    <p webc:if="post.dates && post.dates.published" @text="post.dates.published"></p>
+    <p webc:if="post.summary" @text="post.summary"></p>
   </article>
 </section>
 
 <script webc:keep>
   (() => {
-    const form = document.querySelector(".post-filters");
-    const list = document.querySelector(".post-list");
-    const count = document.querySelector(".post-count");
+    const form = document.querySelector("[data-post-filters]");
+    const list = document.querySelector("[data-post-list]");
+    const count = document.querySelector("[data-post-count]");
 
     if (!form || !list) {
       return;
     }
 
-    const items = [...document.querySelectorAll(".post-list__item")];
+    const items = [...list.querySelectorAll("[data-post-item]")];
     const seriesInputs = [...form.querySelectorAll('input[name="series"]')];
     const defaultSeries = ["blog"];
 
@@ -115,7 +90,6 @@ layout: base.webc
         count.textContent = `${visibleCount} posts`;
       }
 
-      list.classList.remove("post-list--default");
     }
 
     function updateUrlFromForm() {

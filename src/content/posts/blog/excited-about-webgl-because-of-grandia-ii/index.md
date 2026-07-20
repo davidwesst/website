@@ -52,7 +52,7 @@ As of this writing, I am about 11 hours into the game which, from what I underst
 
 Then I realized something: this game, although a 3D TV console game, could be brought over to all the major web browsers by the end of the year. Now that IE 11 is supporting WebGL, HTML developers now have all the pieces supported they need to support this immersive, rich, and ultimately great RPG. Isn't that…well, just really awesome? Think about 10 years ago and how the video game platforms were so different from the way we were developing web-based applications and games, never mind HTML-based web sites. Now, we can have the pieces to create a true multi-platform web experience inside of a web-browser, complete with 3D graphic, pre-rendered video, rich music, and (of course) voice acting at the important parts of the game. 
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/3J_fCr_r7Jk" frameborder="0"></iframe>
+<iframe src="https://www.youtube.com/embed/3J_fCr_r7Jk"></iframe>
 
 Grandia II for the Dreamcast could become an in-browser experience 
 

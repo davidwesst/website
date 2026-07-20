@@ -42,7 +42,7 @@ meta:
 
 In recent days, a specific YouTube channel has my caught my attention. It's called [Lazy Game Reviews](https://www.youtube.com/channel/UCLx053rWZxCiYWsBETgdKrQ), and last night I came across a great playlist of only four episoded called: [LGR Tech Tales](https://www.youtube.com/watch?v=gB1vrRFJI1Q&amp;list=PLbBZM9aUMsjEVZPCDMl-lXOx50rSBNFQC) where LGR, the host, goes through a specific event in computer history.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/wQdK9owqVd0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe src="https://www.youtube.com/embed/wQdK9owqVd0" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## What's so Interesting?
 

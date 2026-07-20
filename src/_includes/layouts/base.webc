@@ -7,19 +7,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" :content="description || site.description">
-  <link webc:keep rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <link webc:keep rel="stylesheet" href="/assets/site.css">
+  <link webc:keep rel="stylesheet" href="/assets/main.css">
   <title @text="title ? `${title} | ${site.title}` : site.title"></title>
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header">
+  <a href="#main">Skip to content</a>
+  <header>
     <h1 webc:if="page.url === '/'"><a href="/" @text="site.title"></a></h1>
-    <p webc:if="page.url !== '/'" class="site-title"><a href="/" @text="site.title"></a></p>
+    <p webc:if="page.url !== '/'"><a href="/" @text="site.title"></a></p>
     <site-nav :@items="site.navigation" :@current-url="page.url"></site-nav>
   </header>
-  <main id="main" class="site-main" @raw="content"></main>
-  <footer class="site-footer">
+  <main id="main" @raw="content"></main>
+  <footer>
     <p>Copyright © <span @text="currentYear"></span> David Wesst</p>
     <a href="#">Back to top</a>
   </footer>
