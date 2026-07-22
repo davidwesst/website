@@ -44,17 +44,17 @@ His code went something like this:
 
 ```html
 <ul>
-  <li class="item">
+  <li>
     <i>Icon</i>
     <span>Item Code 321</span>
     <span>Descriptive Text</span>
   </li>
-  <li class="item">
+  <li>
     <i>Icon</i>
     <span>Item Code that is way too long and shoud use ellipsis</span>
     <span>Descriptive Text</span>
   </li>
-  <li class="item">
+  <li>
     <i>Icon</i>
     <span>Item Code 123</span>
     <span>Descriptive Text</span>
@@ -96,7 +96,7 @@ The working code looks like this:
 
 ```html
 <ul>
-  <li class="item">
+  <li>
     <i>Icon</i>
     <span>
         <div>
@@ -105,7 +105,7 @@ The working code looks like this:
     </span>
     <span>Descriptive Text</span>
   </li>
-  <li class="item">
+  <li>
     <i>Icon</i>
     <span>
         <div>
@@ -114,7 +114,7 @@ The working code looks like this:
     </span>
     <span>Descriptive Text</span>
   </li>
-  <li class="item">
+  <li>
     <i>Icon</i>
     <span>
         <div>

@@ -42,7 +42,7 @@ meta:
 ---
 My effort continues on Out the Door with some new artwork, a rewrite (of sorts) to fix the build process, which has led to something of a self-driven code review.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/LLXO-6Pretk" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe src="https://www.youtube.com/embed/LLXO-6Pretk" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Wanna Play?
 

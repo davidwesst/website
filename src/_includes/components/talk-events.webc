@@ -8,16 +8,15 @@
   }
 </script>
 
-<section webc:if="talk.eventRefs && talk.eventRefs.length" class="talk-events">
-  <p class="terminal-prompt">~/davidwesst talks/events</p>
-  <h2>Delivered At</h2>
-  <ol>
-    <li webc:for="ref of talk.eventRefs">
+<section webc:if="talk.eventRefs && talk.eventRefs.length" class="mt-12 border-t border-slate-200 pt-8">
+  <h2 class="text-2xl font-bold text-slate-900">Delivered At</h2>
+  <ol class="mt-5 space-y-4">
+    <li webc:for="ref of talk.eventRefs" class="rounded-lg bg-slate-50 p-5">
       <article>
-        <h3>
-          <a :href="eventForRef(ref, events).canonicalUrl" @text="eventForRef(ref, events).title"></a>
+        <h3 class="text-lg font-bold text-slate-900">
+          <a class="hover:text-teal-700" :href="eventForRef(ref, events).canonicalUrl" @text="eventForRef(ref, events).title"></a>
         </h3>
-        <p webc:if="eventForRef(ref, events).dates.start">
+        <p webc:if="eventForRef(ref, events).dates.start" class="mt-2 text-sm text-slate-500">
           <time :datetime="eventForRef(ref, events).dates.start" @text="eventForRef(ref, events).dates.start"></time>
           <span webc:if="eventForRef(ref, events).dates.end"> to </span>
           <time
@@ -26,8 +25,8 @@
             @text="eventForRef(ref, events).dates.end"
           ></time>
         </p>
-        <p webc:if="eventForRef(ref, events).location" @text="eventForRef(ref, events).location"></p>
-        <p webc:if="ref.meta && ref.meta.coPresenters && ref.meta.coPresenters.length">
+        <p webc:if="eventForRef(ref, events).location" class="mt-2 text-slate-600" @text="eventForRef(ref, events).location"></p>
+        <p webc:if="ref.meta && ref.meta.coPresenters && ref.meta.coPresenters.length" class="mt-2 text-slate-600">
           Co-presented with <span @text="coPresentersText(ref)"></span>
         </p>
         <content-links :@items="ref.links"></content-links>

@@ -3,7 +3,7 @@ import { createServer } from "node:http";
 import { extname, join, normalize } from "node:path";
 
 const root = join(process.cwd(), "_site");
-const idleExitMs = 2000;
+const idleExitMs = 30000;
 const initialIdleExitMs = 15000;
 let idleTimer;
 let requestCount = 0;
@@ -13,6 +13,7 @@ const contentTypes = {
   ".txt": "text/plain; charset=utf-8",
   ".xml": "application/xml; charset=utf-8",
   ".js": "text/javascript; charset=utf-8",
+  ".css": "text/css; charset=utf-8",
   ".json": "application/json; charset=utf-8",
   ".jpg": "image/jpeg",
   ".jpeg": "image/jpeg",

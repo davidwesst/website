@@ -1,0 +1,1 @@
+<div class="prose prose-slate max-w-none prose-a:text-teal-700 prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg" @raw="value"></div>

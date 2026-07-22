@@ -2,81 +2,59 @@
 title: Blog
 layout: base.webc
 ---
-<script webc:setup>
-  function defaultThumbnailEmoji(series) {
-    return {
-      blog: "💻",
-      gamelog: "🎮",
-      dungeonlog: "⚔️",
-    }[series] || "💻";
-  }
-
-  function defaultThumbnailLabel(series) {
-    return {
-      blog: "Default blog post thumbnail",
-      gamelog: "Default gamelog post thumbnail",
-      dungeonlog: "Default dungeonlog post thumbnail",
-    }[series] || "Default post thumbnail";
-  }
-</script>
-
-<header class="page-header">
-  <p class="terminal-prompt">~/davidwesst blog</p>
-  <h1>Blog</h1>
-  <p class="lede">Writing, game notes, and campaign logs.</p>
+<header class="mx-auto mb-10 max-w-3xl text-center">
+  <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Blog</h1>
+  <p class="mt-4 text-lg text-slate-600">Writing, game notes, and campaign logs.</p>
 </header>
 
-<form class="post-filters" aria-label="Post filters">
-  <label><input type="checkbox" name="series" value="blog" checked> Blog</label>
-  <label><input type="checkbox" name="series" value="gamelog"> Gamelog</label>
-  <label><input type="checkbox" name="series" value="dungeonlog"> Dungeonlog</label>
+<form class="flex flex-wrap justify-center gap-4 rounded-lg bg-slate-100 p-4" data-post-filters aria-label="Post filters">
+  <label class="flex items-center gap-2"><input class="accent-teal-700" type="checkbox" name="series" value="blog" checked> Blog</label>
+  <label class="flex items-center gap-2"><input class="accent-teal-700" type="checkbox" name="series" value="gamelog"> Gamelog</label>
+  <label class="flex items-center gap-2"><input class="accent-teal-700" type="checkbox" name="series" value="dungeonlog"> Dungeonlog</label>
 </form>
 
-<nav class="feed-links" aria-label="Blog feeds">
-  <a href="/blog/feed.xml">Blog RSS</a>
-  <a href="/blog/gamelog/feed.xml">Gamelog RSS</a>
-  <a href="/blog/dungeonlog/feed.xml">Dungeonlog RSS</a>
+<nav class="mt-5 flex flex-wrap justify-center gap-4 text-sm" aria-label="Blog feeds">
+  <a class="text-teal-700 hover:underline" href="/blog/feed.xml">Blog RSS</a>
+  <a class="text-teal-700 hover:underline" href="/blog/gamelog/feed.xml">Gamelog RSS</a>
+  <a class="text-teal-700 hover:underline" href="/blog/dungeonlog/feed.xml">Dungeonlog RSS</a>
 </nav>
 
-<p class="post-count" aria-live="polite"></p>
+<p class="my-6 text-center text-sm text-slate-500" data-post-count aria-live="polite"></p>
 
-<section class="post-list content-list post-list--default" aria-live="polite">
-  <article webc:for="post of collections.posts" class="post-list__item content-row" :data-series="post.series">
-    <div class="post-list__thumbnail">
-      <img
-        webc:if="post.media && post.media.image"
-        :src="post.media.image"
-        :alt="post.media.imageAlt || ''"
-        loading="lazy"
-      >
-      <span
-        webc:if="!post.media || !post.media.image"
-        class="post-list__thumbnail-fallback"
-        role="img"
-        :aria-label="defaultThumbnailLabel(post.series)"
-        @text="defaultThumbnailEmoji(post.series)"
-      ></span>
-    </div>
-    <div class="post-list__content">
-      <p class="post-list__series" @text="post.series"></p>
-      <h2><a :href="post.canonicalUrl" @text="post.title"></a></h2>
-      <p webc:if="post.dates && post.dates.published" @text="post.dates.published"></p>
-      <p webc:if="post.summary" @text="post.summary"></p>
+<section class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3" data-post-list aria-live="polite" aria-label="Posts">
+  <article
+    class="overflow-hidden rounded-lg bg-white shadow-md transition-shadow hover:shadow-lg"
+    webc:for="post of collections.posts"
+    data-post-item
+    :data-series="post.series"
+    :hidden="post.series !== 'blog'"
+  >
+    <img class="h-48 w-full object-cover"
+      webc:if="post.media && post.media.image"
+      :src="post.media.image"
+      :alt="post.media.imageAlt || ''"
+      loading="lazy"
+    >
+    <div class="p-6">
+      <p class="text-xs font-semibold uppercase tracking-wide text-teal-700" @text="post.series"></p>
+      <h2 class="mt-2 text-xl font-bold text-slate-900"><a class="hover:text-teal-700" :href="post.canonicalUrl" @text="post.title"></a></h2>
+      <p webc:if="post.dates && post.dates.published" class="mt-2 text-sm text-slate-500" @text="post.dates.published"></p>
+      <p webc:if="post.summary" class="mt-3 text-slate-600" @text="post.summary"></p>
     </div>
   </article>
 </section>
 
 <script webc:keep>
   (() => {
-    const form = document.querySelector(".post-filters");
-    const list = document.querySelector(".post-list");
-    const count = document.querySelector(".post-count");
+    const form = document.querySelector("[data-post-filters]");
+    const list = document.querySelector("[data-post-list]");
+    const count = document.querySelector("[data-post-count]");
 
     if (!form || !list) {
       return;
     }
 
-    const items = [...document.querySelectorAll(".post-list__item")];
+    const items = [...list.querySelectorAll("[data-post-item]")];
     const seriesInputs = [...form.querySelectorAll('input[name="series"]')];
     const defaultSeries = ["blog"];
 
@@ -115,7 +93,6 @@ layout: base.webc
         count.textContent = `${visibleCount} posts`;
       }
 
-      list.classList.remove("post-list--default");
     }
 
     function updateUrlFromForm() {

@@ -50,4 +50,4 @@ I suggest you give it a whirl too, and look me up!
 
 Thanks for (Hopefully) Playing. ~ DW
 
-<iframe width="560" height="315" src="http://www.davidwesst.com//www.youtube.com/embed/pAfPqxzyBIc" frameborder="0" allowfullscreen></iframe>
+<iframe src="http://www.davidwesst.com//www.youtube.com/embed/pAfPqxzyBIc" allowfullscreen></iframe>

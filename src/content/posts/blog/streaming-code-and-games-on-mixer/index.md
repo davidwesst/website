@@ -30,7 +30,7 @@ meta:
       - mixer
       - livestream
 ---
-<iframe allowfullscreen="true" src="https://mixer.com/embed/player/davidwesst" width="620" height="349"> </iframe>
+<iframe allowfullscreen="true" src="https://mixer.com/embed/player/davidwesst"> </iframe>
 
 I recently started streaming twice a week on [Mixer][1]. The streams happen at 9:30pm CT (7:30pm PT or 10:30pm ET) on Thursdays and Sundays. Thursdays are _Code Nights_ where I fumble through the creation of a video game. Sundays are _Play Nights_ I play and analyze a game that has something interesting in it. No specific topic, just play and talk about game with the intent of finding interesting design in games.
 

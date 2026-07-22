@@ -36,7 +36,7 @@ Finally! The 0.1 beta has arrived for Little Shop of Wall Street!
 
 In this video, DW walks through the new features rolled out both in-game and behind the scenes for his LD46 game jam title.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/baMlNqGgiV4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe src="https://www.youtube.com/embed/baMlNqGgiV4" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 You can play the game here on [Itch.io](https://davidwesst.itch.io/little-shop-of-wall-street).
 

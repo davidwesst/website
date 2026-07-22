@@ -56,8 +56,6 @@ Follow the steps in the VSCode settings for the DevContainer (i.e. workspace) an
 
 <iframe
     src="https://player.twitch.tv/?video=1241089585&parent=localhost&parent=www.davidwesst.com"
-    height="360"
-    width="640"
     allowfullscreen="true">
 </iframe>
 

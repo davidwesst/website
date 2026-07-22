@@ -75,8 +75,6 @@ All I ended up doing was adding some `parent` values to my query string on the `
 ```
 <iframe
     src="https://player.twitch.tv/?video=1241089585&parent=127.0.0.1&parent=www.davidwesst.com"
-    height="360"
-    width="640"
     allowfullscreen="true">
 </iframe>
 ```

@@ -1,15 +1,18 @@
-<article class="talk-detail">
-  <p class="terminal-prompt">~/davidwesst talks/view</p>
-  <h1 @text="talk.title"></h1>
-  <img
-    webc:if="talk.media && talk.media.image"
-    :src="talk.media.image"
-    :alt="talk.media.imageAlt || ''"
-    class="talk-detail__image"
-  >
-  <p webc:if="talk.meta.coAuthors && talk.meta.coAuthors.length" class="content-meta">
+<article class="mx-auto max-w-3xl">
+  <header class="mb-10 text-center">
+  <p class="text-sm font-semibold uppercase tracking-wide text-teal-700">Talk</p>
+  <h1 class="mt-3 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl" @text="talk.title"></h1>
+  <p webc:if="talk.meta.coAuthors && talk.meta.coAuthors.length" class="mt-4 text-slate-500">
     Co-authored by <span webc:for="(author, index) of talk.meta.coAuthors"><span @text="author"></span><span webc:if="index < talk.meta.coAuthors.length - 1">, </span></span>
   </p>
-  <p webc:if="talk.summary" class="lede" @text="talk.summary"></p>
+  </header>
+  <img
+    webc:if="talk.media && talk.media.image"
+    class="mb-10 w-full rounded-lg object-cover shadow-md"
+    :src="talk.media.image"
+    :alt="talk.media.imageAlt || ''"
+  >
+  <p webc:if="talk.summary" class="mb-8 text-xl leading-8 text-slate-600" @text="talk.summary"></p>
+  <markdown-content webc:if="renderedBody" :@value="renderedBody"></markdown-content>
   <talk-events :@talk="talk" :@events="events"></talk-events>
 </article>

@@ -43,7 +43,7 @@ The presentation gives you an overview of the open source, cross-platform, code 
 	
 Feedback is always appreciated, and hopefully I'll get to see you at the next event in the new year.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/aUBF5RDlvKs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe src="https://www.youtube.com/embed/aUBF5RDlvKs" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ---
 Thanks for playing. ~ DW

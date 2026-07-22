@@ -28,12 +28,12 @@
   }
 </script>
 
-<form class="talk-sort" aria-label="Talk sorting">
-  <button type="button" data-sort="last-presented" aria-pressed="true">Last presented</button>
-  <button type="button" data-sort="title" aria-pressed="false">Title</button>
+<form class="mb-8 flex justify-center gap-3" data-talk-sort aria-label="Talk sorting">
+  <button class="rounded-full bg-teal-700 px-4 py-2 font-medium text-white aria-[pressed=false]:bg-slate-100 aria-[pressed=false]:text-slate-700" type="button" data-sort="last-presented" aria-pressed="true">Last presented</button>
+  <button class="rounded-full bg-teal-700 px-4 py-2 font-medium text-white aria-[pressed=false]:bg-slate-100 aria-[pressed=false]:text-slate-700" type="button" data-sort="title" aria-pressed="false">Title</button>
 </form>
 
-<section class="talk-list content-list" aria-live="polite">
+<section class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3" data-talk-list aria-live="polite" aria-label="Talks">
   <talk-card
     webc:for="talk of talksByLastPresented(items, events)"
     :@talk="talk"
@@ -44,8 +44,8 @@
 
 <script webc:keep>
   (() => {
-    const controls = document.querySelector(".talk-sort");
-    const list = document.querySelector(".talk-list");
+    const controls = document.querySelector("[data-talk-sort]");
+    const list = document.querySelector("[data-talk-list]");
 
     if (!controls || !list) {
       return;
@@ -54,7 +54,7 @@
     const buttons = [...controls.querySelectorAll("button[data-sort]")];
 
     function sortTalks(sortMode) {
-      const cards = [...list.querySelectorAll(".talk-card")];
+      const cards = [...list.querySelectorAll("[data-talk-card]")];
 
       cards.sort((first, second) => {
         if (sortMode === "title") {

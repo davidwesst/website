@@ -1,7 +1,6 @@
-<ul webc:if="items && items.length" class="social-links">
+<ul webc:if="items && items.length" class="flex flex-wrap justify-center gap-3">
   <li webc:for="link of items">
-    <a :href="link.url" target="_blank" rel="noopener noreferrer">
-      <i :class="link.icon" aria-hidden="true"></i>
+    <a class="inline-block rounded-full bg-slate-200 px-4 py-2 font-medium text-slate-700 hover:bg-teal-100 hover:text-teal-700" :href="link.url" target="_blank" rel="noopener noreferrer">
       <span @text="link.name"></span>
     </a>
   </li>

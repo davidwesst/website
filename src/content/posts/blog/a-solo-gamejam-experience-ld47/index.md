@@ -33,4 +33,4 @@ I submitted a game to [Ludum Dare 47](https://ldjam.com/events/ludum-dare/47/out
 
 <!-- more -->
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/AFnGMS24qvg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe src="https://www.youtube.com/embed/AFnGMS24qvg" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

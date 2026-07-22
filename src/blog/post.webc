@@ -1,0 +1,1 @@
+<post-detail :@post="post" :@rendered-body="renderedBody"></post-detail>

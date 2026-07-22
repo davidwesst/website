@@ -1,0 +1,7 @@
+<article class="mx-auto max-w-3xl">
+  <header class="mb-12 text-center">
+    <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl" @text="contentPage.title"></h1>
+    <p webc:if="contentPage.summary" class="mt-4 text-lg text-slate-600" @text="contentPage.summary"></p>
+  </header>
+  <markdown-content :@value="renderedBody"></markdown-content>
+</article>

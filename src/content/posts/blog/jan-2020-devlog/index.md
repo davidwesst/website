@@ -40,4 +40,4 @@ In this video I cover the bit of progres I've had on Car Scientist, and how it's
 
 <!-- more -->
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/-sKlp_CUhB0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe src="https://www.youtube.com/embed/-sKlp_CUhB0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
