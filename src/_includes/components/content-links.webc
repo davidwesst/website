@@ -1,5 +1,5 @@
-<ul webc:if="items && items.length">
+<ul webc:if="items && items.length" class="flex flex-wrap gap-2">
   <li webc:for="link of items">
-    <a :href="link.url" @text="link.label"></a>
+    <a class="inline-block rounded-full bg-slate-200 px-3 py-1 text-sm font-medium text-slate-700 hover:bg-teal-100 hover:text-teal-700" :href="link.url" @text="link.label"></a>
   </li>
 </ul>

@@ -2,9 +2,9 @@
 title: Events
 layout: base.webc
 ---
-<header>
-  <h1>Events</h1>
-  <p>Conferences, meetups, and venues where talks have been delivered.</p>
+<header class="mx-auto mb-10 max-w-3xl text-center">
+  <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Events</h1>
+  <p class="mt-4 text-lg text-slate-600">Conferences, meetups, and venues where talks have been delivered.</p>
 </header>
 
 <event-list :@items="events"></event-list>

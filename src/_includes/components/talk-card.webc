@@ -16,28 +16,31 @@
 </script>
 
 <article
+  class="overflow-hidden rounded-lg bg-white shadow-md transition-shadow hover:shadow-lg"
   data-talk-card
   :data-title="talk.title.toLocaleLowerCase()"
   :data-last-presented="lastPresented || ''"
 >
-  <img
+  <img class="h-48 w-full object-cover"
     webc:if="talk.media && talk.media.image"
     :src="talk.media.image"
     :alt="talk.media.imageAlt || ''"
     loading="lazy"
   >
-  <p webc:if="lastPresented">
+  <div class="p-6">
+  <p webc:if="lastPresented" class="text-sm text-slate-500">
     Last presented <time :datetime="lastPresented" @text="lastPresented"></time>
   </p>
-  <h2><a :href="talk.canonicalUrl" @text="talk.title"></a></h2>
-  <p webc:if="talk.summary" @text="talk.summary"></p>
-  <section webc:if="sortedTalkEvents(talk, events).length" aria-label="Presented at">
-    <h3>Presented at</h3>
-    <ul>
-      <li webc:for="event of sortedTalkEvents(talk, events)">
-        <a :href="event.canonicalUrl" @text="event.title"></a>
-        <time webc:if="eventSortDate(event)" :datetime="eventSortDate(event)" @text="eventSortDate(event)"></time>
+  <h2 class="mt-2 text-xl font-bold text-slate-900"><a class="hover:text-teal-700" :href="talk.canonicalUrl" @text="talk.title"></a></h2>
+  <p webc:if="talk.summary" class="mt-3 text-slate-600" @text="talk.summary"></p>
+  <section webc:if="sortedTalkEvents(talk, events).length" class="mt-5 border-t border-slate-200 pt-4" aria-label="Presented at">
+    <h3 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Presented at</h3>
+    <ul class="mt-2 space-y-2 text-sm">
+      <li webc:for="event of sortedTalkEvents(talk, events)" class="flex flex-col">
+        <a class="font-medium text-teal-700 hover:underline" :href="event.canonicalUrl" @text="event.title"></a>
+        <time webc:if="eventSortDate(event)" class="text-slate-500" :datetime="eventSortDate(event)" @text="eventSortDate(event)"></time>
       </li>
     </ul>
   </section>
+  </div>
 </article>

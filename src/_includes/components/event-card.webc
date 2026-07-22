@@ -1,9 +1,9 @@
-<article>
-  <h2><a :href="event.canonicalUrl" @text="event.title"></a></h2>
-  <p webc:if="event.dates.start">
+<article class="rounded-lg bg-white p-6 shadow-md transition-shadow hover:shadow-lg">
+  <h2 class="text-xl font-bold text-slate-900"><a class="hover:text-teal-700" :href="event.canonicalUrl" @text="event.title"></a></h2>
+  <p webc:if="event.dates.start" class="mt-3 text-sm text-slate-500">
     <time :datetime="event.dates.start" @text="event.dates.start"></time>
     <span webc:if="event.dates.end"> to </span>
     <time webc:if="event.dates.end" :datetime="event.dates.end" @text="event.dates.end"></time>
   </p>
-  <p webc:if="event.location" @text="event.location"></p>
+  <p webc:if="event.location" class="mt-3 text-slate-600" @text="event.location"></p>
 </article>

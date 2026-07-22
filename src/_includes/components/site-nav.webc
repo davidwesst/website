@@ -1,7 +1,8 @@
-<nav aria-label="Site">
-  <ul>
+<nav aria-label="Site" class="grow">
+  <ul class="flex flex-wrap items-center justify-end gap-x-5 gap-y-2">
     <li webc:for="item of items">
       <a
+        class="font-medium text-slate-700 hover:text-teal-600"
         :href="item.url"
         :aria-current="currentUrl === item.url ? 'page' : undefined"
         @text="item.label"

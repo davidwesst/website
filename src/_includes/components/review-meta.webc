@@ -1,0 +1,24 @@
+<script webc:setup>
+  function ratingEntries(review) {
+    return Object.entries(review?.rating || {});
+  }
+</script>
+
+<dl class="my-8 grid gap-x-6 gap-y-3 rounded-lg bg-slate-100 p-6 sm:grid-cols-[max-content_1fr]">
+  <template webc:if="review.play && review.play.startedOn">
+    <dt class="font-semibold text-slate-700">Started</dt>
+    <dd @text="review.play.startedOn"></dd>
+  </template>
+  <template webc:if="review.play && review.play.completedOn">
+    <dt class="font-semibold text-slate-700">Completed</dt>
+    <dd @text="review.play.completedOn"></dd>
+  </template>
+  <template webc:if="review.play && review.play.platform">
+    <dt class="font-semibold text-slate-700">Platform</dt>
+    <dd @text="review.play.platform"></dd>
+  </template>
+  <template webc:for="entry of ratingEntries(review)">
+    <dt class="font-semibold capitalize text-slate-700" @text="entry[0]"></dt>
+    <dd @text="entry[1]"></dd>
+  </template>
+</dl>

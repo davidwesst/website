@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { test, expect } from "@playwright/test";
 import { getDocuments, getEvents } from "../src/_lib/content/index.js";
 
@@ -54,7 +54,7 @@ test("about page is generated from canonical data", async ({ request }) => {
 
   const html = await response.text();
 
-  expect(html).toContain("<h1>About</h1>");
+  expect(html).toMatch(/<h1[^>]*>About<\/h1>/);
   expect(html).toContain("Hullo. My name is David Wesst");
 });
 
@@ -64,7 +64,7 @@ test("projects page is generated from canonical data", async ({ request }) => {
 
   const html = await response.text();
 
-  expect(html).toContain("<h1>Projects</h1>");
+  expect(html).toMatch(/<h1[^>]*>Projects<\/h1>/);
   expect(html).toContain("<section>");
   expect(html).toContain("<h2>Cocoboko Studios</h2>");
   expect(html).toContain("Status: Active");
@@ -77,21 +77,19 @@ test("site navigation is placed correctly on home and content pages", async ({ r
   await expect(homeResponse).toBeOK();
   const homeHtml = await homeResponse.text();
 
-  expect(homeHtml.indexOf("<h1><a href=\"/\">david.wes.st</a></h1>")).toBeGreaterThan(-1);
+  expect(homeHtml.indexOf('<a href="/" class="text-xl font-semibold text-teal-700">david.wes.st</a>')).toBeGreaterThan(-1);
   expect(homeHtml.indexOf("<nav aria-label=\"Site\"")).toBeGreaterThan(-1);
-  expect(homeHtml.indexOf("<h1><a href=\"/\">david.wes.st</a></h1>")).toBeLessThan(
+  expect(homeHtml.indexOf('<a href="/" class="text-xl font-semibold text-teal-700">david.wes.st</a>')).toBeLessThan(
     homeHtml.indexOf("<nav aria-label=\"Site\""),
   );
-  expect(homeHtml).toContain("<a href=\"/about/\">About</a>");
-  expect(homeHtml).toContain("<a href=\"/projects/\">Projects</a>");
-  expect(homeHtml.indexOf("<a href=\"/events/\">Events</a>")).toBeLessThan(
-    homeHtml.indexOf("<a href=\"/projects/\">Projects</a>"),
+  expect(homeHtml).toMatch(/<a href="\/about\/"[^>]*>About<\/a>/);
+  expect(homeHtml).toMatch(/<a href="\/projects\/"[^>]*>Projects<\/a>/);
+  expect(homeHtml.indexOf('<a href="/events/" class="font-medium')).toBeLessThan(
+    homeHtml.indexOf('<a href="/projects/" class="font-medium'),
   );
-  expect(homeHtml).not.toContain("<a href=\"/site-index/\">Site Index</a>");
-  expect(homeHtml).toContain("<a href=\"/about/\">About</a>");
-  expect(homeHtml).toContain("<a href=\"/projects/\">Projects</a>");
-  expect(homeHtml).toContain("<a href=\"/blog/?series=gamelog\">Gamelog</a>");
-  expect(homeHtml).toContain("<a href=\"/blog/?series=dungeonlog\">Dungeonlog</a>");
+  expect(homeHtml).not.toMatch(/<a href="\/site-index\/"[^>]*>Site Index<\/a>/);
+  expect(homeHtml).toMatch(/<a href="\/blog\/?\?series=gamelog"[^>]*>Gamelog<\/a>/);
+  expect(homeHtml).toMatch(/<a href="\/blog\/?\?series=dungeonlog"[^>]*>Dungeonlog<\/a>/);
   expect(homeHtml).not.toContain("<a href=\"/site-index/\">site-index/</a>");
 
   const talksResponse = await request.get("/talks/");
@@ -99,8 +97,8 @@ test("site navigation is placed correctly on home and content pages", async ({ r
   const talksHtml = await talksResponse.text();
 
   expect(talksHtml.indexOf("<nav aria-label=\"Site\"")).toBeGreaterThan(-1);
-  expect(talksHtml.indexOf("<h1>Talks</h1>")).toBeGreaterThan(-1);
-  expect(talksHtml.indexOf("<nav aria-label=\"Site\"")).toBeLessThan(talksHtml.indexOf("<h1>Talks</h1>"));
+  expect(talksHtml.search(/<h1[^>]*>Talks<\/h1>/)).toBeGreaterThan(-1);
+  expect(talksHtml.indexOf("<nav aria-label=\"Site\"")).toBeLessThan(talksHtml.search(/<h1[^>]*>Talks<\/h1>/));
 });
 
 test("home page renders social links from site data", async ({ request }) => {
@@ -110,12 +108,21 @@ test("home page renders social links from site data", async ({ request }) => {
 
   expect(html).toContain('<link rel="stylesheet" href="/assets/main.css">');
   expect(html).not.toContain("font-awesome");
-  expect(html).toContain('<a href="https://github.com/davidwesst" target="_blank" rel="noopener noreferrer">');
+  expect(html).toMatch(/<a href="https:\/\/github\.com\/davidwesst"[^>]*target="_blank"[^>]*>/);
   expect(html).toContain("GitHub");
-  expect(html).toContain('<a href="https://ca.linkedin.com/in/davidwesst" target="_blank" rel="noopener noreferrer">');
+  expect(html).toMatch(/<a href="https:\/\/ca\.linkedin\.com\/in\/davidwesst"[^>]*target="_blank"[^>]*>/);
   expect(html).toContain("LinkedIn");
-  expect(html).toContain('<a href="https://youtube.com/davidwesst" target="_blank" rel="noopener noreferrer">');
+  expect(html).toMatch(/<a href="https:\/\/youtube\.com\/davidwesst"[^>]*target="_blank"[^>]*>/);
   expect(html).toContain("YouTube");
+});
+
+test("footer credits Build Awesome and vredeburg", async ({ request }) => {
+  const response = await request.get("/");
+  await expect(response).toBeOK();
+  const html = await response.text();
+
+  expect(html).toMatch(/<a[^>]*href="https:\/\/github\.com\/11ty\/buildawesome"[^>]*>Build Awesome<\/a>/);
+  expect(html).toMatch(/<a[^>]*href="https:\/\/github\.com\/daflh\/vredeburg"[^>]*>daflh\/vredeburg<\/a>/);
 });
 
 test("site index excludes data-generated detail pages", async ({ request }) => {
@@ -123,8 +130,8 @@ test("site index excludes data-generated detail pages", async ({ request }) => {
   await expect(response).toBeOK();
   const html = await response.text();
 
-  expect(html).toContain("<a href=\"/talks/\">Talks</a>");
-  expect(html).toContain("<a href=\"/events/\">Events</a>");
+  expect(html).toMatch(/<a href="\/talks\/"[^>]*>Talks<\/a>/);
+  expect(html).toMatch(/<a href="\/events\/"[^>]*>Events<\/a>/);
   expect(html).not.toContain("/talks/consensus-in-the-chaos/");
   expect(html).not.toContain("/events/ceug-2025/");
 });
@@ -180,7 +187,7 @@ test("blog page emits filters, feed links, and client-side filtering script", as
   expect(html).not.toContain("classList");
 });
 
-test("representative pages contain no presentation attributes", async ({ page }) => {
+test("representative pages use the Vredeburg-inspired presentation shell", async ({ page }) => {
   const paths = [
     "/",
     "/about/",
@@ -198,30 +205,55 @@ test("representative pages contain no presentation attributes", async ({ page })
   for (const path of paths) {
     await page.goto(path);
 
-    await expect(page.locator("[class], [style], [width], [height], [align], [bgcolor], [border], [cellpadding], [cellspacing]"), `${path} should not contain presentation attributes`).toHaveCount(0);
+    await expect(page.locator("body")).toHaveClass(/font-sans/);
+    await expect(page.locator("body > header")).toHaveClass(/fixed/);
+    await expect(page.locator("body > header")).toHaveClass(/shadow-md/);
+    await expect(page.locator("main > div")).toHaveClass(/max-w-5xl/);
+    await expect(page.locator("body > footer")).toHaveClass(/bg-slate-200/);
+    await expect(page.locator("[style], [width], [height], [align], [bgcolor], [border], [cellpadding], [cellspacing]"), `${path} should not contain inline or legacy presentation attributes`).toHaveCount(0);
     await expect(page.locator("body"), `${path} should not contain terminal decorations`).not.toContainText("~/davidwesst");
   }
+
+  await page.goto("/blog/");
+  await expect(page.locator("[data-post-list]")).toHaveClass(/sm:grid-cols-2/);
+  expect(await page.locator("[data-post-item]").first().getAttribute("class")).toContain("shadow-md");
+
+  await page.goto("/blog/windows-not-required-video/");
+  await expect(page.locator("article .prose")).toHaveCount(1);
 });
 
-test("the page head references only the compiled Tailwind stylesheet", async ({ page }) => {
+test("the page head references Inter and the compiled Tailwind stylesheet", async ({ page }) => {
   await page.goto("/");
 
   const stylesheets = page.locator('link[rel="stylesheet"]');
-  await expect(stylesheets).toHaveCount(1);
-  await expect(stylesheets).toHaveAttribute("href", "/assets/main.css");
+  await expect(stylesheets).toHaveCount(2);
+  await expect(page.locator('link[rel="stylesheet"][href="/assets/main.css"]')).toHaveCount(1);
+  await expect(page.locator('link[rel="stylesheet"][href*="fonts.googleapis.com"]')).toHaveCount(1);
+  await expect(page.locator('link[href*="font-awesome"]')).toHaveCount(0);
 });
 
-test("the CSS source wires Tailwind without Preflight or custom rules", async ({ request }) => {
+test("the CSS source wires Tailwind, typography, and constrained template scanning", async ({ request }) => {
   const cssSource = readFileSync(new URL("../src/styles/main.css", import.meta.url), "utf8");
 
-  expect(cssSource).toContain('@import "tailwindcss/theme.css" layer(theme);');
-  expect(cssSource).toContain('@import "tailwindcss/utilities.css" layer(utilities) source(none);');
-  expect(cssSource).not.toContain("preflight");
-  expect(cssSource).not.toContain("{");
+  expect(cssSource).toContain('@import "tailwindcss" source(none);');
+  expect(cssSource).toContain('@plugin "@tailwindcss/typography";');
+  expect(cssSource).toContain('@source "../_includes";');
+  expect(cssSource).toContain("@theme {");
 
   const response = await request.get("/assets/main.css");
   await expect(response).toBeOK();
-  expect(await response.text()).not.toContain(".site-header");
+  const compiledCss = await response.text();
+  expect(compiledCss).toContain(".prose");
+  expect(compiledCss).toContain(".bg-teal-700");
+});
+
+test("HTML presentation templates are WebC and canonical content remains Markdown", () => {
+  expect(existsSync(new URL("../src/page.webc", import.meta.url))).toBe(true);
+  expect(existsSync(new URL("../src/blog/post.webc", import.meta.url))).toBe(true);
+  expect(existsSync(new URL("../src/talks/talk.webc", import.meta.url))).toBe(true);
+  expect(existsSync(new URL("../src/page.11ty.js", import.meta.url))).toBe(false);
+  expect(existsSync(new URL("../src/blog/post.11ty.js", import.meta.url))).toBe(false);
+  expect(existsSync(new URL("../src/content/pages/about/index.md", import.meta.url))).toBe(true);
 });
 
 test("blog filtering uses data hooks and native hidden state", async ({ page }) => {

@@ -1,0 +1,1 @@
+<page-detail :@content-page="contentPage" :@rendered-body="renderedBody"></page-detail>

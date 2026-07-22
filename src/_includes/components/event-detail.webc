@@ -17,23 +17,26 @@
   }
 </script>
 
-<article>
-  <h1 @text="event.title"></h1>
-  <p webc:if="event.dates.start">
+<article class="mx-auto max-w-3xl">
+  <header class="mb-10 text-center">
+  <p class="text-sm font-semibold uppercase tracking-wide text-teal-700">Event</p>
+  <h1 class="mt-3 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl" @text="event.title"></h1>
+  <p webc:if="event.dates.start" class="mt-4 text-slate-500">
     <time :datetime="event.dates.start" @text="event.dates.start"></time>
     <span webc:if="event.dates.end"> to </span>
     <time webc:if="event.dates.end" :datetime="event.dates.end" @text="event.dates.end"></time>
   </p>
-  <p webc:if="event.location" @text="event.location"></p>
+  <p webc:if="event.location" class="mt-2 text-slate-600" @text="event.location"></p>
+  </header>
   <content-links webc:if="event.links && event.links.length" :@items="event.links"></content-links>
 
-  <section webc:if="talksForEvent(event, talks).length">
-    <h2>Talks</h2>
-    <ul>
-      <li webc:for="entry of talksForEvent(event, talks)">
+  <section webc:if="talksForEvent(event, talks).length" class="mt-12 border-t border-slate-200 pt-8">
+    <h2 class="text-2xl font-bold text-slate-900">Talks</h2>
+    <ul class="mt-5 space-y-4">
+      <li webc:for="entry of talksForEvent(event, talks)" class="rounded-lg bg-slate-50 p-5">
         <article>
-          <h3><a :href="entry.talk.canonicalUrl" @text="entry.talk.title"></a></h3>
-          <p webc:if="entry.ref.meta && entry.ref.meta.coPresenters && entry.ref.meta.coPresenters.length">
+          <h3 class="text-lg font-bold text-slate-900"><a class="hover:text-teal-700" :href="entry.talk.canonicalUrl" @text="entry.talk.title"></a></h3>
+          <p webc:if="entry.ref.meta && entry.ref.meta.coPresenters && entry.ref.meta.coPresenters.length" class="mt-2 text-slate-600">
             Co-presented with <span @text="coPresentersText(entry.ref)"></span>
           </p>
           <content-links :@items="entry.ref.links"></content-links>

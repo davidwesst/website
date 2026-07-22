@@ -2,9 +2,9 @@
 title: Talks
 layout: base.webc
 ---
-<header>
-  <h1>Talks</h1>
-  <p>Sessions, presentations, and panels delivered at conferences and community events.</p>
+<header class="mx-auto mb-10 max-w-3xl text-center">
+  <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Talks</h1>
+  <p class="mt-4 text-lg text-slate-600">Sessions, presentations, and panels delivered at conferences and community events.</p>
 </header>
 
 <talk-list :@items="talks" :@events="events"></talk-list>
