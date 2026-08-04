@@ -13,7 +13,7 @@
     "test": "pnpm run build && node --test tests/site.test.js"
   },
   "engines": {
-    "node": ">=24 <27",
+    "node": ">=26 <27",
     "pnpm": ">=11 <12"
   },
   "packageManager": "pnpm@11.2.1",
