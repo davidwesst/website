@@ -1,35 +1,15 @@
 <!doctype html>
-<script webc:setup>
-  const currentYear = new Date().getFullYear();
-</script>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" :content="description || site.description">
-  <link webc:keep rel="preconnect" href="https://fonts.googleapis.com">
-  <link webc:keep rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link webc:keep rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
-  <link webc:keep rel="stylesheet" href="/assets/main.css">
-  <title @text="title ? `${title} | ${site.title}` : site.title"></title>
-</head>
-<body class="flex min-h-screen flex-col break-words bg-white font-sans text-slate-800">
-  <a class="sr-only z-[60] rounded bg-white px-4 py-3 text-teal-700 shadow focus:not-sr-only focus:fixed focus:left-4 focus:top-4" href="#main">Skip to content</a>
-  <header class="z-50 bg-white px-6 py-5 shadow-md sm:fixed sm:inset-x-0 sm:top-0">
-    <div class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-x-8 gap-y-3">
-      <a class="text-xl font-semibold text-teal-700" href="/" @text="site.title"></a>
-      <site-nav :@items="site.navigation" :@current-url="page.url"></site-nav>
-    </div>
-  </header>
-  <main id="main" class="mx-6 mt-10 flex-grow sm:mt-32">
-    <div class="mx-auto max-w-5xl" @raw="content"></div>
-  </main>
-  <footer class="mt-20 bg-slate-200 px-10 py-8 text-center text-slate-700">
-    <p class="mx-auto max-w-5xl">Copyright © <span @text="currentYear"></span> David Wesst · <a class="font-medium text-teal-700 hover:text-teal-600" href="#">Back to top</a></p>
-    <p class="mx-auto mt-2 max-w-5xl text-sm">
-      Powered by <a class="font-medium text-teal-700 hover:text-teal-600" href="https://github.com/11ty/buildawesome" target="_blank" rel="noopener noreferrer">Build Awesome</a> · Inspired by <a class="font-medium text-teal-700 hover:text-teal-600" href="https://github.com/daflh/vredeburg" target="_blank" rel="noopener noreferrer">daflh/vredeburg</a>.
-    </p>
-  </footer>
-  <site-analytics></site-analytics>
-</body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="The personal website of David Wesst.">
+    <link webc:keep rel="stylesheet" href="/assets/main.css">
+    <title @text="title"></title>
+  </head>
+  <body class="min-h-screen bg-black text-white antialiased">
+    <main class="mx-auto flex min-h-screen max-w-3xl items-center px-6 py-16">
+      <article class="space-y-5 text-lg leading-8 text-white [&_h1]:text-4xl [&_h1]:font-semibold [&_h1]:tracking-tight" @raw="content"></article>
+    </main>
+  </body>
 </html>

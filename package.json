@@ -1,42 +1,27 @@
 {
-  "name": "website",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
-  },
-  "scripts": {
-    "build": "pnpm run build:site && pnpm run build:css",
-    "build:site": "eleventy",
-    "build:css": "tailwindcss -i ./src/styles/main.css -o ./_site/assets/main.css",
-    "start": "concurrently --kill-others \"eleventy --serve\" \"tailwindcss -i ./src/styles/main.css -o ./_site/assets/main.css --watch=always\"",
-    "test": "pnpm run test:unit && pnpm run build && playwright test",
-    "test:unit": "node tests/content-pipeline.test.mjs"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/davidwesst/website.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "name": "davidwesst-website",
+  "version": "0.1.0",
+  "private": true,
   "type": "module",
-  "bugs": {
-    "url": "https://github.com/davidwesst/website/issues"
+  "scripts": {
+    "clean": "node tools/clean.mjs",
+    "build": "pnpm run clean && pnpm run build:site && pnpm run build:css",
+    "build:site": "eleventy",
+    "build:css": "tailwindcss -i ./src/styles/main.css -o ./_site/assets/main.css --minify",
+    "dev": "concurrently --kill-others \"eleventy --serve\" \"tailwindcss -i ./src/styles/main.css -o ./_site/assets/main.css --watch=always\"",
+    "start": "pnpm run dev",
+    "test": "pnpm run build && node --test tests/site.test.js"
   },
-  "homepage": "https://github.com/davidwesst/website#readme",
+  "engines": {
+    "node": ">=24 <27",
+    "pnpm": ">=11 <12"
+  },
+  "packageManager": "pnpm@11.2.1",
   "dependencies": {
     "@11ty/eleventy": "^3.1.5",
     "@11ty/eleventy-plugin-webc": "^0.11.2",
-    "@playwright/test": "1.59.1",
-    "@quasibit/eleventy-plugin-sitemap": "^2.2.0",
-    "@tailwindcss/typography": "^0.5.19",
-    "gray-matter": "^4.0.3",
-    "markdown-it": "^14.1.1",
-    "tailwindcss": "^4.1.11",
     "@tailwindcss/cli": "^4.1.11",
-    "concurrently": "^9.2.0"
-  },
-  "packageManager": "pnpm@11.2.1"
+    "concurrently": "^9.2.0",
+    "tailwindcss": "^4.1.11"
+  }
 }
