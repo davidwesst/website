@@ -33,6 +33,8 @@ test("the home page renders the Ghostwind shell and configured content", async (
   assert.deepEqual(footerSocialLinks.map((_, link) => $(link).text().trim()).get(), ["GitHub", "LinkedIn", "YouTube"]);
   assert.match(heroSocialLinks.first().find("i").attr("class"), /fa-github/);
   assert.match(footerSocialLinks.first().find("i").attr("class"), /fa-github/);
+  assert.equal($("footer a[href='https://github.com/tailwindtoolbox/Ghostwind/']").text(), "Ghostwind");
+  assert.equal($("footer a[href='https://www.11ty.dev/']").text(), "Build Awesome / 11ty");
 });
 
 test("featured descriptions prefer summaries and fall back to the Markdown introduction", () => {

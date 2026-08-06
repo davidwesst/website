@@ -21,5 +21,11 @@
       </ul>
     </nav>
   </div>
-  <p class="border-t border-slate-800 px-6 py-5 text-center text-xs text-slate-500">Copyright David Wesst.</p>
+  <div class="border-t border-slate-800 px-6 py-5 text-center text-xs text-slate-500">
+    <p>Copyright David Wesst.</p>
+    <p class="mt-1">
+      Style inspired by <a class="underline hover:text-slate-300" href="https://github.com/tailwindtoolbox/Ghostwind/">Ghostwind</a>.
+      Powered by <a class="underline hover:text-slate-300" href="https://www.11ty.dev/">Build Awesome / 11ty</a>.
+    </p>
+  </div>
 </footer>
