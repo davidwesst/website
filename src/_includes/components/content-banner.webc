@@ -1,0 +1,4 @@
+<figure webc:if="banner && banner.src">
+  <img :src="banner.src" :alt="banner.alt">
+  <figcaption webc:if="banner.credit" @text="banner.credit"></figcaption>
+</figure>

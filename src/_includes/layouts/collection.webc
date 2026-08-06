@@ -1,0 +1,14 @@
+---
+layout: base.webc
+---
+<script webc:setup>
+  function collectionItems(collections, name) {
+    return [...(collections[name] || [])].sort((left, right) => right.date - left.date);
+  }
+</script>
+
+<section>
+  <h1 @text="title"></h1>
+  <div @raw="content"></div>
+  <content-list :@items="collectionItems(collections, collectionName)"></content-list>
+</section>

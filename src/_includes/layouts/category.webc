@@ -1,0 +1,7 @@
+---
+layout: base.webc
+---
+<section>
+  <h1>Category: <span @text="category.name"></span></h1>
+  <content-list :@items="category.items"></content-list>
+</section>

@@ -1,0 +1,12 @@
+---
+layout: base.webc
+---
+<section>
+  <h1 @text="title"></h1>
+  <ul>
+    <li webc:for="category of collections.categoryPages">
+      <a :href="`/categories/${category.slug}/`" @text="category.name"></a>
+      <span> (</span><span @text="category.items.length"></span><span>)</span>
+    </li>
+  </ul>
+</section>

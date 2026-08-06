@@ -1,0 +1,11 @@
+---
+layout: base.webc
+---
+<article>
+  <header>
+    <h1 @text="title"></h1>
+    <p webc:if="summary" @text="summary"></p>
+  </header>
+  <content-banner :@banner="banner"></content-banner>
+  <section aria-label="Page content" @raw="content"></section>
+</article>

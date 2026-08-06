@@ -1,0 +1,35 @@
+---
+title: The 11ty Days of Web Development
+summary: >-
+  A holiday themed introductory development session about static site generator
+  11ty (or Eleventy).
+categories:
+  - 11ty
+  - eleventy
+  - javascript
+  - static-site-generator
+  - web-development
+  - website
+banner:
+  src: ./11ty-days-of-web-dev.jpg
+  alt: >-
+    A silver laptop with the Eleventy logo on the screen sitting on a desk
+    covered in holiday gifts, a holiday calendar and surrounded with floating
+    technology text and holiday-theme decor.
+date: '2026-08-05'
+customData:
+  speakers:
+    - David Wesst
+  appearances:
+    - event: Full Stack Manitoba (Dec 2024)
+      start: '2024-12-18'
+      links:
+        - label: Slides (PDF)
+          url: >-
+            https://cocobokostudios-my.sharepoint.com/:b:/p/david/ET7vD35_GCFIjYnF5ftZRlYBJJZLbRJyxjfQvn3pHdIyjg?e=i9FJIi
+          type: slides
+        - label: Slides & Demo (GitHub)
+          url: 'https://github.com/davidwesst/talk-11ty-days-of-webdev'
+          type: slides
+---
+Get into the holiday coding spirit with The 11ty Days of Web Development! In this festive session, unwrap the magic of 11ty, the JavaScript-based static site generator that makes building fast and flexible websites a joy. Whether you're a developer on Santa's "nice" list or just getting started, we'll guide you through setting up 11ty, exploring its powerful features, and creating your own web gift for the world. Join us for a holly-jolly introduction to modern web development tools—no Grinches allowed!

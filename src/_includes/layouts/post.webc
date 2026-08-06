@@ -1,0 +1,22 @@
+---
+layout: base.webc
+---
+<script webc:setup>
+  function formatDate(value) {
+    return new Intl.DateTimeFormat("en-CA", { dateStyle: "long", timeZone: "UTC" }).format(new Date(value));
+  }
+</script>
+
+<article>
+  <header>
+    <p @text="type"></p>
+    <h1 @text="title"></h1>
+    <p><time :datetime="date" @text="formatDate(date)"></time></p>
+    <p webc:if="updated">Updated <time :datetime="updated" @text="formatDate(updated)"></time></p>
+    <category-links :@categories="categories"></category-links>
+  </header>
+  <content-banner :@banner="banner"></content-banner>
+  <p webc:if="summary" @text="summary"></p>
+  <gamelog-details webc:if="type === 'gamelog'" :@custom-data="customData"></gamelog-details>
+  <section aria-label="Post content" @raw="content"></section>
+</article>

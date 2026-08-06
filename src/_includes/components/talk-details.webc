@@ -1,0 +1,27 @@
+<script webc:setup>
+  function speakerText(speakers) {
+    return (speakers || []).join(", ");
+  }
+</script>
+
+<section webc:if="customData && customData.speakers" aria-labelledby="speakers-heading">
+  <h2 id="speakers-heading">Speakers</h2>
+  <ul><li webc:for="speaker of customData.speakers" @text="speaker"></li></ul>
+</section>
+
+<section webc:if="customData && customData.appearances && customData.appearances.length" aria-labelledby="appearances-heading">
+  <h2 id="appearances-heading">Appearances</h2>
+  <ol>
+    <li webc:for="appearance of customData.appearances">
+      <section>
+        <h3 @text="appearance.event"></h3>
+        <p><time :datetime="appearance.start" @text="appearance.start"></time><span webc:if="appearance.end"> to <time :datetime="appearance.end" @text="appearance.end"></time></span></p>
+        <p webc:if="appearance.location" @text="appearance.location"></p>
+        <p webc:if="appearance.speakers && appearance.speakers.length">Presented by <span @text="speakerText(appearance.speakers)"></span></p>
+        <ul webc:if="appearance.links && appearance.links.length">
+          <li webc:for="link of appearance.links"><a :href="link.url" @text="link.label"></a></li>
+        </ul>
+      </section>
+    </li>
+  </ol>
+</section>

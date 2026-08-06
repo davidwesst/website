@@ -1,0 +1,258 @@
+import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
+import path from "node:path";
+import { load } from "cheerio";
+import matter from "gray-matter";
+
+const ROOT = process.cwd();
+const CONTENT_ROOT = path.join(ROOT, "src", "content");
+const OUTPUT_ROOT = path.join(ROOT, "_site");
+const MANIFEST = JSON.parse(readFileSync(path.join(ROOT, "src", "_data", "migration-manifest.json"), "utf8"));
+const EXCEPTIONS = JSON.parse(readFileSync(path.join(ROOT, "src", "_data", "asset-exceptions.json"), "utf8"));
+const ALLOWED_KEYS = new Set(["title", "date", "updated", "summary", "categories", "redirectFrom", "banner", "customData"]);
+const DEPRECATED_KEYS = new Set(["id", "source", "docType", "series", "slug", "taxonomy", "canonicalUrl", "legacyUrls", "media", "review", "meta"]);
+const EXPECTED_COUNTS = { articles: 138, gamelogs: 16, dungeonlogs: 12, talks: 12, pages: 2 };
+
+function slash(value) {
+  return value.replaceAll("\\", "/");
+}
+
+function walkFiles(root, predicate = () => true) {
+  if (!existsSync(root)) return [];
+  return readdirSync(root, { recursive: true, withFileTypes: true })
+    .filter((entry) => entry.isFile())
+    .map((entry) => entry.parentPath ? path.join(entry.parentPath, entry.name) : path.join(entry.path, entry.name))
+    .filter(predicate);
+}
+
+function sha256(file) {
+  return createHash("sha256").update(readFileSync(file)).digest("hex");
+}
+
+function categorySlug(value) {
+  return String(value).normalize("NFKD").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
+function typeFor(file) {
+  const relative = slash(path.relative(CONTENT_ROOT, file));
+  if (relative.startsWith("posts/articles/")) return "articles";
+  if (relative.startsWith("posts/gamelogs/")) return "gamelogs";
+  if (relative.startsWith("posts/dungeonlogs/")) return "dungeonlogs";
+  if (relative.startsWith("talks/")) return "talks";
+  if (relative.startsWith("pages/")) return "pages";
+  throw new Error(`Unknown content type: ${relative}`);
+}
+
+function canonicalUrl(document) {
+  const slug = path.basename(path.dirname(document.file));
+  if (document.type === "articles") return `/blog/${slug}/`;
+  if (document.type === "gamelogs") return `/blog/gamelog/${slug}/`;
+  if (document.type === "dungeonlogs") return `/blog/dungeonlog/${slug}/`;
+  if (document.type === "talks") return `/talks/${slug}/`;
+  return `/${slug}/`;
+}
+
+function outputFile(url) {
+  return path.join(OUTPUT_ROOT, url.replace(/^\//, ""), "index.html");
+}
+
+function exactCaseExists(file) {
+  const relative = path.relative(ROOT, file);
+  let current = ROOT;
+  for (const segment of relative.split(path.sep)) {
+    if (segment === "..") return false;
+    if (!existsSync(current)) return false;
+    const match = readdirSync(current).find((name) => name === segment);
+    if (!match) return false;
+    current = path.join(current, match);
+  }
+  return existsSync(current);
+}
+
+function parseDate(value, context) {
+  assert.ok(value, `${context} must have a date`);
+  const date = value instanceof Date ? value : new Date(value);
+  assert.ok(!Number.isNaN(date.valueOf()), `${context} has an invalid date`);
+  return date;
+}
+
+const markdownFiles = walkFiles(CONTENT_ROOT, (file) => path.basename(file) === "index.md");
+const documents = markdownFiles.map((file) => {
+  const source = readFileSync(file, "utf8");
+  const parsed = matter(source);
+  return { file, source, data: parsed.data, body: parsed.content, type: typeFor(file) };
+});
+
+const counts = Object.fromEntries(Object.keys(EXPECTED_COUNTS).map((type) => [type, documents.filter((document) => document.type === type).length]));
+assert.deepEqual(counts, EXPECTED_COUNTS, "Migrated content counts must match the approved archive inventory");
+assert.deepEqual(Object.fromEntries(Object.entries(MANIFEST.counts).filter(([key]) => key !== "appearances")), EXPECTED_COUNTS);
+
+const urls = new Set();
+const redirects = new Map();
+const categoryRoutes = new Map();
+let appearanceCount = 0;
+
+for (const document of documents) {
+  const context = slash(path.relative(ROOT, document.file));
+  assert.ok(document.data.title, `${context} must have a title`);
+  for (const key of Object.keys(document.data)) assert.ok(ALLOWED_KEYS.has(key), `${context} has unsupported field ${key}`);
+  for (const key of DEPRECATED_KEYS) assert.equal(document.data[key], undefined, `${context} retains deprecated field ${key}`);
+
+  if (document.type !== "pages") parseDate(document.data.date, context);
+  if (document.data.updated) parseDate(document.data.updated, `${context} updated`);
+  if (document.type === "talks") {
+    assert.match(document.source, /^date:\s*['"]?\d{4}-\d{2}-\d{2}/m, `${context} must author a publication date`);
+    assert.equal(new Date(document.data.date).toISOString().slice(0, 10), "2026-08-05", `${context} must use the migration publication date`);
+    assert.ok(Array.isArray(document.data.customData?.speakers) && document.data.customData.speakers.length, `${context} needs speakers`);
+    assert.ok(document.data.customData?.appearances === undefined || Array.isArray(document.data.customData.appearances), `${context} appearances must be a list`);
+    appearanceCount += document.data.customData.appearances?.length || 0;
+  }
+  if (document.type === "gamelogs") {
+    assert.ok(document.data.customData?.game?.ids?.igdb, `${context} needs an IGDB id`);
+    assert.ok(document.data.customData?.playthrough, `${context} needs playthrough data`);
+    assert.ok(document.data.customData?.ratings?.overall, `${context} needs ratings`);
+  }
+  if (["articles", "dungeonlogs"].includes(document.type)) assert.equal(document.data.customData, undefined, `${context} must omit empty customData`);
+
+  const categories = document.data.categories || [];
+  assert.equal(new Set(categories).size, categories.length, `${context} has duplicate categories`);
+  for (const category of categories) {
+    const slug = categorySlug(category);
+    assert.ok(slug, `${context} has an invalid category`);
+    const prior = categoryRoutes.get(slug);
+    assert.ok(!prior || prior === category, `Category slug collision: ${prior} and ${category}`);
+    categoryRoutes.set(slug, category);
+  }
+
+  if (document.data.banner) {
+    assert.match(document.data.banner.src, /^\.\/[^/]+$/, `${context} banner must reference an image beside the document`);
+    assert.ok(document.data.banner.alt?.trim(), `${context} banner needs alt text`);
+    assert.notEqual(document.data.banner.alt.trim().toLowerCase(), "alt text goes here.", `${context} has placeholder alt text`);
+    const sourceBanner = path.join(path.dirname(document.file), document.data.banner.src);
+    assert.ok(exactCaseExists(sourceBanner), `${context} source banner is not colocated or has incorrect filename casing`);
+    const bannerFile = path.join(path.dirname(outputFile(canonicalUrl(document))), path.basename(document.data.banner.src));
+    assert.ok(exactCaseExists(bannerFile), `${context} banner is missing or has incorrect filename casing`);
+  }
+
+  const url = canonicalUrl(document);
+  assert.ok(!urls.has(url), `Duplicate canonical URL: ${url}`);
+  urls.add(url);
+  for (const source of document.data.redirectFrom || []) {
+    assert.ok(!redirects.has(source), `Duplicate redirect source: ${source}`);
+    redirects.set(source, url);
+  }
+}
+
+assert.equal(appearanceCount, 22, "All talk appearances must be migrated");
+for (const [source, target] of redirects) {
+  assert.notEqual(source, target, `Redirect source equals target: ${source}`);
+  assert.ok(!redirects.has(target), `Redirect chain begins at ${source}`);
+  assert.ok(!urls.has(source), `Redirect source collides with canonical URL: ${source}`);
+}
+
+assert.equal(MANIFEST.assets.length, 197, "All available image assets must be tracked");
+for (const asset of MANIFEST.assets) {
+  const file = path.join(ROOT, asset.destination);
+  assert.ok(asset.destination.startsWith("src/content/"), `Asset is not colocated with content: ${asset.destination}`);
+  assert.ok(exactCaseExists(path.join(path.dirname(file), "index.md")), `Asset has no owning content document: ${asset.destination}`);
+  assert.ok(exactCaseExists(file), `Migrated asset is missing or has incorrect filename casing: ${asset.destination}`);
+  assert.equal(sha256(file), asset.sha256, `Migrated asset hash differs: ${asset.destination}`);
+}
+assert.equal(walkFiles(path.join(ROOT, "src", "assets", "content")).length, 0, "Centralized content assets must remain empty");
+
+const exceptionKeys = new Set();
+for (const exception of EXCEPTIONS) {
+  const key = `${exception.document}\0${exception.reference}`;
+  assert.ok(!exceptionKeys.has(key), `Duplicate asset exception: ${exception.document} ${exception.reference}`);
+  exceptionKeys.add(key);
+  assert.ok(documents.some((document) => `${document.type}/${path.basename(path.dirname(document.file))}` === exception.document), `Asset exception references a missing document: ${exception.document}`);
+}
+
+for (const document of documents) {
+  const file = outputFile(canonicalUrl(document));
+  assert.ok(exactCaseExists(file), `Missing rendered document: ${slash(path.relative(ROOT, file))}`);
+  const $ = load(readFileSync(file, "utf8"));
+  assert.equal($("main").length, 1, `${canonicalUrl(document)} must have one main landmark`);
+  assert.equal($("main > article").length, 1, `${canonicalUrl(document)} must have one top-level article`);
+  assert.equal($("h1").length, 1, `${canonicalUrl(document)} must have one h1`);
+  assert.equal($("h1").text().trim(), document.data.title, `${canonicalUrl(document)} renders the wrong title`);
+  if (document.type !== "pages") assert.ok($("time").length, `${canonicalUrl(document)} must render a publication date`);
+  if (document.data.banner) {
+    const image = $("figure img").first();
+    assert.equal(image.attr("src"), document.data.banner.src, `${canonicalUrl(document)} renders the wrong banner`);
+    assert.equal(image.attr("alt"), document.data.banner.alt, `${canonicalUrl(document)} renders the wrong banner alt text`);
+  }
+  if (document.type === "gamelogs") assert.ok($("dl dt").length >= 8, `${canonicalUrl(document)} must render playthrough and ratings`);
+  if (document.type === "talks") {
+    assert.match($("body").text(), /Published\s+August 5, 2026/, `${canonicalUrl(document)} must render its publication date`);
+    assert.equal($("#appearances-heading + ol > li").length, document.data.customData.appearances?.length || 0, `${canonicalUrl(document)} renders the wrong appearance count`);
+  }
+}
+
+const configPath = path.join(OUTPUT_ROOT, "staticwebapp.config.json");
+const configSource = readFileSync(configPath, "utf8");
+assert.ok(Buffer.byteLength(configSource) <= 20 * 1024, "Azure Static Web Apps configuration exceeds 20 KB");
+const config = JSON.parse(configSource);
+assert.equal(config.trailingSlash, "always");
+const configuredRoutes = new Map(config.routes.map((route) => [route.route, route]));
+assert.equal(configuredRoutes.get("/blog/gamelog/entry.html")?.rewrite, "/legacy/gamelog-entry.html");
+for (const [source, target] of redirects) {
+  if (source.includes("?")) continue;
+  if (source.endsWith("/index.html") && source.slice(0, -"index.html".length) === target) continue;
+  assert.equal(configuredRoutes.get(source)?.redirect, target, `Missing Azure redirect for ${source}`);
+}
+
+const dispatcher = readFileSync(path.join(OUTPUT_ROOT, "legacy", "gamelog-entry.html"), "utf8");
+for (const document of documents.filter((item) => item.type === "gamelogs")) {
+  const slug = path.basename(path.dirname(document.file));
+  assert.match(dispatcher, new RegExp(`"${slug}":"${canonicalUrl(document).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`), `Legacy dispatcher is missing ${slug}`);
+}
+
+function resolveLocalTarget(currentFile, href) {
+  const currentUrl = `https://site.test/${slash(path.relative(OUTPUT_ROOT, currentFile)).replace(/index\.html$/, "")}`;
+  const parsed = new URL(href, currentUrl);
+  const pathname = decodeURIComponent(parsed.pathname);
+  if (configuredRoutes.has(pathname)) return { file: undefined, fragment: parsed.hash, redirected: true };
+  const relative = pathname.replace(/^\//, "");
+  const direct = path.join(OUTPUT_ROOT, relative);
+  if (path.extname(pathname)) return { file: direct, fragment: parsed.hash };
+  return { file: path.join(direct, "index.html"), fragment: parsed.hash };
+}
+
+const htmlFiles = walkFiles(OUTPUT_ROOT, (file) => file.endsWith(".html"));
+const brokenLinks = [];
+for (const file of htmlFiles) {
+  const source = readFileSync(file, "utf8");
+  assert.ok(!source.includes("_archive"), `${slash(path.relative(OUTPUT_ROOT, file))} leaks an archive path`);
+  assert.ok(!/MISSING_IMG|sediment:\/\/|oai_citation|\[object Object\]|\bwebc:|\s:[@a-z-]+=/i.test(source), `${slash(path.relative(OUTPUT_ROOT, file))} contains unresolved migration or WebC output`);
+  assert.equal(load(source)("template").length, 0, `${slash(path.relative(OUTPUT_ROOT, file))} contains inert template markup`);
+  const $ = load(source);
+  for (const image of $("img").toArray()) {
+    const src = $(image).attr("src");
+    assert.ok(src, `${slash(path.relative(OUTPUT_ROOT, file))} has an image without src`);
+    assert.ok($(image).attr("alt")?.trim(), `${slash(path.relative(OUTPUT_ROOT, file))} has an image without alt text`);
+    if (/^(?:https?:)?\/\//.test(src) || src.startsWith("data:")) continue;
+    const target = resolveLocalTarget(file, src).file;
+    assert.ok(target && exactCaseExists(target), `${slash(path.relative(OUTPUT_ROOT, file))} has broken image ${src}`);
+  }
+  for (const anchor of $("a[href]").toArray()) {
+    const href = $(anchor).attr("href");
+    if (/^(?:https?:|mailto:|tel:|javascript:|data:|\/\/)/i.test(href)) continue;
+    const target = resolveLocalTarget(file, href);
+    if (target.redirected) continue;
+    if (!target.file || !exactCaseExists(target.file)) {
+      brokenLinks.push(`${slash(path.relative(OUTPUT_ROOT, file))}: ${href}`);
+      continue;
+    }
+    if (target.fragment) {
+      const targetDocument = load(readFileSync(target.file, "utf8"));
+      const id = decodeURIComponent(target.fragment.slice(1));
+      assert.ok(targetDocument(`[id="${id.replaceAll('"', '\\"')}"]`).length || targetDocument(`a[name="${id.replaceAll('"', '\\"')}"]`).length, `${slash(path.relative(OUTPUT_ROOT, file))} links to missing fragment ${href}`);
+    }
+  }
+}
+
+assert.equal(brokenLinks.length, 0, `Broken local links:\n${brokenLinks.join("\n")}`);
+
+console.log(`Content integrity passed for ${documents.length} documents, ${MANIFEST.assets.length} assets, ${categoryRoutes.size} categories, and ${redirects.size} legacy URLs.`);

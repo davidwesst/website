@@ -1,8 +1,6 @@
 ---
-title: Home
-layout: base.webc
+title: David Wesst
+layout: page.webc
 ---
-
-# David Wesst
 
 This site is starting fresh. New writing, talks, and projects will appear here.

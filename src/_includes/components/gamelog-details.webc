@@ -1,0 +1,23 @@
+<script webc:setup>
+  function ratingEntries(value) {
+    return Object.entries(value || {});
+  }
+</script>
+
+<section webc:if="customData" aria-labelledby="gamelog-details-heading">
+  <h2 id="gamelog-details-heading">Play details</h2>
+  <dl>
+    <div webc:if="customData.playthrough && customData.playthrough.started">
+      <dt>Started</dt><dd @text="customData.playthrough.started"></dd>
+    </div>
+    <div webc:if="customData.playthrough && customData.playthrough.completed">
+      <dt>Completed</dt><dd @text="customData.playthrough.completed"></dd>
+    </div>
+    <div webc:if="customData.playthrough && customData.playthrough.platform">
+      <dt>Platform</dt><dd @text="customData.playthrough.platform"></dd>
+    </div>
+    <div webc:for="rating of ratingEntries(customData.ratings)">
+      <dt @text="rating[0]"></dt><dd @text="rating[1]"></dd>
+    </div>
+  </dl>
+</section>

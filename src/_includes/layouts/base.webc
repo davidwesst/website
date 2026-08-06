@@ -8,8 +8,19 @@
     <title @text="title"></title>
   </head>
   <body class="min-h-screen bg-black text-white antialiased">
-    <main class="mx-auto flex min-h-screen max-w-3xl items-center px-6 py-16">
-      <article class="space-y-5 text-lg leading-8 text-white [&_h1]:text-4xl [&_h1]:font-semibold [&_h1]:tracking-tight" @raw="content"></article>
-    </main>
+    <header>
+      <nav aria-label="Primary navigation">
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/talks/">Talks</a></li>
+          <li><a href="/categories/">Categories</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="/projects/">Projects</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main class="mx-auto min-h-screen max-w-3xl px-6 py-16 text-lg leading-8 text-white [&_h1]:text-4xl [&_h1]:font-semibold [&_h1]:tracking-tight" @raw="content"></main>
+    <footer><p>Copyright David Wesst.</p></footer>
   </body>
 </html>

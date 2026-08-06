@@ -1,0 +1,15 @@
+<script webc:setup>
+  function formatDate(value) {
+    return new Intl.DateTimeFormat("en-CA", { dateStyle: "long", timeZone: "UTC" }).format(new Date(value));
+  }
+</script>
+
+<ol>
+  <li webc:for="item of items">
+    <article>
+      <h2><a :href="item.url" @text="item.data.title"></a></h2>
+      <p webc:if="item.date"><time :datetime="item.date.toISOString()" @text="formatDate(item.date)"></time></p>
+      <p webc:if="item.data.summary" @text="item.data.summary"></p>
+    </article>
+  </li>
+</ol>
