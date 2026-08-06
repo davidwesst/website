@@ -1,6 +1,8 @@
 ---
 title: A Long Way Down Is Still a Way Out
 date: '2025-12-27'
+redirectFrom:
+  - /blog/dungeonlog/2025-12-27/
 banner:
   src: ./2025-12-27_Poster.png
   alt: Four adventurers tumble through a rocky canyon beneath storm clouds.

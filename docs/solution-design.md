@@ -33,15 +33,15 @@ Authored documents live beneath `src/content/` as Markdown `index.md` files grou
 
 Posts and talks require `title` and an explicit publication `date`. Static pages require `title`. The optional shared fields are `summary`, `updated`, `categories`, `redirectFrom`, `banner`, and `customData`. A banner contains `src`, meaningful `alt`, and optional `credit`.
 
-Eleventy derives the slug from `page.fileSlug`. Directory data derives canonical permalinks, layout, type, and collection tags:
+Eleventy derives the slug from `page.fileSlug`. All post types share a flat canonical detail route while directory data continues to derive layout, type, and collection tags:
 
 - articles: `posts` and `articles`, at `/blog/{slug}/`
-- gamelogs: `posts` and `gamelogs`, at `/blog/gamelog/{slug}/`
-- dungeonlogs: `posts` and `dungeonlogs`, at `/blog/dungeonlog/{slug}/`
+- gamelogs: `posts` and `gamelogs`, at `/blog/{slug}/`
+- dungeonlogs: `posts` and `dungeonlogs`, at `/blog/{slug}/`
 - talks: `talks`, at `/talks/{slug}/`
 - pages: at `/{slug}/`
 
-Categories are authored taxonomy values, separate from Eleventy collection tags. Category routes use normalized slugs and combine posts and talks in descending publication order.
+Post slugs must be globally unique across all three post types and cannot use the reserved type-index slugs `articles`, `gamelogs`, or `dungeonlogs`. The filtered indexes live at `/blog/articles/`, `/blog/gamelogs/`, and `/blog/dungeonlogs/`. Categories are authored taxonomy values, separate from Eleventy collection tags. Category routes use normalized slugs and combine posts and talks in descending publication order.
 
 Gamelog-specific data is stored under `customData.game.ids`, `customData.playthrough`, and `customData.ratings`. Talk-specific data is stored under `customData.speakers` and `customData.appearances`. A talk's page `date` is its publication date; appearance dates do not participate in default collection sorting.
 
@@ -60,14 +60,14 @@ Detail pages render semantic articles with one H1, publication metadata, categor
 
 Available binary assets are copied byte-for-byte beside their owning `src/content/.../index.md` file. Eleventy maps each colocated image to the same canonical output directory as its rendered document, so source ownership and published ownership remain aligned. `src/_data/migration-manifest.json` records source and colocated destination hashes. `src/_data/asset-exceptions.json` records unavailable images; rendered content uses semantic unavailable-image notes instead of broken image elements.
 
-Azure routing is generated as `staticwebapp.config.json`, with trailing slashes, explicit redirects for changed canonical locations, and a size assertion. Query-based legacy gamelog URLs use a generated noindex dispatcher at `/blog/gamelog/entry.html` backed by a validated slug map.
+Azure routing is generated as `staticwebapp.config.json`, with trailing slashes, explicit redirects for changed canonical locations, and a size assertion. Archived hierarchical gamelog and dungeonlog detail routes redirect to the flat canonical post routes. Query-based legacy gamelog URLs use a generated noindex dispatcher at `/blog/gamelog/entry.html` backed by a validated slug map. RSS feeds can later select the existing `posts`, `articles`, `gamelogs`, and `dungeonlogs` collections independently of canonical URL shape.
 
 ## Validation
 
 The production build removes only `_site`, renders the site, copies assets, and compiles the existing stylesheet. `pnpm check:content` validates active source data and rendered output without reading `_archive`, including:
 
 - exact document and appearance counts
-- normalized schemas, dates, type-specific custom data, categories, and canonical URLs
+- normalized schemas, dates, type-specific custom data, categories, globally unique post slugs, reserved routes, and canonical URLs
 - redirect uniqueness, coverage, collision safety, and query-based gamelog mappings
 - asset colocation, hashes, exact filename casing, rendered image existence, acceptable alt text, and missing-image exceptions
 - local links and fragments

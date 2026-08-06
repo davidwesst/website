@@ -1,6 +1,8 @@
 ---
 title: 'A Monkey, a Lie, and a Garden Full of Teeth'
 date: '2026-01-25'
+redirectFrom:
+  - /blog/dungeonlog/2026-01-25/
 banner:
   src: ./2026-01-25_Poster.png
   alt: Noir adventurers face carnivorous plants and undead in a ruined garden.

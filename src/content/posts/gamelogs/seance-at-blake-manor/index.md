@@ -3,6 +3,7 @@ title: The Séance of Blake Manor
 date: '2025-12-17'
 redirectFrom:
   - /blog/gamelog/entry.html?slug=seance-at-blake-manor
+  - /blog/gamelog/seance-at-blake-manor/
 customData:
   game:
     ids:

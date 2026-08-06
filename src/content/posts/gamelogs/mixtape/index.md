@@ -1,6 +1,8 @@
 ---
 title: Mixtape
 date: '2026-05-14'
+redirectFrom:
+  - /blog/gamelog/mixtape/
 customData:
   game:
     ids:

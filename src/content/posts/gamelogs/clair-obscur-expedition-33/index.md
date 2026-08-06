@@ -5,6 +5,7 @@ redirectFrom:
   - /blog/gamelog/entry.html?slug=clair-obscur-expedition-33
   - /gamelog/clair-obscur-expedition-33/
   - /gamelog/clair-obscur-expedition-33/index.html
+  - /blog/gamelog/clair-obscur-expedition-33/
 customData:
   game:
     ids:

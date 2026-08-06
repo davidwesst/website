@@ -31,8 +31,10 @@ export default class StaticWebAppConfig {
 
     for (const route of [
       { route: "/blog.html", redirect: "/blog/", statusCode: 301 },
-      { route: "/blog/gamelog.html", redirect: "/blog/gamelog/", statusCode: 301 },
-      { route: "/blog/dungeonlog.html", redirect: "/blog/dungeonlog/", statusCode: 301 },
+      { route: "/blog/gamelog.html", redirect: "/blog/gamelogs/", statusCode: 301 },
+      { route: "/blog/gamelog/", redirect: "/blog/gamelogs/", statusCode: 301 },
+      { route: "/blog/dungeonlog.html", redirect: "/blog/dungeonlogs/", statusCode: 301 },
+      { route: "/blog/dungeonlog/", redirect: "/blog/dungeonlogs/", statusCode: 301 },
     ]) {
       if (!seen.has(route.route)) routes.push(route);
     }

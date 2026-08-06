@@ -13,6 +13,7 @@ import {
 import { tmpdir } from "node:os";
 import path from "node:path";
 import matter from "gray-matter";
+import { canonicalContentUrl } from "../../lib/content-routing.js";
 
 const ROOT = process.cwd();
 const ARCHIVE_CONTENT = path.join(ROOT, "_archive", "src", "content");
@@ -228,6 +229,9 @@ function rewriteBodyImages(entry, type, exceptions) {
     return source ? `[${id}]: ${assetReference(path.basename(source))}` : "";
   });
   for (const [legacy, canonical] of LINK_REWRITES) body = body.replaceAll(legacy, canonical);
+  body = body
+    .replace(/\]\(\/blog\/gamelog\/entry\.html\?slug=([a-z0-9-]+)\)/g, "](/blog/$1/)")
+    .replace(/\]\(\/blog\/(?:gamelog|dungeonlog)\/([a-z0-9-]+)\/\)/g, "](/blog/$1/)");
   return normalizeBodyHeadings(body);
 }
 
@@ -252,13 +256,17 @@ function makeBanner(entry, type, exceptions) {
 
 function baseData(entry, type, eventIds, exceptions, { includeDate = true } = {}) {
   const categories = categoriesFor(entry.data, eventIds);
+  const canonical = canonicalContentUrl(type, entry.slug);
+  const redirectFrom = [...(entry.data.legacyUrls || []), entry.data.canonicalUrl]
+    .filter((value) => value && value !== canonical)
+    .filter((value, index, values) => values.indexOf(value) === index);
   return clean({
     title: entry.data.title,
     date: includeDate ? isoDate(entry.data.dates?.published || entry.data.date) : undefined,
     updated: isoDate(entry.data.dates?.updated || entry.data.updated),
     summary: entry.data.summary,
     categories,
-    redirectFrom: entry.data.legacyUrls,
+    redirectFrom,
     banner: makeBanner(entry, type, exceptions),
   }) || {};
 }

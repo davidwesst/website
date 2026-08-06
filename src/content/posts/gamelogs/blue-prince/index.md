@@ -5,6 +5,7 @@ redirectFrom:
   - /blog/gamelog/entry.html?slug=blue-prince
   - /gamelog/blue-prince/
   - /gamelog/blue-prince/index.html
+  - /blog/gamelog/blue-prince/
 customData:
   game:
     ids:

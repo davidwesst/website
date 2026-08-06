@@ -5,6 +5,7 @@ redirectFrom:
   - /blog/gamelog/entry.html?slug=sagres
   - /gamelog/sagres/
   - /gamelog/sagres/index.html
+  - /blog/gamelog/sagres/
 customData:
   game:
     ids:

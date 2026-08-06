@@ -1,21 +1,12 @@
 import pluginWebc from "@11ty/eleventy-plugin-webc";
 import { existsSync, readdirSync } from "node:fs";
 import path from "node:path";
+import { canonicalAssetDirectory } from "./lib/content-routing.js";
 
 const IMAGE_EXTENSIONS = new Set([".gif", ".jpeg", ".jpg", ".png", ".webp"]);
 
 function slash(value) {
   return value.replaceAll("\\", "/");
-}
-
-function canonicalAssetDirectory(relativeFile) {
-  const segments = slash(relativeFile).split("/");
-  if (segments[0] === "posts" && segments[1] === "articles") return `blog/${segments[2]}`;
-  if (segments[0] === "posts" && segments[1] === "gamelogs") return `blog/gamelog/${segments[2]}`;
-  if (segments[0] === "posts" && segments[1] === "dungeonlogs") return `blog/dungeonlog/${segments[2]}`;
-  if (segments[0] === "talks") return `talks/${segments[1]}`;
-  if (segments[0] === "pages") return segments[1];
-  throw new Error(`Cannot determine output route for colocated asset: ${relativeFile}`);
 }
 
 function colocatedAssets() {

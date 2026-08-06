@@ -1,6 +1,8 @@
 ---
 title: The Prophecy That Wanted Us Dead
 date: '2025-12-15'
+redirectFrom:
+  - /blog/dungeonlog/2025-12-15/
 banner:
   src: ./2025-12-15_Poster.png
   alt: 'Adventurers battle a skeleton horde with fire, lightning, and a glowing axe.'

@@ -1,5 +1,7 @@
+import { postUrl } from "../../../../lib/content-routing.js";
+
 export default {
   type: "gamelog",
   tags: ["gamelogs"],
-  permalink: ({ page }) => `/blog/gamelog/${page.fileSlug}/`,
+  permalink: ({ page }) => postUrl(page.fileSlug),
 };

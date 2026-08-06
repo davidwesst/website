@@ -1,6 +1,8 @@
 ---
 title: 'Webs, Statues, and a Queen Who Won’t Die'
 date: '2026-02-08'
+redirectFrom:
+  - /blog/dungeonlog/2026-02-08/
 banner:
   src: ./2026-02-08_Poster.png
   alt: 'A noir collage shows adventurers, spiders, statues, a queen, and a boat.'

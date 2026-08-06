@@ -1,6 +1,8 @@
 ---
 title: When the Room Let Us Go
 date: '2025-12-01'
+redirectFrom:
+  - /blog/dungeonlog/2025-12-01/
 banner:
   src: ./2025-12-01_Poster.png
   alt: A dragonborn warrior raises a lightning axe amid snakes and allies.

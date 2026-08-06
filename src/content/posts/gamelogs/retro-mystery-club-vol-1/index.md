@@ -3,6 +3,7 @@ title: Retro Mystery Club Vol. 1 - The Ise-Shima Case
 date: '2026-01-10'
 redirectFrom:
   - /blog/gamelog/entry.html?slug=retro-mystery-club-vol-1
+  - /blog/gamelog/retro-mystery-club-vol-1/
 customData:
   game:
     ids:

@@ -1,6 +1,8 @@
 ---
 title: Heart of Ubutao
 date: '2025-08-04'
+redirectFrom:
+  - /blog/dungeonlog/2025-08-04/
 banner:
   src: ./SessionRecap_2025-08-04-Alt.png
   alt: >-

@@ -1,5 +1,7 @@
+import { postUrl } from "../../../../lib/content-routing.js";
+
 export default {
   type: "article",
   tags: ["articles"],
-  permalink: ({ page }) => `/blog/${page.fileSlug}/`,
+  permalink: ({ page }) => postUrl(page.fileSlug),
 };

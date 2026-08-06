@@ -5,6 +5,7 @@ redirectFrom:
   - /blog/gamelog/entry.html?slug=tangle-tower
   - /gamelog/tangle-tower/
   - /gamelog/tangle-tower/index.html
+  - /blog/gamelog/tangle-tower/
 customData:
   game:
     ids:

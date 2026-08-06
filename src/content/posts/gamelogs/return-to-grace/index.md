@@ -5,6 +5,7 @@ redirectFrom:
   - /blog/gamelog/entry.html?slug=return-to-grace
   - /gamelog/return-to-grace/
   - /gamelog/return-to-grace/index.html
+  - /blog/gamelog/return-to-grace/
 customData:
   game:
     ids:

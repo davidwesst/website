@@ -1,6 +1,8 @@
 ---
 title: The Pachinko Gambit
 date: '2025-08-18'
+redirectFrom:
+  - /blog/dungeonlog/2025-08-18/
 banner:
   src: ./SessionRecap-Poster_2025-08-18.png
   alt: A donkey detective falls below apes and undead figures in a noir poster.

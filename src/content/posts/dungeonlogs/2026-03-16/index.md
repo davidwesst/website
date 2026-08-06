@@ -1,6 +1,8 @@
 ---
 title: The Queen Who Refused to Die
 date: '2026-03-16'
+redirectFrom:
+  - /blog/dungeonlog/2026-03-16/
 banner:
   src: ./2026-03-16_Poster.png
   alt: >-

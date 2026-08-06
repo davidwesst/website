@@ -5,6 +5,7 @@ redirectFrom:
   - /blog/gamelog/entry.html?slug=the-red-strings-club
   - /gamelog/the-red-strings-club/
   - /gamelog/the-red-strings-club/index.html
+  - /blog/gamelog/the-red-strings-club/
 customData:
   game:
     ids:

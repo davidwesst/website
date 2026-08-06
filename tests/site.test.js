@@ -25,11 +25,11 @@ test("representative post types render normalized data", async () => {
   assert.equal(article("time").first().attr("datetime"), "2025-01-30");
   assert.equal(article("figure img").attr("src"), "./from-11ty-to-wordpress-and-back-again_title-image.webp");
 
-  const gamelog = await page("blog/gamelog/clair-obscur-expedition-33/index.html");
+  const gamelog = await page("blog/clair-obscur-expedition-33/index.html");
   assert.match(gamelog("dl").text(), /XBox Series X/);
   assert.match(gamelog("dl").text(), /overall\s*3/);
 
-  const dungeonlog = await page("blog/dungeonlog/2026-03-16/index.html");
+  const dungeonlog = await page("blog/2026-03-16/index.html");
   assert.equal(dungeonlog("h1").text(), "The Queen Who Refused to Die");
   assert.ok(dungeonlog("figure img").length);
 });
@@ -48,6 +48,10 @@ test("indexes, categories, and standalone pages render", async () => {
   assert.equal(blog("h1").text(), "Blog");
   assert.equal(blog("ol > li").length, 166);
 
+  assert.equal((await page("blog/articles/index.html"))("ol > li").length, 138);
+  assert.equal((await page("blog/gamelogs/index.html"))("ol > li").length, 16);
+  assert.equal((await page("blog/dungeonlogs/index.html"))("ol > li").length, 12);
+
   const talks = await page("talks/index.html");
   assert.equal(talks("ol > li").length, 12);
 
@@ -64,9 +68,15 @@ test("Azure redirects and the legacy query dispatcher are generated", async () =
   assert.equal(config.trailingSlash, "always");
   assert.ok(config.routes.some((route) => route.route === "/talks/concensus-in-the-chaos/" && route.statusCode === 301));
   assert.ok(config.routes.some((route) => route.route === "/blog/gamelog/entry.html" && route.rewrite === "/legacy/gamelog-entry.html"));
+  assert.ok(config.routes.some((route) => route.route === "/blog/gamelog/clair-obscur-expedition-33/" && route.redirect === "/blog/clair-obscur-expedition-33/" && route.statusCode === 301));
+  assert.ok(config.routes.some((route) => route.route === "/blog/dungeonlog/2026-03-16/" && route.redirect === "/blog/2026-03-16/" && route.statusCode === 301));
+  assert.ok(config.routes.some((route) => route.route === "/blog/gamelog/" && route.redirect === "/blog/gamelogs/"));
+  assert.ok(config.routes.some((route) => route.route === "/blog/dungeonlog/" && route.redirect === "/blog/dungeonlogs/"));
 
   const dispatcher = await readFile(join(output, "legacy", "gamelog-entry.html"), "utf8");
   assert.match(dispatcher, /URLSearchParams/);
   assert.match(dispatcher, /clair-obscur-expedition-33/);
+  assert.match(dispatcher, /"clair-obscur-expedition-33":"\/blog\/clair-obscur-expedition-33\/"/);
+  assert.match(dispatcher, /\/blog\/gamelogs\//);
   assert.match(dispatcher, /noindex/);
 });

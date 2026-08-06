@@ -1,5 +1,7 @@
+import { postUrl } from "../../../../lib/content-routing.js";
+
 export default {
   type: "dungeonlog",
   tags: ["dungeonlogs"],
-  permalink: ({ page }) => `/blog/dungeonlog/${page.fileSlug}/`,
+  permalink: ({ page }) => postUrl(page.fileSlug),
 };

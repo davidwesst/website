@@ -24,7 +24,7 @@ export default class LegacyGamelogDispatcher {
   <main>
     <h1>Redirecting to a gamelog</h1>
     <p id="message">Finding the requested gamelog…</p>
-    <p><a href="/blog/gamelog/">Browse all gamelogs</a></p>
+    <p><a href="/blog/gamelogs/">Browse all gamelogs</a></p>
   </main>
   <script>
     const targets = ${escapeScriptJson(targets)};

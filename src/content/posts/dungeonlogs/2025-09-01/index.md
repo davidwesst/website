@@ -1,6 +1,8 @@
 ---
 title: Firefinger
 date: '2025-09-01'
+redirectFrom:
+  - /blog/dungeonlog/2025-09-01/
 banner:
   src: ./SessionRecap_Poster_2025-09-01.png
   alt: A dragonborn detective and adventurers pose before a burning tower and bats.

@@ -5,6 +5,7 @@ redirectFrom:
   - /blog/gamelog/entry.html?slug=indiana-jones-and-the-great-circle
   - /gamelog/indiana-jones-and-the-great-circle/
   - /gamelog/indiana-jones-and-the-great-circle/index.html
+  - /blog/gamelog/indiana-jones-and-the-great-circle/
 customData:
   game:
     ids:

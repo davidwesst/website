@@ -3,6 +3,7 @@ title: Dispatch
 date: '2025-12-16'
 redirectFrom:
   - /blog/gamelog/entry.html?slug=dispatch
+  - /blog/gamelog/dispatch/
 customData:
   game:
     ids:

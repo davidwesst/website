@@ -1,6 +1,8 @@
 ---
 title: 'The Thighs, the Stars, and the Scream'
 date: '2026-01-05'
+redirectFrom:
+  - /blog/dungeonlog/2026-01-05/
 banner:
   src: ./2026-01-05_Poster.png
   alt: Adventurers gather around a screaming figure in a monochrome horror poster.

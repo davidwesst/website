@@ -3,6 +3,7 @@ title: Little Rocket Lab
 date: '2025-12-30'
 redirectFrom:
   - /blog/gamelog/entry.html?slug=little-rocket-lab
+  - /blog/gamelog/little-rocket-lab/
 customData:
   game:
     ids:

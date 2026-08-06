@@ -1,6 +1,8 @@
 ---
 title: The Ratline
 date: '2026-05-24'
+redirectFrom:
+  - /blog/gamelog/the-ratline/
 customData:
   game:
     ids:

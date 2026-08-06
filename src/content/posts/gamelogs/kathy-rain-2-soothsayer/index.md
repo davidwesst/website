@@ -3,6 +3,7 @@ title: 'Kathy Rain 2: Soothsayer'
 date: '2026-03-23'
 redirectFrom:
   - /blog/gamelog/entry.html?slug=kathy-rain-2-soothsayer
+  - /blog/gamelog/kathy-rain-2-soothsayer/
 customData:
   game:
     ids:

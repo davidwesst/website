@@ -1,6 +1,8 @@
 ---
 title: Smoke over Fernia
 date: '2025-10-18'
+redirectFrom:
+  - /blog/dungeonlog/2025-10-18/
 banner:
   src: ./2025-10-18_Poster.png
   alt: A dragonborn detective and adventurers pose amid lightning and orange smoke.

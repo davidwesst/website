@@ -5,6 +5,7 @@ redirectFrom:
   - /blog/gamelog/entry.html?slug=the-roottrees-are-dead
   - /gamelog/the-roottrees-are-dead/
   - /gamelog/the-roottrees-are-dead/index.html
+  - /blog/gamelog/the-roottrees-are-dead/
 customData:
   game:
     ids:

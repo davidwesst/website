@@ -4,6 +4,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { load } from "cheerio";
 import matter from "gray-matter";
+import { BLOG_INDEX_ROUTES, RESERVED_BLOG_SLUGS, canonicalContentUrl } from "../lib/content-routing.js";
 
 const ROOT = process.cwd();
 const CONTENT_ROOT = path.join(ROOT, "src", "content");
@@ -46,11 +47,7 @@ function typeFor(file) {
 
 function canonicalUrl(document) {
   const slug = path.basename(path.dirname(document.file));
-  if (document.type === "articles") return `/blog/${slug}/`;
-  if (document.type === "gamelogs") return `/blog/gamelog/${slug}/`;
-  if (document.type === "dungeonlogs") return `/blog/dungeonlog/${slug}/`;
-  if (document.type === "talks") return `/talks/${slug}/`;
-  return `/${slug}/`;
+  return canonicalContentUrl(document.type, slug);
 }
 
 function outputFile(url) {
@@ -91,6 +88,7 @@ assert.deepEqual(Object.fromEntries(Object.entries(MANIFEST.counts).filter(([key
 const urls = new Set();
 const redirects = new Map();
 const categoryRoutes = new Map();
+const postSlugs = new Map();
 let appearanceCount = 0;
 
 for (const document of documents) {
@@ -98,6 +96,13 @@ for (const document of documents) {
   assert.ok(document.data.title, `${context} must have a title`);
   for (const key of Object.keys(document.data)) assert.ok(ALLOWED_KEYS.has(key), `${context} has unsupported field ${key}`);
   for (const key of DEPRECATED_KEYS) assert.equal(document.data[key], undefined, `${context} retains deprecated field ${key}`);
+
+  const slug = path.basename(path.dirname(document.file));
+  if (["articles", "gamelogs", "dungeonlogs"].includes(document.type)) {
+    assert.ok(!RESERVED_BLOG_SLUGS.has(slug), `${context} uses reserved blog index slug ${slug}`);
+    assert.ok(!postSlugs.has(slug), `${context} duplicates post slug owned by ${postSlugs.get(slug)}`);
+    postSlugs.set(slug, context);
+  }
 
   if (document.type !== "pages") parseDate(document.data.date, context);
   if (document.data.updated) parseDate(document.data.updated, `${context} updated`);
@@ -112,6 +117,10 @@ for (const document of documents) {
     assert.ok(document.data.customData?.game?.ids?.igdb, `${context} needs an IGDB id`);
     assert.ok(document.data.customData?.playthrough, `${context} needs playthrough data`);
     assert.ok(document.data.customData?.ratings?.overall, `${context} needs ratings`);
+  }
+  if (["gamelogs", "dungeonlogs"].includes(document.type)) {
+    const legacyType = document.type === "gamelogs" ? "gamelog" : "dungeonlog";
+    assert.ok(document.data.redirectFrom?.includes(`/blog/${legacyType}/${slug}/`), `${context} must preserve its archived hierarchical canonical URL`);
   }
   if (["articles", "dungeonlogs"].includes(document.type)) assert.equal(document.data.customData, undefined, `${context} must omit empty customData`);
 
@@ -145,6 +154,7 @@ for (const document of documents) {
 }
 
 assert.equal(appearanceCount, 22, "All talk appearances must be migrated");
+assert.equal(postSlugs.size, 166, "Every post must have a globally unique flat-route slug");
 for (const [source, target] of redirects) {
   assert.notEqual(source, target, `Redirect source equals target: ${source}`);
   assert.ok(!redirects.has(target), `Redirect chain begins at ${source}`);
@@ -197,6 +207,8 @@ const config = JSON.parse(configSource);
 assert.equal(config.trailingSlash, "always");
 const configuredRoutes = new Map(config.routes.map((route) => [route.route, route]));
 assert.equal(configuredRoutes.get("/blog/gamelog/entry.html")?.rewrite, "/legacy/gamelog-entry.html");
+assert.equal(configuredRoutes.get("/blog/gamelog/")?.redirect, BLOG_INDEX_ROUTES.gamelogs);
+assert.equal(configuredRoutes.get("/blog/dungeonlog/")?.redirect, BLOG_INDEX_ROUTES.dungeonlogs);
 for (const [source, target] of redirects) {
   if (source.includes("?")) continue;
   if (source.endsWith("/index.html") && source.slice(0, -"index.html".length) === target) continue;
@@ -208,6 +220,10 @@ for (const document of documents.filter((item) => item.type === "gamelogs")) {
   const slug = path.basename(path.dirname(document.file));
   assert.match(dispatcher, new RegExp(`"${slug}":"${canonicalUrl(document).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`), `Legacy dispatcher is missing ${slug}`);
 }
+
+for (const route of Object.values(BLOG_INDEX_ROUTES)) assert.ok(exactCaseExists(outputFile(route)), `Missing post type index: ${route}`);
+assert.ok(!existsSync(path.join(OUTPUT_ROOT, "blog", "gamelog")), "Unpublished nested gamelog output must not be generated");
+assert.ok(!existsSync(path.join(OUTPUT_ROOT, "blog", "dungeonlog")), "Unpublished nested dungeonlog output must not be generated");
 
 function resolveLocalTarget(currentFile, href) {
   const currentUrl = `https://site.test/${slash(path.relative(OUTPUT_ROOT, currentFile)).replace(/index\.html$/, "")}`;

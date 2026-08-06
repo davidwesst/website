@@ -3,6 +3,7 @@ title: TR-49
 date: '2026-02-17'
 redirectFrom:
   - /blog/gamelog/entry.html?slug=tr-49
+  - /blog/gamelog/tr-49/
 customData:
   game:
     ids:
@@ -20,7 +21,7 @@ customData:
 ---
 TR-49 is a new game from the folks at Inkle, who have created a number of narrative-driven games I've enjoyed. Heaven's Vault, 80 Days, and Overboard to name a few.
 
-This game is a solid attempt at a narrative deduction game, in the same style as [The Roottrees are Dead](/blog/gamelog/entry.html?slug=the-roottrees-are-dead) and Her Story, where you explore data and piece together a mystery.
+This game is a solid attempt at a narrative deduction game, in the same style as [The Roottrees are Dead](/blog/the-roottrees-are-dead/) and Her Story, where you explore data and piece together a mystery.
 
 ## What I Didn't Like
 
