@@ -9,7 +9,7 @@ This repository contains David Wesst's active Eleventy website and its normalize
 The active site publishes:
 
 - a home page plus migrated About and Projects pages
-- 138 articles, 16 gamelogs, and 12 dungeonlogs
+- 138 articles, 19 gamelogs, and 12 dungeonlogs
 - 12 talks containing 22 appearances migrated from 16 archived event records
 - Blog, Articles, Gamelogs, Dungeonlogs, Talks, and Topics indexes
 - generated pages for topics shared by posts and talks
@@ -59,7 +59,7 @@ Repository-controlled global site data defines the title, tagline, social links 
 `tools/content-migration/migrate.mjs` is the only active tool allowed to read `_archive`. It parses archived front matter and event records, normalizes taxonomy and type-specific data, rewrites recoverable image references, records missing images, removes unsupported migration artifacts, and produces the active content through a staging directory.
 
 - `pnpm content:migrate` performs the initial migration and refuses to overwrite existing content or assets.
-- `pnpm content:migrate:check` regenerates the expected result in a temporary directory and compares it with active content without writing.
+- `pnpm content:migrate:check` regenerates the expected result in a temporary directory and verifies that the migrated subset of active content still matches without writing. New authored documents outside the migration manifest are allowed.
 
 Available binary assets are copied byte-for-byte beside their owning `src/content/.../index.md` file. Eleventy maps each colocated image to the same canonical output directory as its rendered document, so source ownership and published ownership remain aligned. `src/_data/migration-manifest.json` records source and colocated destination hashes. `src/_data/asset-exceptions.json` records unavailable images; rendered content uses semantic unavailable-image notes instead of broken image elements.
 

@@ -13,7 +13,8 @@ const MANIFEST = JSON.parse(readFileSync(path.join(ROOT, "src", "_data", "migrat
 const EXCEPTIONS = JSON.parse(readFileSync(path.join(ROOT, "src", "_data", "asset-exceptions.json"), "utf8"));
 const ALLOWED_KEYS = new Set(["title", "date", "updated", "summary", "topics", "redirectFrom", "banner", "customData"]);
 const DEPRECATED_KEYS = new Set(["id", "source", "docType", "series", "slug", "taxonomy", "canonicalUrl", "legacyUrls", "media", "review", "meta"]);
-const EXPECTED_COUNTS = { articles: 138, gamelogs: 16, dungeonlogs: 12, talks: 12, pages: 2 };
+const EXPECTED_COUNTS = { articles: 138, gamelogs: 19, dungeonlogs: 12, talks: 12, pages: 2 };
+const MIGRATED_COUNTS = { articles: 138, gamelogs: 16, dungeonlogs: 12, talks: 12, pages: 2 };
 
 function slash(value) {
   return value.replaceAll("\\", "/");
@@ -82,8 +83,8 @@ const documents = markdownFiles.map((file) => {
 });
 
 const counts = Object.fromEntries(Object.keys(EXPECTED_COUNTS).map((type) => [type, documents.filter((document) => document.type === type).length]));
-assert.deepEqual(counts, EXPECTED_COUNTS, "Migrated content counts must match the approved archive inventory");
-assert.deepEqual(Object.fromEntries(Object.entries(MANIFEST.counts).filter(([key]) => key !== "appearances")), EXPECTED_COUNTS);
+assert.deepEqual(counts, EXPECTED_COUNTS, "Active content counts must match the approved inventory");
+assert.deepEqual(Object.fromEntries(Object.entries(MANIFEST.counts).filter(([key]) => key !== "appearances")), MIGRATED_COUNTS);
 
 const urls = new Set();
 const redirects = new Map();
@@ -154,7 +155,7 @@ for (const document of documents) {
 }
 
 assert.equal(appearanceCount, 22, "All talk appearances must be migrated");
-assert.equal(postSlugs.size, 166, "Every post must have a globally unique flat-route slug");
+assert.equal(postSlugs.size, EXPECTED_COUNTS.articles + EXPECTED_COUNTS.gamelogs + EXPECTED_COUNTS.dungeonlogs, "Every post must have a globally unique flat-route slug");
 for (const [source, target] of redirects) {
   assert.notEqual(source, target, `Redirect source equals target: ${source}`);
   assert.ok(!redirects.has(target), `Redirect chain begins at ${source}`);
@@ -193,7 +194,12 @@ for (const document of documents) {
     assert.equal(image.attr("src"), document.data.banner.src, `${canonicalUrl(document)} renders the wrong banner`);
     assert.equal(image.attr("alt"), document.data.banner.alt, `${canonicalUrl(document)} renders the wrong banner alt text`);
   }
-  if (document.type === "gamelogs") assert.ok($("dl dt").length >= 8, `${canonicalUrl(document)} must render playthrough and ratings`);
+  if (document.type === "gamelogs") {
+    const playthrough = document.data.customData.playthrough;
+    const expectedDetails = [playthrough.started, playthrough.completed, playthrough.platform].filter(Boolean).length
+      + Object.keys(document.data.customData.ratings).length;
+    assert.equal($("dl dt").length, expectedDetails, `${canonicalUrl(document)} must render all authored playthrough and rating data`);
+  }
   if (document.type === "talks") {
     assert.match($("body").text(), /Published\s+August 5, 2026/, `${canonicalUrl(document)} must render its publication date`);
     assert.equal($("#appearances-heading + ol > li").length, document.data.customData.appearances?.length || 0, `${canonicalUrl(document)} renders the wrong appearance count`);

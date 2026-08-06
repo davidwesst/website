@@ -19,8 +19,8 @@ test("the home page renders the Ghostwind shell and configured content", async (
   assert.match($("body").attr("class"), /bg-slate-100/);
   assert.equal($("nav[aria-label='Primary navigation'] a").length, 7);
   assert.equal($("nav[aria-label='Primary navigation'] a[href='/topics/']").text(), "Topics");
-  assert.equal($("#featured-heading + article h2").text().trim(), "The Ratline");
-  assert.match($("#featured-heading + article .post-card-description").text(), /The Ratline is an investigation game/);
+  assert.equal($("#featured-heading + article h2").text().trim(), "Paranormasight: The Mermaid's Curse");
+  assert.match($("#featured-heading + article .post-card-description").text(), /This is the second Paranormasight game/);
   assert.match($("#recent-heading").closest("section").find("ol > li article time").first().closest("footer").attr("class"), /\bmt-auto\b/);
   assert.match($("#recent-heading").closest("section").find("ol > li article time").first().closest("footer").attr("class"), /\bpt-6\b/);
   assert.equal($("#recent-heading").closest("section").find("ol > li").length, 9);
@@ -71,6 +71,11 @@ test("representative post types render normalized data", async () => {
   assert.match(gamelog("dl").text(), /XBox Series X/);
   assert.match(gamelog("dl").text(), /overall\s*3/);
 
+  const julyGamelog = await page("blog/paranormasight-the-mermaids-curse/index.html");
+  assert.equal(julyGamelog("h1").text(), "Paranormasight: The Mermaid's Curse");
+  assert.equal(julyGamelog("time").first().attr("datetime"), "2026-07-23");
+  assert.match(julyGamelog("dl").text(), /overall\s*2/);
+
   const dungeonlog = await page("blog/2026-03-16/index.html");
   assert.equal(dungeonlog("h1").text(), "The Queen Who Refused to Die");
   assert.ok(dungeonlog("figure img").length);
@@ -102,10 +107,10 @@ test("talks render publication and appearance dates separately", async () => {
 test("indexes, topics, compatibility pages, and standalone pages render", async () => {
   const blog = await page("blog/index.html");
   assert.equal(blog("h1").text(), "Blog");
-  assert.equal(blog("ol > li").length, 166);
+  assert.equal(blog("ol > li").length, 169);
 
   assert.equal((await page("blog/articles/index.html"))("ol > li").length, 138);
-  assert.equal((await page("blog/gamelogs/index.html"))("ol > li").length, 16);
+  assert.equal((await page("blog/gamelogs/index.html"))("ol > li").length, 19);
   assert.equal((await page("blog/dungeonlogs/index.html"))("ol > li").length, 12);
 
   const talks = await page("talks/index.html");

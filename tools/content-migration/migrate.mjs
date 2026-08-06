@@ -389,7 +389,11 @@ function compareTree(expected, actual, label) {
     : [];
   const expectedFiles = list(expected);
   const actualFiles = list(actual).filter((file) => label !== "Content" || file.endsWith("index.md") || IMAGE_EXTENSIONS.has(path.extname(file).toLowerCase()));
-  if (JSON.stringify(expectedFiles) !== JSON.stringify(actualFiles)) throw new Error(`${label} file list differs from migration output`);
+  const missingFiles = expectedFiles.filter((file) => !actualFiles.includes(file));
+  const migratedDocumentDirectories = new Set(expectedFiles.filter((file) => file.endsWith("index.md")).map((file) => path.dirname(file)));
+  const unexpectedFiles = actualFiles.filter((file) => !expectedFiles.includes(file)
+    && (label !== "Content" || migratedDocumentDirectories.has(path.dirname(file))));
+  if (missingFiles.length || unexpectedFiles.length) throw new Error(`${label} file list differs from migration output`);
   for (const file of expectedFiles) {
     const expectedPath = path.join(expected, file);
     const actualPath = path.join(actual, file);
