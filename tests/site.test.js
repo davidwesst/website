@@ -99,7 +99,7 @@ test("post visuals use banners or accessible type-specific fallbacks", async () 
 
 test("talks render publication and appearance dates separately", async () => {
   const $ = await page("talks/no-mission-impossible/index.html");
-  assert.equal($("header time").first().attr("datetime"), "2026-08-05");
+  assert.equal($("header time").first().attr("datetime"), "2024-04-07");
   assert.equal($("#appearances-heading + ol > li").length, 1);
   assert.equal($("#appearances-heading + ol time").first().attr("datetime"), "2024-04-07");
   assert.match($("#speakers-heading + ul").text(), /David Wesst/);
@@ -117,6 +117,19 @@ test("indexes, topics, compatibility pages, and standalone pages render", async 
 
   const talks = await page("talks/index.html");
   assert.equal(talks("ol > li").length, 12);
+  assert.equal(talks("ol > li").first().find("h2").text().trim(), "A Guide to SaaS-Ready Banner Customizations in 2026");
+  assert.equal(talks("ol > li").first().find("time").attr("datetime"), "2026-06-01T00:00:00.000Z");
+  assert.match(talks("ol").attr("class"), /\bmd:grid-cols-1\b/);
+  assert.match(talks("ol").attr("class"), /\blg:grid-cols-1\b/);
+  assert.doesNotMatch(talks("ol").attr("class"), /\bmax-w-3xl\b/);
+  assert.doesNotMatch(talks("ol").attr("class"), /\blg:grid-cols-2\b/);
+  assert.doesNotMatch(talks("ol").attr("class"), /\blg:grid-cols-3\b/);
+  assert.equal(talks("ol > li article figure img").length, 12);
+  assert.ok(talks("ol > li article figure").first().attr("class").split(/\s+/).includes("aspect-[32/9]"));
+  assert.equal(
+    talks("article:has(h2 a[href='/talks/no-mission-impossible/']) figure img").attr("src"),
+    "/talks/no-mission-impossible/Slide2.jpg",
+  );
 
   const topic = await page("topics/eleventy/index.html");
   assert.equal(topic("h1").text().trim(), "eleventy");

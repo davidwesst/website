@@ -20,7 +20,14 @@ const ARCHIVE_CONTENT = path.join(ROOT, "_archive", "src", "content");
 const TARGET_CONTENT = path.join(ROOT, "src", "content");
 const MANIFEST_PATH = path.join(ROOT, "src", "_data", "migration-manifest.json");
 const EXCEPTIONS_PATH = path.join(ROOT, "src", "_data", "asset-exceptions.json");
-const TALK_PUBLISH_DATE = "2026-08-05";
+const MIGRATION_GENERATED_ON = "2026-08-05";
+const TALK_DATE_OVERRIDES = new Map([
+  ["consensus-in-the-chaos", "2022-11-28"],
+  ["from-custom-cots-to-cloud", "2022-11-28"],
+  ["hack-the-it-governance-matrix", "2023-10-16"],
+  ["is-ai-ready-to-take-over-the-world", "2023-10-16"],
+  ["its-scary-using-new-ai-technology", "2023-12-20"],
+]);
 const IMAGE_EXTENSIONS = new Set([".gif", ".jpeg", ".jpg", ".png", ".webp"]);
 const RESERVED_CATEGORIES = new Set(["article", "articles", "blog", "dungeonlog", "dungeonlogs", "gamelog", "gamelogs", "post", "posts", "talk", "talks"]);
 const LINK_REWRITES = new Map([
@@ -302,6 +309,13 @@ function talkData(entry, events) {
   return clean({ speakers, appearances });
 }
 
+function talkDate(entry, data) {
+  const latestAppearance = data.appearances?.map((appearance) => appearance.start).filter(Boolean).sort().at(-1);
+  const date = isoDate(entry.data.dates?.published || entry.data.date) || latestAppearance || TALK_DATE_OVERRIDES.get(entry.slug);
+  if (!date) throw new Error(`Missing publication or presentation date for talk ${entry.slug}`);
+  return date;
+}
+
 function collectAssets(entry, targetPath, stageContent, manifestAssets) {
   const destination = path.join(stageContent, targetPath);
   mkdirSync(destination, { recursive: true });
@@ -353,8 +367,9 @@ function createMigration(stageRoot) {
   for (const directory of listDirectories(path.join(ARCHIVE_CONTENT, "talks"))) {
     const entry = readMarkdown(directory);
     const data = baseData(entry, "talks", eventIds, exceptions);
-    data.date = TALK_PUBLISH_DATE;
-    data.customData = talkData(entry, events);
+    const customData = talkData(entry, events);
+    data.date = talkDate(entry, customData);
+    data.customData = customData;
     counts.appearances += data.customData.appearances?.length || 0;
     const body = rewriteBodyImages(entry, "talks", exceptions);
     const targetPath = path.join("talks", entry.slug);
@@ -376,7 +391,7 @@ function createMigration(stageRoot) {
   const uniqueExceptions = [...new Map(exceptions.map((item) => [`${item.document}\0${item.reference}`, item])).values()]
     .sort((left, right) => `${left.document}/${left.reference}`.localeCompare(`${right.document}/${right.reference}`));
   const manifest = {
-    generatedOn: TALK_PUBLISH_DATE,
+    generatedOn: MIGRATION_GENERATED_ON,
     counts,
     assets: manifestAssets.sort((left, right) => left.destination.localeCompare(right.destination)),
   };

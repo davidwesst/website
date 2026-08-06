@@ -44,7 +44,7 @@ Eleventy derives the slug from `page.fileSlug`. All post types share a flat cano
 
 Post slugs must be globally unique across all three post types and cannot use the reserved type-index slugs `articles`, `gamelogs`, or `dungeonlogs`. The filtered indexes live at `/blog/articles/`, `/blog/gamelogs/`, and `/blog/dungeonlogs/`. Topics are authored taxonomy values, separate from Eleventy collection tags. Topic routes use normalized slugs and combine posts and talks in descending publication order. Canonical topic pages live under `/topics/`; legacy `/categories/` pages remain noindex compatibility forwarders.
 
-Gamelog-specific data is stored under `customData.game.ids`, `customData.playthrough`, and `customData.ratings`. Talk-specific data is stored under `customData.speakers` and `customData.appearances`. A talk's page `date` is its publication date; appearance dates do not participate in default collection sorting.
+Gamelog-specific data is stored under `customData.game.ids`, `customData.playthrough`, and `customData.ratings`. Talk-specific data is stored under `customData.speakers` and `customData.appearances`. A talk's page `date` is its original publication date when recoverable, otherwise its latest presentation date. The resolved page date controls collection sorting; individual appearance dates do not otherwise participate in sorting.
 
 ## Rendering
 

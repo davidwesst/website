@@ -15,6 +15,20 @@ const ALLOWED_KEYS = new Set(["title", "date", "updated", "summary", "topics", "
 const DEPRECATED_KEYS = new Set(["id", "source", "docType", "series", "slug", "taxonomy", "canonicalUrl", "legacyUrls", "media", "review", "meta"]);
 const EXPECTED_COUNTS = { articles: 138, gamelogs: 19, dungeonlogs: 12, talks: 12, pages: 2 };
 const MIGRATED_COUNTS = { articles: 138, gamelogs: 16, dungeonlogs: 12, talks: 12, pages: 2 };
+const EXPECTED_TALK_DATES = {
+  "11ty-days-of-web-development": "2024-12-18",
+  "a-guide-to-saas-ready-banner-customizations-in-2026": "2026-06-01",
+  "consensus-in-the-chaos": "2022-11-28",
+  "empowering-campus-innovation-through-ethos-data-connect": "2026-04-19",
+  "from-custom-cots-to-cloud": "2022-11-28",
+  "going-beyond-powerpoint": "2024-09-25",
+  "hack-the-it-governance-matrix": "2023-10-16",
+  "integrations-orchestrations-automations": "2024-09-23",
+  "is-ai-ready-to-take-over-the-world": "2023-10-16",
+  "its-scary-using-new-ai-technology": "2023-12-20",
+  "modernization-journey": "2025-10-14",
+  "no-mission-impossible": "2024-04-07",
+};
 
 function slash(value) {
   return value.replaceAll("\\", "/");
@@ -109,7 +123,7 @@ for (const document of documents) {
   if (document.data.updated) parseDate(document.data.updated, `${context} updated`);
   if (document.type === "talks") {
     assert.match(document.source, /^date:\s*['"]?\d{4}-\d{2}-\d{2}/m, `${context} must author a publication date`);
-    assert.equal(new Date(document.data.date).toISOString().slice(0, 10), "2026-08-05", `${context} must use the migration publication date`);
+    assert.equal(new Date(document.data.date).toISOString().slice(0, 10), EXPECTED_TALK_DATES[slug], `${context} must use its approved publication or latest presentation date`);
     assert.ok(Array.isArray(document.data.customData?.speakers) && document.data.customData.speakers.length, `${context} needs speakers`);
     assert.ok(document.data.customData?.appearances === undefined || Array.isArray(document.data.customData.appearances), `${context} appearances must be a list`);
     appearanceCount += document.data.customData.appearances?.length || 0;
@@ -201,7 +215,7 @@ for (const document of documents) {
     assert.equal($("dl dt").length, expectedDetails, `${canonicalUrl(document)} must render all authored playthrough and rating data`);
   }
   if (document.type === "talks") {
-    assert.match($("body").text(), /Published\s+August 5, 2026/, `${canonicalUrl(document)} must render its publication date`);
+    assert.equal($("header time").first().attr("datetime"), EXPECTED_TALK_DATES[path.basename(path.dirname(document.file))], `${canonicalUrl(document)} must render its publication or latest presentation date`);
     assert.equal($("#appearances-heading + ol > li").length, document.data.customData.appearances?.length || 0, `${canonicalUrl(document)} renders the wrong appearance count`);
   }
 }

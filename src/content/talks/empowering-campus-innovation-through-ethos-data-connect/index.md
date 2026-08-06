@@ -20,7 +20,7 @@ banner:
     Abstract icons representing databases, cloud services, applications, users,
     and automation tools surround the center in a clean event-driven
     architecture layout with soft gradients and futuristic UI styling.
-date: '2026-08-05'
+date: '2026-04-19'
 customData:
   speakers:
     - David Wesst

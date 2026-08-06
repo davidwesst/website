@@ -20,7 +20,7 @@ topics:
 banner:
   src: ./beyond-powerpoint_coverimage-1400x800.webp
   alt: Cave-painting scene of a presenter showing diagrams to a seated audience.
-date: '2026-08-05'
+date: '2024-09-25'
 customData:
   speakers:
     - David Wesst

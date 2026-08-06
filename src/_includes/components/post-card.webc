@@ -7,7 +7,7 @@
 
 <article class="group flex h-full flex-col overflow-hidden rounded-lg bg-white shadow-lg transition duration-200 hover:-translate-y-1 hover:shadow-xl" :class="featured ? 'md:grid md:grid-cols-5' : ''">
   <a class="block overflow-hidden" :class="featured ? 'md:col-span-3' : ''" :href="item.url" tabindex="-1" aria-hidden="true">
-    <post-visual :@banner="item.data.banner" :base-url="item.url" :type="item.data.type" :@site="site" :@featured="featured"></post-visual>
+    <post-visual :@banner="item.data.banner" :base-url="item.url" :type="item.data.type" :@site="site" :@featured="featured" :@cropped="cropBanner"></post-visual>
   </a>
   <div class="flex flex-1 flex-col p-6" :class="featured ? 'md:col-span-2 md:p-9' : ''">
     <post-type-marker :type="item.data.type" :@site="site"></post-type-marker>

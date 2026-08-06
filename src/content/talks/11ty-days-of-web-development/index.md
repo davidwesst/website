@@ -16,7 +16,7 @@ banner:
     A silver laptop with the Eleventy logo on the screen sitting on a desk
     covered in holiday gifts, a holiday calendar and surrounded with floating
     technology text and holiday-theme decor.
-date: '2026-08-05'
+date: '2024-12-18'
 customData:
   speakers:
     - David Wesst

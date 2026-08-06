@@ -10,7 +10,7 @@ redirectFrom:
 banner:
   src: ./consensus-in-the-chaos-thumbnail.jpg
   alt: This is alt text!
-date: '2026-08-05'
+date: '2022-11-28'
 customData:
   speakers:
     - David Wesst

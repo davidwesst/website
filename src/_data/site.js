@@ -14,5 +14,6 @@ export default {
     article: { label: "Article", iconClass: "fa-solid fa-newspaper", fallbackColor: "#0f766e" },
     gamelog: { label: "Gamelog", iconClass: "fa-solid fa-gamepad", fallbackColor: "#7c3aed" },
     dungeonlog: { label: "Dungeonlog", iconClass: "fa-solid fa-dungeon", fallbackColor: "#b45309" },
+    talk: { label: "Talk", iconClass: "fa-solid fa-person-chalkboard", fallbackColor: "#0369a1" },
   },
 };

@@ -16,7 +16,7 @@ banner:
     featuring classical university buildings, modern skyscrapers, a digital
     workstation, and abstract data visualizations, symbolizing digital
     transformation and institutional modernization.
-date: '2026-08-05'
+date: '2025-10-14'
 customData:
   speakers:
     - David Wesst

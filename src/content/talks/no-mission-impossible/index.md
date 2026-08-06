@@ -14,7 +14,7 @@ topics:
 banner:
   src: ./Slide2.jpg
   alt: Purple Ellucian Live 2024 title slide with the talk title and speakers.
-date: '2026-08-05'
+date: '2024-04-07'
 customData:
   speakers:
     - David Wesst

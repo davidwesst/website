@@ -25,7 +25,7 @@ topics:
 banner:
   src: ./integrations-cover-image-1400x800.webp
   alt: Neon servers and computers connected by bright multicolored data lines.
-date: '2026-08-05'
+date: '2024-09-23'
 customData:
   speakers:
     - David Wesst

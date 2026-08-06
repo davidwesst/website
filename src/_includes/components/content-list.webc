@@ -1,16 +1,16 @@
 <script webc:setup>
-  function isPost(item) {
-    return ["article", "gamelog", "dungeonlog"].includes(item.data.type);
+  function hasVisualCard(item, site) {
+    return Boolean(site.postTypes[item.data.type]);
   }
   function formatDate(value) {
     return new Intl.DateTimeFormat("en-CA", { dateStyle: "long", timeZone: "UTC" }).format(new Date(value));
   }
 </script>
 
-<ol class="mt-8 grid list-none gap-8 p-0 md:grid-cols-2 lg:grid-cols-3">
+<ol class="mt-8 grid list-none gap-8 p-0" :class="singleColumn ? 'md:grid-cols-1 lg:grid-cols-1' : 'md:grid-cols-2 lg:grid-cols-3'">
   <li webc:for="item of items" class="min-w-0">
-    <post-card webc:if="isPost(item)" :@item="item" :@site="site" :@featured="false" :@description="item.data.summary"></post-card>
-    <article webc:if="!isPost(item)" class="h-full overflow-hidden rounded-lg bg-white p-7 shadow-lg transition hover:-translate-y-1 hover:shadow-xl">
+    <post-card webc:if="hasVisualCard(item, site)" :@item="item" :@site="site" :@featured="false" :@description="item.data.summary" :@crop-banner="singleColumn"></post-card>
+    <article webc:if="!hasVisualCard(item, site)" class="h-full overflow-hidden rounded-lg bg-white p-7 shadow-lg transition hover:-translate-y-1 hover:shadow-xl">
       <p class="text-xs font-bold uppercase tracking-widest text-teal-700" @text="item.data.type || 'Content'"></p>
       <h2 class="mt-3 text-2xl font-black leading-tight"><a class="text-slate-950 no-underline hover:text-teal-700" :href="item.url" @text="item.data.title"></a></h2>
       <p webc:if="item.date" class="mt-4 text-xs font-semibold uppercase tracking-wider text-slate-500"><time :datetime="item.date.toISOString()" @text="formatDate(item.date)"></time></p>

@@ -9,7 +9,7 @@ summary: >-
 banner:
   src: ./hack-the-it-governance-matrix_thumbnail.png
   alt: Title slide beside white spheres connected by winding magenta lines.
-date: '2026-08-05'
+date: '2023-10-16'
 customData:
   speakers:
     - David Wesst

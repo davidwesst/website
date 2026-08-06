@@ -8,7 +8,7 @@
   }
 </script>
 
-<figure class="overflow-hidden bg-slate-200" :class="featured ? 'aspect-[16/9] md:aspect-auto md:h-full' : 'aspect-video'">
+<figure class="overflow-hidden bg-slate-200" :class="featured ? 'aspect-[16/9] md:aspect-auto md:h-full' : cropped ? 'aspect-[32/9]' : 'aspect-video'">
   <img webc:if="banner && banner.src" class="h-full w-full object-cover" :src="imageSource(banner, baseUrl)" :alt="banner.alt">
   <div webc:if="!banner || !banner.src" class="flex h-full min-h-48 w-full items-center justify-center text-white" :style="`background-color: ${configFor(type, site).fallbackColor}`" role="img" :aria-label="`${configFor(type, site).label} placeholder image`">
     <i :class="`${configFor(type, site).iconClass} text-6xl opacity-90`" aria-hidden="true"></i>

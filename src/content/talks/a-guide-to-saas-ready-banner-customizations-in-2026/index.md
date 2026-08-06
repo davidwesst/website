@@ -20,7 +20,7 @@ banner:
     automation orbit around the center with dotted connection paths and subtle
     neon gradients, representing secure SaaS-safe integrations and governed
     architecture.
-date: '2026-08-05'
+date: '2026-06-01'
 customData:
   speakers:
     - David Wesst
