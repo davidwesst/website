@@ -1,0 +1,13 @@
+<script webc:setup>
+  function slug(value) {
+    return String(value).normalize("NFKD").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  }
+</script>
+
+<nav webc:if="topics && topics.length" class="mt-5" aria-label="Topics">
+  <ul class="flex flex-wrap gap-2">
+    <li webc:for="topic of topics">
+      <a class="inline-block rounded-full bg-teal-50 px-3 py-1 text-xs font-bold text-teal-800 no-underline hover:bg-teal-100" :href="`/topics/${slug(topic)}/`" @text="topic"></a>
+    </li>
+  </ul>
+</nav>

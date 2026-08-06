@@ -4,7 +4,7 @@ date: '2021-06-14'
 summary: >-
   I realize it's a selfish question, but if the post isn't valuable to me then
   why would it be valuable to you?
-categories:
+topics:
   - content-creation
   - defining-value
   - self-retrospective

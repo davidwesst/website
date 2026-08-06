@@ -9,7 +9,7 @@ summary: >-
   to document this, and hopefully you can use this an example to examine your
   own progress and behaviour patterns that might be aiding (or impeding) your
   own personal and professional growth.
-categories:
+topics:
   - burnout
   - code
   - github

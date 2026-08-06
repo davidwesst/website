@@ -1,7 +1,7 @@
 ---
 title: Picking between TypeScript and JavaScript
 date: '2018-03-15'
-categories:
+topics:
   - javascript
   - typescript
 redirectFrom:

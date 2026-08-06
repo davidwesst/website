@@ -5,7 +5,7 @@ summary: >-
   Everyone thinks about forking. It is a natural thing, yet how do get the job
   done and fork? I used to ask myself the same thing, until I learned these
   pro-tips and forked like a boss.
-categories:
+topics:
   - contribution
   - github
   - open-source

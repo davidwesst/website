@@ -4,7 +4,7 @@ date: '2014-09-25'
 summary: >-
   The answer is simple: I don't want to limit about my platform options on day
   one.
-categories:
+topics:
   - code
   - javascript
 redirectFrom:

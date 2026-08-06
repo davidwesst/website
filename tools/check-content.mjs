@@ -11,7 +11,7 @@ const CONTENT_ROOT = path.join(ROOT, "src", "content");
 const OUTPUT_ROOT = path.join(ROOT, "_site");
 const MANIFEST = JSON.parse(readFileSync(path.join(ROOT, "src", "_data", "migration-manifest.json"), "utf8"));
 const EXCEPTIONS = JSON.parse(readFileSync(path.join(ROOT, "src", "_data", "asset-exceptions.json"), "utf8"));
-const ALLOWED_KEYS = new Set(["title", "date", "updated", "summary", "categories", "redirectFrom", "banner", "customData"]);
+const ALLOWED_KEYS = new Set(["title", "date", "updated", "summary", "topics", "redirectFrom", "banner", "customData"]);
 const DEPRECATED_KEYS = new Set(["id", "source", "docType", "series", "slug", "taxonomy", "canonicalUrl", "legacyUrls", "media", "review", "meta"]);
 const EXPECTED_COUNTS = { articles: 138, gamelogs: 16, dungeonlogs: 12, talks: 12, pages: 2 };
 
@@ -31,7 +31,7 @@ function sha256(file) {
   return createHash("sha256").update(readFileSync(file)).digest("hex");
 }
 
-function categorySlug(value) {
+function topicSlug(value) {
   return String(value).normalize("NFKD").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 
@@ -87,8 +87,8 @@ assert.deepEqual(Object.fromEntries(Object.entries(MANIFEST.counts).filter(([key
 
 const urls = new Set();
 const redirects = new Map();
-const categoryRoutes = new Map();
 const postSlugs = new Map();
+const topicRoutes = new Map();
 let appearanceCount = 0;
 
 for (const document of documents) {
@@ -124,14 +124,14 @@ for (const document of documents) {
   }
   if (["articles", "dungeonlogs"].includes(document.type)) assert.equal(document.data.customData, undefined, `${context} must omit empty customData`);
 
-  const categories = document.data.categories || [];
-  assert.equal(new Set(categories).size, categories.length, `${context} has duplicate categories`);
-  for (const category of categories) {
-    const slug = categorySlug(category);
-    assert.ok(slug, `${context} has an invalid category`);
-    const prior = categoryRoutes.get(slug);
-    assert.ok(!prior || prior === category, `Category slug collision: ${prior} and ${category}`);
-    categoryRoutes.set(slug, category);
+  const topics = document.data.topics || [];
+  assert.equal(new Set(topics).size, topics.length, `${context} has duplicate topics`);
+  for (const topic of topics) {
+    const slug = topicSlug(topic);
+    assert.ok(slug, `${context} has an invalid topic`);
+    const prior = topicRoutes.get(slug);
+    assert.ok(!prior || prior === topic, `Topic slug collision: ${prior} and ${topic}`);
+    topicRoutes.set(slug, topic);
   }
 
   if (document.data.banner) {
@@ -271,4 +271,4 @@ for (const file of htmlFiles) {
 
 assert.equal(brokenLinks.length, 0, `Broken local links:\n${brokenLinks.join("\n")}`);
 
-console.log(`Content integrity passed for ${documents.length} documents, ${MANIFEST.assets.length} assets, ${categoryRoutes.size} categories, and ${redirects.size} legacy URLs.`);
+console.log(`Content integrity passed for ${documents.length} documents, ${MANIFEST.assets.length} assets, ${topicRoutes.size} topics, and ${redirects.size} legacy URLs.`);

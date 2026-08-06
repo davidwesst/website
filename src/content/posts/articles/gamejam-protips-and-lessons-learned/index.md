@@ -1,7 +1,7 @@
 ---
 title: Gamejam Pro Tips and Lessons Learned
 date: '2020-01-03'
-categories:
+topics:
   - game-design
   - game-development
   - game-jam

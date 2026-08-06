@@ -7,7 +7,7 @@ summary: >-
   is to never give up. They rallied the campus community around the project’s
   vision and are making it happen. This is their story of turning the impossible
   into the incredible.
-categories:
+topics:
   - change-management
   - ellucian-banner
   - technology-modernization

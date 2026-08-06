@@ -4,7 +4,7 @@ date: '2015-02-05'
 summary: >-
   At the beginning of the month I announced I'd be doing a web series on YouTube
   called Script Unscripted. 
-categories:
+topics:
   - retrospective
   - script-unscripted
   - youtube

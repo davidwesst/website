@@ -7,7 +7,7 @@ summary: >-
   "real" project. Being a noob, I decided to move my blog to VSTS to understand
   how _any_ project can benefit from ALM practices using VSTS. In part 4 of 5,
   we setup a _Build_ script.
-categories:
+topics:
   - alm
   - hexo
   - visual-studio-team-services

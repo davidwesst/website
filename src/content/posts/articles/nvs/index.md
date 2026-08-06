@@ -4,7 +4,7 @@ date: '2017-08-15'
 summary: >-
   Here's another dev thing I use: NVS, or the Node Version Switcher. It works on
   Windows and it's great.
-categories:
+topics:
   - javascript
   - node
   - nvs

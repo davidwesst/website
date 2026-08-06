@@ -7,7 +7,7 @@ summary: >-
   Events to build a real-world integration that enhances user experience and
   streamlines operations. Learn from our examples and lessons to inspire your
   own integration journey.
-categories:
+topics:
   - banner
   - ellucian
   - ethos-data-connect

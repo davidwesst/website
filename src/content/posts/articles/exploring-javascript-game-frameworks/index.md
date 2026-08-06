@@ -4,7 +4,7 @@ date: '2016-02-08'
 summary: >-
   David reviews a handful of JavaScript-based game frameworks he went through
   before selecting one for his new game.
-categories:
+topics:
   - game-development
   - javascript
 redirectFrom:

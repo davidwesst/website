@@ -4,7 +4,7 @@ date: '2021-07-05'
 summary: >-
   I miss making video content, but what value does YouTube and Twitch content
   give you?
-categories:
+topics:
   - livestream
   - twitch
   - video

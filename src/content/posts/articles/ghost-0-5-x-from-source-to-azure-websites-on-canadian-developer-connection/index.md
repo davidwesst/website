@@ -1,7 +1,7 @@
 ---
 title: Ghost 0.5.X from Source to Azure Websites on Canadian Developer Connection
 date: '2014-12-04'
-categories:
+topics:
   - azure-websites
   - ghost
   - nodejs

@@ -5,7 +5,7 @@ summary: >-
   The lessons I learned and the steps I took to compile TypeScript modules into
   a single file with AMD modules using Gulp, along with how I consumed those
   compiled modules in my HTML application.
-categories:
+topics:
   - amd
   - gulp
   - javascript

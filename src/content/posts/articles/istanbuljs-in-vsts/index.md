@@ -4,7 +4,7 @@ date: '2017-08-03'
 summary: >-
   Here's another dev thing I use: IstanbulJS in Visual Studio Team Services
   (VSTS) builds and display the test reports as part of the build reports.
-categories:
+topics:
   - istanbuljs
   - javascript
   - nyc

@@ -2,7 +2,7 @@
 title: 'ThatOneVideoGamer Brought To You By: Me'
 date: '2014-10-22'
 summary: 'Yep, that''s me. It''s all me. It''s awesome!!!!'
-categories:
+topics:
   - cool-stuff
   - fun
   - games

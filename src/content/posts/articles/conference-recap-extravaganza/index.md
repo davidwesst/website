@@ -1,7 +1,7 @@
 ---
 title: Conference recap extravaganza!
 date: '2015-06-11'
-categories:
+topics:
   - conference
   - healthcare
   - prairie-dev-con

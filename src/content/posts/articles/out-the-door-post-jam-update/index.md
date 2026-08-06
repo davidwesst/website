@@ -5,7 +5,7 @@ summary: >-
   My effort continues on Out the Door with some new artwork, a rewrite (of
   sorts) to fix the build process, which has led to something of a self-driven
   code review.
-categories:
+topics:
   - game-design
   - game-development
   - gamejam

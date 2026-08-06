@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import test from "node:test";
 import { load } from "cheerio";
+import { getPostDescription, prepareHomeContent } from "../src/_lib/home-content.js";
 
 const output = join(process.cwd(), "_site");
 
@@ -10,13 +11,54 @@ async function page(relativePath) {
   return load(await readFile(join(output, relativePath), "utf8"));
 }
 
-test("the home page retains the base site shell", async () => {
+test("the home page renders the Ghostwind shell and configured content", async () => {
   const $ = await page("index.html");
   assert.equal($("h1").text(), "David Wesst");
-  assert.equal($("link[rel=stylesheet]").attr("href"), "/assets/main.css");
-  assert.match($("body").attr("class"), /bg-black/);
-  assert.match($("body").attr("class"), /text-white/);
-  assert.equal($("nav[aria-label='Primary navigation'] a").length, 6);
+  assert.equal($("link[rel=stylesheet][href='/assets/main.css']").length, 1);
+  assert.equal($("link[href='/assets/fontawesome.css']").length, 1);
+  assert.match($("body").attr("class"), /bg-slate-100/);
+  assert.equal($("nav[aria-label='Primary navigation'] a").length, 7);
+  assert.equal($("nav[aria-label='Primary navigation'] a[href='/topics/']").text(), "Topics");
+  assert.equal($("#featured-heading + article h2").text().trim(), "The Ratline");
+  assert.match($("#featured-heading + article .post-card-description").text(), /The Ratline is an investigation game/);
+  assert.match($("#recent-heading").closest("section").find("ol > li article time").first().closest("footer").attr("class"), /\bmt-auto\b/);
+  assert.match($("#recent-heading").closest("section").find("ol > li article time").first().closest("footer").attr("class"), /\bpt-6\b/);
+  assert.equal($("#recent-heading").closest("section").find("ol > li").length, 9);
+  assert.equal($("#explore-heading").closest("section").find("ul > li").length, 2);
+  const heroSocialLinks = $("header ul[aria-label='Social links'] a");
+  const footerSocialLinks = $("footer ul[aria-label='Social links'] a");
+  assert.equal(heroSocialLinks.length, 3);
+  assert.equal(footerSocialLinks.length, 3);
+  assert.deepEqual(heroSocialLinks.map((_, link) => $(link).text().trim()).get(), ["GitHub", "LinkedIn", "YouTube"]);
+  assert.deepEqual(footerSocialLinks.map((_, link) => $(link).text().trim()).get(), ["GitHub", "LinkedIn", "YouTube"]);
+  assert.match(heroSocialLinks.first().find("i").attr("class"), /fa-github/);
+  assert.match(footerSocialLinks.first().find("i").attr("class"), /fa-github/);
+});
+
+test("featured descriptions prefer summaries and fall back to the Markdown introduction", () => {
+  assert.equal(
+    getPostDescription({ data: { summary: "Authored summary" }, templateContent: "<p>Body introduction</p>" }),
+    "Authored summary",
+  );
+  assert.equal(
+    getPostDescription({
+      data: {},
+      templateContent: "<p>Queens don’t clap.</p><p>They assess.</p><p>We entered the ruin carrying just enough hope to make it embarrassing.</p>",
+    }),
+    "Queens don’t clap. They assess. We entered the ruin carrying just enough hope to make it embarrassing.",
+  );
+});
+
+test("featured post selection defaults to latest, supports configuration, and rejects mistakes", () => {
+  const posts = [
+    { url: "/older/", date: new Date("2024-01-01") },
+    { url: "/newer/", date: new Date("2025-01-01") },
+    { url: "/middle/", date: new Date("2024-06-01") },
+  ];
+  assert.equal(prepareHomeContent(posts, null, 2).featured.url, "/newer/");
+  assert.equal(prepareHomeContent(posts, "/older/", 2).featured.url, "/older/");
+  assert.deepEqual(prepareHomeContent(posts, "/older/", 2).recent.map((item) => item.url), ["/newer/", "/middle/"]);
+  assert.throws(() => prepareHomeContent(posts, "/missing/", 2), /was not found/);
 });
 
 test("representative post types render normalized data", async () => {
@@ -34,6 +76,20 @@ test("representative post types render normalized data", async () => {
   assert.ok(dungeonlog("figure img").length);
 });
 
+test("post visuals use banners or accessible type-specific fallbacks", async () => {
+  const article = await page("blog/i-miss-blogging/index.html");
+  assert.equal(article("figure [role=img]").attr("aria-label"), "Article placeholder image");
+  assert.match(article("figure [role=img] i").attr("class"), /fa-newspaper/);
+
+  const gamelog = await page("blog/the-ratline/index.html");
+  assert.equal(gamelog("figure [role=img]").attr("aria-label"), "Gamelog placeholder image");
+  assert.match(gamelog("figure [role=img] i").attr("class"), /fa-gamepad/);
+
+  const dungeonlog = await page("blog/2026-03-16/index.html");
+  assert.equal(dungeonlog("figure img").attr("src"), "./2026-03-16_Poster.png");
+  assert.equal(dungeonlog("figure [role=img]").length, 0);
+});
+
 test("talks render publication and appearance dates separately", async () => {
   const $ = await page("talks/no-mission-impossible/index.html");
   assert.equal($("header time").first().attr("datetime"), "2026-08-05");
@@ -43,7 +99,7 @@ test("talks render publication and appearance dates separately", async () => {
   assert.match($("#speakers-heading + ul").text(), /Jackson Bruno/);
 });
 
-test("indexes, categories, and standalone pages render", async () => {
+test("indexes, topics, compatibility pages, and standalone pages render", async () => {
   const blog = await page("blog/index.html");
   assert.equal(blog("h1").text(), "Blog");
   assert.equal(blog("ol > li").length, 166);
@@ -55,9 +111,14 @@ test("indexes, categories, and standalone pages render", async () => {
   const talks = await page("talks/index.html");
   assert.equal(talks("ol > li").length, 12);
 
-  const category = await page("categories/eleventy/index.html");
-  assert.match(category("h1").text(), /Category:\s*eleventy/);
-  assert.ok(category("ol > li").length > 0);
+  const topic = await page("topics/eleventy/index.html");
+  assert.equal(topic("h1").text().trim(), "eleventy");
+  assert.ok(topic("ol > li").length > 0);
+
+  const compatibility = await page("categories/eleventy/index.html");
+  assert.equal(compatibility("meta[name=robots]").attr("content"), "noindex");
+  assert.equal(compatibility("link[rel=canonical]").attr("href"), "https://david.wes.st/topics/eleventy/");
+  assert.equal(compatibility("a[href='/topics/eleventy/']").length, 1);
 
   assert.equal((await page("about/index.html"))("h1").text(), "About");
   assert.equal((await page("projects/index.html"))("h1").text(), "Projects");

@@ -6,7 +6,7 @@ summary: >-
   fresh ideas to my mind and give me pause to think about my own efforts and how
   I can learn from their experience. Although not a complete list, these ideas
   the ones that stood out the most from Prairie Dev Con 2022.
-categories:
+topics:
   - adiad
   - api-design
   - developer-velocity-index

@@ -11,8 +11,8 @@ The active site publishes:
 - a home page plus migrated About and Projects pages
 - 138 articles, 16 gamelogs, and 12 dungeonlogs
 - 12 talks containing 22 appearances migrated from 16 archived event records
-- Blog, Articles, Gamelogs, Dungeonlogs, Talks, and Categories indexes
-- generated pages for categories shared by posts and talks
+- Blog, Articles, Gamelogs, Dungeonlogs, Talks, and Topics indexes
+- generated pages for topics shared by posts and talks
 - stable content assets and legacy URL compatibility
 
 Talks are a separate content family from posts. Both use the shared authored fields and presentation components, while their type-specific data remains under `customData`.
@@ -25,13 +25,14 @@ Talks are a separate content family from posts. Both use the shared authored fie
 - Markdown for authored content and index pages
 - WebC for layouts and reusable web components
 - Tailwind CSS 4 as the existing styling dependency
+- Font Awesome Free for locally hosted post-type icons
 - Node scripts for deterministic migration and output integrity validation
 
 ## Authored content model
 
 Authored documents live beneath `src/content/` as Markdown `index.md` files grouped into `pages`, `posts/articles`, `posts/gamelogs`, `posts/dungeonlogs`, and `talks`. Images owned by an individual document are stored in the same directory as that document and referenced with a relative `./filename` path.
 
-Posts and talks require `title` and an explicit publication `date`. Static pages require `title`. The optional shared fields are `summary`, `updated`, `categories`, `redirectFrom`, `banner`, and `customData`. A banner contains `src`, meaningful `alt`, and optional `credit`.
+Posts and talks require `title` and an explicit publication `date`. Static pages require `title`. The optional shared fields are `summary`, `updated`, `topics`, `redirectFrom`, `banner`, and `customData`. A banner contains `src`, meaningful `alt`, and optional `credit`.
 
 Eleventy derives the slug from `page.fileSlug`. All post types share a flat canonical detail route while directory data continues to derive layout, type, and collection tags:
 
@@ -41,15 +42,17 @@ Eleventy derives the slug from `page.fileSlug`. All post types share a flat cano
 - talks: `talks`, at `/talks/{slug}/`
 - pages: at `/{slug}/`
 
-Post slugs must be globally unique across all three post types and cannot use the reserved type-index slugs `articles`, `gamelogs`, or `dungeonlogs`. The filtered indexes live at `/blog/articles/`, `/blog/gamelogs/`, and `/blog/dungeonlogs/`. Categories are authored taxonomy values, separate from Eleventy collection tags. Category routes use normalized slugs and combine posts and talks in descending publication order.
+Post slugs must be globally unique across all three post types and cannot use the reserved type-index slugs `articles`, `gamelogs`, or `dungeonlogs`. The filtered indexes live at `/blog/articles/`, `/blog/gamelogs/`, and `/blog/dungeonlogs/`. Topics are authored taxonomy values, separate from Eleventy collection tags. Topic routes use normalized slugs and combine posts and talks in descending publication order. Canonical topic pages live under `/topics/`; legacy `/categories/` pages remain noindex compatibility forwarders.
 
 Gamelog-specific data is stored under `customData.game.ids`, `customData.playthrough`, and `customData.ratings`. Talk-specific data is stored under `customData.speakers` and `customData.appearances`. A talk's page `date` is its publication date; appearance dates do not participate in default collection sorting.
 
 ## Rendering
 
-`src/_includes/layouts` contains focused WebC layouts for posts, talks, static pages, collections, and category pages. `src/_includes/components` contains reusable content-list, banner, category, gamelog, and talk-detail components. The base WebC shell provides site navigation and one main landmark.
+`src/_includes/layouts` contains focused WebC layouts for the home page, posts, talks, static pages, collections, and topic pages. `src/_includes/components` contains reusable navigation, footer, social-link, post-card, post-visual, topic, banner, gamelog, and talk-detail components. The base WebC shell provides site navigation and one main landmark.
 
-Detail pages render semantic articles with one H1, publication metadata, categories, optional banner figures, Markdown body content, and applicable type-specific data. Indexes use semantic content lists. No migration-specific styling was added; `src/styles/main.css` remains the single existing stylesheet entry point.
+Detail pages render semantic articles with one H1, publication metadata, topics, banner figures or type-specific fallback artwork, Markdown body content, and applicable type-specific data. Indexes use semantic content cards. The Ghostwind-inspired presentation uses a gradient masthead, elevated cards, local Font Awesome icons, and readable serif body typography; `src/styles/main.css` remains the single authored stylesheet entry point.
+
+Repository-controlled global site data defines the title, tagline, social links and their Font Awesome icon classes, post-type labels/icons/colors, recent-post count, and optional featured-post canonical URL. The same social-link component renders labeled icon links in the home hero and site footer. A null featured-post value selects the newest post; an invalid explicit URL fails the build.
 
 ## Migration and assets
 
@@ -67,7 +70,7 @@ Azure routing is generated as `staticwebapp.config.json`, with trailing slashes,
 The production build removes only `_site`, renders the site, copies assets, and compiles the existing stylesheet. `pnpm check:content` validates active source data and rendered output without reading `_archive`, including:
 
 - exact document and appearance counts
-- normalized schemas, dates, type-specific custom data, categories, globally unique post slugs, reserved routes, and canonical URLs
+- normalized schemas, dates, type-specific custom data, topics, globally unique post slugs, reserved routes, and canonical URLs
 - redirect uniqueness, coverage, collision safety, and query-based gamelog mappings
 - asset colocation, hashes, exact filename casing, rendered image existence, acceptable alt text, and missing-image exceptions
 - local links and fragments
@@ -75,4 +78,4 @@ The production build removes only `_site`, renders the site, copies assets, and 
 - semantic page structure and representative type-specific rendering
 - absence of archive paths, raw front matter, unresolved WebC data, and migration markers
 
-`pnpm test` performs a production build, runs `check:content`, and then runs the Node test suite. Output tests retain home-page and stylesheet coverage and add representative checks for articles, gamelogs, dungeonlogs, talks, pages, indexes, categories, redirects, and the legacy dispatcher. CI runs this complete suite on Node.js 26 and deploys the generated `_site` artifact.
+`pnpm test` performs a production build, runs `check:content`, and then runs the Node test suite. Output tests retain home-page and stylesheet coverage and add representative checks for articles, gamelogs, dungeonlogs, talks, pages, indexes, topics, compatibility pages, redirects, and the legacy dispatcher. CI runs this complete suite on Node.js 26 and deploys the generated `_site` artifact.

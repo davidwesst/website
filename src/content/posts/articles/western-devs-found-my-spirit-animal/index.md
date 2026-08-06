@@ -1,7 +1,7 @@
 ---
 title: Western Devs (and MVP) Found My Spirit Animal
 date: '2015-08-12'
-categories:
+topics:
   - friends
   - lobster
   - western-devs

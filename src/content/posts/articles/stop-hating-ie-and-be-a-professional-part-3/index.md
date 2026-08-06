@@ -4,7 +4,7 @@ date: '2013-01-18'
 summary: >-
   This post is part three of three. Part 1 (Be a Realist) and Part 2 (Be a
   Strategist) are already published and available.
-categories:
+topics:
   - ie
   - internet-explorer
 redirectFrom:

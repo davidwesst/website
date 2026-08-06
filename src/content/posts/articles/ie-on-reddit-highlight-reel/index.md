@@ -4,7 +4,7 @@ date: '2014-08-15'
 summary: >-
   To me, this is IamA (I am a something ask me anything) is historic with web
   platforms.
-categories:
+topics:
   - ie
   - internet-explorer
 redirectFrom:

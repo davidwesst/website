@@ -2,7 +2,7 @@
 title: Why the Humble Mozilla Bundle is Awesome
 date: '2014-10-29'
 summary: 'Last week, I saw my worlds collide in this Humble Bundle my mind was blown.'
-categories:
+topics:
   - cool-stuff
   - cordova
   - javascript

@@ -5,7 +5,7 @@ summary: >-
   It's true! I read a book about it and everything. Let me breakdown the
   highlights of this book that does a pretty good job of explaining the physics
   behind quantum computing.
-categories:
+topics:
   - book
   - finding-inspiration
   - mark-russinovich

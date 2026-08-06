@@ -8,15 +8,17 @@ layout: base.webc
 </script>
 
 <article>
-  <header>
-    <p>Talk</p>
-    <h1 @text="title"></h1>
-    <p>Published <time :datetime="date" @text="formatDate(date)"></time></p>
-    <p webc:if="updated">Updated <time :datetime="updated" @text="formatDate(updated)"></time></p>
-    <category-links :@categories="categories"></category-links>
+  <header class="mx-auto max-w-4xl text-center">
+    <p class="text-sm font-bold uppercase tracking-[0.2em] text-teal-700">Talk</p>
+    <h1 class="mt-4 text-4xl font-black tracking-tight text-slate-950 md:text-6xl" @text="title"></h1>
+    <p class="mt-5 text-sm text-slate-500">Published <time :datetime="date" @text="formatDate(date)"></time></p>
+    <p webc:if="updated" class="mt-2 text-sm text-slate-500">Updated <time :datetime="updated" @text="formatDate(updated)"></time></p>
+    <div class="flex justify-center"><topic-links :@topics="topics"></topic-links></div>
   </header>
-  <content-banner :@banner="banner"></content-banner>
-  <p webc:if="summary" @text="summary"></p>
-  <section webc:if="content" aria-label="Talk description" @raw="content"></section>
-  <talk-details :@custom-data="customData"></talk-details>
+  <div class="mx-auto mt-10 max-w-6xl overflow-hidden rounded-xl shadow-xl"><content-banner :@banner="banner"></content-banner></div>
+  <div class="relative mx-auto max-w-4xl rounded-xl bg-white p-7 shadow-xl md:-mt-16 md:p-14" :class="banner && banner.src ? '-mt-2' : 'mt-10'">
+    <p webc:if="summary" class="mb-8 border-l-4 border-teal-600 pl-5 font-serif text-xl leading-8 text-slate-700" @text="summary"></p>
+    <section webc:if="content" class="prose-content" aria-label="Talk description" @raw="content"></section>
+    <talk-details :@custom-data="customData"></talk-details>
+  </div>
 </article>

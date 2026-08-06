@@ -2,7 +2,7 @@
 title: Script Unscripted Starts January 8th
 date: '2015-01-06'
 summary: Last week I launched my first YouTube video with Get to the Point.
-categories:
+topics:
   - bonus-level
   - cordova
   - javascript

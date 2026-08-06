@@ -6,7 +6,7 @@ summary: >-
   called Lazy Game Reviews, and last night I came across a great playlist of
   only four episoded called: LGR Tech Tales where LGR, the host, goes through a
   specific event in computer history.
-categories:
+topics:
   - fun
   - microsoft
   - youtube

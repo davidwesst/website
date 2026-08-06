@@ -5,7 +5,7 @@ summary: >-
   I started to tinker with React last week and needed to do some digging on how
   to transpile the React JSX files using Gulp. In this post, we walkthrough my
   newly updated Gulp task that transpiles JSX and JavaScript files.
-categories:
+topics:
   - babel
   - gulp
   - javascript

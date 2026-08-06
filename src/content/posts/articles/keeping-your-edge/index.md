@@ -5,7 +5,7 @@ summary: >-
   A few quick tips on how I kept up-to-date in the professional world while
   taking a four month hiatus for parental leave _without_ giving up time with my
   daughter.
-categories:
+topics:
   - parenting
 redirectFrom:
   - /blog/keeping-your-edge/index.html

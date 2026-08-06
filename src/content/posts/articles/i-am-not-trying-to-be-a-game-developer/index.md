@@ -4,7 +4,7 @@ date: '2021-07-22'
 summary: >-
   It's time for me to come clean about something: I am not trying to become a
   game developer. BUT...I am still trying to make video games.
-categories:
+topics:
   - game-development
   - gamedev
   - out-the-door

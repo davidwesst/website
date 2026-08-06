@@ -6,7 +6,7 @@ summary: >-
   birthday. The process of making a plan, adapting, executing, delivering, and
   being validated highlighted how important it is to feel fulfilled, both
   personally and professionally.
-categories:
+topics:
   - accomplishment
   - family
   - food

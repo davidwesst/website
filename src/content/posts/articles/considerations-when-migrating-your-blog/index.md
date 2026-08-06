@@ -1,7 +1,7 @@
 ---
 title: Considerations When Migrating Your Blog
 date: '2015-08-01'
-categories:
+topics:
   - blogging
   - hexo
   - javascript

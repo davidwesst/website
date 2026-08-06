@@ -5,7 +5,7 @@ summary: >-
   Get it? RequireJS is a dependency management framework I use in JavaScript to
   manage...well my dependencies. But, the title is a play on words cause...of
   course you require JS...cause...JavaScript is required to...
-categories:
+topics:
   - code
   - requirejs
 redirectFrom:

@@ -1,7 +1,7 @@
 ---
 title: Code - The Visual Studio for Everybody
 date: '2015-12-07'
-categories:
+topics:
   - visual-studio-code
   - vscode
 redirectFrom:

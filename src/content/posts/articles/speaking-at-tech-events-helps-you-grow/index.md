@@ -6,7 +6,7 @@ summary: >-
   like conferences and user groups. I have had many people ask me about my
   experience and wanted to share it for others who might be wondering what
   benefits actually are. 
-categories:
+topics:
   - community
   - conference
   - prairie-dev-con

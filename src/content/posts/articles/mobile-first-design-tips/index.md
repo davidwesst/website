@@ -6,7 +6,7 @@ summary: >-
   attempted to apply a mobile-first design approach. Here are a few tips that I
   picked up along the way while creating and implementing my new design that
   might prevent some mistakes on your own sites.
-categories:
+topics:
   - css
   - mobile
   - responsive

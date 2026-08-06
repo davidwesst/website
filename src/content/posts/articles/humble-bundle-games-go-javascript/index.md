@@ -2,7 +2,7 @@
 title: Humble Bundle Games Go JavaScript
 date: '2014-10-23'
 summary: 'Last week, I noticed a playable game on the Firefox start page.'
-categories:
+topics:
   - cool-stuff
   - fun
   - games

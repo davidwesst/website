@@ -21,7 +21,7 @@ function colocatedAssets() {
     }));
 }
 
-function categorySlug(value) {
+function topicSlug(value) {
   return String(value)
     .normalize("NFKD")
     .toLowerCase()
@@ -34,26 +34,30 @@ export default function (eleventyConfig) {
     components: "src/_includes/components/**/*.webc",
   });
   eleventyConfig.addPassthroughCopy("src/assets");
+  eleventyConfig.addPassthroughCopy({
+    "node_modules/@fortawesome/fontawesome-free/css/all.min.css": "assets/fontawesome.css",
+    "node_modules/@fortawesome/fontawesome-free/webfonts": "webfonts",
+  });
   eleventyConfig.addPassthroughCopy(colocatedAssets());
-  eleventyConfig.addFilter("categorySlug", categorySlug);
-  eleventyConfig.addCollection("categoryPages", (collectionApi) => {
-    const categories = new Map();
+  eleventyConfig.addFilter("topicSlug", topicSlug);
+  eleventyConfig.addCollection("topicPages", (collectionApi) => {
+    const topics = new Map();
     const items = collectionApi
       .getAll()
       .filter((item) => ["article", "gamelog", "dungeonlog", "talk"].includes(item.data.type));
 
     for (const item of items) {
-      for (const category of item.data.categories || []) {
-        const slug = categorySlug(category);
-        if (!categories.has(slug)) categories.set(slug, { name: category, slug, items: [] });
-        categories.get(slug).items.push(item);
+      for (const topic of item.data.topics || []) {
+        const slug = topicSlug(topic);
+        if (!topics.has(slug)) topics.set(slug, { name: topic, slug, items: [] });
+        topics.get(slug).items.push(item);
       }
     }
 
-    return [...categories.values()]
-      .map((category) => ({
-        ...category,
-        items: category.items.sort((left, right) => right.date - left.date),
+    return [...topics.values()]
+      .map((topic) => ({
+        ...topic,
+        items: topic.items.sort((left, right) => right.date - left.date),
       }))
       .sort((left, right) => left.name.localeCompare(right.name));
   });

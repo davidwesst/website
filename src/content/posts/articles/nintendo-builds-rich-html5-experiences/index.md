@@ -2,7 +2,7 @@
 title: Nintendo Builds Rich HTML5 Experiences
 date: '2014-10-02'
 summary: I need to throw a shout out to Nintendo.
-categories:
+topics:
   - games
   - html5
 redirectFrom:

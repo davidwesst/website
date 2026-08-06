@@ -8,7 +8,7 @@ summary: >-
   fix something in older code I use, but haven't touched in a long time. So how
   much is 'enough' documentation and what types of documentation do I need to
   invest in give my future self the the best value for the effort I put in?
-categories:
+topics:
   - c4-model
   - contributing.md
   - decision

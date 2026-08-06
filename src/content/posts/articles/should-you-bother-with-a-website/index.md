@@ -7,7 +7,7 @@ summary: >-
   today? I asked myself this question as I put the effort into reviving my dead
   website and I stand by the idea that having a website for yourself, project,
   or business is a need rather than a nice-to-have.
-categories:
+topics:
   - website
 redirectFrom:
   - /blog/should-you-bother-with-a-website/index.html

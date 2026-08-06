@@ -1,6 +1,6 @@
 ---
 title: David Wesst
-layout: page.webc
+layout: home.webc
 ---
 
-This site is starting fresh. New writing, talks, and projects will appear here.
+Writing about technology, creative projects, tabletop adventures, and the games I play.

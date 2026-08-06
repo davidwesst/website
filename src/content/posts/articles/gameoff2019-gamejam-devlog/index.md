@@ -5,7 +5,7 @@ summary: >-
   For the past month I have been participating in the GameOff 2019 Gamejam
   hosted by GitHub over on Itch.io and I've been devlogging about it over on my
   YouTube channel.
-categories:
+topics:
   - devlog
   - gamedev
   - gamejam

@@ -1,11 +1,14 @@
 ---
 pagination:
-  data: collections.categoryPages
+  data: collections.topicPages
   size: 1
-  alias: category
-permalink: "/categories/{{ category.slug }}/"
-layout: category.webc
+  alias: topic
+permalink: "/categories/{{ topic.slug }}/"
+layout: redirect.webc
 eleventyComputed:
-  title: "Category: {{ category.name }}"
+  title: "Topic moved: {{ topic.name }}"
+  targetUrl: "/topics/{{ topic.slug }}/"
+  canonicalUrl: "https://david.wes.st/topics/{{ topic.slug }}/"
+robots: noindex
 eleventyExcludeFromCollections: true
 ---

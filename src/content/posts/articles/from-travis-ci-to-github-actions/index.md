@@ -5,7 +5,7 @@ summary: >-
   We recently migrated the continuous integration and deployment workflow for
   the Western Devs website from Travis CI to GitHub Actions. These are the steps
   I followed to get it done.
-categories:
+topics:
   - continuous-deployment
   - continuous-integration
   - github-actions

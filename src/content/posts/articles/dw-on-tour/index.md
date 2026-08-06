@@ -6,7 +6,7 @@ summary: >-
   December to do some talking about HTML and JavaScript. I suggest you find your
   way to DevTeach in Vancouver or Saskatoon in November to learn some awesome
   tricks. 
-categories:
+topics:
   - devteach
   - prdc
 redirectFrom:

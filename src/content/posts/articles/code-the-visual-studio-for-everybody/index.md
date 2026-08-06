@@ -5,7 +5,7 @@ summary: >-
   Last week I delivered three presentations: one at the Winnipeg .NET User Group
   and the other two at Winnipeg Code Camp. Being as awesome as we are, the user
   group presentation was recorded and has been published on the YouTube page.
-categories:
+topics:
   - presentations
   - visual-studio-code
 redirectFrom:

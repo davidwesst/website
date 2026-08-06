@@ -2,7 +2,7 @@
 title: Picking The Technology for my Game
 date: '2013-08-01'
 summary: 'I want to develop a game, and not just produce it.'
-categories:
+topics:
   - game-development
   - javascript
   - unity3d

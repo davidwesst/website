@@ -6,7 +6,7 @@ summary: >-
   applied to my little side project. My internet sleuthing did not bring up any
   clear and cut answers, but I put together some thoughts that might help others
   answer it for themselves.
-categories:
+topics:
   - ccpa
   - cookies
   - gdpr

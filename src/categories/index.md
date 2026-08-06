@@ -1,5 +1,9 @@
 ---
-title: Categories
-layout: category-index.webc
+title: Topics have moved
+layout: redirect.webc
+permalink: /categories/
+targetUrl: /topics/
+robots: noindex
+canonicalUrl: https://david.wes.st/topics/
 eleventyExcludeFromCollections: true
 ---

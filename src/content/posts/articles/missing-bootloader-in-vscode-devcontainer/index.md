@@ -4,7 +4,7 @@ date: '2022-01-18'
 summary: >-
   Problem: When running node commands from within a DevContainer, you receive
   the error 'Cannot find module bootloader.js'. This post contains the solution.
-categories:
+topics:
   - devcontainer
   - nodejs
   - vscode

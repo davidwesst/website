@@ -5,7 +5,7 @@ summary: >-
   I bought the Humble Mozilla Bundle earlier this week and I wanted to take a
   moment to show people what it looks like to install a JavaScript game in the
   browser.
-categories:
+topics:
   - cool-stuff
   - games
   - javascript

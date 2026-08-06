@@ -5,7 +5,7 @@ summary: >-
   I've been on this CSS kick for the past while, and I had forgotten how much
   CSS can do now. More specifically how things have changed when it comes to
   measuring height and width.
-categories:
+topics:
   - css
   - css3
   - html

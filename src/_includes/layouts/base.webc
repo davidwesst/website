@@ -3,24 +3,23 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="The personal website of David Wesst.">
+    <meta name="description" :content="site.description">
+    <meta webc:if="robots" name="robots" :content="robots">
+    <link webc:if="canonicalUrl" rel="canonical" :href="canonicalUrl">
+    <link webc:keep rel="stylesheet" href="/assets/fontawesome.css">
     <link webc:keep rel="stylesheet" href="/assets/main.css">
-    <title @text="title"></title>
+    <title @text="title === site.title ? site.title : `${title} | ${site.title}`"></title>
   </head>
-  <body class="min-h-screen bg-black text-white antialiased">
-    <header>
-      <nav aria-label="Primary navigation">
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/blog/">Blog</a></li>
-          <li><a href="/talks/">Talks</a></li>
-          <li><a href="/categories/">Categories</a></li>
-          <li><a href="/about/">About</a></li>
-          <li><a href="/projects/">Projects</a></li>
-        </ul>
-      </nav>
+  <body class="min-h-screen bg-slate-100 text-slate-900 antialiased">
+    <header :class="page.url === '/' ? 'site-hero' : 'bg-slate-950 shadow-lg'">
+      <site-nav :@pages="collections.pages" :@site="site"></site-nav>
+      <div webc:if="page.url === '/'" class="mx-auto max-w-5xl px-6 pb-36 pt-16 text-center text-white md:pb-44 md:pt-24">
+        <h1 class="text-4xl font-black tracking-tight drop-shadow md:text-6xl" @text="site.title"></h1>
+        <div class="mt-6"><social-links :@items="site.socialLinks" :@centered="true"></social-links></div>
+        <p class="mx-auto mt-6 max-w-2xl text-lg text-teal-50 md:text-2xl" @text="site.tagline"></p>
+      </div>
     </header>
-    <main class="mx-auto min-h-screen max-w-3xl px-6 py-16 text-lg leading-8 text-white [&_h1]:text-4xl [&_h1]:font-semibold [&_h1]:tracking-tight" @raw="content"></main>
-    <footer><p>Copyright David Wesst.</p></footer>
+    <main :class="page.url === '/' ? 'mx-auto min-h-screen max-w-6xl px-4 pb-20 sm:px-6' : 'mx-auto min-h-screen max-w-5xl px-4 py-12 sm:px-6 md:py-20'" @raw="content"></main>
+    <site-footer :@pages="collections.pages" :@site="site"></site-footer>
   </body>
 </html>

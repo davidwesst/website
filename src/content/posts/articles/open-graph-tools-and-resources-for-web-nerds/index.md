@@ -5,7 +5,7 @@ summary: >-
   A compilation of tools and resources I used to implemented the Open Graph
   Protocol (OGP) for my website to make posts and pages more engaging on
   LinkedIn and other social networks.
-categories:
+topics:
   - facebook
   - linkedin
   - open-graph

@@ -7,7 +7,7 @@ summary: >-
   and design phase before they really understand the problem they are trying to
   fix. These are the steps I take a properly understand a problem I am trying to
   solve, prior to coding or solution-ing anything.
-categories:
+topics:
   - code
   - defining-value
   - musings

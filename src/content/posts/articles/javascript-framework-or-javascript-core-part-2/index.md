@@ -4,7 +4,7 @@ date: '2016-02-22'
 summary: >-
   Is it always better to use JavaScript Frameworks? David continues his analysys
   and shares the pros and cons of writing your JavaScript from scratch.
-categories:
+topics:
   - javascript
 redirectFrom:
   - /blog/javascript-framework-or-javascript-core-part-2/index.html

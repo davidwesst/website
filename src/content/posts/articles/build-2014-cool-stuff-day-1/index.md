@@ -4,7 +4,7 @@ date: '2014-04-03'
 summary: >-
   I haven't been to BUILD, but I always follow it as Microsoft makes a bunch of
   really cool announcements throughout that pump me up.
-categories:
+topics:
   - build
   - build-conference
 redirectFrom:

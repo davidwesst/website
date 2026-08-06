@@ -6,7 +6,7 @@ summary: >-
   installed global NPM packages, but the tasks that used them later on in the
   script would fail because they were unable to use them. This post describes
   what I did to get them working.
-categories:
+topics:
   - javascript
   - nodejs
   - npm

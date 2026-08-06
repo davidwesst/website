@@ -4,7 +4,7 @@ date: '2013-09-07'
 summary: >-
   This is part of a blog series discussing my afterthought on attending PAX Dev
   and Prime 2013 in Seattle.
-categories:
+topics:
   - html5
   - video-games
 redirectFrom:

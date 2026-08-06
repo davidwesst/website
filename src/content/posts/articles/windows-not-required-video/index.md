@@ -6,7 +6,7 @@ summary: >-
   recorded it and posted it on YouTube. I go over a number of Microsoft
   development tools and technologies that don't require Windows and deliver the
   demos on my Linux machine.
-categories:
+topics:
   - .net-core
   - docker
   - powershell

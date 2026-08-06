@@ -97,14 +97,14 @@ function inferLinkType(label = "") {
   return "event";
 }
 
-function normalizeCategory(value) {
+function normalizeTopic(value) {
   const normalized = String(value).trim().toLowerCase().replaceAll(" ", "-").replace(/-+/g, "-");
   return normalized === "web-development" ? "web-development" : normalized;
 }
 
-function categoriesFor(data, eventIds) {
+function topicsFor(data, eventIds) {
   return [...(data.taxonomy?.tags || []), ...(data.taxonomy?.categories || [])]
-    .map(normalizeCategory)
+    .map(normalizeTopic)
     .filter((value) => value && !RESERVED_CATEGORIES.has(value) && !eventIds.has(value))
     .filter((value, index, values) => values.indexOf(value) === index)
     .sort((left, right) => left.localeCompare(right));
@@ -255,7 +255,7 @@ function makeBanner(entry, type, exceptions) {
 }
 
 function baseData(entry, type, eventIds, exceptions, { includeDate = true } = {}) {
-  const categories = categoriesFor(entry.data, eventIds);
+  const topics = topicsFor(entry.data, eventIds);
   const canonical = canonicalContentUrl(type, entry.slug);
   const redirectFrom = [...(entry.data.legacyUrls || []), entry.data.canonicalUrl]
     .filter((value) => value && value !== canonical)
@@ -265,7 +265,7 @@ function baseData(entry, type, eventIds, exceptions, { includeDate = true } = {}
     date: includeDate ? isoDate(entry.data.dates?.published || entry.data.date) : undefined,
     updated: isoDate(entry.data.dates?.updated || entry.data.updated),
     summary: entry.data.summary,
-    categories,
+    topics,
     redirectFrom,
     banner: makeBanner(entry, type, exceptions),
   }) || {};

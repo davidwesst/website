@@ -5,7 +5,7 @@ summary: >-
   Whenever I get a new machine, I pull down a new project using the `npm install
   command and get an error related to python and node-gyp. This post will
   remember the fix for this problem that I always forget.
-categories:
+topics:
   - javascript
   - node-gyp
   - nodejs

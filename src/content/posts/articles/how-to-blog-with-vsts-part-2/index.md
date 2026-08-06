@@ -6,7 +6,7 @@ summary: >-
   "real" project. Being a noob, I decided to move my blog to VSTS to understand
   how _any_ project can benefit from ALM practices using VSTS. In part 2 of 5,
   we get our blog into source control.
-categories:
+topics:
   - alm
   - git
   - github

@@ -3,7 +3,7 @@ title: The 11ty Days of Web Development
 summary: >-
   A holiday themed introductory development session about static site generator
   11ty (or Eleventy).
-categories:
+topics:
   - 11ty
   - eleventy
   - javascript

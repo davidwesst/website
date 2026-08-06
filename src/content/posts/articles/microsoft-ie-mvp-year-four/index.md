@@ -4,7 +4,7 @@ date: '2014-04-05'
 summary: >-
   That's right everyone, I've been awarded the the Microsoft MVP award in the
   area of Internet Explorer again for 2014.
-categories:
+topics:
   - microsoft-mvp
   - mvp
 redirectFrom:

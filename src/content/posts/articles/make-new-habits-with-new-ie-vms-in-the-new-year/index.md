@@ -4,7 +4,7 @@ date: '2015-01-07'
 summary: >-
   Happy New Year! Time to start working on self improvement and developing new
   habits.
-categories:
+topics:
   - spartan
   - testing
 redirectFrom:

@@ -1,7 +1,7 @@
 ---
 title: F12 Chooser is a Dev Tool Thing
 date: '2018-03-28'
-categories:
+topics:
   - javascript
   - office-add-in
   - typescript

@@ -4,7 +4,7 @@ date: '2014-12-30'
 summary: >-
   To close out the year, I'm kicking off a new project that I've wanted to do
   for a long time now.
-categories:
+topics:
   - get-to-the-point
   - office-mix
 redirectFrom:

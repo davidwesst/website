@@ -5,7 +5,7 @@ summary: >-
   Over the weekend I hit a Windows Azure issue in my side project that totally
   blocked me. Yesterday, I reached out on Twitter, and the Canadian MVP network
   picked it up and helped me solve it in 30 minutes.
-categories:
+topics:
   - mvp
   - thoughts
 redirectFrom:

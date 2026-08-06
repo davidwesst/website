@@ -7,7 +7,7 @@ summary: >-
   "real" project. Being a noob, I decided to move my blog to VSTS to understand
   how _any_ project can benefit from ALM practices using VSTS. In part 3 of 5,
   we start to make plans and _Work_ on our blog.
-categories:
+topics:
   - alm
   - hexo
   - visual-studio-team-services

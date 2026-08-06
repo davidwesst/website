@@ -5,7 +5,7 @@ summary: >-
   It's pretty cool that Microsoft has released the source code of their
   JavaScript engine Chakra. But, why it is important and how do developers
   actually benefit from this?
-categories:
+topics:
   - chakra
   - javascript
   - nodejs

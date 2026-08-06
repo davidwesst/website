@@ -5,7 +5,7 @@ summary: >-
   strategic insights and real-world lessons. Learn how to enhance student
   engagement and get the most from technology investments, whether you’re
   planning or already in progress.
-categories:
+topics:
   - banner
   - change-management
   - ellucian

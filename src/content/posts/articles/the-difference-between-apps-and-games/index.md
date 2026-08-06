@@ -2,7 +2,7 @@
 title: The Difference between Apps and Games
 date: '2013-07-30'
 summary: 'No, really. Are they actually that different?'
-categories:
+topics:
   - video-games
 redirectFrom:
   - /blog/the-difference-between-apps-and-games/index.html

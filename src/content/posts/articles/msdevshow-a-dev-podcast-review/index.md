@@ -5,7 +5,7 @@ summary: >-
   I like podcasts. Especially the technical kind, but I find it's challenging to
   find quality dev podcasts in the sea of options out there. MSDevShow is one
   that a discovered, and it did not disappoint.
-categories:
+topics:
   - podcast
   - review
 redirectFrom:

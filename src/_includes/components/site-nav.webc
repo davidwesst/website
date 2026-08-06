@@ -1,0 +1,16 @@
+<script webc:setup>
+  function sortedPages(items) {
+    return [...(items || [])].sort((left, right) => left.data.title.localeCompare(right.data.title));
+  }
+</script>
+
+<nav class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-5 text-sm font-bold uppercase tracking-wider text-white" aria-label="Primary navigation">
+  <a class="text-lg font-black normal-case tracking-normal text-white no-underline" href="/" @text="site.title"></a>
+  <ul class="flex flex-wrap items-center justify-end gap-x-5 gap-y-3">
+    <li><a class="nav-link" href="/">Home</a></li>
+    <li><a class="nav-link" href="/blog/">Blog</a></li>
+    <li><a class="nav-link" href="/talks/">Talks</a></li>
+    <li webc:for="item of sortedPages(pages)"><a class="nav-link" :href="item.url" @text="item.data.title"></a></li>
+    <li><a class="nav-link" href="/topics/">Topics</a></li>
+  </ul>
+</nav>

@@ -1,7 +1,7 @@
 ---
 title: 'Back to Basics: The Text Editor'
 date: '2014-04-24'
-categories:
+topics:
   - notepad++
   - sublime-text
   - vim

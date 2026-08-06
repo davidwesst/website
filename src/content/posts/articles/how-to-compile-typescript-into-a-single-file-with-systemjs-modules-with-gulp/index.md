@@ -5,7 +5,7 @@ summary: >-
   I decided to move a TypeScript project from AMD modules (i.e. RequireJS) to
   SystemJS, still using Gulp. In this post, I walk you through the sample
   project I've created and share the lessons I learned along the way.
-categories:
+topics:
   - gulpjs
   - javascript
   - modules

@@ -6,7 +6,7 @@ summary: >-
   understanding what the product is trying to be. This post documents my
   experience working with SWAs on a few projects, namely this website, along
   with the problems and workarounds/solutions I found to those problems.
-categories:
+topics:
   - azure
   - azure-cdn
   - azure-dns

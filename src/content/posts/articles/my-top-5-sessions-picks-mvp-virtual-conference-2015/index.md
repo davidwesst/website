@@ -1,7 +1,7 @@
 ---
 title: My Top 5 Sessions Picks - MVP Virtual Conference 2015
 date: '2015-05-13'
-categories:
+topics:
   - conference
   - mvp
 redirectFrom:

@@ -1,7 +1,7 @@
 ---
 title: No Cost Game Design Toolbox
 date: '2017-08-15'
-categories:
+topics:
   - excel
   - game-design
   - game-development

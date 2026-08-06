@@ -6,7 +6,7 @@ summary: >-
   week I managed to finally launch it. Zany Video Game Quotes, is a site worked
   on acquired by a very close friend of mine. He worked on the content and
   enlisted me as the lead developer.
-categories:
+topics:
   - azure-websites
   - windows-azure
   - zvgq

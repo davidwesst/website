@@ -1,7 +1,7 @@
 ---
 title: Hypertext Gaming - Starting June 29th on Twitch
 date: '2014-06-24'
-categories:
+topics:
   - html5
   - twitch
 redirectFrom:

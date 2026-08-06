@@ -4,7 +4,7 @@ date: '2016-01-01'
 summary: >-
   DW documents and shares his planning session for 2016 based on what he's
   learned from 2015.
-categories:
+topics:
   - game-development
 redirectFrom:
   - /blog/looking-forward-into-2016/index.html

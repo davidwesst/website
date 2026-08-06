@@ -1,7 +1,7 @@
 ---
 title: Docker on Windows 10 Problems
 date: '2015-08-10'
-categories:
+topics:
   - docker
   - windows-10
 redirectFrom:

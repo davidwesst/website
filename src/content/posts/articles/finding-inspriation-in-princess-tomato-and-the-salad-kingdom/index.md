@@ -4,7 +4,7 @@ date: '2021-07-20'
 summary: >-
   In search for inspiration in my own game collection I've decided to explore
   this text-based salad adventure.
-categories:
+topics:
   - nes
   - nintendo
   - text-based-adventure

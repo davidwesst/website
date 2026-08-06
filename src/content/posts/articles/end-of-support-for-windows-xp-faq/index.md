@@ -1,7 +1,7 @@
 ---
 title: End of Support for Windows XP FAQ
 date: '2014-04-09'
-categories:
+topics:
   - windows-xp
 redirectFrom:
   - /blog/end-of-support-for-windows-xp-faq/index.html

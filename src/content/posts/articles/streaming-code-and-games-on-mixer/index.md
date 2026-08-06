@@ -4,7 +4,7 @@ date: '2018-09-27'
 summary: >-
   This month I started livestreaming game code and gameplay every Thursday and
   Sunday night at 9:30pm CT
-categories:
+topics:
   - livestream
   - mixer
 redirectFrom:

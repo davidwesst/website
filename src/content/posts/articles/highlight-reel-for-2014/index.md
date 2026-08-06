@@ -4,7 +4,7 @@ date: '2015-01-01'
 summary: >-
   This past year has been a rough one for me personally, but professionally, not
   so bad.
-categories:
+topics:
   - get-to-the-point
   - prairie-dev-con
   - thoughts

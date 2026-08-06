@@ -4,7 +4,7 @@ date: '2023-01-11'
 summary: >-
   The solution to the problem where an apt-key command seems to run forever in
   your docker build.
-categories:
+topics:
   - apt-key
   - coding
   - debian

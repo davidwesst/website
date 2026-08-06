@@ -1,7 +1,7 @@
 ---
 title: Where to Find Your Gamedev Community
 date: '2020-01-18'
-categories:
+topics:
   - community
   - game-design
   - game-development

@@ -11,7 +11,7 @@ summary: >-
   connect with your audience. Whether you’re presenting at a conference,
   meeting, or workshop, this session will equip you with the basics to
   confidently deliver presentations that leave a lasting impression.
-categories:
+topics:
   - full-stack-manitoba
   - javascript
   - markdown

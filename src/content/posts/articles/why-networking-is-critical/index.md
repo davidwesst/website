@@ -6,7 +6,7 @@ summary: >-
   podcasts. I'm not sure how I came across MSDevShow, but I did notice that Lori
   Lalonde, the wizard of mobile development in Microsoft-land, was in an episode
   and decided: Why not?.
-categories:
+topics:
   - professional-development
 redirectFrom:
   - /blog/why-networking-is-critical/index.html

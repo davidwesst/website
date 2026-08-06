@@ -4,7 +4,7 @@ date: '2014-10-31'
 summary: >-
   If you haven't played the classic SimCity, I mean Micropolis then you missed
   out.
-categories:
+topics:
   - games
   - html
   - javascript

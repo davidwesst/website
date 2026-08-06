@@ -2,7 +2,7 @@
 title: The Heisenberg Second Screen Experience in HTML
 date: '2013-09-27'
 summary: Breaking Bad is coming to an end.
-categories:
+topics:
   - breaking-bad
   - html5
 redirectFrom:

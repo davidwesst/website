@@ -6,7 +6,7 @@ summary: >-
   myself confused regarding its role on my Linux-based development machine. This
   post clarifies a few things I discovered while triaging an issue I had trying
   to test my GitHub Workflows locally.
-categories:
+topics:
   - docker
   - docker-desktop
   - docker-engine

@@ -2,7 +2,7 @@
 title: Release Notes for Little Shop of Wall Street 0.1.0-beta
 date: '2020-07-02'
 summary: Little Shop of Wall Street has a 0.1-beta release!
-categories:
+topics:
   - devlog
   - game-development
   - gamedev

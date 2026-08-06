@@ -9,7 +9,7 @@ summary: >-
   games, but want to make sure that the non-player is at least going to enjoy
   themselves to a certain degree as we go through some kind of virtual adventure
   over the next few days.
-categories:
+topics:
   - dreamcast
   - grandia
   - html5

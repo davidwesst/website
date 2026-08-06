@@ -6,7 +6,7 @@ summary: >-
   the web. Nellie represents a tool that is long-overdue. It provides any web
   application the ability to verify they are meeting a high level of quality
   when it comes to their web applications, and not miss any common mistakes.
-categories:
+topics:
   - accessibility
   - development
   - devops

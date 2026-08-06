@@ -7,7 +7,7 @@ summary: >-
   effort to setup than just adding a script tag and being done with it. In this
   post, I'll walk you through the steps I took to get this up and running with
   Bower and Gulp.
-categories:
+topics:
   - bower
   - gulp
   - highlightjs

@@ -7,7 +7,7 @@ summary: >-
   in my years, but v7 seems about right for the content I'm sharing here. In any
   case-- I thought I'd share the "why" around the new website revamp and how I
   think a project like this is just what I need.
-categories:
+topics:
   - graphql
   - website
 redirectFrom:

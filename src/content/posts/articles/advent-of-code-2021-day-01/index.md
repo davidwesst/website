@@ -4,7 +4,7 @@ date: '2021-12-02'
 summary: >-
   My initial thoughts after completing the first day of my first journey into
   the Advent of Code
-categories:
+topics:
   - advent-of-code
   - javascript
   - nodejs

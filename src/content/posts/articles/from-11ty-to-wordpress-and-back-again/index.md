@@ -9,7 +9,7 @@ summary: >-
   fancy editor, a bunch of plugins, and all the tooling I could ever want. I
   didn't write a single post. This is post is my experience (not) blogging with
   Wordpress and returning to 11ty.
-categories:
+topics:
   - 11ty
   - lessons-learned
   - website

@@ -4,7 +4,7 @@ date: '2014-10-09'
 summary: >-
   That's right. I said it: Always use Node, no matter what! Even if your server
   isn't going to be a Node server, just have it installed because you'll use it.
-categories:
+topics:
   - code
   - nodejs
   - npm

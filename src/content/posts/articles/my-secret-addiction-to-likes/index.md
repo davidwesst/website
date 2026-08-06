@@ -7,7 +7,7 @@ summary: >-
   single month has turned into just over three months now, and I learned a few
   things about myself and how I think my return to some social media will be a
   good thing.
-categories:
+topics:
   - acceptance
   - analytics
   - social-media

@@ -6,7 +6,7 @@ summary: >-
   order to prep for the event, I decided to take the time for review and reflect
   on my game portfolio to see what I learning objective and goals I can set for
   myself.
-categories:
+topics:
   - game-design
   - game-development
   - game-jam

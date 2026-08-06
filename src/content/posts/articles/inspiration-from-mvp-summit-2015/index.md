@@ -1,7 +1,7 @@
 ---
 title: Inspiration From MVP Summit 2015
 date: '2015-11-20'
-categories:
+topics:
   - internet-explorer
   - microsoft-mvp
   - mvp

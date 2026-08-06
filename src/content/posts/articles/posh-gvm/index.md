@@ -4,7 +4,7 @@ date: '2017-08-17'
 summary: >-
   Here's another dev thing I use: Posh-GVM, a Groovy version manager that works
   for Windows.
-categories:
+topics:
   - gradle
   - grails
   - groovy

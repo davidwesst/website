@@ -4,7 +4,7 @@ date: '2015-01-08'
 summary: >-
   I wanted to share something I find freaking cool. It's called Awesome Games
   Done Quickly, or AGDQ.
-categories:
+topics:
   - games
 redirectFrom:
   - /blog/video-games-preventing-cancer-with-agdq/index.html

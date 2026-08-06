@@ -4,7 +4,7 @@ date: '2017-09-20'
 summary: >-
   With the Fall Creators update of Windows 10, you can go to the Windows Store
   and install Linux. Yeah, that's a thing now and it's pretty cool.
-categories:
+topics:
   - development
   - f12
   - linux

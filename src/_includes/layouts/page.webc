@@ -1,11 +1,12 @@
 ---
 layout: base.webc
 ---
-<article>
-  <header>
-    <h1 @text="title"></h1>
-    <p webc:if="summary" @text="summary"></p>
+<article class="overflow-hidden rounded-xl bg-white shadow-xl">
+  <header class="px-7 pb-8 pt-10 md:px-14 md:pt-14">
+    <p class="text-sm font-bold uppercase tracking-[0.2em] text-teal-700">Page</p>
+    <h1 class="mt-3 text-4xl font-black tracking-tight text-slate-950 md:text-5xl" @text="title"></h1>
+    <p webc:if="summary" class="mt-4 max-w-3xl font-serif text-xl leading-8 text-slate-600" @text="summary"></p>
   </header>
   <content-banner :@banner="banner"></content-banner>
-  <section aria-label="Page content" @raw="content"></section>
+  <section class="prose-content px-7 pb-12 pt-8 md:px-14 md:pb-16" aria-label="Page content" @raw="content"></section>
 </article>

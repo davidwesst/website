@@ -4,7 +4,7 @@ date: '2013-01-16'
 summary: >-
   This post is part one of three. Part 2 (Be a Strategist) and Part 3 (Be a
   Leader) are available as well.
-categories:
+topics:
   - ie
   - internet-explorer
 redirectFrom:

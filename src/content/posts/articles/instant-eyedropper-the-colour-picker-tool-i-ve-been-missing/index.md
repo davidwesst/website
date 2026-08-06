@@ -6,7 +6,7 @@ summary: >-
   I've found a simple, minimalistic eyedropper tool that allows me to get the
   HEX value (or another variety of colur value) of any colour that is on my
   screen.
-categories:
+topics:
   - ie
   - internet-explorer
 redirectFrom:

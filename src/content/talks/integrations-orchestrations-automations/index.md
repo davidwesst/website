@@ -15,7 +15,7 @@ summary: >-
   anticipate future technological advancements and business requirements. The
   session provides actionable insights into creating a cohesive framework that
   facilitates both immediate improvements and long-term innovation.
-categories:
+topics:
   - automation
   - enterprise-architecture
   - integration

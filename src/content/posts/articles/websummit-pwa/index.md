@@ -7,7 +7,7 @@ summary: >-
   Apps (PWAs). I started out thinking they were something that could be
   interesting one day, but left the conference convinced that this will change
   the way we think of the web.
-categories:
+topics:
   - development
   - javascript
   - microsoft-edge

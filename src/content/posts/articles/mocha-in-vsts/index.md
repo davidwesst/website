@@ -4,7 +4,7 @@ date: '2017-08-01'
 summary: >-
   Here's another dev thing I do: Display my MochaJS test report in the Visual
   Studio Team Services (VSTS) build report.
-categories:
+topics:
   - javascript
   - mocha
   - testing

@@ -6,7 +6,7 @@ summary: >-
   As a side project, I started making another JavaScript-based video game and
   decided to go with Phaser as my framework of choice. Here are my initial
   thoughts about Phaser after using it on my project for the past two months.
-categories:
+topics:
   - javascript
   - phaser
   - typescript
