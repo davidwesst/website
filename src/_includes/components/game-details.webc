@@ -5,6 +5,9 @@
   function formatDate(value) {
     return new Intl.DateTimeFormat("en-CA", { dateStyle: "long", timeZone: "UTC" }).format(new Date(`${value}T00:00:00Z`));
   }
+  function formatRatings(ratings = []) {
+    return ratings.map((rating) => `${rating.organization}: ${rating.rating}`).join(", ");
+  }
 </script>
 
 <section webc:if="hasDetails(game)" aria-labelledby="game-details-heading">
@@ -22,8 +25,8 @@
     <div class="game-detail-card" webc:if="game.series && game.series.length">
       <dt>Series</dt><dd @text="game.series.join(', ')"></dd>
     </div>
-    <div class="game-detail-card" webc:for="ageRating of game.ageRatings || []">
-      <dt @text="ageRating.organization"></dt><dd @text="ageRating.rating"></dd>
+    <div class="game-detail-card" webc:if="game.ageRatings && game.ageRatings.length">
+      <dt>Ratings</dt><dd @text="formatRatings(game.ageRatings)"></dd>
     </div>
   </dl>
 </section>

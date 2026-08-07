@@ -89,6 +89,7 @@ test("representative post types render normalized data", async () => {
     assert.equal(gamelog("#game-details-heading").text(), "Game details");
     assert.match(gamelog("#game-details-heading + dl").text(), /Released/);
     if (igdbGames[305152].ageRatings?.length) {
+      assert.equal(gamelog("#game-details-heading + dl dt").filter((_, element) => gamelog(element).text() === "Ratings").length, 1);
       assert.match(gamelog("#game-details-heading + dl").text(), /ESRB|PEGI|CERO/);
     }
     assert.equal(gamelog("footer a[href='https://www.igdb.com/']").text(), "IGDB.com");

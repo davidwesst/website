@@ -110,8 +110,8 @@ for (const [id, game] of Object.entries(IGDB_GAMES)) {
   assert.ok(authoredIgdbIds.has(Number(id)), `IGDB cache contains unreferenced game ${id}`);
   assert.equal(game.id, Number(id), `IGDB cache key and game ID differ for ${id}`);
   assert.ok(game.name, `IGDB cache game ${id} needs a name`);
-  assert.deepEqual(Object.keys(game).sort(), ["banner", "developers", "firstReleaseDate", "id", "name", "publishers", "series", "sourceUrl"], `IGDB cache game ${id} has unexpected fields`);
-  assert.ok(Array.isArray(game.developers) && Array.isArray(game.publishers) && Array.isArray(game.series), `IGDB cache game ${id} company and series fields must be lists`);
+  assert.deepEqual(Object.keys(game).sort(), ["ageRatings", "banner", "developers", "firstReleaseDate", "id", "name", "publishers", "series", "sourceUrl"], `IGDB cache game ${id} has unexpected fields`);
+  assert.ok(Array.isArray(game.developers) && Array.isArray(game.publishers) && Array.isArray(game.series) && Array.isArray(game.ageRatings), `IGDB cache game ${id} company, series, and rating fields must be lists`);
   if (game.banner) {
     assert.deepEqual(Object.keys(game.banner).sort(), ["alt", "credit", "kind", "src"], `IGDB cache game ${id} banner has unexpected fields`);
     assert.match(game.banner.src, /^\/assets\/igdb\/\d+-[A-Za-z0-9_-]+\.jpg$/, `IGDB cache game ${id} has an invalid banner path`);
@@ -234,7 +234,7 @@ for (const document of documents) {
   if (document.type === "gamelogs") {
     const playthrough = document.data.customData.playthrough;
     const game = IGDB_GAMES[document.data.customData.game.ids.igdb];
-    const gameDetails = game ? [game.firstReleaseDate, game.developers?.length, game.publishers?.length, game.series?.length].filter(Boolean).length : 0;
+    const gameDetails = game ? [game.firstReleaseDate, game.developers?.length, game.publishers?.length, game.series?.length, game.ageRatings?.length].filter(Boolean).length : 0;
     const expectedDetails = [playthrough.started, playthrough.completed, playthrough.platform].filter(Boolean).length
       + Object.keys(document.data.customData.ratings).length + gameDetails;
     assert.equal($("dl dt").length, expectedDetails, `${canonicalUrl(document)} must render all authored playthrough and rating data`);
