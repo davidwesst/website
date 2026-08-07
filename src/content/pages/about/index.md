@@ -4,28 +4,31 @@ summary: 'About David Wesst, his work, background, and current interests.'
 redirectFrom:
   - /about.html
 ---
-Hullo. My name is David Wesst, but you can call me DW or Wessty. I am a solution architect based out of Winnipeg, Manitoba, Canada who loves building code, learning tech, and playing video games while attempting to develop my own.
+Hullo.
 
-Find me on [GitHub](https://github.com/davidwesst/), [LinkedIn](https://ca.linkedin.com/in/davidwesst), or [YouTube](https://youtube.com/davidwesst) once and a while.
+My name is David Wesst, but you can call me DW or Wessty. I am a solution architect based out of Winnipeg, Manitoba, Canada. By day, I am an Enterprise Solutions Architect in higher education, while by night I am father and founder of my own indie video game studio [Cocoboko Studios](https://cocobokostudios.com).
+
+Find me on [GitHub](https://github.com/davidwesst/), [LinkedIn](https://ca.linkedin.com/in/davidwesst), [YouTube](https://youtube.com/davidwesst), [BlueSky](https://bsky.app/profile/davidwesst.bsky.social) once and a while.
 
 ## Current Building
 
-- A video game project (TBA)
-- This [website](https://github.com/davidwesst/website) out of [Eleventy](https://11ty.dev)
+- A [video game studio](https://cocobokostudios.com) and [video games](https://cocobokostudios.com/#games).
+- This [website](https://github.com/davidwesst/website) out of [Build Awesome / 11ty](https://11ty.dev).
 
 ## Currently Learning
 
-- [Godot Engine](https://godotengine.org)
-- [Microsoft Fabric & Power BI](https://learn.microsoft.com/en-us/training/paths/get-started-fabric/)
+- [Godot Engine](https://godotengine.org) for game development
+- [Rust](https://rust-lang.org) for funzies.
+- [Microsoft Fabric & Power BI](https://learn.microsoft.com/en-us/training/paths/get-started-fabric/) for visualizing data.
 
 ## Currently Playing
 
-- Keep Driving (Steam)
-- Astro Bot (PS5)
+- Final Fantasy XIV (Steam)
+- Still searching...
 
 ## The Short Version
 
-As a Solution Architect at the University of Manitoba, I specialize in modernizing legacy enterprise systems with a focus on user experience and cloud-centric platforms. With a Bachelor of Computer Science and nine years as a Microsoft MVP, I have built expertise in web technologies like HTML, CSS, and .NET, while sharing insights at conferences across North America. Outside work, I channel my passion for video games into designing original creations through Cocoboko Studios, combining technical innovation with creative storytelling.
+As a Solution Architect at the University of Manitoba, I specialize in modernizing legacy enterprise systems with a focus on user experience and cloud-centric platforms. With a Bachelor of Computer Science and nine years as a Microsoft MVP, I have built expertise in web technologies like HTML, CSS, and .NET, while sharing insights at conferences across North America. Outside work, I channel my passion for video games into designing original creations through [Cocoboko Studios](https://cocobokostudios.com), combining technical innovation with creative storytelling.
 
 ## The Long Version
 
@@ -45,6 +48,6 @@ Beyond university, my career stayed in software development, with a heavy emphas
 
 ### Outside the Office
 
-In the evening, I tend to learn about video games, my favourite entertainment medium. Although I play as much as I can, my focus for the past many years has been to learn the history, curate my own collection, and attempt to design and develop my own original video game creations.
+In the evening, I tend to learn about video games, my favourite entertainment medium when I am not actively enabling my two kiddos for their various activities. Although I play as much as I can, my focus for the past many years has been to learn the history, curate my own collection, and attempt to design and develop my own original video game creations.
 
 Cocoboko Studios is the embodiment of my passion and drive to make video games. Although there are no releases yet, the company is a work-in-progress and with some blood, sweat, and pixels one day I expect to see my ideas come to life.
