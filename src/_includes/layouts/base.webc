@@ -12,7 +12,7 @@
   </head>
   <body class="min-h-screen bg-slate-100 text-slate-900 antialiased">
     <header :class="page.url === '/' ? 'site-hero' : 'bg-slate-950 shadow-lg'">
-      <site-nav :@pages="collections.pages" :@site="site"></site-nav>
+      <site-nav :@site="site"></site-nav>
       <div webc:if="page.url === '/'" class="mx-auto max-w-5xl px-6 pb-36 pt-16 text-center text-white md:pb-44 md:pt-24">
         <h1 class="text-4xl font-black tracking-tight drop-shadow md:text-6xl" @text="site.title"></h1>
         <div class="mt-6"><social-links :@items="site.socialLinks" :@centered="true"></social-links></div>
@@ -20,6 +20,6 @@
       </div>
     </header>
     <main :class="page.url === '/' ? 'mx-auto min-h-screen max-w-6xl px-4 pb-20 sm:px-6' : 'mx-auto min-h-screen max-w-5xl px-4 py-12 sm:px-6 md:py-20'" @raw="content"></main>
-    <site-footer :@pages="collections.pages" :@site="site"></site-footer>
+    <site-footer :@site="site"></site-footer>
   </body>
 </html>

@@ -1,6 +1,14 @@
 export default {
   title: "David Wesst",
-  tagline: "Building code, sharing ideas, and playing games from Winnipeg, Canada.",
+  navigationTitle: "david.wes.st",
+  navigationLinks: [
+    { name: "Home", url: "/" },
+    { name: "Blog", url: "/blog/" },
+    { name: "Talks", url: "/talks/" },
+    { name: "Topics", url: "/topics/" },
+    { name: "About", url: "/about/" },
+  ],
+  tagline: "Building and playing games, while sharing software development ideas from Winnipeg, Canada.",
   description: "The personal website of David Wesst.",
   url: "https://david.wes.st",
   featuredPost: null,
@@ -8,6 +16,7 @@ export default {
   socialLinks: [
     { name: "GitHub", url: "https://github.com/davidwesst", iconClass: "fa-brands fa-github" },
     { name: "LinkedIn", url: "https://ca.linkedin.com/in/davidwesst", iconClass: "fa-brands fa-linkedin" },
+    { name: "Bluesky", url: "https://bsky.app/profile/davidwesst.bsky.social", iconClass: "fa-brands fa-bluesky" },
     { name: "YouTube", url: "https://youtube.com/davidwesst", iconClass: "fa-brands fa-youtube" },
   ],
   postTypes: {
