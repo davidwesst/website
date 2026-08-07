@@ -229,7 +229,13 @@ test("uses an exact-inventory stale cache when credentials or the API are unavai
   await mkdir(cacheDirectory, { recursive: true });
   await writeFile(path.join(cacheDirectory, "manifest.json"), JSON.stringify(manifest));
   const warnings = [];
-  const withoutCredentials = await prepareIgdb({ ids: [1], cacheDirectory, logger: { warn: (message) => warnings.push(message) } });
+  const withoutCredentials = await prepareIgdb({
+    ids: [1],
+    cacheDirectory,
+    clientId: "",
+    clientSecret: "",
+    logger: { warn: (message) => warnings.push(message) },
+  });
   assert.equal(withoutCredentials.status, "stale");
 
   let calls = 0;
