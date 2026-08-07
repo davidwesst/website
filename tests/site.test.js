@@ -110,6 +110,17 @@ test("indexes, topics, compatibility pages, and standalone pages render", async 
   const blog = await page("blog/index.html");
   assert.equal(blog("h1").text(), "Blog");
   assert.equal(blog("ol > li").length, 169);
+  assert.match(blog("ol").attr("class"), /\bmd:grid-cols-1\b/);
+  assert.match(blog("ol").attr("class"), /\blg:grid-cols-1\b/);
+  assert.ok(blog("ol > li article figure").first().attr("class").split(/\s+/).includes("aspect-[32/9]"));
+  const typeFilters = blog("[data-content-type-filter] input[type='checkbox']");
+  assert.equal(typeFilters.length, 3);
+  assert.deepEqual(typeFilters.map((_, input) => blog(input).attr("value")).get(), ["article", "dungeonlog", "gamelog"]);
+  assert.ok(typeFilters.toArray().every((input) => blog(input).is("[checked]")));
+  assert.equal(blog("#blog-post-list > li[data-content-type='article']").length, 138);
+  assert.equal(blog("#blog-post-list > li[data-content-type='gamelog']").length, 19);
+  assert.equal(blog("#blog-post-list > li[data-content-type='dungeonlog']").length, 12);
+  assert.match(blog("script").text(), /Showing 0 posts\? That's silly\./);
 
   assert.equal((await page("blog/articles/index.html"))("ol > li").length, 138);
   assert.equal((await page("blog/gamelogs/index.html"))("ol > li").length, 19);
