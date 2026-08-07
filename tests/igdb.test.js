@@ -61,12 +61,23 @@ test("normalizes game metadata and selects deterministic landscape artwork", () 
       { developer: true, publisher: false, company: { name: "Studio A" } },
     ],
     collections: [{ name: "Series B" }, { name: "Series A" }, { name: "Series A" }],
+    age_ratings: [
+      { organization: { name: "PEGI" }, rating_category: { rating: "16" } },
+      { organization: { name: "Entertainment Software Rating Board" }, rating_category: { rating: "T" } },
+      { organization: { name: "CERO" }, rating_category: { rating: "C" } },
+      { organization: { name: "USK" }, rating_category: { rating: "12" } },
+    ],
   });
   const { game, image } = normalizeGame(raw);
   assert.equal(game.firstReleaseDate, "2000-01-01");
   assert.deepEqual(game.developers, ["Studio A", "Studio B"]);
   assert.deepEqual(game.publishers, ["Studio A"]);
   assert.deepEqual(game.series, ["Series A", "Series B"]);
+  assert.deepEqual(game.ageRatings, [
+    { organization: "ESRB", rating: "T" },
+    { organization: "PEGI", rating: "16" },
+    { organization: "CERO", rating: "C" },
+  ]);
   assert.equal(game.banner.kind, "artwork");
   assert.match(game.banner.src, /7-larger\.jpg$/);
   assert.match(image.url, /t_1080p\/larger\.jpg$/);
@@ -79,6 +90,37 @@ test("falls back from portrait artwork to a landscape screenshot", () => {
   }));
   assert.equal(selected.image_id, "screen");
   assert.equal(selected.kind, "screenshot");
+});
+
+test("skips known bad IGDB banner images", () => {
+  const selected = selectBanner(rawGame(388426, {
+    artworks: [
+      { image_id: "ar582n", width: 1920, height: 1080 },
+      { image_id: "better-artwork", width: 1280, height: 720 },
+    ],
+    screenshots: [{ image_id: "screen", width: 1920, height: 1080 }],
+  }));
+  assert.equal(selected.image_id, "better-artwork");
+  assert.equal(selected.kind, "artwork");
+
+  const fallback = selectBanner(rawGame(351273, {
+    artworks: [{ image_id: "ar5f0u", width: 1920, height: 1080 }],
+    screenshots: [{ image_id: "screen", width: 1920, height: 1080 }],
+  }));
+  assert.equal(fallback.image_id, "screen");
+  assert.equal(fallback.kind, "screenshot");
+
+  const roottreesFallback = selectBanner(rawGame(288983, {
+    artworks: [{ image_id: "ar2skz", width: 1920, height: 1080 }],
+    screenshots: [{ image_id: "root-screen", width: 1920, height: 1080 }],
+  }));
+  assert.equal(roottreesFallback.image_id, "root-screen");
+
+  const galleyFallback = selectBanner(rawGame(350434, {
+    artworks: [{ image_id: "ar3v7r", width: 1920, height: 1080 }],
+    screenshots: [{ image_id: "galley-screen", width: 1920, height: 1080 }],
+  }));
+  assert.equal(galleyFallback.image_id, "galley-screen");
 });
 
 test("computed gamelog data joins IGDB metadata while preserving authored banners", () => {
@@ -96,6 +138,8 @@ test("builds one batched query for the current 19 game inventory", () => {
   assert.match(query, /where id = \(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19\);/);
   assert.match(query, /involved_companies\.company\.name/);
   assert.match(query, /collections\.name/);
+  assert.match(query, /age_ratings\.organization\.name/);
+  assert.match(query, /age_ratings\.rating_category\.rating/);
   assert.equal((query.match(/where id/g) || []).length, 1);
 });
 

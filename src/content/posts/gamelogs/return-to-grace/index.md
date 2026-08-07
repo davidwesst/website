@@ -1,5 +1,5 @@
 ---
-title: Return from Grace
+title: Return to Grace
 date: '2025-01-27'
 redirectFrom:
   - /blog/gamelog/entry.html?slug=return-to-grace
@@ -9,7 +9,7 @@ redirectFrom:
 customData:
   game:
     ids:
-      igdb: 249377
+      igdb: 249477
   playthrough:
     started: '2025-01-27'
     completed: '2025-01-27'
