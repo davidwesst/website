@@ -34,6 +34,9 @@ export default function (eleventyConfig) {
     components: "src/_includes/components/**/*.webc",
   });
   eleventyConfig.addPassthroughCopy("src/assets");
+  if (existsSync(path.resolve(".cache", "igdb", "images"))) {
+    eleventyConfig.addPassthroughCopy({ ".cache/igdb/images": "assets/igdb" });
+  }
   eleventyConfig.addPassthroughCopy({
     "node_modules/@fortawesome/fontawesome-free/css/all.min.css": "assets/fontawesome.css",
     "node_modules/@fortawesome/fontawesome-free/webfonts": "webfonts",

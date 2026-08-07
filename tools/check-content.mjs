@@ -5,12 +5,15 @@ import path from "node:path";
 import { load } from "cheerio";
 import matter from "gray-matter";
 import { BLOG_INDEX_ROUTES, RESERVED_BLOG_SLUGS, canonicalContentUrl } from "../lib/content-routing.js";
+import { IGDB_CACHE_SCHEMA_VERSION, hasCachedImages, readIgdbManifest } from "../lib/igdb.js";
 
 const ROOT = process.cwd();
 const CONTENT_ROOT = path.join(ROOT, "src", "content");
 const OUTPUT_ROOT = path.join(ROOT, "_site");
 const MANIFEST = JSON.parse(readFileSync(path.join(ROOT, "src", "_data", "migration-manifest.json"), "utf8"));
 const EXCEPTIONS = JSON.parse(readFileSync(path.join(ROOT, "src", "_data", "asset-exceptions.json"), "utf8"));
+const IGDB_MANIFEST = readIgdbManifest();
+const IGDB_GAMES = IGDB_MANIFEST?.schemaVersion === IGDB_CACHE_SCHEMA_VERSION && hasCachedImages(IGDB_MANIFEST) ? IGDB_MANIFEST.games || {} : {};
 const ALLOWED_KEYS = new Set(["title", "date", "updated", "summary", "topics", "redirectFrom", "banner", "customData"]);
 const DEPRECATED_KEYS = new Set(["id", "source", "docType", "series", "slug", "taxonomy", "canonicalUrl", "legacyUrls", "media", "review", "meta"]);
 const EXPECTED_COUNTS = { articles: 138, gamelogs: 19, dungeonlogs: 12, talks: 12, pages: 2 };
@@ -99,6 +102,26 @@ const documents = markdownFiles.map((file) => {
 const counts = Object.fromEntries(Object.keys(EXPECTED_COUNTS).map((type) => [type, documents.filter((document) => document.type === type).length]));
 assert.deepEqual(counts, EXPECTED_COUNTS, "Active content counts must match the approved inventory");
 assert.deepEqual(Object.fromEntries(Object.entries(MANIFEST.counts).filter(([key]) => key !== "appearances")), MIGRATED_COUNTS);
+
+const authoredIgdbIds = new Set(documents
+  .filter((document) => document.type === "gamelogs")
+  .map((document) => document.data.customData?.game?.ids?.igdb));
+for (const [id, game] of Object.entries(IGDB_GAMES)) {
+  assert.ok(authoredIgdbIds.has(Number(id)), `IGDB cache contains unreferenced game ${id}`);
+  assert.equal(game.id, Number(id), `IGDB cache key and game ID differ for ${id}`);
+  assert.ok(game.name, `IGDB cache game ${id} needs a name`);
+  assert.deepEqual(Object.keys(game).sort(), ["banner", "developers", "firstReleaseDate", "id", "name", "publishers", "series", "sourceUrl"], `IGDB cache game ${id} has unexpected fields`);
+  assert.ok(Array.isArray(game.developers) && Array.isArray(game.publishers) && Array.isArray(game.series), `IGDB cache game ${id} company and series fields must be lists`);
+  if (game.banner) {
+    assert.deepEqual(Object.keys(game.banner).sort(), ["alt", "credit", "kind", "src"], `IGDB cache game ${id} banner has unexpected fields`);
+    assert.match(game.banner.src, /^\/assets\/igdb\/\d+-[A-Za-z0-9_-]+\.jpg$/, `IGDB cache game ${id} has an invalid banner path`);
+    assert.ok(game.banner.alt?.trim(), `IGDB cache game ${id} needs banner alt text`);
+    assert.ok(exactCaseExists(path.join(OUTPUT_ROOT, game.banner.src)), `IGDB banner is missing from output for game ${id}`);
+  }
+}
+if (Object.keys(IGDB_GAMES).length) {
+  assert.deepEqual(Object.keys(IGDB_MANIFEST).sort(), ["fetchedAt", "games", "schemaVersion"], "IGDB cache manifest has unexpected fields");
+}
 
 const urls = new Set();
 const redirects = new Map();
@@ -210,9 +233,15 @@ for (const document of documents) {
   }
   if (document.type === "gamelogs") {
     const playthrough = document.data.customData.playthrough;
+    const game = IGDB_GAMES[document.data.customData.game.ids.igdb];
+    const gameDetails = game ? [game.firstReleaseDate, game.developers?.length, game.publishers?.length, game.series?.length].filter(Boolean).length : 0;
     const expectedDetails = [playthrough.started, playthrough.completed, playthrough.platform].filter(Boolean).length
-      + Object.keys(document.data.customData.ratings).length;
+      + Object.keys(document.data.customData.ratings).length + gameDetails;
     assert.equal($("dl dt").length, expectedDetails, `${canonicalUrl(document)} must render all authored playthrough and rating data`);
+    if (game?.banner && !document.data.banner) {
+      assert.equal($("figure img").first().attr("src"), game.banner.src, `${canonicalUrl(document)} renders the wrong IGDB banner`);
+      assert.equal($("figure img").first().attr("alt"), game.banner.alt, `${canonicalUrl(document)} renders the wrong IGDB banner alt text`);
+    }
   }
   if (document.type === "talks") {
     assert.equal($("header time").first().attr("datetime"), EXPECTED_TALK_DATES[path.basename(path.dirname(document.file))], `${canonicalUrl(document)} must render its publication or latest presentation date`);

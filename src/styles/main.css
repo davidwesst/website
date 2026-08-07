@@ -137,6 +137,7 @@ body { margin: 0; }
 .prose-content th,
 .prose-content td { border: 1px solid #cbd5e1; padding: 0.65rem; text-align: left; }
 
+#game-details-heading,
 #gamelog-details-heading,
 #speakers-heading,
 #appearances-heading {
@@ -146,6 +147,7 @@ body { margin: 0; }
   margin-top: 2rem;
 }
 
+#game-details-heading + dl,
 #gamelog-details-heading + dl {
   display: grid;
   gap: 0.75rem;
@@ -153,12 +155,55 @@ body { margin: 0; }
   margin: 1rem 0 2.5rem;
 }
 
+#game-details-heading + dl > div,
 #gamelog-details-heading + dl > div {
   background: #f1f5f9;
   border-radius: 0.5rem;
   padding: 1rem;
 }
 
+#game-details-heading + dl > div {
+  background: #ecfeff;
+  border: 1px solid #a5f3fc;
+}
+
+#gamelog-details-heading + dl > div {
+  border: 1px solid #e2e8f0;
+}
+
+#gamelog-details-heading + dl {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  justify-content: center;
+}
+
+#gamelog-details-heading + dl .play-detail-card {
+  text-align: center;
+}
+
+#gamelog-details-heading + dl .rating-detail-row {
+  background: transparent;
+  border: 0;
+  display: flex;
+  gap: 0.75rem;
+  grid-column: 1 / -1;
+  justify-content: center;
+  overflow-x: auto;
+  padding: 0;
+}
+
+#gamelog-details-heading + dl .rating-detail-card {
+  align-items: center;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  min-width: max-content;
+  padding: 1rem;
+}
+
+#game-details-heading + dl dt,
 #gamelog-details-heading + dl dt {
   color: #64748b;
   font-size: 0.7rem;
@@ -166,4 +211,21 @@ body { margin: 0; }
   text-transform: uppercase;
 }
 
+#game-details-heading + dl dt {
+  color: #0e7490;
+}
+
+#game-details-heading + dl dd,
 #gamelog-details-heading + dl dd { margin: 0.25rem 0 0; }
+
+#gamelog-details-heading + dl .rating-detail-card dd { margin: 0; }
+
+@media (max-width: 640px) {
+  #gamelog-details-heading + dl {
+    grid-template-columns: 1fr;
+  }
+
+  #gamelog-details-heading + dl .rating-detail-row {
+    justify-content: flex-start;
+  }
+}

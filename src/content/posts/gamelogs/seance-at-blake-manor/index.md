@@ -7,7 +7,7 @@ redirectFrom:
 customData:
   game:
     ids:
-      igdb: 160036
+      igdb: 335833
   playthrough:
     started: '2025-11-28'
     completed: '2025-12-14'

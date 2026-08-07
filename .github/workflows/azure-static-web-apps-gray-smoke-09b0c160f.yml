@@ -49,8 +49,24 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Get UTC cache date
+        id: cache-date
+        shell: bash
+        run: echo "date=$(date -u +%Y%m%d)" >> "$GITHUB_OUTPUT"
+
+      - name: Restore IGDB cache
+        uses: actions/cache@v6
+        with:
+          path: .cache/igdb
+          key: igdb-v1-${{ steps.cache-date.outputs.date }}
+          restore-keys: |
+            igdb-v1-
+
       - name: Build and test
         run: pnpm test
+        env:
+          IGDB_CLIENT_ID: ${{ secrets.IGDB_CLIENT_ID }}
+          IGDB_CLIENT_SECRET: ${{ secrets.IGDB_CLIENT_SECRET }}
 
       - name: Upload site artifact
         uses: actions/upload-artifact@v7

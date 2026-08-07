@@ -4,8 +4,11 @@ import { join } from "node:path";
 import test from "node:test";
 import { load } from "cheerio";
 import { getPostDescription, prepareHomeContent } from "../src/_lib/home-content.js";
+import { IGDB_CACHE_SCHEMA_VERSION, hasCachedImages, readIgdbManifest } from "../lib/igdb.js";
 
 const output = join(process.cwd(), "_site");
+const igdbManifest = readIgdbManifest();
+const igdbGames = igdbManifest?.schemaVersion === IGDB_CACHE_SCHEMA_VERSION && hasCachedImages(igdbManifest) ? igdbManifest.games || {} : {};
 
 async function page(relativePath) {
   return load(await readFile(join(output, relativePath), "utf8"));
@@ -79,6 +82,14 @@ test("representative post types render normalized data", async () => {
   const gamelog = await page("blog/clair-obscur-expedition-33/index.html");
   assert.match(gamelog("dl").text(), /XBox Series X/);
   assert.match(gamelog("dl").text(), /overall\s*3/);
+  assert.equal(gamelog(".play-detail-card").length, 3);
+  assert.equal(gamelog(".rating-detail-row").length, 1);
+  assert.ok(gamelog(".rating-detail-row .rating-detail-card").length >= 1);
+  if (igdbGames[305152]) {
+    assert.equal(gamelog("#game-details-heading").text(), "Game details");
+    assert.match(gamelog("#game-details-heading + dl").text(), /Released/);
+    assert.equal(gamelog("footer a[href='https://www.igdb.com/']").text(), "IGDB.com");
+  }
 
   const julyGamelog = await page("blog/paranormasight-the-mermaids-curse/index.html");
   assert.equal(julyGamelog("h1").text(), "Paranormasight: The Mermaid's Curse");
@@ -96,8 +107,13 @@ test("post visuals use banners or accessible type-specific fallbacks", async () 
   assert.match(article("figure [role=img] i").attr("class"), /fa-newspaper/);
 
   const gamelog = await page("blog/the-ratline/index.html");
-  assert.equal(gamelog("figure [role=img]").attr("aria-label"), "Gamelog placeholder image");
-  assert.match(gamelog("figure [role=img] i").attr("class"), /fa-gamepad/);
+  if (igdbGames[351273]?.banner) {
+    assert.equal(gamelog("figure img").attr("src"), igdbGames[351273].banner.src);
+    assert.equal(gamelog("figure img").attr("alt"), igdbGames[351273].banner.alt);
+  } else {
+    assert.equal(gamelog("figure [role=img]").attr("aria-label"), "Gamelog placeholder image");
+    assert.match(gamelog("figure [role=img] i").attr("class"), /fa-gamepad/);
+  }
 
   const dungeonlog = await page("blog/2026-03-16/index.html");
   assert.equal(dungeonlog("figure img").attr("src"), "./2026-03-16_Poster.png");
