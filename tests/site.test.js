@@ -120,6 +120,10 @@ test("indexes, topics, compatibility pages, and standalone pages render", async 
   assert.equal(blog("#blog-post-list > li[data-content-type='article']").length, 138);
   assert.equal(blog("#blog-post-list > li[data-content-type='gamelog']").length, 19);
   assert.equal(blog("#blog-post-list > li[data-content-type='dungeonlog']").length, 12);
+  assert.match(
+    blog("article:has(h2 a[href='/blog/paranormasight-the-mermaids-curse/']) .post-card-description").text(),
+    /This is the second Paranormasight game/,
+  );
   assert.match(blog("script").text(), /Showing 0 posts\? That's silly\./);
 
   assert.equal((await page("blog/articles/index.html"))("ol > li").length, 138);

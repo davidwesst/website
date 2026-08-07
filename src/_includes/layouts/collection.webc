@@ -17,5 +17,5 @@ layout: base.webc
     <div class="prose-content mt-4 text-lg text-slate-600" @raw="content"></div>
   </header>
   <content-type-filter webc:if="collectionName === 'posts'"></content-type-filter>
-  <content-list :@items="collectionItems(collections, collectionName)" :@site="site" :@single-column="usesSingleColumn(collectionName)" :@filterable="collectionName === 'posts'"></content-list>
+  <content-list :@items="collectionItems(collections, collectionName)" :@site="site" :@single-column="usesSingleColumn(collectionName)" :@filterable="collectionName === 'posts'" :@description-for="collectionName === 'posts' ? card.description : undefined"></content-list>
 </section>
