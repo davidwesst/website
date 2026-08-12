@@ -1,0 +1,38 @@
+---
+layout: base.webc
+---
+<script webc:setup>
+  const homeContent = home.prepare(collections.posts, site.featuredPost, site.recentPostCount);
+</script>
+
+<section class="-mt-28 md:-mt-36" aria-labelledby="featured-heading">
+  <h2 id="featured-heading" class="sr-only">Featured post</h2>
+  <post-card :@item="homeContent.featured" :@site="site" :@featured="true" :@description="homeContent.featuredDescription"></post-card>
+</section>
+
+<section class="py-16" aria-labelledby="recent-heading">
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <div>
+      <p class="text-sm font-bold uppercase tracking-[0.2em] text-teal-700">From the blog</p>
+      <h2 id="recent-heading" class="mt-2 text-3xl font-black tracking-tight text-slate-950 md:text-4xl">Latest posts</h2>
+    </div>
+    <a class="font-bold text-teal-700 hover:text-teal-900" href="/blog/">View the full blog <span aria-hidden="true">→</span></a>
+  </div>
+  <ol class="home-posts mt-8 grid list-none gap-8 p-0 md:grid-cols-2">
+    <li webc:for="item of homeContent.recent"><post-card :@item="item" :@site="site" :@featured="false" :@description="item.data.summary"></post-card></li>
+  </ol>
+</section>
+
+<section class="rounded-xl bg-white p-8 shadow-lg md:p-12" aria-labelledby="explore-heading">
+  <p class="text-sm font-bold uppercase tracking-[0.2em] text-teal-700">More to explore</p>
+  <h2 id="explore-heading" class="mt-2 text-3xl font-black text-slate-950">Pages</h2>
+  <div class="prose-content mt-5 max-w-3xl" @raw="content"></div>
+  <ul class="mt-8 grid gap-4 sm:grid-cols-2">
+    <li webc:for="item of [...(collections.pages || [])].sort((left, right) => left.data.title.localeCompare(right.data.title))">
+      <a class="block rounded-lg border border-slate-200 p-5 no-underline transition hover:border-teal-500 hover:bg-teal-50" :href="item.url">
+        <strong class="block text-lg text-slate-950" @text="item.data.title"></strong>
+        <span webc:if="item.data.summary" class="mt-1 block text-sm text-slate-600" @text="item.data.summary"></span>
+      </a>
+    </li>
+  </ul>
+</section>

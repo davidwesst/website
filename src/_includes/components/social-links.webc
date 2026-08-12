@@ -1,6 +1,13 @@
-<ul webc:if="items && items.length" class="flex flex-wrap justify-center gap-3">
+<script webc:setup>
+  function iconFor(link) {
+    return link.iconClass || "fa-solid fa-link";
+  }
+</script>
+
+<ul webc:if="items && items.length" class="flex flex-wrap gap-3" :class="centered ? 'justify-center' : ''" aria-label="Social links">
   <li webc:for="link of items">
-    <a class="inline-block rounded-full bg-slate-200 px-4 py-2 font-medium text-slate-700 hover:bg-teal-100 hover:text-teal-700" :href="link.url" target="_blank" rel="noopener noreferrer">
+    <a class="inline-flex items-center gap-2 rounded-full border border-slate-600 px-4 py-2 text-sm font-semibold text-slate-200 no-underline transition hover:border-teal-400 hover:text-teal-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-300" :href="link.url" target="_blank" rel="noopener noreferrer">
+      <i :class="iconFor(link)" aria-hidden="true"></i>
       <span @text="link.name"></span>
     </a>
   </li>

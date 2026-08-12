@@ -1,0 +1,24 @@
+<script webc:setup>
+  function formatDate(value) {
+    return new Intl.DateTimeFormat("en-CA", { dateStyle: "long", timeZone: "UTC" }).format(new Date(value));
+  }
+
+</script>
+
+<article class="group flex h-full flex-col overflow-hidden rounded-lg bg-white shadow-lg transition duration-200 hover:-translate-y-1 hover:shadow-xl" :class="featured ? 'md:grid md:grid-cols-5' : ''">
+  <a class="block overflow-hidden" :class="featured ? 'md:col-span-3' : ''" :href="item.url" tabindex="-1" aria-hidden="true">
+    <post-visual :@banner="item.data.resolvedBanner || item.data.banner" :base-url="item.url" :type="item.data.type" :@site="site" :@featured="featured" :@cropped="cropBanner"></post-visual>
+  </a>
+  <div class="flex flex-1 flex-col p-6" :class="featured ? 'md:col-span-2 md:p-9' : ''">
+    <post-type-marker :type="item.data.type" :@site="site"></post-type-marker>
+    <h2 class="post-card-title mt-3 font-sans text-2xl font-black leading-tight text-slate-950" :class="featured ? 'md:text-3xl' : ''">
+      <a class="text-inherit no-underline after:absolute group-hover:text-teal-700" :href="item.url" @text="item.data.title"></a>
+    </h2>
+    <p webc:if="description" class="post-card-description mt-4 flex-1 font-serif text-base leading-7 text-slate-600" @text="description"></p>
+    <footer class="mt-auto pt-6">
+      <p class="border-t border-slate-100 pt-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
+        <time :datetime="item.date.toISOString()" @text="formatDate(item.date)"></time>
+      </p>
+    </footer>
+  </div>
+</article>

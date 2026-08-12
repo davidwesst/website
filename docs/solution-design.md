@@ -2,475 +2,82 @@
 
 ## Purpose
 
-This document explains how the merged website will be built from the two upstream source sites in [`sources/davidwesst.github.io`](/home/dw/Code/davidwesst/website/sources/davidwesst.github.io) and [`sources/digital-zuihitsu`](/home/dw/Code/davidwesst/website/sources/digital-zuihitsu).
+This repository contains David Wesst's active Eleventy website and its normalized authored-content model. The former merged-site implementation remains in `_archive` as a migration source only: normal builds, tests, integrity checks, and deployment inputs must not read it.
 
-It is written for both human developers and AI agents. The goal is to make the implementation direction explicit, reduce rework, and keep future changes aligned with one canonical model.
+## Current Scope
 
-## Desired Outcome
+The active site publishes:
 
-The new website should:
+- a home page plus migrated About and Projects pages
+- 138 articles, 19 gamelogs, and 12 dungeonlogs
+- 12 talks containing 22 appearances migrated from 16 archived event records
+- Blog, Articles, Gamelogs, Dungeonlogs, Talks, and Topics indexes
+- generated pages for topics shared by posts and talks
+- stable content assets and legacy URL compatibility
 
-- merge both source sites into a single 11ty website
-- keep source ingestion separate so each upstream can evolve independently
-- normalize both sources into one canonical content model before rendering
-- keep talks, events, and their assets as canonical authored content in this repository after migration
-- support first-class shared events for talks
-- preserve legacy URLs from both old sites through redirects
-- reduce the number of top-level content types and naming inconsistencies
-- remain easy to extend as new content types, taxonomies, or entities are added
+Talks are a separate content family from posts. Both use the shared authored fields and presentation components, while their type-specific data remains under `customData`.
 
-## Guiding Principles
+## Technology
 
-- Separate ingestion from normalization. Source-specific parsing belongs in source loaders, not templates.
-- Prefer one canonical model over many source-shaped models.
-- Preserve authored data even if the old site ignored it.
-- Keep 11ty collections derived from normalized data, not directory conventions.
-- Treat redirects as build data, not an afterthought.
-- Use stable identities wherever cross-record relationships exist.
+- Node.js 26
+- pnpm 11
+- Eleventy 3
+- Markdown for authored content and index pages
+- WebC for layouts and reusable web components
+- Tailwind CSS 4 as the existing styling dependency
+- Font Awesome Free for locally hosted post-type icons
+- Node scripts for deterministic migration and output integrity validation
 
-## Source Systems
+## Authored content model
 
-### `davidwesst.github.io`
+Authored documents live beneath `src/content/` as Markdown `index.md` files grouped into `pages`, `posts/articles`, `posts/gamelogs`, `posts/dungeonlogs`, and `talks`. Images owned by an individual document are stored in the same directory as that document and referenced with a relative `./filename` path.
 
-This is an 11ty + WebC site with:
+Posts and talks require `title` and an explicit publication `date`. Static pages require `title`. The optional shared fields are `summary`, `updated`, `topics`, `redirectFrom`, `banner`, and `customData`. A banner contains `src`, meaningful `alt`, and optional `credit`.
 
-- singleton pages authored as `.webc`
-- blog posts authored as Markdown
-- gamelog entries authored as Markdown
-- talks authored as Markdown
-- site metadata and social links in `_data`-style JS modules
+Eleventy derives the slug from `page.fileSlug`. All post types share a flat canonical detail route while directory data continues to derive layout, type, and collection tags:
 
-Notable characteristics:
+- articles: `posts` and `articles`, at `/blog/{slug}/`
+- gamelogs: `posts` and `gamelogs`, at `/blog/{slug}/`
+- dungeonlogs: `posts` and `dungeonlogs`, at `/blog/{slug}/`
+- talks: `talks`, at `/talks/{slug}/`
+- pages: at `/{slug}/`
 
-- collection membership is driven by sibling `.11tydata.js` files
-- image metadata is not consistently named across all entries
-- talks embed event-like data inline through `deliveredAt`
-- public URLs are already close to the desired 11ty shape and should be preserved where possible
+Post slugs must be globally unique across all three post types and cannot use the reserved type-index slugs `articles`, `gamelogs`, or `dungeonlogs`. The filtered indexes live at `/blog/articles/`, `/blog/gamelogs/`, and `/blog/dungeonlogs/`. Topics are authored taxonomy values, separate from Eleventy collection tags. Topic routes use normalized slugs and combine posts and talks in descending publication order. Canonical topic pages live under `/topics/`; legacy `/categories/` pages remain noindex compatibility forwarders.
 
-Talks and embedded talk event data from this source were migration input only. After migration, talks, events, and talk assets are canonical under `src/content` in this repository and should not be loaded from `sources/davidwesst.github.io`.
+Gamelog-specific authored data is stored under `customData.game.ids`, `customData.playthrough`, and `customData.ratings`. Every gamelog has an IGDB ID. Before Eleventy renders, a source-specific preparation layer joins those IDs to normalized IGDB game data containing the earliest release date, developers, publishers, collection-based series membership, ESRB/PEGI/CERO age ratings, and an optional generated banner. IGDB data remains derived build data rather than authored front matter, and presentation components receive only the normalized model. Talk-specific data is stored under `customData.speakers` and `customData.appearances`. A talk's page `date` is its original publication date when recoverable, otherwise its latest presentation date. The resolved page date controls collection sorting; individual appearance dates do not otherwise participate in sorting.
 
-### Local canonical content
+## Rendering
 
-The merged site owns canonical talks and events in:
+`src/_includes/layouts` contains focused WebC layouts for the home page, posts, talks, static pages, collections, and topic pages. `src/_includes/components` contains reusable navigation, footer, social-link, post-card, post-visual, topic, banner, gamelog, and talk-detail components. The base WebC shell provides site navigation and one main landmark.
 
-- `src/content/talks/<slug>/index.md`
-- `src/content/events/<event-id>/index.json`
+Detail pages render semantic articles with one H1, publication metadata, topics, banner figures or type-specific fallback artwork, Markdown body content, and applicable type-specific data. Gamelogs additionally render normalized game details separately from authored playthrough details. Their visual precedence is an authored banner, generated IGDB artwork, generated IGDB screenshot, then the accessible gamelog placeholder. Indexes use semantic content cards. The combined Blog index uses single-column cards with cropped banners, summary-or-introduction descriptions, and progressively enhanced, default-enabled type filters for articles, gamelogs, and dungeonlogs. The Ghostwind-inspired presentation uses a gradient masthead, elevated cards, local Font Awesome icons, and readable serif body typography; `src/styles/main.css` remains the single authored stylesheet entry point.
 
-Talk records use canonical front matter names directly, including `summary`, `media`, `taxonomy`, `eventRefs`, `canonicalUrl`, and `legacyUrls`.
+Repository-controlled global site data defines the title, tagline, social links and their Font Awesome icon classes, post-type labels/icons/colors, recent-post count, and optional featured-post canonical URL. The same social-link component renders labeled icon links in the home hero and site footer. A null featured-post value selects the newest post; an invalid explicit URL fails the build.
 
-Event records are structured JSON because they are mostly data. Event-specific public links belong on `Event.links`; talk-specific resources such as slides and demos belong on `Document.eventRefs[].links`.
+## Migration and assets
 
-### `digital-zuihitsu`
+`tools/content-migration/migrate.mjs` is the only active tool allowed to read `_archive`. It parses archived front matter and event records, normalizes taxonomy and type-specific data, rewrites recoverable image references, records missing images, removes unsupported migration artifacts, and produces the active content through a staging directory.
 
-This is a Vite site with:
+- `pnpm content:migrate` performs the initial migration and refuses to overwrite existing content or assets.
+- `pnpm content:migrate:check` regenerates the expected result in a temporary directory and verifies that the migrated subset of active content still matches without writing. New authored documents outside the migration manifest are allowed.
 
-- gamelog entries authored as Markdown
-- dungeonlog session entries authored as Markdown
-- HTML shell pages that currently drive rendering
+Available authored binary assets are copied byte-for-byte beside their owning `src/content/.../index.md` file. Eleventy maps each colocated authored image to the same canonical output directory as its rendered document, so source ownership and published ownership remain aligned. `src/_data/migration-manifest.json` records source and colocated destination hashes. `src/_data/asset-exceptions.json` records unavailable images; rendered content uses semantic unavailable-image notes instead of broken image elements.
 
-Notable characteristics:
+IGDB banner images are generated build assets rather than authored banners. The preparation step downloads selected 1080p artwork or screenshots into the ignored `.cache/igdb/images/` directory and Eleventy publishes them under `/assets/igdb/`. Known poor-fit IGDB banner image IDs can be rejected by the preparation layer so the deterministic selection falls through to a better candidate or placeholder. The accompanying normalized manifest has a rolling 24-hour freshness limit. A stale manifest remains a non-blocking fallback when credentials or IGDB are unavailable; a build without any usable cache retains the existing placeholders. Cache refresh uses a single batched games request for the current inventory, bounded retries for rate limits and server errors, and at most two concurrent CDN image downloads. The Twitch app access token is ephemeral and is never written to the cache.
 
-- the runtime parser is narrower than the authored source content
-- some authored fields are currently ignored but should be preserved
-- gamelog detail pages use query-string routes
-- dungeonlog is currently rendered as an aggregate page with anchor links
+Azure routing is generated as `staticwebapp.config.json`, with trailing slashes, explicit redirects for changed canonical locations, and a size assertion. Archived hierarchical gamelog and dungeonlog detail routes redirect to the flat canonical post routes. Query-based legacy gamelog URLs use a generated noindex dispatcher at `/blog/gamelog/entry.html` backed by a validated slug map. RSS feeds can later select the existing `posts`, `articles`, `gamelogs`, and `dungeonlogs` collections independently of canonical URL shape.
 
-## Canonical Model
+## Validation
 
-The merged site will use three top-level record types:
+The production build removes only `_site`, prepares the optional IGDB cache, renders the site, copies assets, and compiles the existing stylesheet. `pnpm check:content` validates active source data and rendered output without reading `_archive`, including:
 
-- `Document`
-- `Event`
-- `Redirect`
+- exact document and appearance counts
+- normalized schemas, dates, type-specific custom data, topics, globally unique post slugs, reserved routes, and canonical URLs
+- redirect uniqueness, coverage, collision safety, and query-based gamelog mappings
+- asset colocation, hashes, exact filename casing, rendered image existence, acceptable alt text, and missing-image exceptions
+- local links and fragments
+- expected output for every migrated document
+- semantic page structure and representative type-specific rendering
+- absence of archive paths, raw front matter, unresolved WebC data, and migration markers
 
-This is the full public shape of the content pipeline. Source-specific formats should not leak past normalization.
-
-### `Document`
-
-Every publishable content item becomes a `Document`.
-
-Fields:
-
-- `id`
-- `source`
-- `docType`: `page` | `post` | `review` | `session` | `talk`
-- `series?`: `blog` | `gamelog` | `dungeonlog` | `talks`
-- `slug`
-- `title`
-- `summary?`
-- `body`: `{ markdown: string }`
-- `dates`: `{ published?: string, updated?: string, sort?: string }`
-- `taxonomy`: `{ tags: string[], categories: string[] }`
-- `media?`: `{ image?: string, imageAlt?: string, mediaType?: string, credit?: unknown }`
-- `review?`: `{ subjectIds?: Record<string, string | number>, play?: PlayMeta, rating?: RatingMeta }`
-- `eventRefs?`: `EventRef[]`
-- `canonicalUrl`
-- `legacyUrls`: string[]
-- `meta`: `{ nativePath: string, sourceMeta: Record<string, unknown>, assets: string[] }`
-
-### `Event`
-
-Every real-world conference, meetup, or talk venue instance becomes an `Event`.
-
-Fields:
-
-- `id`
-- `slug`
-- `title`
-- `summary?`
-- `dates`: `{ start?: string, end?: string, sort?: string }`
-- `location?`
-- `links`: `{ label: string, url: string }[]`
-- `canonicalUrl`
-- `legacyUrls`: string[]
-- `meta`: `{ sourceKeys: string[], sourceMeta: Record<string, unknown>[], aliases?: string[] }`
-
-### `Redirect`
-
-Every old public path that is no longer canonical becomes a `Redirect`.
-
-Fields:
-
-- `from`
-- `to`
-- `status`: `301`
-- `source`: `davidwesst.github.io` | `digital-zuihitsu` | `merged`
-- `reason`: `legacy-path` | `canonicalization` | `collection-change` | `query-route`
-- `keepQuery?`: boolean
-
-### Nested Types
-
-#### `EventRef`
-
-- `eventId`
-- `role?`: `presentedAt`
-- `label?`
-- `links?`: `{ label: string, url: string }[]`
-
-#### `PlayMeta`
-
-- `startedOn?`
-- `completedOn?`
-- `platform?`
-
-#### `RatingMeta`
-
-- `gameplay?`
-- `narrative?`
-- `style?`
-- `sound?`
-- `overall?`
-
-## Canonical Mapping Rules
-
-### Content Mapping
-
-- standalone `.webc` pages -> `Document` with `docType: page`
-- blog posts -> `Document` with `docType: post`, `series: blog`
-- gamelog entries from both sources -> `Document` with `docType: review`, `series: gamelog`
-- dungeonlog entries -> `Document` with `docType: session`, `series: dungeonlog`
-- talks -> `Document` with `docType: talk`, `series: talks`
-
-### Event Mapping
-
-Talks reference canonical shared `Event` records through `eventRefs[]`.
-
-Legacy `deliveredAt[]` records from `davidwesst.github.io` were converted during migration and should not be introduced in new canonical talk content.
-
-### Redirect Mapping
-
-- every canonical `Document` and `Event` gets one `canonicalUrl`
-- every old or alternate public path gets added to `legacyUrls`
-- every non-canonical legacy path becomes a `Redirect`
-
-## Naming Conventions
-
-The canonical model uses lower camelCase only.
-
-Examples:
-
-- `docType`, not `kind`
-- `canonicalUrl`, not `permalink`
-- `legacyUrls`, not old route lists with mixed names
-- `media.image`, not `featured_image` or `title_image`
-- `media.imageAlt`, not `featured_image_alt`
-- `review.play.startedOn`, not `started_on`
-- `eventRefs`, not `deliveredAt`
-
-Source aliases are resolved during normalization only.
-
-## Source Loader Responsibilities
-
-Each source must have its own loader.
-
-### Loader for local canonical talks and events
-
-Responsibilities:
-
-- parse canonical talk Markdown from `src/content/talks`
-- parse canonical event JSON from `src/content/events`
-- discover colocated talk assets
-- preserve canonical legacy URL arrays for redirects
-- validate that every `eventRefs[].eventId` resolves to an authored event
-
-Do not:
-
-- read talk or event data from `sources/davidwesst.github.io`
-- translate legacy field names in templates
-- promote talk-specific slide/demo links to shared `Event.links`
-
-### Loader for `davidwesst.github.io`
-
-Responsibilities:
-
-- parse `.webc` singleton pages
-- parse blog markdown entries
-- parse gamelog markdown entries
-- parse talk markdown entries only for one-time migration or historical comparison
-- discover colocated assets
-- collect current public URLs where derivable
-- preserve raw authored front matter in intermediate data
-
-Do not:
-
-- assign canonical field names inside templates
-- render HTML as part of ingestion
-- embed old route logic in layouts
-
-### Loader for `digital-zuihitsu`
-
-Responsibilities:
-
-- parse gamelog markdown entries
-- parse dungeonlog markdown entries
-- collect local assets
-- collect old Vite shell routes and query-based routes
-- preserve authored fields that the current runtime ignores
-
-Do not:
-
-- treat HTML shell pages as durable content records
-- flatten dungeonlog support files into publishable entries without explicit design approval
-
-## Normalization Responsibilities
-
-The shared normalization stage converts raw source records into canonical records.
-
-Responsibilities:
-
-- assign stable IDs
-- map source-specific content into `Document`
-- extract and dedupe `Event`
-- compute `canonicalUrl`
-- populate `legacyUrls`
-- generate `Redirect`
-- preserve lossless source metadata in `meta.sourceMeta`
-
-Key field mappings:
-
-- `featured_image` -> `media.image`
-- `title_image` -> `media.image`
-- `featured_image_alt` -> `media.imageAlt`
-- `title_image_alt` -> `media.imageAlt`
-- `image_type` / `image-type` -> `media.mediaType`
-- `image_credit` / `image-credit` -> `media.credit`
-- `play_data` -> `review.play`
-- `game_ids` -> `review.subjectIds`
-- legacy `deliveredAt` -> migrated once into canonical event files and talk `eventRefs`
-
-## Event Identity Rules
-
-Shared events are supported immediately.
-
-Deduplication precedence:
-
-1. explicit source event `id`
-2. normalized `(title, date)`
-3. normalized `(title, startDate, location)`
-
-Rules:
-
-- use deterministic matching only
-- do not use fuzzy matching in v1
-- treat repeated event branding across different dates as different event instances
-- keep talk-specific links on `eventRefs.links`
-- keep clearly shared event metadata on `Event`
-
-## Redirect Strategy
-
-Redirects are a first-class part of the solution.
-
-### Requirements
-
-- no legacy public URL should silently disappear
-- no redirect chains
-- no duplicate `from` paths
-- all redirects should point directly to the final canonical URL
-
-### Legacy Paths to Support
-
-#### From `davidwesst.github.io`
-
-- preserve old content URLs whenever possible
-- redirect only where the merged site changes canonical structure
-- include singleton pages and collection pages if they move
-
-#### From `digital-zuihitsu`
-
-Must support:
-
-- `/blog.html`
-- `/blog/gamelog.html`
-- `/blog/dungeonlog.html`
-- `/blog/gamelog/entry.html?slug=<slug>`
-- dungeonlog aggregate and anchor patterns
-
-If dungeonlog becomes per-entry pages:
-
-- redirect aggregate anchors to the canonical session page where possible
-
-If dungeonlog stays aggregate:
-
-- preserve the aggregate route as canonical and avoid unnecessary per-entry redirect expansion
-
-### Redirect Outputs
-
-Redirects are kept in canonical data first, then rendered to platform-specific formats.
-
-Required output targets:
-
-- Netlify `_redirects`
-- static HTML redirect fallback pages when host rules are unavailable
-
-## 11ty Build Architecture
-
-The merged 11ty site should be built in these stages:
-
-1. source discovery
-2. source loading
-3. normalization
-4. event extraction and dedupe
-5. canonical URL assignment
-6. redirect generation
-7. 11ty collection derivation
-8. page rendering
-9. redirect artifact emission
-
-### Expected Data Modules
-
-Recommended `_data` outputs:
-
-- `_data/documents.js`
-- `_data/events.js`
-- `_data/redirects.js`
-
-These modules should expose fully normalized arrays that templates and collections can consume directly.
-
-### Expected Derived Collections
-
-- `collections.pages`
-- `collections.posts`
-- `collections.reviews`
-- `collections.sessions`
-- `collections.talks`
-- `collections.events`
-
-Optional aggregate collections:
-
-- `collections.documents`
-- `collections.bySeries`
-
-## Implementation Steps
-
-### Phase 1: Canonical Content Loading
-
-- load canonical talks from `src/content/talks`
-- load canonical events from `src/content/events`
-- identify authored colocated assets
-- identify authored legacy paths
-
-Success criteria:
-
-- every talk and event record can be parsed without template involvement
-- canonical data contains no legacy field names
-
-### Phase 2: Canonical Normalization
-
-- convert parsed talk records into `Document`
-- convert parsed event records into `Event`
-- normalize dates, URLs, and links
-- attach local provenance and assets
-
-Success criteria:
-
-- no source-specific names leak past this stage
-- all talk and event content is represented by canonical records
-
-### Phase 3: Shared Event Extraction
-
-- validate authored event IDs and URLs
-- link talks through `eventRefs`
-
-Success criteria:
-
-- shared events can be referenced by multiple talks
-- a talk can reference multiple events
-
-### Phase 4: URL Planning And Redirect Generation
-
-- assign canonical URLs for all documents and events
-- collect all legacy URLs
-- emit canonical `Redirect` records
-- validate no collisions or chains
-
-Success criteria:
-
-- every legacy path is either preserved or redirected
-- redirects are deterministic and direct
-
-### Phase 5: 11ty Integration
-
-- expose normalized records through `_data`
-- derive collections from canonical data
-- build layouts/components around canonical types
-- emit redirect artifacts
-
-Success criteria:
-
-- templates do not need source-specific conditionals
-- layouts branch only on canonical types and optional nested metadata
-
-## Constraints And Non-Goals
-
-Current non-goals:
-
-- do not preserve the old source rendering stacks inside the new site
-- do not use source folder layout as the long-term site model
-- do not create many one-off root types for each legacy content subtype
-- do not introduce fuzzy entity matching in v1
-
-## Validation Checklist
-
-Before the solution is considered complete, verify:
-
-- every source record becomes exactly one canonical `Document` or intentional support artifact
-- every shared event is modeled as an `Event`
-- every talk references events through `eventRefs`
-- every canonical record has one canonical URL
-- every old public URL is either preserved or redirected
-- no duplicate redirect `from` values exist
-- no redirect chains exist
-- no source-specific snake_case names remain in canonical records
-
-## Notes For Agents
-
-- When adding new content support, update the relevant source loader first, not the templates.
-- When introducing a new canonical field, document the normalization rule here.
-- When adding a new URL shape, update canonical URL generation and redirect validation together.
-- Prefer extending nested metadata objects over adding new root types.
-
-## Notes For Human Developers
-
-- If implementation choices conflict with this document, update the document before or during the code change.
-- If a source site introduces a new content pattern, preserve it in source metadata first, then decide whether it deserves canonical promotion.
-- If event deduplication becomes ambiguous in practice, add explicit source IDs rather than relaxing the matching rules.
+`pnpm test` performs a production build, runs `check:content`, and then runs the Node test suite. Output tests retain home-page and stylesheet coverage and add representative checks for articles, gamelogs, dungeonlogs, talks, pages, indexes, topics, compatibility pages, redirects, and the legacy dispatcher. CI runs this complete suite on Node.js 26 and deploys the generated `_site` artifact.

@@ -1,0 +1,21 @@
+<footer class="bg-slate-950 text-slate-300">
+  <div class="mx-auto flex max-w-6xl flex-col gap-8 px-6 py-12 md:flex-row md:items-end md:justify-between">
+    <div>
+      <p class="text-xl font-black text-white" @text="site.title"></p>
+      <p class="mt-2 max-w-xl text-sm text-slate-400" @text="site.tagline"></p>
+      <div class="mt-5"><social-links :@items="site.socialLinks" :@centered="false"></social-links></div>
+    </div>
+    <nav aria-label="Footer navigation">
+      <ul class="flex flex-wrap gap-x-5 gap-y-2 text-sm">
+        <li webc:for="item of site.navigationLinks"><a :href="item.url" @text="item.name"></a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="border-t border-slate-800 px-6 py-5 text-center text-xs text-slate-500">
+    <p>Copyright David Wesst.</p>
+    <p class="mt-1">
+      Style inspired by <a class="underline hover:text-slate-300" href="https://github.com/tailwindtoolbox/Ghostwind/">Ghostwind</a>.
+      Powered by <a class="underline hover:text-slate-300" href="https://www.11ty.dev/">Build Awesome / 11ty</a>.
+    </p>
+  </div>
+</footer>

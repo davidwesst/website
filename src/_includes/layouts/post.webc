@@ -1,0 +1,28 @@
+---
+layout: base.webc
+---
+<script webc:setup>
+  function formatDate(value) {
+    return new Intl.DateTimeFormat("en-CA", { dateStyle: "long", timeZone: "UTC" }).format(new Date(value));
+  }
+</script>
+
+<article>
+  <header class="mx-auto max-w-4xl text-center">
+    <post-type-marker :type="type" :@site="site"></post-type-marker>
+    <h1 class="mt-4 text-4xl font-black tracking-tight text-slate-950 md:text-6xl" @text="title"></h1>
+    <p class="mt-5 text-sm font-semibold uppercase tracking-wider text-slate-500"><time :datetime="date" @text="formatDate(date)"></time></p>
+    <p webc:if="updated" class="mt-2 text-sm text-slate-500">Updated <time :datetime="updated" @text="formatDate(updated)"></time></p>
+    <div class="flex justify-center"><topic-links :@topics="topics"></topic-links></div>
+  </header>
+  <div class="mx-auto mt-10 max-w-6xl overflow-hidden rounded-xl shadow-xl"><post-visual :@banner="resolvedBanner || banner" :type="type" :@site="site" :@featured="false"></post-visual></div>
+  <div class="relative mx-auto -mt-2 max-w-4xl rounded-xl bg-white p-7 shadow-xl md:-mt-16 md:p-14">
+    <p webc:if="summary" class="mb-8 border-l-4 border-teal-600 pl-5 font-serif text-xl leading-8 text-slate-700" @text="summary"></p>
+    <game-details webc:if="type === 'gamelog'" :@game="gameMetadata"></game-details>
+    <gamelog-details webc:if="type === 'gamelog'" :@custom-data="customData"></gamelog-details>
+    <section class="prose-content" aria-label="Post content" @raw="content"></section>
+    <footer webc:if="type === 'gamelog' && gameMetadata" class="mt-10 border-t border-slate-200 pt-5 text-center text-sm text-slate-500">
+      Artwork and game details data from <a class="font-semibold text-teal-700 hover:text-teal-900" href="https://www.igdb.com/">IGDB.com</a>.
+    </footer>
+  </div>
+</article>

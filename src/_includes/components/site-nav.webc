@@ -1,12 +1,6 @@
-<nav aria-label="Site" class="grow">
-  <ul class="flex flex-wrap items-center justify-end gap-x-5 gap-y-2">
-    <li webc:for="item of items">
-      <a
-        class="font-medium text-slate-700 hover:text-teal-600"
-        :href="item.url"
-        :aria-current="currentUrl === item.url ? 'page' : undefined"
-        @text="item.label"
-      ></a>
-    </li>
+<nav class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-5 text-sm font-bold uppercase tracking-wider text-white" aria-label="Primary navigation">
+  <a class="text-lg font-black normal-case tracking-normal text-white no-underline" href="/" @text="site.navigationTitle"></a>
+  <ul class="flex flex-wrap items-center justify-end gap-x-5 gap-y-3">
+    <li webc:for="item of site.navigationLinks"><a class="nav-link" :href="item.url" @text="item.name"></a></li>
   </ul>
 </nav>

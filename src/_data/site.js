@@ -1,13 +1,28 @@
 export default {
-  title: "david.wes.st",
-  description: "A simple Eleventy site with a generated site index and sitemap.",
-  url: "https://example.com",
-  navigation: [
-    { label: "Home", url: "/" },
-    { label: "About", url: "/about/" },
-    { label: "Blog", url: "/blog/" },
-    { label: "Talks", url: "/talks/" },
-    { label: "Events", url: "/events/" },
-    { label: "Projects", url: "/projects/" },
+  title: "David Wesst",
+  navigationTitle: "david.wes.st",
+  navigationLinks: [
+    { name: "Home", url: "/" },
+    { name: "Blog", url: "/blog/" },
+    { name: "Talks", url: "/talks/" },
+    { name: "Topics", url: "/topics/" },
+    { name: "About", url: "/about/" },
   ],
+  tagline: "Building and playing games, while sharing software development ideas from Winnipeg, Canada.",
+  description: "The personal website of David Wesst.",
+  url: "https://david.wes.st",
+  featuredPost: null,
+  recentPostCount: 9,
+  socialLinks: [
+    { name: "GitHub", url: "https://github.com/davidwesst", iconClass: "fa-brands fa-github" },
+    { name: "LinkedIn", url: "https://ca.linkedin.com/in/davidwesst", iconClass: "fa-brands fa-linkedin" },
+    { name: "Bluesky", url: "https://bsky.app/profile/davidwesst.bsky.social", iconClass: "fa-brands fa-bluesky" },
+    { name: "YouTube", url: "https://youtube.com/davidwesst", iconClass: "fa-brands fa-youtube" },
+  ],
+  postTypes: {
+    article: { label: "Article", iconClass: "fa-solid fa-newspaper", fallbackColor: "#0f766e" },
+    gamelog: { label: "Gamelog", iconClass: "fa-solid fa-gamepad", fallbackColor: "#7c3aed" },
+    dungeonlog: { label: "Dungeonlog", iconClass: "fa-solid fa-dungeon", fallbackColor: "#b45309" },
+    talk: { label: "Talk", iconClass: "fa-solid fa-person-chalkboard", fallbackColor: "#0369a1" },
+  },
 };

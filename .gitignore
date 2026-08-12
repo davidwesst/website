@@ -1,8 +1,12 @@
 .DS_Store
 node_modules/
+.pnpm-store/
+.cache/
+.env*
 
 _site/
 test-results/
+playwright-report/
 
 # Codex/Agent folders
 .codex

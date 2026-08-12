@@ -1,0 +1,10 @@
+<script webc:setup>
+  function configFor(type, site) {
+    return site.postTypes[type] || { label: type, iconClass: "fa-solid fa-file", fallbackColor: "#334155" };
+  }
+</script>
+
+<span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-teal-700">
+  <i :class="configFor(type, site).iconClass" aria-hidden="true"></i>
+  <span @text="configFor(type, site).label"></span>
+</span>

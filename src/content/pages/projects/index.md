@@ -1,19 +1,11 @@
 ---
-id: projects
-source: davidwesst.github.io
-docType: page
-slug: projects
 title: Projects
 summary: Active and retired projects by David Wesst.
-canonicalUrl: /projects/
-legacyUrls:
+redirectFrom:
   - /cocoboko-studios.html
   - /cocoboko-studios/
   - /remember-the-human.html
   - /remember-the-human/
-taxonomy:
-  tags: []
-  categories: []
 ---
 <section>
 

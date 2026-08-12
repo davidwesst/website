@@ -1,0 +1,262 @@
+[
+  {
+    "document": "articles/build-2014-cool-stuff-day-1",
+    "reference": "![][enterprise-minecraft.png]",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/capturing-https-traffic-in-java-with-eclipse-and-fiddler",
+    "reference": "certificate-warning.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/capturing-https-traffic-in-java-with-eclipse-and-fiddler",
+    "reference": "eclipse-settings.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/capturing-https-traffic-in-java-with-eclipse-and-fiddler",
+    "reference": "fiddler-options.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/capturing-https-traffic-in-java-with-eclipse-and-fiddler",
+    "reference": "fiddler-success.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/considerations-when-migrating-your-blog",
+    "reference": "/blog/Considerations-When-Migrating-Your-Blog/ghost-to-hexo.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/considerations-when-migrating-your-blog",
+    "reference": "/blog/Considerations-When-Migrating-Your-Blog/host-thoughts.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/custom-tasks-for-java-in-visual-studio-code",
+    "reference": "/blog/Custom-Tasks-for-Java-in-Visual-Studio-Code/configure-task-runner.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/custom-tasks-for-java-in-visual-studio-code",
+    "reference": "/blog/Custom-Tasks-for-Java-in-Visual-Studio-Code/error-inline.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/custom-tasks-for-java-in-visual-studio-code",
+    "reference": "/blog/Custom-Tasks-for-Java-in-Visual-Studio-Code/error-warning.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/custom-tasks-for-java-in-visual-studio-code",
+    "reference": "/blog/Custom-Tasks-for-Java-in-Visual-Studio-Code/javac-output.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/custom-tasks-for-java-in-visual-studio-code",
+    "reference": "/blog/Custom-Tasks-for-Java-in-Visual-Studio-Code/new-javac-task.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/docker-on-windows-10-problems",
+    "reference": "/blog/Docker-on-Windows-10-Problems/docker-logo.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/downgrading-windows-phone-10-technical-preview-the-lowlights",
+    "reference": "/blog/Downgrading-Windows-Phone-10-Technical-Preview-The-Lowlights/onedrive-scortched.png\"",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/downgrading-windows-phone-10-technical-preview-the-lowlights",
+    "reference": "/blog/Downgrading-Windows-Phone-10-Technical-Preview-The-Lowlights/windows-10-device-screen.jpg",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/exploring-javascript-game-frameworks",
+    "reference": "/blog/Exploring-JavaScript-Game-Frameworks/haxe.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/exploring-javascript-game-frameworks",
+    "reference": "/blog/Exploring-JavaScript-Game-Frameworks/phaser.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/exploring-javascript-game-frameworks",
+    "reference": "/blog/Exploring-JavaScript-Game-Frameworks/playcanvas.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/exploring-javascript-game-frameworks",
+    "reference": "/blog/Exploring-JavaScript-Game-Frameworks/superpowers.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/highlight-reel-for-2015",
+    "reference": "/blog/Highlight-Reel-for-2015/thinker.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/inspiration-from-mvp-summit-2015",
+    "reference": "/blog/Inspiration-from-MVP-Summit-2015/es7.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/inspiration-from-mvp-summit-2015",
+    "reference": "/blog/Inspiration-from-MVP-Summit-2015/me-mvp2015.jpg",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/inspiration-from-mvp-summit-2015",
+    "reference": "/blog/Inspiration-from-MVP-Summit-2015/node-installer.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/inspiration-from-mvp-summit-2015",
+    "reference": "/blog/Inspiration-from-MVP-Summit-2015/vorlon.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/inspiration-from-mvp-summit-2015",
+    "reference": "/blog/Inspiration-from-MVP-Summit-2015/vso.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/javascript-coding-is-gameplay-in-screeps",
+    "reference": "![](screeps.png)",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/javascript-coding-is-gameplay-in-screeps",
+    "reference": "screeps.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/javascript-framework-or-javascript-core-part-1",
+    "reference": "/blog/JavaScript-Framework-or-Pure-JavaScript-P1/dead-framework.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/javascript-framework-or-javascript-core-part-1",
+    "reference": "/blog/JavaScript-Framework-or-Pure-JavaScript-P1/js-framework-or-pure-js.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/javascript-framework-or-javascript-core-part-1",
+    "reference": "/blog/JavaScript-Framework-or-Pure-JavaScript-P1/network.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/javascript-framework-or-javascript-core-part-2",
+    "reference": "/blog/JavaScript-Framework-or-Pure-JavaScript-P2/js-framework-or-pure-js-p2.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/javascript-framework-or-javascript-core-part-2",
+    "reference": "/blog/JavaScript-Framework-or-Pure-JavaScript-P2/performance-graph.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/keeping-your-edge",
+    "reference": "/blog/Keeping-Your-Edge-on-an-Extended-Break/office-daycare.jpg",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/looking-forward-into-2016",
+    "reference": "![](/blog/Looking-Forward-into-2016/sunrise.png)",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/my-favourite-online-dev-tools",
+    "reference": "/blog/My-Favourite-Online-Dev-Tools/colorrrs.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/my-favourite-online-dev-tools",
+    "reference": "/blog/My-Favourite-Online-Dev-Tools/github-gist.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/my-favourite-online-dev-tools",
+    "reference": "/blog/My-Favourite-Online-Dev-Tools/jsonlint.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/my-favourite-online-dev-tools",
+    "reference": "/blog/My-Favourite-Online-Dev-Tools/regexr.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/my-favourite-online-dev-tools",
+    "reference": "/blog/My-Favourite-Online-Dev-Tools/smartviewapp.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/running-tomcat-apps-on-docker-through-eclipse",
+    "reference": "/blog/Running-Tomcat-Apps-on-Docker-through-Eclipse/1-externaltoolsbutton.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/running-tomcat-apps-on-docker-through-eclipse",
+    "reference": "/blog/Running-Tomcat-Apps-on-Docker-through-Eclipse/2-configwindow.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/using-java-build-script-tasks-in-visual-studio-code",
+    "reference": "/blog/Using-Java-Build-Script-Tasks-in-Visual-Studio-Code/complete.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/using-java-build-script-tasks-in-visual-studio-code",
+    "reference": "/blog/Using-Java-Build-Script-Tasks-in-Visual-Studio-Code/gradle-error.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/using-java-build-script-tasks-in-visual-studio-code",
+    "reference": "/blog/Using-Java-Build-Script-Tasks-in-Visual-Studio-Code/gradle-project.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/using-java-build-script-tasks-in-visual-studio-code",
+    "reference": "/blog/Using-Java-Build-Script-Tasks-in-Visual-Studio-Code/gradle-task-output.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/using-java-build-script-tasks-in-visual-studio-code",
+    "reference": "/blog/Using-Java-Build-Script-Tasks-in-Visual-Studio-Code/gradle-task.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/using-java-build-script-tasks-in-visual-studio-code",
+    "reference": "/blog/Using-Java-Build-Script-Tasks-in-Visual-Studio-Code/hellolink-file.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/using-java-build-script-tasks-in-visual-studio-code",
+    "reference": "/blog/Using-Java-Build-Script-Tasks-in-Visual-Studio-Code/tasks-intellisense.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/using-overflow-ellipsis-in-inline-flex",
+    "reference": "![](broken-result.png)",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/using-overflow-ellipsis-in-inline-flex",
+    "reference": "![](working-result.png)",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/using-overflow-ellipsis-in-inline-flex",
+    "reference": "broken-result.png",
+    "reason": "missing-in-archive"
+  },
+  {
+    "document": "articles/using-overflow-ellipsis-in-inline-flex",
+    "reference": "working-result.png",
+    "reason": "missing-in-archive"
+  }
+]

@@ -1,0 +1,998 @@
+{
+  "generatedOn": "2026-08-05",
+  "counts": {
+    "articles": 138,
+    "gamelogs": 16,
+    "dungeonlogs": 12,
+    "talks": 12,
+    "pages": 2,
+    "appearances": 22
+  },
+  "assets": [
+    {
+      "source": "_archive/src/content/posts/blog/a-solo-gamejam-experience-ld47/New_Ludum_Dare_Logo.png",
+      "destination": "src/content/posts/articles/a-solo-gamejam-experience-ld47/New_Ludum_Dare_Logo.png",
+      "sha256": "4e2c315031b278c56574c3fc98699115634c18448bee5cb1b7fb5b87895fa33f"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/advent-of-code-2021-day-01/a-winner-is-you.jpeg",
+      "destination": "src/content/posts/articles/advent-of-code-2021-day-01/a-winner-is-you.jpeg",
+      "sha256": "6d2a20314985cc2fb39cf148c176bba5a772a1d203ce73d4f119c80b65081887"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/advent-of-code-2021-day-01/first-star-tweet.jpeg",
+      "destination": "src/content/posts/articles/advent-of-code-2021-day-01/first-star-tweet.jpeg",
+      "sha256": "ffd950d80b692b314ae7fc8e27c03bb0b1bb84e8f7dfc6cd104aa0a7766ce12d"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/always-use-node-even-on-non-node-projects/file5435f4d8df084.jpg",
+      "destination": "src/content/posts/articles/always-use-node-even-on-non-node-projects/file5435f4d8df084.jpg",
+      "sha256": "3102075151ac0844e8100cbe0af38feb8ac79250ab1407b0b5fb6fa5e0e4a9d5"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/always-use-node-even-on-non-node-projects/node-logo.png",
+      "destination": "src/content/posts/articles/always-use-node-even-on-non-node-projects/node-logo.png",
+      "sha256": "daf4d2a2fcfb00a63bb24ec402b8008bd826c826e41942dfbe3b97250c7c1496"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/always-use-node-even-on-non-node-projects/npm-logo.png",
+      "destination": "src/content/posts/articles/always-use-node-even-on-non-node-projects/npm-logo.png",
+      "sha256": "14b27bbb4f52fe0e73ff7925ef6d2eea6bff550e46039acf6f323a1eff7ba00e"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/answering-the-question-when-will-ie-support-that-html-feature/status_modern_ie_expandeditem.png",
+      "destination": "src/content/posts/articles/answering-the-question-when-will-ie-support-that-html-feature/status_modern_ie_expandeditem.png",
+      "sha256": "db8f3093ae9038f4b8f34240c27ca2692e09fb9fef89b38a6e7210cd99d7b48b"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/answering-the-question-when-will-ie-support-that-html-feature/status_modern_ie_screenshot-2.png",
+      "destination": "src/content/posts/articles/answering-the-question-when-will-ie-support-that-html-feature/status_modern_ie_screenshot-2.png",
+      "sha256": "27d4e8fcd0f2bb2c50a1fe7a564fb4e47a6ba2a5512f37edfccd27e1f2d9638c"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/azure-static-web-apps-are-fine-just-not-great/api_500_error.jpg",
+      "destination": "src/content/posts/articles/azure-static-web-apps-are-fine-just-not-great/api_500_error.jpg",
+      "sha256": "fd2bce64aeb6982b45a5c60063592f54f162029684f7bb8d780d8ad42ff39ffd"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/azure-static-web-apps-are-fine-just-not-great/portal_link_to_old_workflow_file.jpg",
+      "destination": "src/content/posts/articles/azure-static-web-apps-are-fine-just-not-great/portal_link_to_old_workflow_file.jpg",
+      "sha256": "efca5ecde9adf35e156e0b02429e571e414a89e8e06ce5d4b836d08774b6a50a"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/azure-static-web-apps-are-fine-just-not-great/rules_engine_option_in_azure_cdn.jpg",
+      "destination": "src/content/posts/articles/azure-static-web-apps-are-fine-just-not-great/rules_engine_option_in_azure_cdn.jpg",
+      "sha256": "7d6d60e3d6d92dd7ecec73d0719f36904c7660bfd0996ee1965a6a21426c5a22"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/azure-static-web-apps-are-fine-just-not-great/swa_features.jpeg",
+      "destination": "src/content/posts/articles/azure-static-web-apps-are-fine-just-not-great/swa_features.jpeg",
+      "sha256": "0596a63d3b79049f9276da445217b8ca6d01140c88b48f7e1ade6421397178a8"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/azure-static-web-apps-are-fine-just-not-great/swa_features.jpg",
+      "destination": "src/content/posts/articles/azure-static-web-apps-are-fine-just-not-great/swa_features.jpg",
+      "sha256": "e2399d7470a65da448b3b624fa869c2df2d3334c68271723b94790ac20690fe0"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/azure-static-web-apps-are-fine-just-not-great/v10_solution_architecture.jpg",
+      "destination": "src/content/posts/articles/azure-static-web-apps-are-fine-just-not-great/v10_solution_architecture.jpg",
+      "sha256": "a1cc9c5b6fd9789c15c78054021738fbc6cc6d2d4b6371e24871033dc75bab43"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/back-to-basics-the-text-editor/notepadpp.png",
+      "destination": "src/content/posts/articles/back-to-basics-the-text-editor/notepadpp.png",
+      "sha256": "8aaa9181717c4bb74f6844e2a5a15cc0b388ee91f28ffe7ebf3e636d8ac56485"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/back-to-basics-the-text-editor/sublimetext.png",
+      "destination": "src/content/posts/articles/back-to-basics-the-text-editor/sublimetext.png",
+      "sha256": "f02122a16cd4bc5f48b024d23018be938758355c1b611f941d2fcd046084c928"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/back-to-basics-the-text-editor/vim.png",
+      "destination": "src/content/posts/articles/back-to-basics-the-text-editor/vim.png",
+      "sha256": "0fb48e938c468e11e194e48b7f0c079b381cd4d8ee0270fad1353ad4264b42a2"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/build-2014-cool-stuff-day-1/microsoft-build.jpg",
+      "destination": "src/content/posts/articles/build-2014-cool-stuff-day-1/microsoft-build.jpg",
+      "sha256": "c0b4a7883a9921fbd4c7d722b1a88c4d719fd4f8e0c19c06dcc44097224db34c"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/can-asp-net-become-the-next-node-js/aspnetthenewnodejs-1.png",
+      "destination": "src/content/posts/articles/can-asp-net-become-the-next-node-js/aspnetthenewnodejs-1.png",
+      "sha256": "7051243b448018f2002bf23ba8130af5ecfddebe83b889a66da40e1d2dc1f8c9"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/can-asp-net-become-the-next-node-js/aspnetthenewnodejs.png",
+      "destination": "src/content/posts/articles/can-asp-net-become-the-next-node-js/aspnetthenewnodejs.png",
+      "sha256": "7051243b448018f2002bf23ba8130af5ecfddebe83b889a66da40e1d2dc1f8c9"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/can-asp-net-become-the-next-node-js/githubaspnet.png",
+      "destination": "src/content/posts/articles/can-asp-net-become-the-next-node-js/githubaspnet.png",
+      "sha256": "8c0dc7a17cffe27ed33b507bb8620cb93a68240327df6053ebcd23574c7652d6"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/conquest-april-2017-devblog/TnoJp0Gm.png",
+      "destination": "src/content/posts/articles/conquest-april-2017-devblog/TnoJp0Gm.png",
+      "sha256": "8053cfb4fe64df57a6c59fb61914ca6a8d4dc6e9b17c9a64eabcfda9ac429efc"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/conquest-march-2017-devblog/dqEGoFf.png",
+      "destination": "src/content/posts/articles/conquest-march-2017-devblog/dqEGoFf.png",
+      "sha256": "6465118c546945040e9b8c6fc3ab86f89dbc1dfa67a6f2f8117183981dd63ea3"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/crowdsourcing-docs-is-cool/5ptKftE.png",
+      "destination": "src/content/posts/articles/crowdsourcing-docs-is-cool/5ptKftE.png",
+      "sha256": "f48c442f8911b7c8919cd89648a2e29a380a58d9cafc9650b95daf4faa7b38a8"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/defining-problem-before-the-solution/defining-problems_thumbnail.png",
+      "destination": "src/content/posts/articles/defining-problem-before-the-solution/defining-problems_thumbnail.png",
+      "sha256": "a76705d23ac910e45990192f2a41ca59f897b317dc2e9c856415cba45b9eb90c"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/defining-problem-before-the-solution/nothing-sign.jpg",
+      "destination": "src/content/posts/articles/defining-problem-before-the-solution/nothing-sign.jpg",
+      "sha256": "c173f59b9cc19d12bfcda19b42ba8fd5f075c62f2d4418a35d152c270d0ad646"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/docker-build-hangs-on-apt-key-in-wsl2/console-screenshot.png",
+      "destination": "src/content/posts/articles/docker-build-hangs-on-apt-key-in-wsl2/console-screenshot.png",
+      "sha256": "50750c21b16846822bf1408defa2431fdcff399233310449ab06946b574d3e2c"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/docker-build-hangs-on-apt-key-in-wsl2/docker-build-hangs-on-apt-key-in-wsl2_thumbnail.png",
+      "destination": "src/content/posts/articles/docker-build-hangs-on-apt-key-in-wsl2/docker-build-hangs-on-apt-key-in-wsl2_thumbnail.png",
+      "sha256": "94705a2706588c555332a052f0aa7d595d0214bdecb5f4ae79e800251dcc0727"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/docker-desktop-is-not-docker-engine/docker-context-output.jpeg",
+      "destination": "src/content/posts/articles/docker-desktop-is-not-docker-engine/docker-context-output.jpeg",
+      "sha256": "773208e9095c43d0c19a23993b58c5bb20b3cc8628ed8d4cf781b809f0df7792"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/docker-desktop-is-not-docker-engine/docker-desktop-for-linux-notice.jpeg",
+      "destination": "src/content/posts/articles/docker-desktop-is-not-docker-engine/docker-desktop-for-linux-notice.jpeg",
+      "sha256": "af781f5417419cab8464f18c9a9e1198b163a2a98b593e4a25d14a3f5a98b556"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/docker-desktop-is-not-docker-engine/docker-desktop-is-not-docker-engine.png",
+      "destination": "src/content/posts/articles/docker-desktop-is-not-docker-engine/docker-desktop-is-not-docker-engine.png",
+      "sha256": "6df1fc4aff04745a09cf7c022c45c4b3717aaa36f1e9da754a289e8315137439"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/docker-desktop-is-not-docker-engine/download-docker-button.png",
+      "destination": "src/content/posts/articles/docker-desktop-is-not-docker-engine/download-docker-button.png",
+      "sha256": "e435a73b9fdc8ca175d21a261526b126bc7af2f9f0273dd96c9bde370d1cfad0"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/does-gdpr-apply-to-personal-websites/gdpr-cookie_thumbnail.png",
+      "destination": "src/content/posts/articles/does-gdpr-apply-to-personal-websites/gdpr-cookie_thumbnail.png",
+      "sha256": "c82129b8305c21569380af8f8e792f935fb0682d363b69699ece31922222960b"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/does-gdpr-apply-to-personal-websites/my-gdpr-dialogue.png",
+      "destination": "src/content/posts/articles/does-gdpr-apply-to-personal-websites/my-gdpr-dialogue.png",
+      "sha256": "e316220024d7fd20f9e85c22588e5692ac90aca538753a6c2d2af1b620cd09be"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/dw-on-tour/devteach_logo.gif",
+      "destination": "src/content/posts/articles/dw-on-tour/devteach_logo.gif",
+      "sha256": "74277cdfcb64d26935db4fd1a582d12fe65b0bd8899a50fab1fd011ea2954063"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/dw-on-tour/header_prairie_dev_con_saskatoon.jpg",
+      "destination": "src/content/posts/articles/dw-on-tour/header_prairie_dev_con_saskatoon.jpg",
+      "sha256": "8e787da07ab54039e4afc04f1e9bda6982f83b9c0b805cde91640e5c838e4e44"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/end-of-support-for-windows-xp-faq/microsoft_windows_xp_logo_and_wordmark.png",
+      "destination": "src/content/posts/articles/end-of-support-for-windows-xp-faq/microsoft_windows_xp_logo_and_wordmark.png",
+      "sha256": "2b68346340cd5b3b7361149249bb6ad17df12fa14bea66ef33f715fa3ab45565"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/f12-chooser-is-dev-tool-thing/ch1TjEr.gif",
+      "destination": "src/content/posts/articles/f12-chooser-is-dev-tool-thing/ch1TjEr.gif",
+      "sha256": "f4e21b0f77d1f8070763eb83416ef077ae603389a64bd284b4afa74f756bf406"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/f12-chooser-is-dev-tool-thing/wt4L09z.png",
+      "destination": "src/content/posts/articles/f12-chooser-is-dev-tool-thing/wt4L09z.png",
+      "sha256": "893dc20588a006eb6d1874b467ce19770e7d71d0a242e03bb465a70b233f9b3c"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/finding-inspriation-in-princess-tomato-and-the-salad-kingdom/princess-tomato-nes.png",
+      "destination": "src/content/posts/articles/finding-inspriation-in-princess-tomato-and-the-salad-kingdom/princess-tomato-nes.png",
+      "sha256": "5e11a2f8785afcb363d2452472cd55b059c292aa331cb016b653cbea53372f64"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/fixing-twitch-embed-refuses-to-connect/twitch-player-misconfigured.png",
+      "destination": "src/content/posts/articles/fixing-twitch-embed-refuses-to-connect/twitch-player-misconfigured.png",
+      "sha256": "3763f1e6b69f6ec57cb8a6dcc60ff8b2ec925e4b82fcbe9afa9cd1f0ea8c5c12"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/fixing-twitch-embed-refuses-to-connect/twitch-player-refuse-to-connect.png",
+      "destination": "src/content/posts/articles/fixing-twitch-embed-refuses-to-connect/twitch-player-refuse-to-connect.png",
+      "sha256": "fd57cf3fd9b9c50210f46d36b239a7220ac376aa186e3212362c25fcebc31b84"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/from-11ty-to-wordpress-and-back-again/blogging-with-vim-screenshot.webp",
+      "destination": "src/content/posts/articles/from-11ty-to-wordpress-and-back-again/blogging-with-vim-screenshot.webp",
+      "sha256": "48fc303ed583043c5c97f1b6a625365891cb2c4d1859a1d9bc2ad2d910608f47"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/from-11ty-to-wordpress-and-back-again/from-11ty-to-wordpress-and-back-again_title-image.webp",
+      "destination": "src/content/posts/articles/from-11ty-to-wordpress-and-back-again/from-11ty-to-wordpress-and-back-again_title-image.webp",
+      "sha256": "448330f90b569a1420d41ae4d26672afb83f55169a91ad89ade32ed9fbceb082"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/fulfillment-through-cake-and-ice-cream/cake.jpg",
+      "destination": "src/content/posts/articles/fulfillment-through-cake-and-ice-cream/cake.jpg",
+      "sha256": "868d5c4fe4915e9fdf36613696c9311cb1a901d67befad27b596afd5b6b231a5"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/fulfillment-through-cake-and-ice-cream/ice-cream-butt.jpg",
+      "destination": "src/content/posts/articles/fulfillment-through-cake-and-ice-cream/ice-cream-butt.jpg",
+      "sha256": "f8d5360fe77b17d1f34a6038367533268f196eba81b6d55566356c638e0512b6"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/fulfillment-through-cake-and-ice-cream/out-the-door.png",
+      "destination": "src/content/posts/articles/fulfillment-through-cake-and-ice-cream/out-the-door.png",
+      "sha256": "12624a054fa44ce38a86072a0c0d34523105e478be016a023bb040a9204e2381"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/highlight-reel-for-2014/1413245786_youtube-128.png",
+      "destination": "src/content/posts/articles/highlight-reel-for-2014/1413245786_youtube-128.png",
+      "sha256": "1ba541c5531ab0e03af8d39cc8f44f3ba4d910e2f29c0f487a6b8c74c7772a98"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/highlight-reel-for-2014/html5-controller.png",
+      "destination": "src/content/posts/articles/highlight-reel-for-2014/html5-controller.png",
+      "sha256": "ca099d63019435687022a74bdc85736b8fda54a3e90cddea5069b6677cb74c25"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/highlight-reel-for-2014/imaginet-html5event_small.jpg",
+      "destination": "src/content/posts/articles/highlight-reel-for-2014/imaginet-html5event_small.jpg",
+      "sha256": "68de0ce02f3494831f69ca577d6ffc2936f7bbc6c21816da5ce2320a0b9ec10b"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/highlight-reel-for-2014/newzvgqtitle.png",
+      "destination": "src/content/posts/articles/highlight-reel-for-2014/newzvgqtitle.png",
+      "sha256": "a64c7b21acc8e86aeea1595f44f2494571542f3497aa5807e7f63404f76b3bae"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/highlight-reel-for-2022/gh2022-contributions_building.png",
+      "destination": "src/content/posts/articles/highlight-reel-for-2022/gh2022-contributions_building.png",
+      "sha256": "576fb1a029a2eed1121b44af74c93854b205bab3494f6424bca13150a3dcad02"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/highlight-reel-for-2022/gh2022-contributions_learning.png",
+      "destination": "src/content/posts/articles/highlight-reel-for-2022/gh2022-contributions_learning.png",
+      "sha256": "66f983a60fc919e5e0680978c51c1db24bf56edd193f3680fd856cb0ec434592"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/highlight-reel-for-2022/gh2022-contributions_sharing.png",
+      "destination": "src/content/posts/articles/highlight-reel-for-2022/gh2022-contributions_sharing.png",
+      "sha256": "d5a62d122535f27b2adc23c516d68256d49f3301d5816363d5057fc84b150d0b"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/highlight-reel-for-2022/gh2022-toplanguages.png",
+      "destination": "src/content/posts/articles/highlight-reel-for-2022/gh2022-toplanguages.png",
+      "sha256": "e1da52bf2dd1d8c9a1a80f3c7c6a67793039b3e21838c119371f7f0b4e5b9290"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/highlight-reel-for-2022/highlight-reel-2022_thumbnail.png",
+      "destination": "src/content/posts/articles/highlight-reel-for-2022/highlight-reel-2022_thumbnail.png",
+      "sha256": "932f1672046487cb23e1c808d9d8069287061f21ed975dc08f600ccc18556b8d"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/hover-a-next-gen-html-experience/hover_multiplayersetup_1.png",
+      "destination": "src/content/posts/articles/hover-a-next-gen-html-experience/hover_multiplayersetup_1.png",
+      "sha256": "f8354fe5064a98d39530e0258c0758f0c05affc648cf2ee79ee14d9b5415864a"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/hover-a-next-gen-html-experience/hover_multiplayersetup_2.png",
+      "destination": "src/content/posts/articles/hover-a-next-gen-html-experience/hover_multiplayersetup_2.png",
+      "sha256": "59c779436d4effaf406dcc2cbfa22655f350cce464f97b838baec845f0c8e61c"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/hover-a-next-gen-html-experience/hover_oldschool.png",
+      "destination": "src/content/posts/articles/hover-a-next-gen-html-experience/hover_oldschool.png",
+      "sha256": "75f6e452b86094949f7c7568c571ac19f56fc6f4f6fbfd8c463bc246022eef02"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/hover-a-next-gen-html-experience/hover_title.png",
+      "destination": "src/content/posts/articles/hover-a-next-gen-html-experience/hover_title.png",
+      "sha256": "425ab2344b4042efe71e7d9eba153a9fdf8faaa32024e44eb44b7beadb9d7ede"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/how-much-is-enough-documentation/repo-with-docs_og.png",
+      "destination": "src/content/posts/articles/how-much-is-enough-documentation/repo-with-docs_og.png",
+      "sha256": "b2d809fa449510e25b3b3c120f56b180dbe802d6268b873fa0ea75dad2129675"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/how-much-is-enough-documentation/repo-with-docs.png",
+      "destination": "src/content/posts/articles/how-much-is-enough-documentation/repo-with-docs.png",
+      "sha256": "bba3118ffcb5f3389fc39d93e62c4b58093755c602785b6b08fc372b5a67a6a2"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/how-much-is-enough-documentation/website-solution-overview.png",
+      "destination": "src/content/posts/articles/how-much-is-enough-documentation/website-solution-overview.png",
+      "sha256": "c92bc1c211d729f878fcd7b0148c421cf82aa51ccca199793d200fc03e365f7c"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/how-to-blog-with-vsts-part-1/CYlb9sNm.png",
+      "destination": "src/content/posts/articles/how-to-blog-with-vsts-part-1/CYlb9sNm.png",
+      "sha256": "215e2ce936269bb6bdeb182c6d9dc616f843a58a34d6a3c202838d300fd6c90d"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/how-to-blog-with-vsts-part-2/LgqbXYyl.png",
+      "destination": "src/content/posts/articles/how-to-blog-with-vsts-part-2/LgqbXYyl.png",
+      "sha256": "e93044d7130b927f97bd3d74726b20a81f368a846f4fb39477ae286d1706905a"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/how-to-blog-with-vsts-part-2/NaI2INbl.png",
+      "destination": "src/content/posts/articles/how-to-blog-with-vsts-part-2/NaI2INbl.png",
+      "sha256": "95a51314a5a5eb64c6eaf8a8ed3388ef3c400bd6222a7a572b9624aa9367bcb5"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/how-to-blog-with-vsts-part-2/XC8Oqnpl.png",
+      "destination": "src/content/posts/articles/how-to-blog-with-vsts-part-2/XC8Oqnpl.png",
+      "sha256": "9669f8136f5b28f9213176fd021ae0c23034960da9748be50afc829eab2932bf"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/how-to-blog-with-vsts-part-2/ZXtAeaHl.png",
+      "destination": "src/content/posts/articles/how-to-blog-with-vsts-part-2/ZXtAeaHl.png",
+      "sha256": "f3f67552cd905be2b1e873cb56520ad828a39c88a419d5f724270a986c9a4223"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/how-to-blog-with-vsts-part-3/3xZztPR.png",
+      "destination": "src/content/posts/articles/how-to-blog-with-vsts-part-3/3xZztPR.png",
+      "sha256": "94b7a5e03e5e7c063e8320b7de83d6d2c840868966f8d3ae25a5e508a5cb92ec"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/how-to-blog-with-vsts-part-3/67xoqOK.gif",
+      "destination": "src/content/posts/articles/how-to-blog-with-vsts-part-3/67xoqOK.gif",
+      "sha256": "cb6a52a153b9e16cb39afaf4e12534368ad89a46edc927212e62eee0c227b751"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/how-to-blog-with-vsts-part-3/a27TBI4.png",
+      "destination": "src/content/posts/articles/how-to-blog-with-vsts-part-3/a27TBI4.png",
+      "sha256": "6a2e288dd95d6f4a22ceaf261346e45489fd343c0ace6f00f924e2cdbe1c8c77"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/how-to-blog-with-vsts-part-3/E4GjQDM.png",
+      "destination": "src/content/posts/articles/how-to-blog-with-vsts-part-3/E4GjQDM.png",
+      "sha256": "8bd143830f79e177e7f3e8bbb76ccde06b459e3bb80c63a978af23570bd3d2e8"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/how-to-blog-with-vsts-part-3/xT1tfEf.png",
+      "destination": "src/content/posts/articles/how-to-blog-with-vsts-part-3/xT1tfEf.png",
+      "sha256": "32cf022135bf44cd0e5bf6af7d160f9b027b4ed7a1a3255caa57872d83dc58ed"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/how-to-blog-with-vsts-part-3/ZO8nzTM.png",
+      "destination": "src/content/posts/articles/how-to-blog-with-vsts-part-3/ZO8nzTM.png",
+      "sha256": "0f7cc0506eee11ec28d43a09ba73070b2838665e240ad88330325a71a4da3e82"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/how-to-blog-with-vsts-part-4/6uCoEEFl.png",
+      "destination": "src/content/posts/articles/how-to-blog-with-vsts-part-4/6uCoEEFl.png",
+      "sha256": "0262041916ff71074a3d2174d8c93a27db386e440cbbdf443d0d235a820ccf81"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/how-to-blog-with-vsts-part-4/7S55XWDl.png",
+      "destination": "src/content/posts/articles/how-to-blog-with-vsts-part-4/7S55XWDl.png",
+      "sha256": "0c30a3ee1edd5b69b90c80660912e7d51436a1c36395bda3ea980bdd3f7f7f4b"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/how-to-blog-with-vsts-part-4/aXmLKcml.png",
+      "destination": "src/content/posts/articles/how-to-blog-with-vsts-part-4/aXmLKcml.png",
+      "sha256": "74926a2bf3553a3495a343d62937c68999077f762b9766f107a9222525f321d9"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/how-to-blog-with-vsts-part-4/dGWjUTNl.png",
+      "destination": "src/content/posts/articles/how-to-blog-with-vsts-part-4/dGWjUTNl.png",
+      "sha256": "60fd45b7b3834646e406b22ac79fb414d1fbc27f482b429b2c8579b71c902744"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/how-to-blog-with-vsts-part-4/h1HFRAJl.png",
+      "destination": "src/content/posts/articles/how-to-blog-with-vsts-part-4/h1HFRAJl.png",
+      "sha256": "05a577a9a05f342707f49830d3068f6adc8e7133159cf76ec2cab0cee349f82c"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/how-to-blog-with-vsts-part-4/LJTk1wKl.png",
+      "destination": "src/content/posts/articles/how-to-blog-with-vsts-part-4/LJTk1wKl.png",
+      "sha256": "3555fe4e1c8f8621d1d6db26f7d80e69f2011d45c8b9cc5e3fdbd55259dad9a3"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/how-to-blog-with-vsts-part-4/YHlzH7Cl.png",
+      "destination": "src/content/posts/articles/how-to-blog-with-vsts-part-4/YHlzH7Cl.png",
+      "sha256": "5b26f59f89989ebf3e0f4958a405b81dac50b49e7773e7a7e1e8cc452688830e"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/how-to-compile-typescript-into-a-single-file-with-systemjs-modules-with-gulp/gUGeHfI.png",
+      "destination": "src/content/posts/articles/how-to-compile-typescript-into-a-single-file-with-systemjs-modules-with-gulp/gUGeHfI.png",
+      "sha256": "f66365b27abf1a68c965953fbe9f5713c1ea8d3f64da00aef2684583be1fa479"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/how-to-compile-typescript-into-a-single-file-with-systemjs-modules-with-gulp/TyAgU0N.png",
+      "destination": "src/content/posts/articles/how-to-compile-typescript-into-a-single-file-with-systemjs-modules-with-gulp/TyAgU0N.png",
+      "sha256": "93e872abb0c2a68ffdb7d5173510804e77aa105f7eaf6e17c0f33af0901e40a7"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/how-to-fork-like-a-boss/gh-issue.jpg",
+      "destination": "src/content/posts/articles/how-to-fork-like-a-boss/gh-issue.jpg",
+      "sha256": "d5049dba5bf637a78d565d21d7b82b8a408d16ad9cf808d29b6dcdda56d8c5c2"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/how-to-use-global-npm-packages-on-a-vsts-self-hosted-build-agent/pkLEzkEl.png",
+      "destination": "src/content/posts/articles/how-to-use-global-npm-packages-on-a-vsts-self-hosted-build-agent/pkLEzkEl.png",
+      "sha256": "d0741b82627e967c111ced048e050f59c465406d96394638910f7dc4ecc7690d"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/how-to-use-highlight-js-with-bower-and-gulp/1cUniu9.png",
+      "destination": "src/content/posts/articles/how-to-use-highlight-js-with-bower-and-gulp/1cUniu9.png",
+      "sha256": "68fa5b3f4dcf01e29963c1ed775d12795741d5a4746900bf735e165685f89823"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/html-gaming-for-core-gamers/ieatpax.jpg",
+      "destination": "src/content/posts/articles/html-gaming-for-core-gamers/ieatpax.jpg",
+      "sha256": "5ea1da3995b5c60a23c9f6cdfad7837ed7de81b875c9ae943e41d5690c153d8d"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/humble-bundle-games-go-javascript/humblebundle-1.png",
+      "destination": "src/content/posts/articles/humble-bundle-games-go-javascript/humblebundle-1.png",
+      "sha256": "0d0b4ffdb357e2e7b7203142906f3d16d398cea8f16901504acbefbe66942fbf"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/i-am-not-trying-to-be-a-game-developer/2021-04_thumbnail.png",
+      "destination": "src/content/posts/articles/i-am-not-trying-to-be-a-game-developer/2021-04_thumbnail.png",
+      "sha256": "713768243971ca4f5d0eb02f2f2fe54992959f00571656156b358110cfc01002"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/i-can-teach-your-dog-quantum-physics/physics_dog_resized.jpg",
+      "destination": "src/content/posts/articles/i-can-teach-your-dog-quantum-physics/physics_dog_resized.jpg",
+      "sha256": "c0bf84a8571c41b73e79275648976b09214c359a109aca8d8c8344da3728c03e"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/ie-err-spartan-makes-ign-news/logo-of-the-new-microsoft-browser-spartan---imgur.jpg",
+      "destination": "src/content/posts/articles/ie-err-spartan-makes-ign-news/logo-of-the-new-microsoft-browser-spartan---imgur.jpg",
+      "sha256": "04a0cc2c388b53399c833eb843d0103d8298ed281ef788382e7492728c18b044"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/ie-on-reddit-highlight-reel/bvbik2tccaawex1.jpg",
+      "destination": "src/content/posts/articles/ie-on-reddit-highlight-reel/bvbik2tccaawex1.jpg",
+      "sha256": "340bf3676ac9e142319d6ab9d353b7e9dac3178a272aeb46f0c6d37f85d6d0b0"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/installing-games-javascript-style/ftl-1.png",
+      "destination": "src/content/posts/articles/installing-games-javascript-style/ftl-1.png",
+      "sha256": "0ab9e7e8151cabd9eac2fe651b4d78fa7f0e91d89ab26066e215abeba15a054f"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/installing-games-javascript-style/ftl.png",
+      "destination": "src/content/posts/articles/installing-games-javascript-style/ftl.png",
+      "sha256": "0ab9e7e8151cabd9eac2fe651b4d78fa7f0e91d89ab26066e215abeba15a054f"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/installing-games-javascript-style/play.png",
+      "destination": "src/content/posts/articles/installing-games-javascript-style/play.png",
+      "sha256": "38f559ac11ea1f09119b26e9bcac2751a5acc80ddee82a70ef1fdd7aaaa3fb93"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/instant-eyedropper-the-colour-picker-tool-i-ve-been-missing/blog_instanteyedropper_1.png",
+      "destination": "src/content/posts/articles/instant-eyedropper-the-colour-picker-tool-i-ve-been-missing/blog_instanteyedropper_1.png",
+      "sha256": "88ce3101e55d1f86148620b5bb43ab6f00469724b4ea3281bbe11ad72f10df5b"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/instant-eyedropper-the-colour-picker-tool-i-ve-been-missing/blog_instanteyedropper_2.png",
+      "destination": "src/content/posts/articles/instant-eyedropper-the-colour-picker-tool-i-ve-been-missing/blog_instanteyedropper_2.png",
+      "sha256": "23c09f9fc461819f80820edf76e5f5e266f89c97fc6bb4f6e81e513459ea576d"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/instant-eyedropper-the-colour-picker-tool-i-ve-been-missing/blog_instanteyedropper_3.png",
+      "destination": "src/content/posts/articles/instant-eyedropper-the-colour-picker-tool-i-ve-been-missing/blog_instanteyedropper_3.png",
+      "sha256": "fbb5434b63dff6223ef310404ef7f6613615f8ca72b0fd71073d0246878419f9"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/living-on-the-microsoft-edge-on-may-5-6/edgeconference2015-markup-1.png",
+      "destination": "src/content/posts/articles/living-on-the-microsoft-edge-on-may-5-6/edgeconference2015-markup-1.png",
+      "sha256": "f2253965ea62570fd03939ecde4b474bed6407812015bf090012d576788f221f"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/lucky-number-v7/lucky_number_v7.png",
+      "destination": "src/content/posts/articles/lucky-number-v7/lucky_number_v7.png",
+      "sha256": "998a91382bbc99b216d35bdc06fc92920fffea2e82be3a890e2bfc227e9f7185"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/make-new-habits-with-new-ie-vms-in-the-new-year/netmarketshare_dec.png",
+      "destination": "src/content/posts/articles/make-new-habits-with-new-ie-vms-in-the-new-year/netmarketshare_dec.png",
+      "sha256": "75291f225ed3ac9ef3b2e8eecbd20edbdabe8ca4e46d0e94079059e205d354d0"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/measuring-in-css-is-cool/header.png",
+      "destination": "src/content/posts/articles/measuring-in-css-is-cool/header.png",
+      "sha256": "79a078195bfdb1e7582b1eea64f49a0508d24ace78eef72bc3675c329fca9c63"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/microsoft-ie-mvp-year-four/enterprise-minecraft.png",
+      "destination": "src/content/posts/articles/microsoft-ie-mvp-year-four/enterprise-minecraft.png",
+      "sha256": "2c197b139f5ed761e93a112e7e755e6c9b95805664703ba66eb5c16daf66a2d8"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/microsoft-ie-mvp-year-four/mvp_horizontal_fullcolor.png",
+      "destination": "src/content/posts/articles/microsoft-ie-mvp-year-four/mvp_horizontal_fullcolor.png",
+      "sha256": "b9bc6fd4cce3958a31cad3986b5a30d795f6c59d4ca217d418464a6948dd744e"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/missing-bootloader-in-vscode-devcontainer/error-message-tty.png",
+      "destination": "src/content/posts/articles/missing-bootloader-in-vscode-devcontainer/error-message-tty.png",
+      "sha256": "4e1d8b6ad0b204a42ba98890d395f5d024a7ade558514fe2780eb4927c5a5167"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/mobile-first-design-tips/5JsR2Icl.png",
+      "destination": "src/content/posts/articles/mobile-first-design-tips/5JsR2Icl.png",
+      "sha256": "fd4d93a3a8f7783b78b799b59aa35585237d2352638347c1c688917fa5b73c91"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/mobile-first-design-tips/TCDTcPGl.png",
+      "destination": "src/content/posts/articles/mobile-first-design-tips/TCDTcPGl.png",
+      "sha256": "d927759fd6bcb6cc0b15afb5f19666646144a06844e2fb4b7be9e866e27c6b10"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/msdevshow-a-dev-podcast-review/msdevshow-logo-1.png",
+      "destination": "src/content/posts/articles/msdevshow-a-dev-podcast-review/msdevshow-logo-1.png",
+      "sha256": "f1b35e8d945110cd45abf0f3d8ab5c920619b8a597014406df377822c2ee3f0c"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/my-secret-addiction-to-likes/my_secret_addiction_to_likes.png",
+      "destination": "src/content/posts/articles/my-secret-addiction-to-likes/my_secret_addiction_to_likes.png",
+      "sha256": "8169ae5f220109887f0b855540c437d0eae63b3805656f01f787ec675c040a7b"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/my-top-5-sessions-picks-mvp-virtual-conference-2015/vcon_hero.jpg",
+      "destination": "src/content/posts/articles/my-top-5-sessions-picks-mvp-virtual-conference-2015/vcon_hero.jpg",
+      "sha256": "4a75a4088bf5509c1bd54c3bf4271672131c0834dca3d457b31f0c6973e94870"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/netfront-the-unknown-browser-everyone-owns/psp_browser.jpg",
+      "destination": "src/content/posts/articles/netfront-the-unknown-browser-everyone-owns/psp_browser.jpg",
+      "sha256": "7b3ed59c14a97174eb36380f04798f3c3df17860854f3fe063cad643db38e1cb"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/new-post-initial-thoughts-on-phaser/0LLlYoxb.png",
+      "destination": "src/content/posts/articles/new-post-initial-thoughts-on-phaser/0LLlYoxb.png",
+      "sha256": "7f897f884f8858e3188469a28afe83a0085b35c1b3842fc2b92aaeec3dfb88d8"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/nintendo-builds-rich-html5-experiences/fullscreenpokemon.png",
+      "destination": "src/content/posts/articles/nintendo-builds-rich-html5-experiences/fullscreenpokemon.png",
+      "sha256": "be3c23a77edf152b871726e039d82560be81cd75934323bc95005cad5d93dec2"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/nintendo-builds-rich-html5-experiences/playnintendo-kirby.png",
+      "destination": "src/content/posts/articles/nintendo-builds-rich-html5-experiences/playnintendo-kirby.png",
+      "sha256": "0daa45d60c9c003eb4c2fe0d6de4c1a5995e9d6f787ccdfa72b99d35093247e9"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/nintendo-builds-rich-html5-experiences/playnintendo-mariopartystarter.png",
+      "destination": "src/content/posts/articles/nintendo-builds-rich-html5-experiences/playnintendo-mariopartystarter.png",
+      "sha256": "ee8f88922498874467621e700103c1dcfab5929c90c4e7d61a51bef466a9a77d"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/november-27-going-terminal-learning-to-be-ide-free/wpgdotnet.png",
+      "destination": "src/content/posts/articles/november-27-going-terminal-learning-to-be-ide-free/wpgdotnet.png",
+      "sha256": "6e7257a8c76ab667c3820cecd01ddf3d658f6acd78dd30302d194d8b498b59aa"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/open-graph-tools-and-resources-for-web-nerds/open-graph-toolbox.png",
+      "destination": "src/content/posts/articles/open-graph-tools-and-resources-for-web-nerds/open-graph-toolbox.png",
+      "sha256": "ed4ea3a0c4db118fd2eee441be0f5ae573c0c1920b4c1c41ffbefe676b66eef5"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/open-graph-tools-and-resources-for-web-nerds/social-share-preview-example.png",
+      "destination": "src/content/posts/articles/open-graph-tools-and-resources-for-web-nerds/social-share-preview-example.png",
+      "sha256": "00a92760d84db0e7297859d1dc783d8858d9b72156e4be15b104742a1e21fad0"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/prairie-dev-con-2022-takeaways/prdc2022-takeaway.png",
+      "destination": "src/content/posts/articles/prairie-dev-con-2022-takeaways/prdc2022-takeaway.png",
+      "sha256": "cac7b42f096c15268b31a5efbdac70a25ac99b3f1737203a22d9e4d7d6669802"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/pro-tip-office-365-to-simplify-communication/110513_1851_protipoffic1.png",
+      "destination": "src/content/posts/articles/pro-tip-office-365-to-simplify-communication/110513_1851_protipoffic1.png",
+      "sha256": "eda2eff720ab8a0800f96cf1494f9cdca5c0820f42c1b1b732ec36ea9a5d4fac"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/pro-tip-office-365-to-simplify-communication/110513_1851_protipoffic2.png",
+      "destination": "src/content/posts/articles/pro-tip-office-365-to-simplify-communication/110513_1851_protipoffic2.png",
+      "sha256": "b6d9ea560201a6f1d260307736431ee1c4f999583427d2862283d372b114e856"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/pro-tip-office-365-to-simplify-communication/110513_1851_protipoffic3.png",
+      "destination": "src/content/posts/articles/pro-tip-office-365-to-simplify-communication/110513_1851_protipoffic3.png",
+      "sha256": "5fa38d43ff99f0c0f258b19beef5ded1122633678fc027b5957db553be2d4d92"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/remote-ie-no-more-testing-excuses/banner.png",
+      "destination": "src/content/posts/articles/remote-ie-no-more-testing-excuses/banner.png",
+      "sha256": "0c4be0fbb93f677f2158bf2eb338477e71513d7a957518f09aa09e1d9eaa4f5e"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/remote-ie-no-more-testing-excuses/wp_20141103_002-1-.jpg",
+      "destination": "src/content/posts/articles/remote-ie-no-more-testing-excuses/wp_20141103_002-1-.jpg",
+      "sha256": "6655b3f3666076e94f63b3759b66cea9f04f530dd36adf9ffec3c1694f3da43a"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/remote-ie-no-more-testing-excuses/wp_20141103_002.jpg",
+      "destination": "src/content/posts/articles/remote-ie-no-more-testing-excuses/wp_20141103_002.jpg",
+      "sha256": "6655b3f3666076e94f63b3759b66cea9f04f530dd36adf9ffec3c1694f3da43a"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/retrospective-the-youtube-experiment/youtube-logo-full_color.png",
+      "destination": "src/content/posts/articles/retrospective-the-youtube-experiment/youtube-logo-full_color.png",
+      "sha256": "c954dac94390e9c5245765e6d98238e8e6893cd0248855d325e73175460b5d91"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/script-unscripted-starts-january-8th/cordova_256.png",
+      "destination": "src/content/posts/articles/script-unscripted-starts-january-8th/cordova_256.png",
+      "sha256": "409fb02bbaec0d9dc6dfb2657d22293fddd4eb4bab5efc06fa62da7f59f26093"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/should-you-bother-with-a-website/darshan-patel-IMyqcG3N1iE-unsplash.jpg",
+      "destination": "src/content/posts/articles/should-you-bother-with-a-website/darshan-patel-IMyqcG3N1iE-unsplash.jpg",
+      "sha256": "fae4665acd842a54da198f6b68b8419ecc1400bb46451e72cd96e9a0c9bee475"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/should-you-bother-with-a-website/should-you-bother-with-a-website.png",
+      "destination": "src/content/posts/articles/should-you-bother-with-a-website/should-you-bother-with-a-website.png",
+      "sha256": "c5498254990d4eb15c6057338865f7ef999b7b98b603708ed8a0078167e7977b"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/simcity-in-the-browser-with-source-code/file54531acb193b9.jpg",
+      "destination": "src/content/posts/articles/simcity-in-the-browser-with-source-code/file54531acb193b9.jpg",
+      "sha256": "37e77cc168ac0ec698eb0f3b86035d72591cdd0f721a1660e01cdd69d7602e01"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/simcity-in-the-browser-with-source-code/micropolisjs-city-1.png",
+      "destination": "src/content/posts/articles/simcity-in-the-browser-with-source-code/micropolisjs-city-1.png",
+      "sha256": "7576fdd6fdf2f815c9aa5a4210fa06406aa30fd742bb263828ab53b7a9f45af4"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/simcity-in-the-browser-with-source-code/micropolisjs-city.png",
+      "destination": "src/content/posts/articles/simcity-in-the-browser-with-source-code/micropolisjs-city.png",
+      "sha256": "7576fdd6fdf2f815c9aa5a4210fa06406aa30fd742bb263828ab53b7a9f45af4"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/simcity-in-the-browser-with-source-code/micropolisjs-pullrequest.png",
+      "destination": "src/content/posts/articles/simcity-in-the-browser-with-source-code/micropolisjs-pullrequest.png",
+      "sha256": "329b626fcf1d71ac198cfa42915aae7fd7163751eb3cf2b7aa6994aecdd0bd34"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/speaking-at-tech-events-helps-you-grow/prdc2022-audience.png",
+      "destination": "src/content/posts/articles/speaking-at-tech-events-helps-you-grow/prdc2022-audience.png",
+      "sha256": "f712b53aad0e8bd6b4ac172b8c69fab56438d10c4e2791a641babd8192e56b20"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/speaking-at-tech-events-helps-you-grow/prdc2022-speaking_thumbnail.png",
+      "destination": "src/content/posts/articles/speaking-at-tech-events-helps-you-grow/prdc2022-speaking_thumbnail.png",
+      "sha256": "37f80a0be41319b5940b44756f2cb12b283e570ece33ef15300204e5dae3d5ab"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/stop-hating-ie-and-be-a-professional-part-1/statcounter-browser-ww-monthly-201112-201212.png",
+      "destination": "src/content/posts/articles/stop-hating-ie-and-be-a-professional-part-1/statcounter-browser-ww-monthly-201112-201212.png",
+      "sha256": "3e985a7d320f91edc519606ee7c689639fdfd1d2f3d875d536828f73ab614ee6"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/stop-hating-ie-and-be-a-professional-part-2/window8_heart_html5.png",
+      "destination": "src/content/posts/articles/stop-hating-ie-and-be-a-professional-part-2/window8_heart_html5.png",
+      "sha256": "4f25163418312d03eb746673a61fbdb5c4a9f7994ace9ffe2a216aa2b6bba1a9"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/stop-hating-ie-and-be-a-professional-part-3/ie10_logo.png",
+      "destination": "src/content/posts/articles/stop-hating-ie-and-be-a-professional-part-3/ie10_logo.png",
+      "sha256": "a351191f2cf06552051a067124e82db3bfd96db3e58946c347c0038e49c5b91b"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/thatonevideogamer-brought-to-you-by-me/meonthatonevideogamer.png",
+      "destination": "src/content/posts/articles/thatonevideogamer-brought-to-you-by-me/meonthatonevideogamer.png",
+      "sha256": "54468eb4a716f0df4ac05e3ca408d4c9d35bfe5a9ab688a12f8e6af213017cd3"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/the-difference-between-apps-and-games/blog_appsvsgames.png",
+      "destination": "src/content/posts/articles/the-difference-between-apps-and-games/blog_appsvsgames.png",
+      "sha256": "3cc8727d744ba0e2cfae713ad0a99a032c7f0eb3725c4a56defae0f99475342b"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/the-heisenberg-second-screen-experience-in-html/breakingbadhtml5.png",
+      "destination": "src/content/posts/articles/the-heisenberg-second-screen-experience-in-html/breakingbadhtml5.png",
+      "sha256": "e3dc199f27778b8fc3b5d036065ca605473035b76d03795aa8442ed3d8f69304"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/the-mvp-network-is-awesome/azuretwitter_2014-09-22.png",
+      "destination": "src/content/posts/articles/the-mvp-network-is-awesome/azuretwitter_2014-09-22.png",
+      "sha256": "2813cf15ced715f069385f8ee24e2f7e8ba73048b6347262811f89fc79316845"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/the-mvp-network-is-awesome/mvp_horizontal_fullcolor.png",
+      "destination": "src/content/posts/articles/the-mvp-network-is-awesome/mvp_horizontal_fullcolor.png",
+      "sha256": "b9bc6fd4cce3958a31cad3986b5a30d795f6c59d4ca217d418464a6948dd744e"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/think-before-you-tweet-a-lesson-in-humility/chocolateytwitter-dw.png",
+      "destination": "src/content/posts/articles/think-before-you-tweet-a-lesson-in-humility/chocolateytwitter-dw.png",
+      "sha256": "501d3b9c00eaf4ec2d1bccae352363568da58815d2e5fd4990521bc9cde63daf"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/think-before-you-tweet-a-lesson-in-humility/chocolateytwitter-stimms.png",
+      "destination": "src/content/posts/articles/think-before-you-tweet-a-lesson-in-humility/chocolateytwitter-stimms.png",
+      "sha256": "f3d83f98449fdd18cd4ee574994d527049cfbe50188ca68e35ecc542fa149446"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/think-before-you-tweet-a-lesson-in-humility/chocolateytwitter.png",
+      "destination": "src/content/posts/articles/think-before-you-tweet-a-lesson-in-humility/chocolateytwitter.png",
+      "sha256": "57a1dce15a726ba5177d839a67950c1948edf3f5d5c354a54888cb7b2e16835b"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/think-before-you-tweet-a-lesson-in-humility/thinkingchimp.jpg",
+      "destination": "src/content/posts/articles/think-before-you-tweet-a-lesson-in-humility/thinkingchimp.jpg",
+      "sha256": "a4d081fa9427360cdd8b17e891cb6981ed222da11b76ce753a1f093254d6aba1"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/traf-o-data-and-windows-nt-on-lgr-tech-tales/windows_nt_logo_svg.png",
+      "destination": "src/content/posts/articles/traf-o-data-and-windows-nt-on-lgr-tech-tales/windows_nt_logo_svg.png",
+      "sha256": "0b30c1bbb0fa33e4ae4de40c0daa9c406151e989f7e42139c5bf6178cb05fc0d"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/typescript-or-javascript/IAPRGfv.png",
+      "destination": "src/content/posts/articles/typescript-or-javascript/IAPRGfv.png",
+      "sha256": "54822e8a679d83cc9dab5d84449034a9cd46d7ae039768c8f5ed13354ab1f008"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/typescript-or-javascript/Wxx5fMI.png",
+      "destination": "src/content/posts/articles/typescript-or-javascript/Wxx5fMI.png",
+      "sha256": "99e72b226535738adf8c190def85475d624f063ddbeab8b34c4b325d52dba16b"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/typescript-or-javascript/yCn8NUQ.png",
+      "destination": "src/content/posts/articles/typescript-or-javascript/yCn8NUQ.png",
+      "sha256": "f8769c796fc64057d485258c3a1a6d9b4e98c3924158b568c6941a82597e4e20"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/typescript-with-amd-and-gulp/38ngK52.png",
+      "destination": "src/content/posts/articles/typescript-with-amd-and-gulp/38ngK52.png",
+      "sha256": "ce75779ca436deaae3e3820cc4508f98425a16eed568ec87a7e08b39ac25c576"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/video-games-preventing-cancer-with-agdq/agdq-miketyson.png",
+      "destination": "src/content/posts/articles/video-games-preventing-cancer-with-agdq/agdq-miketyson.png",
+      "sha256": "95a9d9dfb93e7f2415b300ae0cc4e6cbc1e56a136328b315c2b4b9001e44c437"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/western-devs-found-my-spirit-animal/lobster-fire-mouth.png",
+      "destination": "src/content/posts/articles/western-devs-found-my-spirit-animal/lobster-fire-mouth.png",
+      "sha256": "a0662d9af0610dfc77ec6c1e77ff2f41eae1f12ce0746b141839a66c56fba963"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/western-devs-found-my-spirit-animal/twitter-source.png",
+      "destination": "src/content/posts/articles/western-devs-found-my-spirit-animal/twitter-source.png",
+      "sha256": "489ecdf90b51b83a6cceb295b8a3e8ed332b28d987a172868afafd83ca69b587"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/what-is-bower/bower-logo.png",
+      "destination": "src/content/posts/articles/what-is-bower/bower-logo.png",
+      "sha256": "bd386ed6ac5abdebad2d00b0fbacfb6726cd605b04117c24059fe18e1e9815a0"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/what-is-bower/bower-screen.png",
+      "destination": "src/content/posts/articles/what-is-bower/bower-screen.png",
+      "sha256": "501c31a1e66452edff2eed893c554997712c4763490c660e38dfc36c2621870c"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/what-value-does-making-content-bring-to-me/drahomir-posteby-mach-__Hw50q04FI-unsplash_updated.jpg",
+      "destination": "src/content/posts/articles/what-value-does-making-content-bring-to-me/drahomir-posteby-mach-__Hw50q04FI-unsplash_updated.jpg",
+      "sha256": "fb7af69a5d50a5060bfbcadd69c57f4dd59e20aa7e21e9a2f286f448a5ee05a8"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/what-value-does-making-content-bring-to-me/rob-schreckhise-8zdEgWg5JAA-unsplash_altered.jpg",
+      "destination": "src/content/posts/articles/what-value-does-making-content-bring-to-me/rob-schreckhise-8zdEgWg5JAA-unsplash_altered.jpg",
+      "sha256": "bd25f8be9e266ef5435d77ba8b554e96bf7809495bf1b22d4aaa5feb363824d1"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/whatcha-doin-dw/glitchicon_purple-128x128.png",
+      "destination": "src/content/posts/articles/whatcha-doin-dw/glitchicon_purple-128x128.png",
+      "sha256": "dc5a1ab8642ed35bf6f31b7e5d8c5d57d145904c27e910202391b6dec80c1df0"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/why-chakracore-oss-is-important/github-page.png",
+      "destination": "src/content/posts/articles/why-chakracore-oss-is-important/github-page.png",
+      "sha256": "61853e187cca47b2b68222da07ed9e9bddce6147796e31df7e704107cb13ed1f"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/why-chakracore-oss-is-important/nodejs-logo.png",
+      "destination": "src/content/posts/articles/why-chakracore-oss-is-important/nodejs-logo.png",
+      "sha256": "8e410ed0aa478e92f2af875ee2b41232b4d32080c07af3e2cf22728bf22562f2"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/why-chakracore-oss-is-important/pull-request.png",
+      "destination": "src/content/posts/articles/why-chakracore-oss-is-important/pull-request.png",
+      "sha256": "e8e543a0ee0faacb03b314550007d74fd9ccea595cae4a1968278a6a127c1ab9"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/why-do-you-coffeescript-your-javascript/coffeescript-logo.png",
+      "destination": "src/content/posts/articles/why-do-you-coffeescript-your-javascript/coffeescript-logo.png",
+      "sha256": "e85e836afd039f4d990153803d1b648b96a579ff824e301e0c01c2ec4ce00a72"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/why-do-you-coffeescript-your-javascript/ielogo-blue.png",
+      "destination": "src/content/posts/articles/why-do-you-coffeescript-your-javascript/ielogo-blue.png",
+      "sha256": "5ccedec2aec345b1bb76f94dc1735d85ac27a42f03a7c647dbe306f604f49da0"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/why-do-you-requirejs/requirejs-logo.png",
+      "destination": "src/content/posts/articles/why-do-you-requirejs/requirejs-logo.png",
+      "sha256": "b0bef0eb1e7d90b80a26c6a88e233bd1d0538fd9bad51b393859cdd9988062ce"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/why-networking-is-critical/network.png",
+      "destination": "src/content/posts/articles/why-networking-is-critical/network.png",
+      "sha256": "c296cefd28972fde869cb692de028b9f64ef4787bb924bbf8d8fbb0405c764e2"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/why-the-humble-mozilla-bundle-is-awesome/javascript-compilation-flow.png",
+      "destination": "src/content/posts/articles/why-the-humble-mozilla-bundle-is-awesome/javascript-compilation-flow.png",
+      "sha256": "894cdd4f5a6eced1805823f7aadc8e1a4a2755fa7abe24615aebdd5da4767804"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/youtube-and-twitch-my-revengence/caspar-camille-rubin-DrL-cwqD6tM-unsplash_cropped.jpg",
+      "destination": "src/content/posts/articles/youtube-and-twitch-my-revengence/caspar-camille-rubin-DrL-cwqD6tM-unsplash_cropped.jpg",
+      "sha256": "3b085132771e7cb573de3f9c407972229eac1afb70098464edc35e08d8b50cdf"
+    },
+    {
+      "source": "_archive/src/content/posts/blog/zany-video-game-quotes-live-and-in-the-cloud/new-zvgq.png",
+      "destination": "src/content/posts/articles/zany-video-game-quotes-live-and-in-the-cloud/new-zvgq.png",
+      "sha256": "22baaed2df0431717e7213882df009efa12843979378f663d417c443198e74b4"
+    },
+    {
+      "source": "_archive/src/content/posts/dungeonlog/2025-08-04/SessionRecap_2025-08-04-Alt.png",
+      "destination": "src/content/posts/dungeonlogs/2025-08-04/SessionRecap_2025-08-04-Alt.png",
+      "sha256": "9a689cdfe691e450588059981bd57090fd3981dbf28f4cc7339e4dfc1f44836c"
+    },
+    {
+      "source": "_archive/src/content/posts/dungeonlog/2025-08-04/SessionRecap_2025-08-04.png",
+      "destination": "src/content/posts/dungeonlogs/2025-08-04/SessionRecap_2025-08-04.png",
+      "sha256": "f3aebb5ecca9302a590c94aef340f2d04ea5b7b6f3f966b1da960c3d57a16e30"
+    },
+    {
+      "source": "_archive/src/content/posts/dungeonlog/2025-08-18/SessionRecap-Poster_2025-08-18.png",
+      "destination": "src/content/posts/dungeonlogs/2025-08-18/SessionRecap-Poster_2025-08-18.png",
+      "sha256": "3b6ee46a68c05716b3ff4727783c64c46c2e4967e4da6fac4079a663ff8c46d4"
+    },
+    {
+      "source": "_archive/src/content/posts/dungeonlog/2025-09-01/SessionRecap_Poster_2025-09-01_Alt.png",
+      "destination": "src/content/posts/dungeonlogs/2025-09-01/SessionRecap_Poster_2025-09-01_Alt.png",
+      "sha256": "77b1844997d36be5c02db414fbb27097254cee0eebd73cbbf193a433ef4dae9b"
+    },
+    {
+      "source": "_archive/src/content/posts/dungeonlog/2025-09-01/SessionRecap_Poster_2025-09-01_Alt2.png",
+      "destination": "src/content/posts/dungeonlogs/2025-09-01/SessionRecap_Poster_2025-09-01_Alt2.png",
+      "sha256": "42eaf4208e0c561e3bcfb7e1bed3a97f11854dc8f7361a10ef0b8b37fd5927fb"
+    },
+    {
+      "source": "_archive/src/content/posts/dungeonlog/2025-09-01/SessionRecap_Poster_2025-09-01.png",
+      "destination": "src/content/posts/dungeonlogs/2025-09-01/SessionRecap_Poster_2025-09-01.png",
+      "sha256": "785aeda51dc4c3cefdd101953b4e6cd414972068af2af867989e31d0e4dad445"
+    },
+    {
+      "source": "_archive/src/content/posts/dungeonlog/2025-10-18/2025-10-18_Poster.png",
+      "destination": "src/content/posts/dungeonlogs/2025-10-18/2025-10-18_Poster.png",
+      "sha256": "86bae277d44b5220765bee3a2ace4abd6c93a0ca072f7918957a21a5e1869a8d"
+    },
+    {
+      "source": "_archive/src/content/posts/dungeonlog/2025-11-17/2025-11-17_Poster.png",
+      "destination": "src/content/posts/dungeonlogs/2025-11-17/2025-11-17_Poster.png",
+      "sha256": "af9e479861ed33f77490a02c48320ee313d9325fc3de0dfce1e23b4fa511cbe3"
+    },
+    {
+      "source": "_archive/src/content/posts/dungeonlog/2025-12-01/2025-12-01_Poster.png",
+      "destination": "src/content/posts/dungeonlogs/2025-12-01/2025-12-01_Poster.png",
+      "sha256": "b81d0bbc728b92d31ce3c9e449ac410da0420a00b451874d13a8145a08e4be5f"
+    },
+    {
+      "source": "_archive/src/content/posts/dungeonlog/2025-12-15/2025-12-15_Poster.png",
+      "destination": "src/content/posts/dungeonlogs/2025-12-15/2025-12-15_Poster.png",
+      "sha256": "f5ac598eb3608856551de59b63629eacc301e7db23a137b4571c23071ed9d983"
+    },
+    {
+      "source": "_archive/src/content/posts/dungeonlog/2025-12-27/2025-12-27_Poster.png",
+      "destination": "src/content/posts/dungeonlogs/2025-12-27/2025-12-27_Poster.png",
+      "sha256": "d7f24f19e604b7540fee5d1dd108b91e90c3df79e4f8de0c3615da0403ab105e"
+    },
+    {
+      "source": "_archive/src/content/posts/dungeonlog/2026-01-05/2026-01-05_Poster.png",
+      "destination": "src/content/posts/dungeonlogs/2026-01-05/2026-01-05_Poster.png",
+      "sha256": "6b26ff569a2f74e9962ab5fd09aef65496ea40ab22ef34427f28f1a9ea523c8d"
+    },
+    {
+      "source": "_archive/src/content/posts/dungeonlog/2026-01-25/2026-01-25_Poster.png",
+      "destination": "src/content/posts/dungeonlogs/2026-01-25/2026-01-25_Poster.png",
+      "sha256": "ab10bdd12723cc40fc48089fad0a4794df39508bf1618b8c0c079db76f3c0734"
+    },
+    {
+      "source": "_archive/src/content/posts/dungeonlog/2026-02-08/2026-02-08_Poster.png",
+      "destination": "src/content/posts/dungeonlogs/2026-02-08/2026-02-08_Poster.png",
+      "sha256": "3ec18f49cd126ef327d2412e2c670a3d45a905dc410adab2b137e196f7c5be3f"
+    },
+    {
+      "source": "_archive/src/content/posts/dungeonlog/2026-03-16/2026-03-16_Poster.png",
+      "destination": "src/content/posts/dungeonlogs/2026-03-16/2026-03-16_Poster.png",
+      "sha256": "3ce254e2f8527a02e403e8e0254912cdb4ca5180d46b37af0c651139876d6b78"
+    },
+    {
+      "source": "_archive/src/content/talks/11ty-days-of-web-development/11ty-days-of-web-dev.jpg",
+      "destination": "src/content/talks/11ty-days-of-web-development/11ty-days-of-web-dev.jpg",
+      "sha256": "f7fc7640485b6733ec2b4da2438e2fd0c234a8788285d3f9c1a69ec34ab0dd34"
+    },
+    {
+      "source": "_archive/src/content/talks/a-guide-to-saas-ready-banner-customizations-in-2026/a-guide-to-saas-ready-banner-customizations-in-2026.png",
+      "destination": "src/content/talks/a-guide-to-saas-ready-banner-customizations-in-2026/a-guide-to-saas-ready-banner-customizations-in-2026.png",
+      "sha256": "9ff9b1cc263666b8c363a68cc53170b2ab0b6c7c8aa268b230a44012b6792b22"
+    },
+    {
+      "source": "_archive/src/content/talks/consensus-in-the-chaos/consensus-in-the-chaos-thumbnail.jpg",
+      "destination": "src/content/talks/consensus-in-the-chaos/consensus-in-the-chaos-thumbnail.jpg",
+      "sha256": "3b6d9dbd6b09e00fcb70c3e3f9b8b05fd78b521c776d6715866cc0ff4a105ef4"
+    },
+    {
+      "source": "_archive/src/content/talks/empowering-campus-innovation-through-ethos-data-connect/empowering-campus-innovation-through-ethos-data-connect.png",
+      "destination": "src/content/talks/empowering-campus-innovation-through-ethos-data-connect/empowering-campus-innovation-through-ethos-data-connect.png",
+      "sha256": "8f40cf96b0c42c37a2afcda2a9f964b91ab1c463a63ea09acf33753690b19a06"
+    },
+    {
+      "source": "_archive/src/content/talks/from-custom-cots-to-cloud/From-COTS-to-Cloud-thumbnail.jpg",
+      "destination": "src/content/talks/from-custom-cots-to-cloud/From-COTS-to-Cloud-thumbnail.jpg",
+      "sha256": "daaf2791f76978f02fe437df9456964d2846473a333a7fe0f62f43d2b629dc28"
+    },
+    {
+      "source": "_archive/src/content/talks/going-beyond-powerpoint/beyond-powerpoint_coverimage-1400x800.webp",
+      "destination": "src/content/talks/going-beyond-powerpoint/beyond-powerpoint_coverimage-1400x800.webp",
+      "sha256": "d1e0d7f33a0d7f5a5605f1732d2308f85923ee336961a369d13ac767a32d47d7"
+    },
+    {
+      "source": "_archive/src/content/talks/hack-the-it-governance-matrix/hack-the-it-governance-matrix_thumbnail.png",
+      "destination": "src/content/talks/hack-the-it-governance-matrix/hack-the-it-governance-matrix_thumbnail.png",
+      "sha256": "2228d12a1fb95c63f7a8d8dc81f85594640c00441164272b06363f66c56d639e"
+    },
+    {
+      "source": "_archive/src/content/talks/integrations-orchestrations-automations/integrations-cover-image-1400x800.webp",
+      "destination": "src/content/talks/integrations-orchestrations-automations/integrations-cover-image-1400x800.webp",
+      "sha256": "8e01151d71ec80071d0c7d8bb634ca259ec3e131887980914aa4f296d871cd9f"
+    },
+    {
+      "source": "_archive/src/content/talks/is-ai-ready-to-take-over-the-world/is-ai-ready-to-take-over-the-world_thumbnail.jpg",
+      "destination": "src/content/talks/is-ai-ready-to-take-over-the-world/is-ai-ready-to-take-over-the-world_thumbnail.jpg",
+      "sha256": "56a8609a9a5ab307076f2bf13ffa764a88adb8a3fe7c8588be896d2cb4f29011"
+    },
+    {
+      "source": "_archive/src/content/talks/its-scary-using-new-ai-technology/IMG_8261-1067x800.jpg",
+      "destination": "src/content/talks/its-scary-using-new-ai-technology/IMG_8261-1067x800.jpg",
+      "sha256": "0205e2422e9a696fc4badef90349c8afc297be6dd5727847439f439d314497dd"
+    },
+    {
+      "source": "_archive/src/content/talks/modernization-journey/modernization-journey_image.jpg",
+      "destination": "src/content/talks/modernization-journey/modernization-journey_image.jpg",
+      "sha256": "ed4a1540759effbb80f43b8db6b99f1afdc1d57bb24172a1e213961692e9bbc4"
+    },
+    {
+      "source": "_archive/src/content/talks/no-mission-impossible/Slide2.jpg",
+      "destination": "src/content/talks/no-mission-impossible/Slide2.jpg",
+      "sha256": "ca569e3d8aefd69b856f163aad6e8e8f8e99eee7592420369500724e504cf12e"
+    }
+  ]
+}

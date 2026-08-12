@@ -1,0 +1,11 @@
+@import "tailwindcss" source(none);
+@plugin "@tailwindcss/typography";
+@source "../_includes";
+@source "../*.webc";
+@source "../blog";
+@source "../events";
+@source "../talks";
+
+@theme {
+  --font-sans: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}

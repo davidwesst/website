@@ -1,52 +1,71 @@
 import pluginWebc from "@11ty/eleventy-plugin-webc";
-import sitemapPlugin from "@quasibit/eleventy-plugin-sitemap";
+import { existsSync, readdirSync } from "node:fs";
 import path from "node:path";
-import site from "./src/_data/site.js";
-import { getDocuments, getEvents, getPageDocuments, getPostDocuments } from "./src/_lib/content/index.js";
+import { canonicalAssetDirectory } from "./lib/content-routing.js";
 
-export default function(eleventyConfig) {
+const IMAGE_EXTENSIONS = new Set([".gif", ".jpeg", ".jpg", ".png", ".webp"]);
+
+function slash(value) {
+  return value.replaceAll("\\", "/");
+}
+
+function colocatedAssets() {
+  const contentRoot = path.resolve("src/content");
+  if (!existsSync(contentRoot)) return {};
+  return Object.fromEntries(readdirSync(contentRoot, { recursive: true, withFileTypes: true })
+    .filter((entry) => entry.isFile() && IMAGE_EXTENSIONS.has(path.extname(entry.name).toLowerCase()))
+    .map((entry) => {
+      const source = entry.parentPath ? path.join(entry.parentPath, entry.name) : path.join(entry.path, entry.name);
+      const relative = path.relative(contentRoot, source);
+      return [slash(source), `${canonicalAssetDirectory(relative)}/${entry.name}`];
+    }));
+}
+
+function topicSlug(value) {
+  return String(value)
+    .normalize("NFKD")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+export default function (eleventyConfig) {
+  eleventyConfig.addPlugin(pluginWebc, {
+    components: "src/_includes/components/**/*.webc",
+  });
+  eleventyConfig.addPassthroughCopy("src/assets");
+  if (existsSync(path.resolve(".cache", "igdb", "images"))) {
+    eleventyConfig.addPassthroughCopy({ ".cache/igdb/images": "assets/igdb" });
+  }
+  eleventyConfig.addPassthroughCopy({
+    "node_modules/@fortawesome/fontawesome-free/css/all.min.css": "assets/fontawesome.css",
+    "node_modules/@fortawesome/fontawesome-free/webfonts": "webfonts",
+  });
+  eleventyConfig.addPassthroughCopy(colocatedAssets());
+  eleventyConfig.addFilter("topicSlug", topicSlug);
+  eleventyConfig.addCollection("topicPages", (collectionApi) => {
+    const topics = new Map();
+    const items = collectionApi
+      .getAll()
+      .filter((item) => ["article", "gamelog", "dungeonlog", "talk"].includes(item.data.type));
+
+    for (const item of items) {
+      for (const topic of item.data.topics || []) {
+        const slug = topicSlug(topic);
+        if (!topics.has(slug)) topics.set(slug, { name: topic, slug, items: [] });
+        topics.get(slug).items.push(item);
+      }
+    }
+
+    return [...topics.values()]
+      .map((topic) => ({
+        ...topic,
+        items: topic.items.sort((left, right) => right.date - left.date),
+      }))
+      .sort((left, right) => left.name.localeCompare(right.name));
+  });
   eleventyConfig.setInputDirectory("src");
   eleventyConfig.setIncludesDirectory("_includes");
   eleventyConfig.setLayoutsDirectory("_includes/layouts");
   eleventyConfig.setOutputDirectory("_site");
-  eleventyConfig.addPassthroughCopy("src/assets");
-
-  eleventyConfig.addPlugin(sitemapPlugin, {
-    sitemap: {
-      hostname: site.url,
-    },
-  });
-
-  eleventyConfig.addPlugin(pluginWebc, {
-    components: "src/_includes/components/**/*.webc",
-  });
-
-  for (const document of getDocuments()) {
-    for (const asset of document.meta.assets) {
-      eleventyConfig.addPassthroughCopy({
-        [asset]: `${document.canonicalUrl.replace(/^\//, "")}${path.basename(asset)}`,
-      });
-    }
-  }
-
-  eleventyConfig.addCollection("sitePages", (collectionApi) => {
-    return collectionApi
-      .getAll()
-      .filter((item) => item.url && item.outputPath && !item.data.eleventyExcludeFromCollections);
-  });
-
-  eleventyConfig.addCollection("siteIndexPages", (collectionApi) => {
-    return collectionApi
-      .getAll()
-      .filter((item) => item.url && item.outputPath && !item.data.eleventyExcludeFromCollections)
-      .filter((item) => !item.data.eleventyExcludeFromSiteIndex);
-  });
-
-  eleventyConfig.addCollection("documents", () => getDocuments());
-  eleventyConfig.addCollection("pages", () => getPageDocuments());
-  eleventyConfig.addCollection("posts", () => getPostDocuments());
-  eleventyConfig.addCollection("reviews", () => getDocuments().filter((document) => document.docType === "review"));
-  eleventyConfig.addCollection("sessions", () => getDocuments().filter((document) => document.docType === "session"));
-  eleventyConfig.addCollection("talks", () => getDocuments().filter((document) => document.docType === "talk"));
-  eleventyConfig.addCollection("events", () => getEvents());
 }
