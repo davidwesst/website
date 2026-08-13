@@ -1,4 +1,4 @@
-# davidwesst.ca
+# david.wes.st -- The Website Project
 
 A minimal Eleventy site using Markdown for content, WebC for components and layouts, and Tailwind CSS for styling.
 
