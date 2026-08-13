@@ -39,7 +39,7 @@ export default class StaticWebAppConfig {
       if (!seen.has(route.route)) routes.push(route);
     }
 
-    const output = JSON.stringify({ trailingSlash: "always", routes }, null, 2);
+    const output = JSON.stringify({ trailingSlash: "auto", routes }, null, 2);
     if (Buffer.byteLength(output) > 20 * 1024) throw new Error("staticwebapp.config.json exceeds Azure's 20 KB limit");
     return output;
   }

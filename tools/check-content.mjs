@@ -253,7 +253,7 @@ const configPath = path.join(OUTPUT_ROOT, "staticwebapp.config.json");
 const configSource = readFileSync(configPath, "utf8");
 assert.ok(Buffer.byteLength(configSource) <= 20 * 1024, "Azure Static Web Apps configuration exceeds 20 KB");
 const config = JSON.parse(configSource);
-assert.equal(config.trailingSlash, "always");
+assert.equal(config.trailingSlash, "auto");
 const configuredRoutes = new Map(config.routes.map((route) => [route.route, route]));
 assert.equal(configuredRoutes.get("/blog/gamelog/entry.html")?.rewrite, "/legacy/gamelog-entry.html");
 assert.equal(configuredRoutes.get("/blog/gamelog/")?.redirect, BLOG_INDEX_ROUTES.gamelogs);
