@@ -47,6 +47,17 @@ test("the home page renders the Ghostwind shell and configured content", async (
   assert.equal($("footer a[href='https://www.11ty.dev/']").text(), "Build Awesome / 11ty");
 });
 
+test("Font Awesome CSS and webfonts are included in the build", async () => {
+  const stylesheet = await readFile(join(output, "assets", "fontawesome.css"), "utf8");
+  const brandsFont = await readFile(join(output, "webfonts", "fa-brands-400.woff2"));
+  const solidFont = await readFile(join(output, "webfonts", "fa-solid-900.woff2"));
+
+  assert.match(stylesheet, /url\(\.\.\/webfonts\/fa-brands-400\.woff2\)/);
+  assert.match(stylesheet, /url\(\.\.\/webfonts\/fa-solid-900\.woff2\)/);
+  assert.ok(brandsFont.length > 0);
+  assert.ok(solidFont.length > 0);
+});
+
 test("featured descriptions prefer summaries and fall back to the Markdown introduction", () => {
   assert.equal(
     getPostDescription({ data: { summary: "Authored summary" }, templateContent: "<p>Body introduction</p>" }),
@@ -188,7 +199,7 @@ test("indexes, topics, compatibility pages, and standalone pages render", async 
 
 test("Azure redirects and the legacy query dispatcher are generated", async () => {
   const config = JSON.parse(await readFile(join(output, "staticwebapp.config.json"), "utf8"));
-  assert.equal(config.trailingSlash, "always");
+  assert.equal(config.trailingSlash, "auto");
   assert.ok(config.routes.some((route) => route.route === "/talks/concensus-in-the-chaos/" && route.statusCode === 301));
   assert.ok(config.routes.some((route) => route.route === "/blog/gamelog/entry.html" && route.rewrite === "/legacy/gamelog-entry.html"));
   assert.ok(config.routes.some((route) => route.route === "/blog/gamelog/clair-obscur-expedition-33/" && route.redirect === "/blog/clair-obscur-expedition-33/" && route.statusCode === 301));
