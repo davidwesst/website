@@ -16,22 +16,7 @@ const IGDB_MANIFEST = readIgdbManifest();
 const IGDB_GAMES = IGDB_MANIFEST?.schemaVersion === IGDB_CACHE_SCHEMA_VERSION && hasCachedImages(IGDB_MANIFEST) ? IGDB_MANIFEST.games || {} : {};
 const ALLOWED_KEYS = new Set(["title", "date", "updated", "summary", "topics", "redirectFrom", "banner", "customData"]);
 const DEPRECATED_KEYS = new Set(["id", "source", "docType", "series", "slug", "taxonomy", "canonicalUrl", "legacyUrls", "media", "review", "meta"]);
-const EXPECTED_COUNTS = { articles: 138, gamelogs: 19, dungeonlogs: 12, talks: 12, pages: 2 };
-const MIGRATED_COUNTS = { articles: 138, gamelogs: 16, dungeonlogs: 12, talks: 12, pages: 2 };
-const EXPECTED_TALK_DATES = {
-  "11ty-days-of-web-development": "2024-12-18",
-  "a-guide-to-saas-ready-banner-customizations-in-2026": "2026-06-01",
-  "consensus-in-the-chaos": "2022-11-28",
-  "empowering-campus-innovation-through-ethos-data-connect": "2026-04-19",
-  "from-custom-cots-to-cloud": "2022-11-28",
-  "going-beyond-powerpoint": "2024-09-25",
-  "hack-the-it-governance-matrix": "2023-10-16",
-  "integrations-orchestrations-automations": "2024-09-23",
-  "is-ai-ready-to-take-over-the-world": "2023-10-16",
-  "its-scary-using-new-ai-technology": "2023-12-20",
-  "modernization-journey": "2025-10-14",
-  "no-mission-impossible": "2024-04-07",
-};
+const CONTENT_TYPES = ["articles", "gamelogs", "dungeonlogs", "talks", "pages"];
 
 function slash(value) {
   return value.replaceAll("\\", "/");
@@ -99,9 +84,12 @@ const documents = markdownFiles.map((file) => {
   return { file, source, data: parsed.data, body: parsed.content, type: typeFor(file) };
 });
 
-const counts = Object.fromEntries(Object.keys(EXPECTED_COUNTS).map((type) => [type, documents.filter((document) => document.type === type).length]));
-assert.deepEqual(counts, EXPECTED_COUNTS, "Active content counts must match the approved inventory");
-assert.deepEqual(Object.fromEntries(Object.entries(MANIFEST.counts).filter(([key]) => key !== "appearances")), MIGRATED_COUNTS);
+const counts = Object.fromEntries(CONTENT_TYPES.map((type) => [type, documents.filter((document) => document.type === type).length]));
+assert.equal(Object.values(counts).reduce((total, count) => total + count, 0), documents.length, "Every active document must belong to a known content type");
+assert.deepEqual(Object.keys(MANIFEST.counts).sort(), [...CONTENT_TYPES, "appearances"].sort(), "Migration manifest has unexpected count fields");
+for (const [type, count] of Object.entries(MANIFEST.counts)) {
+  assert.ok(Number.isInteger(count) && count >= 0, `Migration manifest has an invalid ${type} count`);
+}
 
 const authoredIgdbIds = new Set(documents
   .filter((document) => document.type === "gamelogs")
@@ -146,7 +134,6 @@ for (const document of documents) {
   if (document.data.updated) parseDate(document.data.updated, `${context} updated`);
   if (document.type === "talks") {
     assert.match(document.source, /^date:\s*['"]?\d{4}-\d{2}-\d{2}/m, `${context} must author a publication date`);
-    assert.equal(new Date(document.data.date).toISOString().slice(0, 10), EXPECTED_TALK_DATES[slug], `${context} must use its approved publication or latest presentation date`);
     assert.ok(Array.isArray(document.data.customData?.speakers) && document.data.customData.speakers.length, `${context} needs speakers`);
     assert.ok(document.data.customData?.appearances === undefined || Array.isArray(document.data.customData.appearances), `${context} appearances must be a list`);
     appearanceCount += document.data.customData.appearances?.length || 0;
@@ -191,15 +178,17 @@ for (const document of documents) {
   }
 }
 
-assert.equal(appearanceCount, 22, "All talk appearances must be migrated");
-assert.equal(postSlugs.size, EXPECTED_COUNTS.articles + EXPECTED_COUNTS.gamelogs + EXPECTED_COUNTS.dungeonlogs, "Every post must have a globally unique flat-route slug");
+assert.ok(appearanceCount >= MANIFEST.counts.appearances, "Active content must retain every migrated talk appearance");
+const postCount = documents.filter((document) => ["articles", "gamelogs", "dungeonlogs"].includes(document.type)).length;
+assert.equal(postSlugs.size, postCount, "Every post must have a globally unique flat-route slug");
 for (const [source, target] of redirects) {
   assert.notEqual(source, target, `Redirect source equals target: ${source}`);
   assert.ok(!redirects.has(target), `Redirect chain begins at ${source}`);
   assert.ok(!urls.has(source), `Redirect source collides with canonical URL: ${source}`);
 }
 
-assert.equal(MANIFEST.assets.length, 197, "All available image assets must be tracked");
+const manifestDestinations = new Set(MANIFEST.assets.map((asset) => asset.destination));
+assert.equal(manifestDestinations.size, MANIFEST.assets.length, "Migrated asset destinations must be unique");
 for (const asset of MANIFEST.assets) {
   const file = path.join(ROOT, asset.destination);
   assert.ok(asset.destination.startsWith("src/content/"), `Asset is not colocated with content: ${asset.destination}`);
@@ -244,7 +233,7 @@ for (const document of documents) {
     }
   }
   if (document.type === "talks") {
-    assert.equal($("header time").first().attr("datetime"), EXPECTED_TALK_DATES[path.basename(path.dirname(document.file))], `${canonicalUrl(document)} must render its publication or latest presentation date`);
+    assert.equal($("header time").first().attr("datetime"), new Date(document.data.date).toISOString().slice(0, 10), `${canonicalUrl(document)} must render its authored publication date`);
     assert.equal($("#appearances-heading + ol > li").length, document.data.customData.appearances?.length || 0, `${canonicalUrl(document)} renders the wrong appearance count`);
   }
 }

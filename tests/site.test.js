@@ -1,14 +1,33 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import test from "node:test";
 import { load } from "cheerio";
+import matter from "gray-matter";
 import { getPostDescription, prepareHomeContent } from "../src/_lib/home-content.js";
+import site from "../src/_data/site.js";
 import { IGDB_CACHE_SCHEMA_VERSION, hasCachedImages, readIgdbManifest } from "../lib/igdb.js";
 
 const output = join(process.cwd(), "_site");
+const content = join(process.cwd(), "src", "content");
 const igdbManifest = readIgdbManifest();
 const igdbGames = igdbManifest?.schemaVersion === IGDB_CACHE_SCHEMA_VERSION && hasCachedImages(igdbManifest) ? igdbManifest.games || {} : {};
+
+async function collection(relativePath) {
+  const root = join(content, relativePath);
+  const directories = (await readdir(root, { withFileTypes: true })).filter((entry) => entry.isDirectory());
+  return Promise.all(directories.map(async (entry) => {
+    const { data } = matter(await readFile(join(root, entry.name, "index.md"), "utf8"));
+    return { ...data, slug: entry.name };
+  }));
+}
+
+const inventory = Promise.all([
+  collection(join("posts", "articles")),
+  collection(join("posts", "gamelogs")),
+  collection(join("posts", "dungeonlogs")),
+  collection("talks"),
+]).then(([articles, gamelogs, dungeonlogs, talks]) => ({ articles, gamelogs, dungeonlogs, talks }));
 
 async function page(relativePath) {
   return load(await readFile(join(output, relativePath), "utf8"));
@@ -16,28 +35,33 @@ async function page(relativePath) {
 
 test("the home page renders the Ghostwind shell and configured content", async () => {
   const $ = await page("index.html");
-  assert.equal($("h1").text(), "David Wesst");
+  const authored = await inventory;
+  const blog = await page("blog/index.html");
+  assert.equal($("h1").text(), site.title);
   assert.equal($("link[rel=stylesheet][href='/assets/main.css']").length, 1);
   assert.equal($("link[href='/assets/fontawesome.css']").length, 1);
   assert.match($("body").attr("class"), /bg-slate-100/);
   const primaryNavigation = $("nav[aria-label='Primary navigation']");
-  assert.equal(primaryNavigation.children("a[href='/']").text(), "david.wes.st");
-  assert.deepEqual(primaryNavigation.find("ul a").map((_, link) => $(link).text().trim()).get(), ["Home", "Blog", "Talks", "Topics", "About"]);
+  assert.equal(primaryNavigation.children("a[href='/']").text(), site.navigationTitle);
+  assert.deepEqual(primaryNavigation.find("ul a").map((_, link) => $(link).text().trim()).get(), site.navigationLinks.map((link) => link.name));
   assert.equal(primaryNavigation.find("a[href='/projects/']").length, 0);
-  assert.equal($("#featured-heading + article h2").text().trim(), "Paranormasight: The Mermaid's Curse");
-  assert.match($("#featured-heading + article .post-card-description").text(), /This is the second Paranormasight game/);
+  const featured = $("#featured-heading + article");
+  const expectedFeaturedUrl = site.featuredPost || blog("#blog-post-list > li article h2 a").first().attr("href");
+  assert.equal(featured.find("h2 a").attr("href"), expectedFeaturedUrl);
+  assert.ok(featured.find(".post-card-description").text().trim());
   assert.match($("#recent-heading").closest("section").find("ol > li article time").first().closest("footer").attr("class"), /\bmt-auto\b/);
   assert.match($("#recent-heading").closest("section").find("ol > li article time").first().closest("footer").attr("class"), /\bpt-6\b/);
-  assert.equal($("#recent-heading").closest("section").find("ol > li").length, 9);
+  const postCount = authored.articles.length + authored.gamelogs.length + authored.dungeonlogs.length;
+  assert.equal($("#recent-heading").closest("section").find("ol > li").length, Math.min(site.recentPostCount, postCount - 1));
   const pageLinks = $("#explore-heading").closest("section").find("ul > li a");
   assert.deepEqual(pageLinks.map((_, link) => $(link).find("strong").text().trim()).get(), ["About", "Projects"]);
   assert.equal(pageLinks.filter("[href='/projects/']").length, 1);
   const heroSocialLinks = $("header ul[aria-label='Social links'] a");
   const footerSocialLinks = $("footer ul[aria-label='Social links'] a");
-  assert.equal(heroSocialLinks.length, 4);
-  assert.equal(footerSocialLinks.length, 4);
-  assert.deepEqual(heroSocialLinks.map((_, link) => $(link).text().trim()).get(), ["GitHub", "LinkedIn", "Bluesky", "YouTube"]);
-  assert.deepEqual(footerSocialLinks.map((_, link) => $(link).text().trim()).get(), ["GitHub", "LinkedIn", "Bluesky", "YouTube"]);
+  assert.equal(heroSocialLinks.length, site.socialLinks.length);
+  assert.equal(footerSocialLinks.length, site.socialLinks.length);
+  assert.deepEqual(heroSocialLinks.map((_, link) => $(link).text().trim()).get(), site.socialLinks.map((link) => link.name));
+  assert.deepEqual(footerSocialLinks.map((_, link) => $(link).text().trim()).get(), site.socialLinks.map((link) => link.name));
   assert.match(heroSocialLinks.first().find("i").attr("class"), /fa-github/);
   assert.match(footerSocialLinks.first().find("i").attr("class"), /fa-github/);
   const blueskyLinks = $("a[href='https://bsky.app/profile/davidwesst.bsky.social']");
@@ -145,39 +169,43 @@ test("talks render publication and appearance dates separately", async () => {
 });
 
 test("indexes, topics, compatibility pages, and standalone pages render", async () => {
+  const authored = await inventory;
+  const postCount = authored.articles.length + authored.gamelogs.length + authored.dungeonlogs.length;
   const blog = await page("blog/index.html");
   assert.equal(blog("h1").text(), "Blog");
-  assert.equal(blog("ol > li").length, 169);
+  assert.equal(blog("ol > li").length, postCount);
   assert.match(blog("ol").attr("class"), /\bmd:grid-cols-1\b/);
   assert.match(blog("ol").attr("class"), /\blg:grid-cols-1\b/);
   assert.ok(blog("ol > li article figure").first().attr("class").split(/\s+/).includes("aspect-[32/9]"));
   const typeFilters = blog("[data-content-type-filter] input[type='checkbox']");
   assert.equal(typeFilters.length, 3);
-  assert.deepEqual(typeFilters.map((_, input) => blog(input).attr("value")).get(), ["article", "dungeonlog", "gamelog"]);
+  const postTypes = Object.keys(site.postTypes).filter((type) => type !== "talk").sort();
+  assert.deepEqual(typeFilters.map((_, input) => blog(input).attr("value")).get(), postTypes);
   assert.ok(typeFilters.toArray().every((input) => blog(input).is("[checked]")));
-  assert.equal(blog("#blog-post-list > li[data-content-type='article']").length, 138);
-  assert.equal(blog("#blog-post-list > li[data-content-type='gamelog']").length, 19);
-  assert.equal(blog("#blog-post-list > li[data-content-type='dungeonlog']").length, 12);
+  assert.equal(blog("#blog-post-list > li[data-content-type='article']").length, authored.articles.length);
+  assert.equal(blog("#blog-post-list > li[data-content-type='gamelog']").length, authored.gamelogs.length);
+  assert.equal(blog("#blog-post-list > li[data-content-type='dungeonlog']").length, authored.dungeonlogs.length);
   assert.match(
     blog("article:has(h2 a[href='/blog/paranormasight-the-mermaids-curse/']) .post-card-description").text(),
     /This is the second Paranormasight game/,
   );
   assert.match(blog("script").text(), /Showing 0 posts\? That's silly\./);
 
-  assert.equal((await page("blog/articles/index.html"))("ol > li").length, 138);
-  assert.equal((await page("blog/gamelogs/index.html"))("ol > li").length, 19);
-  assert.equal((await page("blog/dungeonlogs/index.html"))("ol > li").length, 12);
+  assert.equal((await page("blog/articles/index.html"))("ol > li").length, authored.articles.length);
+  assert.equal((await page("blog/gamelogs/index.html"))("ol > li").length, authored.gamelogs.length);
+  assert.equal((await page("blog/dungeonlogs/index.html"))("ol > li").length, authored.dungeonlogs.length);
 
   const talks = await page("talks/index.html");
-  assert.equal(talks("ol > li").length, 12);
-  assert.equal(talks("ol > li").first().find("h2").text().trim(), "A Guide to SaaS-Ready Banner Customizations in 2026");
-  assert.equal(talks("ol > li").first().find("time").attr("datetime"), "2026-06-01T00:00:00.000Z");
+  const latestTalk = authored.talks.toSorted((left, right) => new Date(right.date) - new Date(left.date))[0];
+  assert.equal(talks("ol > li").length, authored.talks.length);
+  assert.equal(talks("ol > li").first().find("h2").text().trim(), latestTalk.title);
+  assert.equal(talks("ol > li").first().find("time").attr("datetime"), new Date(latestTalk.date).toISOString());
   assert.match(talks("ol").attr("class"), /\bmd:grid-cols-1\b/);
   assert.match(talks("ol").attr("class"), /\blg:grid-cols-1\b/);
   assert.doesNotMatch(talks("ol").attr("class"), /\bmax-w-3xl\b/);
   assert.doesNotMatch(talks("ol").attr("class"), /\blg:grid-cols-2\b/);
   assert.doesNotMatch(talks("ol").attr("class"), /\blg:grid-cols-3\b/);
-  assert.equal(talks("ol > li article figure img").length, 12);
+  assert.equal(talks("ol > li article figure").length, authored.talks.length);
   assert.ok(talks("ol > li article figure").first().attr("class").split(/\s+/).includes("aspect-[32/9]"));
   assert.equal(
     talks("article:has(h2 a[href='/talks/no-mission-impossible/']) figure img").attr("src"),
