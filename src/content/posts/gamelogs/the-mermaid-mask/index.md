@@ -34,13 +34,43 @@ There were a few times that we were very confident in our answers only to find o
 
 This sort of thing is common in deduction games. In fact, I would probably argue that is meant to be part of the experience. But, it's just not my thing. I laugh it off and it doesn't take away from the experience for me, but I find it a little frustrating.
 
+### The Ending
+
+I will not elaborate on this, however the [Tangle Tower][1] ended in a similar way I didn't like that either. 
+
+Endings are up the author, and clearly the authors of these games have a particular way to end them. I can draw some good reasons on _why_ they ended the games the way they did-- but I would have them preferred to have ended differently.
+
 ## What I Liked
 
 ### Visual Style
 
 Something about the look of this game really vibed with me. When I reviewed [Tangle Tower][1], I noted that the art reminded me of Day of the Tentacle and was child friendly.
 
-The art is not too different, but it just feels better and has a 
+The art hasn't evolved much, but enough that it feels like it flows together better than it did previously. The animation has more polish to it, and each character has a unique style that fits together well with the rest of them.
+
+After completing the game, you get to review some of the notes from the developers and see how the art evolved into what it is. Reading through the notes and seeing the drawings you get the idea that the team working on this had the necessary experience to make the game they wanted to make, and based on my simple opinion, it shows.
+
+### Clue System
+
+The Mermaid Mask has a few clue system to nudge you in the right way, depending on what you're doing in the game. 
+
+I like to think of these clue systems as the way to adjust the difficulty level of the game. You can turn some or all of these systems off, but I wanted to keep them on as I am not a big fan of sifting through all the clues looking for the needle in the haystack that I missed along my journey. Or, even worse, that I drew a wrong conclusion and now I need to rewire my thinking to find a new conclusion and lose all my momentum while sifting through all the clue for the fourth time.
+
+I play games like this for the puzzles and exploration and deductive reasoning, and although I don't mind rethinking things once and while, I really dislike losing all my investigative momentum.
+
+I realize that plenty of people love doing that-- but that is the sort of thing I do in my day job and I don't want to spend my spare time thinking like to do at work.
+
+### Balanced Subject Matter Delivery
+
+Although the topic of murder is heavy subject matter for anyway, it is a very good and traditional mystery storytelling device that I enjoy reading, watching, or playing. The way the developers have delivered this story about solving a murder is a great balance between not trivializing the severity of the crime, while not focusing too much on the scary parts of it.
+
+It is hard to explain, but I can say they balanced the narrative well to make it as friendly as it needed to be. More storytellers could learn from these folks.
 
 ## The Conclusion
+
+I really enjoyed playing this game with my family.
+
+It was family-friendly enough for everyone to participate and presented in a delightful way that is able to go from light-hearted to heavy as necessary. 
+
+I highly recommend playing this in a group if you have your own team investigators, but even if you are a hard boiled one-person detective, The Mermaid Mask is a fun one.
 
