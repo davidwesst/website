@@ -9,6 +9,7 @@
     <link webc:keep rel="stylesheet" href="/assets/fontawesome.css">
     <link webc:keep rel="stylesheet" href="/assets/main.css">
     <title @text="title === site.title ? site.title : `${title} | ${site.title}`"></title>
+    <application-insights :@enabled="telemetry.enabled"></application-insights>
   </head>
   <body class="min-h-screen bg-slate-100 text-slate-900 antialiased">
     <header :class="page.url === '/' ? 'site-hero' : 'bg-slate-950 shadow-lg'">

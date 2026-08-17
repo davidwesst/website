@@ -6,6 +6,45 @@ import {
   sanitizeTelemetryText,
   sanitizeTelemetryUrl,
 } from "../src/_lib/telemetry-policy.js";
+import {
+  resolveBranchName,
+  telemetryBuildConfig,
+  validateConnectionString,
+} from "../lib/telemetry-build.js";
+
+const validConnectionString = [
+  "InstrumentationKey=00000000-0000-4000-8000-000000000001",
+  "IngestionEndpoint=https://canadacentral-1.in.applicationinsights.azure.com/",
+].join(";");
+
+test("branch resolution prefers GitHub and falls back to the current Git branch", () => {
+  assert.equal(resolveBranchName({ githubRefName: "main", readCurrentBranch: () => "ignored" }), "main");
+  assert.equal(resolveBranchName({ githubRefName: "", readCurrentBranch: () => "ft/telemetry\n" }), "ft/telemetry");
+});
+
+test("only main enables telemetry and requires a valid connection string", () => {
+  assert.deepEqual(telemetryBuildConfig({ branchName: "ft/telemetry", connectionString: validConnectionString }), {
+    branchName: "ft/telemetry",
+    enabled: false,
+    connectionString: null,
+  });
+  assert.throws(() => telemetryBuildConfig({ branchName: "main", connectionString: "" }), /is required/);
+  assert.throws(
+    () => telemetryBuildConfig({ branchName: "main", connectionString: "InstrumentationKey=invalid" }),
+    /valid InstrumentationKey/,
+  );
+  assert.equal(
+    telemetryBuildConfig({ branchName: "main", connectionString: validConnectionString }).connectionString,
+    validConnectionString,
+  );
+});
+
+test("connection string validation rejects non-HTTPS ingestion endpoints", () => {
+  assert.throws(
+    () => validateConnectionString("InstrumentationKey=00000000-0000-4000-8000-000000000001;IngestionEndpoint=http://example.com"),
+    /must use HTTPS/,
+  );
+});
 
 test("Application Insights configuration permits only operational telemetry", () => {
   const config = createApplicationInsightsConfig("InstrumentationKey=test");
