@@ -297,11 +297,15 @@ test("page metadata derives a pre-render description from authored Markdown", ()
 test("sitemap, robots, and feeds expose canonical content", async () => {
   const sitemap = await readFile(join(output, "sitemap.xml"), "utf8");
   assert.match(sitemap, /https:\/\/david\.wes\.st\/blog\/paranormasight-the-mermaids-curse\//);
+  assert.match(sitemap, /https:\/\/david\.wes\.st\/blog\/articles\//);
+  assert.match(sitemap, /https:\/\/david\.wes\.st\/topics\/eleventy\//);
   assert.doesNotMatch(sitemap, /\/categories\//);
   const robots = await readFile(join(output, "robots.txt"), "utf8");
   assert.match(robots, /Sitemap: https:\/\/david\.wes\.st\/sitemap\.xml/);
   for (const file of ["feed.xml", "blog/articles/feed.xml", "blog/gamelogs/feed.xml", "blog/dungeonlogs/feed.xml", "talks/feed.xml"]) {
     const feed = await readFile(join(output, file), "utf8");
     assert.match(feed, /<feed xmlns="http:\/\/www\.w3\.org\/2005\/Atom">/);
+    assert.match(feed, /<author><name>David Wesst<\/name>/);
+    assert.match(feed, new RegExp(`<id>https://david\\.wes\\.st/${file.replaceAll(".", "\\.")}</id>`));
   }
 });
