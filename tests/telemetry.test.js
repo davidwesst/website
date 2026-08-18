@@ -57,6 +57,7 @@ test("Application Insights configuration permits only operational telemetry", ()
   assert.equal(config.enableUnhandledPromiseRejectionTracking, true);
   assert.equal(config.disableAjaxTracking, false);
   assert.equal(config.disableFetchTracking, false);
+  assert.deepEqual(config.disablePageUnloadEvents, ["unload"]);
   assert.equal(config.enableRequestHeaderTracking, false);
   assert.equal(config.enableResponseHeaderTracking, false);
   assert.equal(config.disableCorrelationHeaders, true);
