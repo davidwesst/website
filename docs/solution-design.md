@@ -14,6 +14,7 @@ The active site publishes:
 - Blog, Articles, Gamelogs, Dungeonlogs, Talks, and Topics indexes
 - generated pages for topics shared by posts and talks
 - stable content assets and legacy URL compatibility
+- production-only client operational telemetry for diagnosing errors, load performance, and failed network requests
 
 Talks are a separate content family from posts. Both use the shared authored fields and presentation components, while their type-specific data remains under `customData`.
 
@@ -26,6 +27,7 @@ Talks are a separate content family from posts. Both use the shared authored fie
 - WebC for layouts and reusable web components
 - Tailwind CSS at the version declared by the dependency manifest
 - Font Awesome Free for locally hosted post-type icons
+- the lockfile-controlled Application Insights JavaScript SDK, bundled at build time and served as a first-party asset
 - Node scripts for deterministic migration and output integrity validation
 
 ## Authored content model
@@ -54,6 +56,18 @@ Detail pages render semantic articles with a single top-level heading, publicati
 
 Repository-controlled global site data defines the title, tagline, social links and their Font Awesome icon classes, post-type labels/icons/colors, recent-post count, and optional featured-post canonical URL. The same social-link component renders labeled icon links in the home hero and site footer. A null featured-post value selects the newest post; an invalid explicit URL fails the build.
 
+The base shell contains only a minimal integration point for operational telemetry. Application Insights-specific configuration, filtering, and sanitization remain isolated in a dedicated client module. The integration is emitted only for the `main` branch and loads executable code exclusively from the site's `/assets/` path.
+
+## Operational telemetry
+
+The `main` branch is the production site. Its build requires `APPLICATIONINSIGHTS_CONNECTION_STRING` and fails before rendering when that value is missing or invalid. Other branches do not generate or reference the telemetry asset, even if the connection string is present, so development and pull-request activity cannot contaminate production telemetry. Build context is derived from `GITHUB_REF_NAME` when available and otherwise from the current Git branch; there is no separate environment flag.
+
+Application Insights is limited to operational observability. It collects uncaught client exceptions, unhandled promise rejections, page-load performance, failed XMLHttpRequest and Fetch dependencies, and coarse browser, operating-system, device-category, and Azure-provided geographic context. Successful dependencies, clicks, custom engagement events, time on page, single-page-application route changes, request and response headers, DOM or authored content, query strings, fragments, and persistent user or session identifiers are excluded.
+
+The client disables cookies and local and session storage. A telemetry initializer removes user, authenticated-user, and session identifiers; reduces page and dependency URLs to origins and pathnames; sanitizes exception URLs; discards successful dependencies; and prevents ingestion requests from being recorded as dependencies. Azure IP masking remains enabled so the ingestion service can derive coarse geography without retaining the client IP address.
+
+The official browser SDK is a lockfile-controlled build dependency. Every production build bundles the installed version together with the repository-controlled initializer and publishes the result as `/assets/telemetry/application-insights.js`. No runtime CDN fallback is allowed. The Azure ingestion endpoint remains an external data destination, but all executable browser resources are served by the site itself. SDK upgrades are intentional dependency updates rather than floating downloads during a build.
+
 ## Migration and assets
 
 `tools/content-migration/migrate.mjs` is the only active tool allowed to read `_archive`. It parses archived front matter and event records, normalizes taxonomy and type-specific data, rewrites recoverable image references, records missing images, removes unsupported migration artifacts, and produces the active content through a staging directory.
@@ -64,6 +78,8 @@ Repository-controlled global site data defines the title, tagline, social links 
 Available authored binary assets are copied byte-for-byte beside their owning `src/content/.../index.md` file. Eleventy maps each colocated authored image to the same canonical output directory as its rendered document, so source ownership and published ownership remain aligned. `src/_data/migration-manifest.json` records source and colocated destination hashes. `src/_data/asset-exceptions.json` records unavailable images; rendered content uses semantic unavailable-image notes instead of broken image elements.
 
 IGDB banner images are generated build assets rather than authored banners. The preparation step downloads artwork or screenshots at the resolution selected by the preparation configuration into the ignored `.cache/igdb/images/` directory, and Eleventy publishes them under `/assets/igdb/`. Known poor-fit IGDB banner image IDs can be rejected by the preparation layer so the deterministic selection falls through to a better candidate or placeholder. The accompanying normalized manifest uses the freshness window defined by the cache implementation. A stale manifest remains a non-blocking fallback when credentials or IGDB are unavailable; a build without any usable cache retains the existing placeholders. Cache refresh uses a batched games request for the current inventory, bounded retries for rate limits and server errors, and the download concurrency defined by the preparation implementation. The Twitch app access token is ephemeral and is never written to the cache.
+
+Application Insights browser code is also generated build data rather than authored content. Its preparation step writes only beneath `.cache/telemetry/`, and Eleventy publishes the resulting bundle under `/assets/telemetry/`. A production build fails instead of falling back to a third-party executable resource when telemetry configuration or asset preparation is unavailable.
 
 Azure routing is generated as `staticwebapp.config.json`, with trailing slashes, explicit redirects for changed canonical locations, and a size assertion. Archived hierarchical gamelog and dungeonlog detail routes redirect to the flat canonical post routes. Query-based legacy gamelog URLs use a generated noindex dispatcher at `/blog/gamelog/entry.html` backed by a validated slug map. RSS feeds can later select the existing `posts`, `articles`, `gamelogs`, and `dungeonlogs` collections independently of canonical URL shape.
 
@@ -79,5 +95,7 @@ The production build removes only `_site`, prepares the optional IGDB cache, ren
 - expected output for every migrated document
 - semantic page structure and representative type-specific rendering
 - absence of archive paths, raw front matter, unresolved WebC data, and migration markers
+- production-branch telemetry configuration, first-party script URLs, generated asset existence, and privacy-sensitive client settings
+- absence of telemetry integration on non-production branches and absence of runtime third-party executable telemetry resources
 
-`pnpm test` performs a production build, runs `check:content`, and then runs the Node test suite. Output tests retain home-page and stylesheet coverage and add representative checks for articles, gamelogs, dungeonlogs, talks, pages, indexes, topics, compatibility pages, redirects, and the legacy dispatcher. CI runs this complete suite on the repository-configured Node.js runtime and deploys the generated `_site` artifact.
+`pnpm test` performs a branch-aware build, runs `check:content`, and then runs the Node test suite. Output tests retain home-page and stylesheet coverage and add representative checks for articles, gamelogs, dungeonlogs, talks, pages, indexes, topics, compatibility pages, redirects, the legacy dispatcher, and telemetry policy. CI runs this complete suite on the repository-configured Node.js runtime. Builds of `main` receive the required Application Insights connection string, verify and upload the telemetry-enabled `_site` artifact, and deploy it; builds of every other branch verify telemetry-free output.

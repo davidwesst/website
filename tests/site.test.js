@@ -7,6 +7,7 @@ import matter from "gray-matter";
 import { getPostDescription, prepareHomeContent } from "../src/_lib/home-content.js";
 import site from "../src/_data/site.js";
 import { IGDB_CACHE_SCHEMA_VERSION, hasCachedImages, readIgdbManifest } from "../lib/igdb.js";
+import { telemetryBuildConfig } from "../lib/telemetry-build.js";
 
 const output = join(process.cwd(), "_site");
 const content = join(process.cwd(), "src", "content");
@@ -80,6 +81,26 @@ test("Font Awesome CSS and webfonts are included in the build", async () => {
   assert.match(stylesheet, /url\(\.\.\/webfonts\/fa-solid-900\.woff2\)/);
   assert.ok(brandsFont.length > 0);
   assert.ok(solidFont.length > 0);
+});
+
+test("operational telemetry is branch-gated and served as a first-party asset", async () => {
+  const $ = await page("index.html");
+  const telemetry = telemetryBuildConfig();
+  const script = $("script[src='/assets/telemetry/application-insights.js']");
+  const externalTelemetryScripts = $("script[src]").filter((_, element) => {
+    const src = $(element).attr("src");
+    return /^(?:https?:)?\/\//i.test(src) && /(?:applicationinsights|monitor\.azure|services\.visualstudio\.com)/i.test(src);
+  });
+
+  assert.equal(script.length, telemetry.enabled ? 1 : 0);
+  assert.equal(externalTelemetryScripts.length, 0);
+
+  const asset = readFile(join(output, "assets", "telemetry", "application-insights.js"), "utf8");
+  if (telemetry.enabled) {
+    assert.ok((await asset).length > 0);
+  } else {
+    await assert.rejects(asset, { code: "ENOENT" });
+  }
 });
 
 test("featured descriptions prefer summaries and fall back to the Markdown introduction", () => {

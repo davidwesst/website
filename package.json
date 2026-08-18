@@ -9,8 +9,9 @@
     "content:migrate:check": "node tools/content-migration/migrate.mjs --check",
     "prepare:igdb": "node tools/prepare-igdb.mjs",
     "prepare:igdb:local": "node tools/prepare-igdb-interactive.mjs",
+    "prepare:telemetry": "node tools/prepare-telemetry.mjs",
     "check:content": "node tools/check-content.mjs",
-    "build": "pnpm run clean && pnpm run prepare:igdb && pnpm run build:site && pnpm run build:css",
+    "build": "pnpm run clean && pnpm run prepare:igdb && pnpm run prepare:telemetry && pnpm run build:site && pnpm run build:css",
     "build:site": "eleventy",
     "build:css": "tailwindcss -i ./src/styles/main.css -o ./_site/assets/main.css --minify",
     "dev": "pnpm run prepare:igdb && concurrently --kill-others \"eleventy --serve\" \"tailwindcss -i ./src/styles/main.css -o ./_site/assets/main.css --watch=always\"",
@@ -26,12 +27,14 @@
     "@11ty/eleventy": "^3.1.5",
     "@11ty/eleventy-plugin-webc": "^0.11.2",
     "@fortawesome/fontawesome-free": "^7.3.1",
+    "@microsoft/applicationinsights-web": "^3.4.3",
     "@tailwindcss/cli": "^4.1.11",
     "concurrently": "^9.2.0",
     "tailwindcss": "^4.1.11"
   },
   "devDependencies": {
     "cheerio": "^1.2.0",
+    "esbuild": "^0.28.2",
     "gray-matter": "^4.0.3"
   }
 }

@@ -6,6 +6,7 @@ import { load } from "cheerio";
 import matter from "gray-matter";
 import { BLOG_INDEX_ROUTES, RESERVED_BLOG_SLUGS, canonicalContentUrl } from "../lib/content-routing.js";
 import { IGDB_CACHE_SCHEMA_VERSION, hasCachedImages, readIgdbManifest } from "../lib/igdb.js";
+import { telemetryBuildConfig } from "../lib/telemetry-build.js";
 
 const ROOT = process.cwd();
 const CONTENT_ROOT = path.join(ROOT, "src", "content");
@@ -17,6 +18,7 @@ const IGDB_GAMES = IGDB_MANIFEST?.schemaVersion === IGDB_CACHE_SCHEMA_VERSION &&
 const ALLOWED_KEYS = new Set(["title", "date", "updated", "summary", "topics", "redirectFrom", "banner", "customData"]);
 const DEPRECATED_KEYS = new Set(["id", "source", "docType", "series", "slug", "taxonomy", "canonicalUrl", "legacyUrls", "media", "review", "meta"]);
 const CONTENT_TYPES = ["articles", "gamelogs", "dungeonlogs", "talks", "pages"];
+const TELEMETRY = telemetryBuildConfig();
 
 function slash(value) {
   return value.replaceAll("\\", "/");
@@ -275,13 +277,23 @@ function resolveLocalTarget(currentFile, href) {
 }
 
 const htmlFiles = walkFiles(OUTPUT_ROOT, (file) => file.endsWith(".html"));
+const telemetryAsset = path.join(OUTPUT_ROOT, "assets", "telemetry", "application-insights.js");
+assert.equal(exactCaseExists(telemetryAsset), TELEMETRY.enabled, "Telemetry asset existence must match the build branch");
 const brokenLinks = [];
 for (const file of htmlFiles) {
   const source = readFileSync(file, "utf8");
-  assert.ok(!source.includes("_archive"), `${slash(path.relative(OUTPUT_ROOT, file))} leaks an archive path`);
-  assert.ok(!/MISSING_IMG|sediment:\/\/|oai_citation|\[object Object\]|\bwebc:|\s:[@a-z-]+=/i.test(source), `${slash(path.relative(OUTPUT_ROOT, file))} contains unresolved migration or WebC output`);
-  assert.equal(load(source)("template").length, 0, `${slash(path.relative(OUTPUT_ROOT, file))} contains inert template markup`);
+  const relativeOutput = slash(path.relative(OUTPUT_ROOT, file));
+  assert.ok(!source.includes("_archive"), `${relativeOutput} leaks an archive path`);
+  assert.ok(!/MISSING_IMG|sediment:\/\/|oai_citation|\[object Object\]|\bwebc:|\s:[@a-z-]+=/i.test(source), `${relativeOutput} contains unresolved migration or WebC output`);
+  assert.equal(load(source)("template").length, 0, `${relativeOutput} contains inert template markup`);
   const $ = load(source);
+  const telemetryExpected = TELEMETRY.enabled && relativeOutput !== "legacy/gamelog-entry.html";
+  assert.equal($("script[src='/assets/telemetry/application-insights.js']").length, telemetryExpected ? 1 : 0, `${relativeOutput} has the wrong telemetry integration`);
+  const externalTelemetryScripts = $("script[src]").filter((_, element) => {
+    const src = $(element).attr("src");
+    return /^(?:https?:)?\/\//i.test(src) && /(?:applicationinsights|monitor\.azure|services\.visualstudio\.com)/i.test(src);
+  });
+  assert.equal(externalTelemetryScripts.length, 0, `${relativeOutput} loads a third-party telemetry executable`);
   for (const image of $("img").toArray()) {
     const src = $(image).attr("src");
     assert.ok(src, `${slash(path.relative(OUTPUT_ROOT, file))} has an image without src`);

@@ -65,6 +65,7 @@ jobs:
       - name: Build and test
         run: pnpm test
         env:
+          APPLICATIONINSIGHTS_CONNECTION_STRING: ${{ github.ref_name == 'main' && secrets.APPLICATIONINSIGHTS_CONNECTION_STRING || '' }}
           IGDB_CLIENT_ID: ${{ secrets.IGDB_CLIENT_ID }}
           IGDB_CLIENT_SECRET: ${{ secrets.IGDB_CLIENT_SECRET }}
 
