@@ -39,6 +39,14 @@ test("only main enables telemetry and requires a valid connection string", () =>
   );
 });
 
+test("Eleventy development serving disables telemetry on main without credentials", () => {
+  assert.deepEqual(telemetryBuildConfig({ branchName: "main", runMode: "serve", connectionString: "" }), {
+    branchName: "main",
+    enabled: false,
+    connectionString: null,
+  });
+});
+
 test("connection string validation rejects non-HTTPS ingestion endpoints", () => {
   assert.throws(
     () => validateConnectionString("InstrumentationKey=00000000-0000-4000-8000-000000000001;IngestionEndpoint=http://example.com"),
