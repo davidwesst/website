@@ -38,7 +38,6 @@ async function page(relativePath) {
 test("the home page renders the Ghostwind shell and configured content", async () => {
   const $ = await page("index.html");
   const authored = await inventory;
-  const blog = await page("blog/index.html");
   assert.equal($("h1").text(), site.title);
   assert.equal($("link[rel=stylesheet][href='/assets/main.css']").length, 1);
   assert.equal($("link[href='/assets/fontawesome.css']").length, 1);
@@ -48,7 +47,12 @@ test("the home page renders the Ghostwind shell and configured content", async (
   assert.deepEqual(primaryNavigation.find("ul a").map((_, link) => $(link).text().trim()).get(), site.navigationLinks.map((link) => link.name));
   assert.equal(primaryNavigation.find("a[href='/projects/']").length, 0);
   const featured = $("#featured-heading + article");
-  const expectedFeaturedUrl = site.featuredPost || blog("#blog-post-list > li article h2 a").first().attr("href");
+  const eligible = [
+    ...authored.articles.map((item) => ({ date: item.date, url: `/blog/${item.slug}/` })),
+    ...authored.gamelogs.map((item) => ({ date: item.date, url: `/blog/${item.slug}/` })),
+    ...authored.talks.map((item) => ({ date: item.date, url: `/talks/${item.slug}/` })),
+  ].sort((left, right) => new Date(right.date) - new Date(left.date));
+  const expectedFeaturedUrl = site.featuredPost || eligible[0].url;
   assert.equal(featured.find("h2 a").attr("href"), expectedFeaturedUrl);
   assert.ok(featured.find(".post-card-description").text().trim());
   assert.match($("#recent-heading").closest("section").find("ol > li article time").first().closest("footer").attr("class"), /\bmt-auto\b/);
