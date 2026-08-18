@@ -6,6 +6,7 @@
     <meta name="description" :content="pageMetadata.description">
     <meta webc:if="robots" name="robots" :content="robots">
     <link rel="canonical" :href="pageMetadata.canonicalUrl">
+    <link rel="alternate" type="application/atom+xml" title="David Wesst Blog" href="/feed.xml">
     <meta property="og:title" :content="pageMetadata.title">
     <meta property="og:description" :content="pageMetadata.description">
     <meta property="og:url" :content="pageMetadata.canonicalUrl">

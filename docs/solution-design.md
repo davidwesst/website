@@ -59,7 +59,7 @@ Repository-controlled global site data defines the title, tagline, social links 
 
 The base shell contains only minimal integration points for telemetry. Source-specific configuration, filtering, and sanitization remain isolated from presentation code. The integrations are emitted only for the `main` branch and load executable code exclusively from the site's `/assets/` path.
 
-Canonical pages derive descriptions, canonical URLs, Open Graph fields, preview images, publication metadata, and Schema.org JSON-LD through a shared metadata preparation layer. Preview images prefer authored banners, then normalized gamelog artwork, then the repository-owned default social image.
+Canonical pages derive descriptions, canonical URLs, Open Graph fields, preview images, publication metadata, and Schema.org JSON-LD through a shared metadata preparation layer. Preview images prefer authored banners, then normalized gamelog artwork, then the repository-owned default social image. Canonical content is exposed through a generated sitemap, robots policy, and Atom feeds for the combined blog and each content family; redirect and noindex compatibility pages are excluded.
 
 ## Operational telemetry
 

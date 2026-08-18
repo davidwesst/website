@@ -293,3 +293,15 @@ test("page metadata derives a pre-render description from authored Markdown", ()
   const result = preparePageMetadata({ site: { title: "David Wesst", description: "Fallback", url: "https://david.wes.st", socialLinks: [] }, page: { url: "/blog/example/", rawInput: "---\ntitle: Example\n---\nA **distinct** introduction without a summary." }, title: "Example", type: "gamelog" });
   assert.equal(result.description, "A distinct introduction without a summary.");
 });
+
+test("sitemap, robots, and feeds expose canonical content", async () => {
+  const sitemap = await readFile(join(output, "sitemap.xml"), "utf8");
+  assert.match(sitemap, /https:\/\/david\.wes\.st\/blog\/paranormasight-the-mermaids-curse\//);
+  assert.doesNotMatch(sitemap, /\/categories\//);
+  const robots = await readFile(join(output, "robots.txt"), "utf8");
+  assert.match(robots, /Sitemap: https:\/\/david\.wes\.st\/sitemap\.xml/);
+  for (const file of ["feed.xml", "blog/articles/feed.xml", "blog/gamelogs/feed.xml", "blog/dungeonlogs/feed.xml", "talks/feed.xml"]) {
+    const feed = await readFile(join(output, file), "utf8");
+    assert.match(feed, /<feed xmlns="http:\/\/www\.w3\.org\/2005\/Atom">/);
+  }
+});
