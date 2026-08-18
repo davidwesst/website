@@ -102,6 +102,7 @@ export function createApplicationInsightsConfig(connectionString) {
     disableCorrelationHeaders: true,
     disableExceptionTracking: false,
     disableFetchTracking: false,
+    disablePageUnloadEvents: ["unload"],
     enableAjaxErrorStatusText: false,
     enableAutoRouteTracking: false,
     enableCorsCorrelation: false,
