@@ -10,6 +10,7 @@ import { prepareContentNavigation } from "../src/_lib/content-navigation.js";
 import site from "../src/_data/site.js";
 import { IGDB_CACHE_SCHEMA_VERSION, hasCachedImages, readIgdbManifest } from "../lib/igdb.js";
 import { telemetryBuildConfig } from "../lib/telemetry-build.js";
+import { campaignUrl } from "../lib/campaign-links.js";
 
 const output = join(process.cwd(), "_site");
 const content = join(process.cwd(), "src", "content");
@@ -355,4 +356,19 @@ test("content navigation ranks topics and provides family sequence", () => {
   assert.deepEqual(result.related.map((item) => item.url), ["/talk/", "/newer/", "/older/"]);
   assert.equal(result.previous.url, "/older/");
   assert.equal(result.next.url, "/newer/");
+});
+
+test("campaign links standardize supported sources", () => {
+  assert.equal(campaignUrl("/blog/example/", "bluesky", "example"), "https://david.wes.st/blog/example/?utm_source=bluesky&utm_medium=social&utm_campaign=example");
+  assert.throws(() => campaignUrl("https://example.com/post/", "youtube", "post"), /canonical published/);
+  assert.throws(() => campaignUrl("/blog/example/", "discord", "example"), /Unsupported/);
+});
+
+test("detail sharing uses canonical untracked links with accessible fallbacks", async () => {
+  const $ = await page("blog/from-11ty-to-wordpress-and-back-again/index.html");
+  const share = $("[data-share-url]");
+  assert.equal(share.attr("data-share-url"), "https://david.wes.st/blog/from-11ty-to-wordpress-and-back-again/");
+  assert.equal(share.find("button.copy-share").length, 1);
+  assert.equal(share.find("[aria-live='polite']").length, 1);
+  assert.doesNotMatch(share.html(), /utm_/);
 });

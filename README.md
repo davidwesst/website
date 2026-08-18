@@ -14,6 +14,14 @@ A minimal Eleventy site using Markdown for content, WebC for components and layo
 - `pnpm start` delegates to `pnpm dev`.
 - `pnpm build` creates the production site in `_site`.
 - `pnpm test` performs a production build, validates content integrity, and runs the Node test suite.
+- `pnpm campaign:links <canonical-url> [campaign]` emits validated YouTube, Bluesky, LinkedIn, and Instagram campaign URLs for a page in the current `_site` build. Visitor-facing share links always use the untracked canonical URL.
+
+## Content distribution
+
+- YouTube descriptions should link to the corresponding article, gamelog, or talk.
+- Bluesky posts should use a short observation or excerpt that leads to the complete canonical page.
+- LinkedIn should promote relevant professional articles and talks.
+- Instagram should direct suitable game or visual posts to the canonical page.
 
 ## IGDB game data
 

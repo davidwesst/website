@@ -1,0 +1,14 @@
+<script webc:setup>const encodedUrl = encodeURIComponent(url); const encodedTitle = encodeURIComponent(title);</script>
+<section class="mx-auto mt-8 max-w-4xl rounded-lg border border-slate-300 bg-white p-5" aria-labelledby="share-heading" :data-share-url="url" :data-share-title="title">
+  <h2 id="share-heading" class="text-xl font-black">Share this</h2>
+  <div class="mt-4 flex flex-wrap gap-3">
+    <button class="native-share hidden rounded bg-teal-700 px-4 py-2 font-bold text-white" type="button">Share…</button>
+    <button class="copy-share rounded border border-teal-700 px-4 py-2 font-bold text-teal-700" type="button">Copy link</button>
+    <a class="rounded border border-slate-300 px-4 py-2 font-bold" :href="`https://bsky.app/intent/compose?text=${encodedTitle}%20${encodedUrl}`">Bluesky</a>
+    <a class="rounded border border-slate-300 px-4 py-2 font-bold" :href="`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`">LinkedIn</a>
+    <a class="rounded border border-slate-300 px-4 py-2 font-bold" :href="`mailto:?subject=${encodedTitle}&body=${encodedUrl}`">Email</a>
+  </div><p class="share-status sr-only" aria-live="polite"></p>
+</section>
+<script webc:keep>
+document.querySelectorAll('[data-share-url]').forEach((section) => { const url = section.dataset.shareUrl; const title = section.dataset.shareTitle; const status = section.querySelector('.share-status'); const nativeButton = section.querySelector('.native-share'); if (navigator.share) { nativeButton.classList.remove('hidden'); nativeButton.addEventListener('click', async () => { try { await navigator.share({ title, url }); } catch (error) { if (error.name !== 'AbortError') status.textContent = 'Sharing was unavailable.'; } }); } section.querySelector('.copy-share').addEventListener('click', async () => { try { await navigator.clipboard.writeText(url); status.textContent = 'Link copied.'; } catch { status.textContent = 'Could not copy the link. Use the address from your browser.'; } }); });
+</script>

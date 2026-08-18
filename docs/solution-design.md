@@ -61,7 +61,7 @@ The base shell contains only minimal integration points for telemetry. Source-sp
 
 Canonical pages derive descriptions, canonical URLs, Open Graph fields, preview images, publication metadata, and Schema.org JSON-LD through a shared metadata preparation layer. Preview images prefer authored banners, then normalized gamelog artwork, then the repository-owned default social image. Canonical content is exposed through a generated sitemap, robots policy, and Atom feeds for the combined blog and each content family; redirect and noindex compatibility pages are excluded.
 
-Post and talk detail pages expose deterministic related content ranked by shared topics, same-family membership, recency, and canonical URL. They also provide chronological navigation within the current family plus archive and topic pathways.
+Post and talk detail pages expose deterministic related content ranked by shared topics, same-family membership, recency, and canonical URL. They also provide chronological navigation within the current family plus archive and topic pathways. Detail pages provide progressively enhanced native sharing, canonical-link copying, and direct Bluesky, LinkedIn, and email links. Visitor sharing never adds campaign parameters; a development-only generator validates built pages and emits consistent platform campaign URLs for owner-published distribution.
 
 ## Operational telemetry
 
