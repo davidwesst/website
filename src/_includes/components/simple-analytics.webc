@@ -1,0 +1,8 @@
+<script
+  webc:if="enabled"
+  webc:keep
+  async
+  data-ignore-metrics="session"
+  data-strict-utm="true"
+  src="/assets/telemetry/simple-analytics.js"
+></script>

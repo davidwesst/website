@@ -37,10 +37,8 @@ export default function (eleventyConfig) {
   if (existsSync(path.resolve(".cache", "igdb", "images"))) {
     eleventyConfig.addPassthroughCopy({ ".cache/igdb/images": "assets/igdb" });
   }
-  if (existsSync(path.resolve(".cache", "telemetry", "application-insights.js"))) {
-    eleventyConfig.addPassthroughCopy({
-      ".cache/telemetry/application-insights.js": "assets/telemetry/application-insights.js",
-    });
+  if (existsSync(path.resolve(".cache", "telemetry"))) {
+    eleventyConfig.addPassthroughCopy({ ".cache/telemetry": "assets/telemetry" });
   }
   eleventyConfig.addPassthroughCopy({
     "node_modules/@fortawesome/fontawesome-free/css/all.min.css": "assets/fontawesome.css",

@@ -11,6 +11,12 @@ import {
   telemetryBuildConfig,
   validateConnectionString,
 } from "../lib/telemetry-build.js";
+import {
+  SIMPLE_ANALYTICS_SHA256,
+  SIMPLE_ANALYTICS_SOURCE,
+  SIMPLE_ANALYTICS_VERSION,
+  verifySimpleAnalyticsSource,
+} from "../tools/prepare-telemetry.mjs";
 
 const validConnectionString = [
   "InstrumentationKey=00000000-0000-4000-8000-000000000001",
@@ -52,6 +58,13 @@ test("connection string validation rejects non-HTTPS ingestion endpoints", () =>
     () => validateConnectionString("InstrumentationKey=00000000-0000-4000-8000-000000000001;IngestionEndpoint=http://example.com"),
     /must use HTTPS/,
   );
+});
+
+test("Simple Analytics uses an immutable, integrity-checked upstream asset", () => {
+  assert.match(SIMPLE_ANALYTICS_VERSION, /^[0-9a-f]{40}$/);
+  assert.match(SIMPLE_ANALYTICS_SHA256, /^[0-9a-f]{64}$/);
+  assert.match(SIMPLE_ANALYTICS_SOURCE, new RegExp(SIMPLE_ANALYTICS_VERSION));
+  assert.throws(() => verifySimpleAnalyticsSource("modified script"), /failed integrity verification/);
 });
 
 test("Application Insights configuration permits only operational telemetry", () => {

@@ -15,6 +15,7 @@ The active site publishes:
 - generated pages for topics shared by posts and talks
 - stable content assets and legacy URL compatibility
 - production-only client operational telemetry for diagnosing errors, load performance, and failed network requests
+- production-only, privacy-first aggregate engagement analytics
 
 Talks are a separate content family from posts. Both use the shared authored fields and presentation components, while their type-specific data remains under `customData`.
 
@@ -56,7 +57,7 @@ Detail pages render semantic articles with a single top-level heading, publicati
 
 Repository-controlled global site data defines the title, tagline, social links and their Font Awesome icon classes, post-type labels/icons/colors, recent-post count, and optional featured-post canonical URL. The same social-link component renders labeled icon links in the home hero and site footer. A null featured-post value selects the newest post; an invalid explicit URL fails the build.
 
-The base shell contains only a minimal integration point for operational telemetry. Application Insights-specific configuration, filtering, and sanitization remain isolated in a dedicated client module. The integration is emitted only for the `main` branch and loads executable code exclusively from the site's `/assets/` path.
+The base shell contains only minimal integration points for telemetry. Source-specific configuration, filtering, and sanitization remain isolated from presentation code. The integrations are emitted only for the `main` branch and load executable code exclusively from the site's `/assets/` path.
 
 ## Operational telemetry
 
@@ -81,6 +82,10 @@ IGDB banner images are generated build assets rather than authored banners. The 
 
 Application Insights browser code is also generated build data rather than authored content. Its preparation step writes only beneath `.cache/telemetry/`, and Eleventy publishes the resulting bundle under `/assets/telemetry/`. A production build fails instead of falling back to a third-party executable resource when telemetry configuration or asset preparation is unavailable.
 
+Simple Analytics owns aggregate engagement analytics: page views, referrers, UTM campaign values, time on page, scroll depth, and coarse browser/device information. It does not own errors, performance, or failed-request diagnostics. Session metrics and custom events are disabled, Do Not Track is respected, and the integration uses no cookies, browser storage, persistent visitor identifiers, user-generated content, or intentionally collected PII. Its required collection requests remain external to the Simple Analytics endpoint.
+
+The telemetry preparation step downloads the Simple Analytics browser library from an exact upstream commit, verifies its repository-controlled SHA-256 digest, and publishes it as `/assets/telemetry/simple-analytics.js`. Production builds fail when the pinned resource cannot be downloaded or verified. Updating the library is an intentional source-commit and digest change; no runtime third-party executable fallback is allowed.
+
 Azure routing is generated as `staticwebapp.config.json`, with trailing slashes, explicit redirects for changed canonical locations, and a size assertion. Archived hierarchical gamelog and dungeonlog detail routes redirect to the flat canonical post routes. Query-based legacy gamelog URLs use a generated noindex dispatcher at `/blog/gamelog/entry.html` backed by a validated slug map. RSS feeds can later select the existing `posts`, `articles`, `gamelogs`, and `dungeonlogs` collections independently of canonical URL shape.
 
 ## Validation
@@ -97,5 +102,6 @@ The production build removes only `_site`, prepares the optional IGDB cache, ren
 - absence of archive paths, raw front matter, unresolved WebC data, and migration markers
 - production-branch telemetry configuration, first-party script URLs, generated asset existence, and privacy-sensitive client settings
 - absence of telemetry integration on non-production branches and absence of runtime third-party executable telemetry resources
+- Simple Analytics production gating, pinned asset integrity, Do Not Track behavior, and session-metric exclusion
 
 `pnpm test` performs a branch-aware build, runs `check:content`, and then runs the Node test suite. Output tests retain home-page and stylesheet coverage and add representative checks for articles, gamelogs, dungeonlogs, talks, pages, indexes, topics, compatibility pages, redirects, the legacy dispatcher, and telemetry policy. CI runs this complete suite on the repository-configured Node.js runtime. Builds of `main` receive the required Application Insights connection string, verify and upload the telemetry-enabled `_site` artifact, and deploy it; builds of every other branch verify telemetry-free output.
