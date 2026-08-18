@@ -288,3 +288,8 @@ test("page metadata normalizes descriptions, canonical URLs, images, and schema"
   assert.equal(result.openGraphType, "article");
   assert.equal(JSON.parse(result.jsonLd)["@graph"][0]["@type"], "BlogPosting");
 });
+
+test("page metadata derives a pre-render description from authored Markdown", () => {
+  const result = preparePageMetadata({ site: { title: "David Wesst", description: "Fallback", url: "https://david.wes.st", socialLinks: [] }, page: { url: "/blog/example/", rawInput: "---\ntitle: Example\n---\nA **distinct** introduction without a summary." }, title: "Example", type: "gamelog" });
+  assert.equal(result.description, "A distinct introduction without a summary.");
+});
