@@ -59,6 +59,8 @@ Repository-controlled global site data defines the title, tagline, social links 
 
 The base shell contains only minimal integration points for telemetry. Source-specific configuration, filtering, and sanitization remain isolated from presentation code. The integrations are emitted only for the `main` branch and load executable code exclusively from the site's `/assets/` path.
 
+Canonical pages derive descriptions, canonical URLs, Open Graph fields, preview images, publication metadata, and Schema.org JSON-LD through a shared metadata preparation layer. Preview images prefer authored banners, then normalized gamelog artwork, then the repository-owned default social image.
+
 ## Operational telemetry
 
 The `main` branch is the production site. Its build requires `APPLICATIONINSIGHTS_CONNECTION_STRING` and fails before rendering when that value is missing or invalid. Other branches do not generate or reference the telemetry asset, even if the connection string is present, so development and pull-request activity cannot contaminate production telemetry. Eleventy's development server does not reference telemetry on any branch; its built-in run mode distinguishes serving from a production build without a separate environment flag. Build context is derived from `GITHUB_REF_NAME` when available and otherwise from the current Git branch.

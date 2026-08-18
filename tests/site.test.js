@@ -5,6 +5,7 @@ import test from "node:test";
 import { load } from "cheerio";
 import matter from "gray-matter";
 import { getPostDescription, prepareHomeContent } from "../src/_lib/home-content.js";
+import { preparePageMetadata } from "../src/_lib/page-metadata.js";
 import site from "../src/_data/site.js";
 import { IGDB_CACHE_SCHEMA_VERSION, hasCachedImages, readIgdbManifest } from "../lib/igdb.js";
 import { telemetryBuildConfig } from "../lib/telemetry-build.js";
@@ -277,4 +278,13 @@ test("Azure redirects and the legacy query dispatcher are generated", async () =
   assert.match(dispatcher, /"clair-obscur-expedition-33":"\/blog\/clair-obscur-expedition-33\/"/);
   assert.match(dispatcher, /\/blog\/gamelogs\//);
   assert.match(dispatcher, /noindex/);
+});
+
+test("page metadata normalizes descriptions, canonical URLs, images, and schema", () => {
+  const result = preparePageMetadata({ site: { title: "David Wesst", description: "Fallback", url: "https://david.wes.st", socialLinks: [] }, page: { url: "/blog/example/" }, title: "Example", summary: "**Useful** [summary](https://example.com).", type: "article", date: "2026-01-01", banner: { src: "./cover.png", alt: "Cover" } });
+  assert.equal(result.description, "Useful summary.");
+  assert.equal(result.canonicalUrl, "https://david.wes.st/blog/example/");
+  assert.equal(result.imageUrl, "https://david.wes.st/blog/example/cover.png");
+  assert.equal(result.openGraphType, "article");
+  assert.equal(JSON.parse(result.jsonLd)["@graph"][0]["@type"], "BlogPosting");
 });
