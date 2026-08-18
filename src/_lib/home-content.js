@@ -36,7 +36,7 @@ export function getPostDescription(post) {
 }
 
 export function prepareHomeContent(posts, configuredUrl, recentPostCount) {
-  const sorted = [...(posts || [])].sort((left, right) => right.date - left.date);
+  const sorted = [...(posts || [])].filter((item) => item.data?.type !== "dungeonlog").sort((left, right) => right.date - left.date);
   if (!sorted.length) throw new Error("The home page requires at least one post");
 
   const featured = configuredUrl
@@ -49,5 +49,6 @@ export function prepareHomeContent(posts, configuredUrl, recentPostCount) {
     featured,
     featuredDescription: getPostDescription(featured),
     recent: sorted.filter((post) => post.url !== featured.url).slice(0, recentPostCount),
+    sections: Object.fromEntries(["article", "gamelog", "talk"].map((type) => [type, sorted.filter((item) => item.data?.type === type && item.url !== featured.url).slice(0, recentPostCount)])),
   };
 }

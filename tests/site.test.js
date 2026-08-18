@@ -53,10 +53,13 @@ test("the home page renders the Ghostwind shell and configured content", async (
   assert.ok(featured.find(".post-card-description").text().trim());
   assert.match($("#recent-heading").closest("section").find("ol > li article time").first().closest("footer").attr("class"), /\bmt-auto\b/);
   assert.match($("#recent-heading").closest("section").find("ol > li article time").first().closest("footer").attr("class"), /\bpt-6\b/);
-  const postCount = authored.articles.length + authored.gamelogs.length + authored.dungeonlogs.length;
-  assert.equal($("#recent-heading").closest("section").find("ol > li").length, Math.min(site.recentPostCount, postCount - 1));
+  for (const section of site.homeSections) assert.ok($(`#home-${section.type}`).closest("section").find("ol > li").length <= site.recentPostCount);
+  assert.equal($("#home-article").length, 1);
+  assert.equal($("#home-gamelog").length, 1);
+  assert.equal($("#home-talk").length, 1);
+  assert.equal($("#recent-heading").closest("section").find("[data-content-type='dungeonlog']").length, 0);
   const pageLinks = $("#explore-heading").closest("section").find("ul > li a");
-  assert.deepEqual(pageLinks.map((_, link) => $(link).find("strong").text().trim()).get(), ["About", "Projects"]);
+  assert.deepEqual(pageLinks.map((_, link) => $(link).find("strong").text().trim()).get(), site.exploreLinks.map((item) => item.label));
   assert.equal(pageLinks.filter("[href='/projects/']").length, 1);
   const heroSocialLinks = $("header ul[aria-label='Social links'] a");
   const footerSocialLinks = $("footer ul[aria-label='Social links'] a");
@@ -143,6 +146,7 @@ test("featured post selection defaults to latest, supports configuration, and re
   assert.equal(prepareHomeContent(posts, "/older/", 2).featured.url, "/older/");
   assert.deepEqual(prepareHomeContent(posts, "/older/", 2).recent.map((item) => item.url), ["/newer/", "/middle/"]);
   assert.throws(() => prepareHomeContent(posts, "/missing/", 2), /was not found/);
+  assert.equal(prepareHomeContent([...posts, { url: "/dungeon/", date: new Date("2026-01-01"), data: { type: "dungeonlog" } }], null, 2).featured.url, "/newer/");
 });
 
 test("representative post types render normalized data", async () => {
