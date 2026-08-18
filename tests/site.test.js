@@ -362,6 +362,9 @@ test("campaign links standardize supported sources", () => {
   assert.equal(campaignUrl("/blog/example/", "bluesky", "example"), "https://david.wes.st/blog/example/?utm_source=bluesky&utm_medium=social&utm_campaign=example");
   assert.throws(() => campaignUrl("https://example.com/post/", "youtube", "post"), /canonical published/);
   assert.throws(() => campaignUrl("/blog/example/", "discord", "example"), /Unsupported/);
+  assert.throws(() => campaignUrl("/blog/example", "youtube", "example"), /canonical published/);
+  assert.throws(() => campaignUrl("/sitemap.xml", "youtube", "sitemap"), /canonical published/);
+  assert.throws(() => campaignUrl("/categories", "youtube", "categories"), /canonical published/);
 });
 
 test("detail sharing uses canonical untracked links with accessible fallbacks", async () => {
