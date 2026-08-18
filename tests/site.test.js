@@ -6,6 +6,7 @@ import { load } from "cheerio";
 import matter from "gray-matter";
 import { getPostDescription, prepareHomeContent } from "../src/_lib/home-content.js";
 import { preparePageMetadata } from "../src/_lib/page-metadata.js";
+import { prepareContentNavigation } from "../src/_lib/content-navigation.js";
 import site from "../src/_data/site.js";
 import { IGDB_CACHE_SCHEMA_VERSION, hasCachedImages, readIgdbManifest } from "../lib/igdb.js";
 import { telemetryBuildConfig } from "../lib/telemetry-build.js";
@@ -326,4 +327,17 @@ test("sitemap, robots, and feeds expose canonical content", async () => {
     assert.match(feed, /<author><name>David Wesst<\/name>/);
     assert.match(feed, new RegExp(`<id>https://david\\.wes\\.st/${file.replaceAll(".", "\\.")}</id>`));
   }
+});
+
+test("content navigation ranks topics and provides family sequence", () => {
+  const items = [
+    { url: "/older/", date: new Date("2024-01-01"), data: { type: "article", topics: ["web"] } },
+    { url: "/current/", date: new Date("2025-01-01"), data: { type: "article", topics: ["web", "games"] } },
+    { url: "/talk/", date: new Date("2026-01-01"), data: { type: "talk", topics: ["web", "games"] } },
+    { url: "/newer/", date: new Date("2026-02-01"), data: { type: "article", topics: ["games"] } },
+  ];
+  const result = prepareContentNavigation(items, "/current/", "article", ["web", "games"]);
+  assert.deepEqual(result.related.map((item) => item.url), ["/talk/", "/newer/", "/older/"]);
+  assert.equal(result.previous.url, "/older/");
+  assert.equal(result.next.url, "/newer/");
 });

@@ -25,4 +25,5 @@ layout: base.webc
       Artwork and game details data from <a class="font-semibold text-teal-700 hover:text-teal-900" href="https://www.igdb.com/">IGDB.com</a>.
     </footer>
   </div>
+  <content-navigation :@model="contentNavigation" :@site="site"></content-navigation>
 </article>

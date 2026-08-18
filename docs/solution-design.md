@@ -61,6 +61,8 @@ The base shell contains only minimal integration points for telemetry. Source-sp
 
 Canonical pages derive descriptions, canonical URLs, Open Graph fields, preview images, publication metadata, and Schema.org JSON-LD through a shared metadata preparation layer. Preview images prefer authored banners, then normalized gamelog artwork, then the repository-owned default social image. Canonical content is exposed through a generated sitemap, robots policy, and Atom feeds for the combined blog and each content family; redirect and noindex compatibility pages are excluded.
 
+Post and talk detail pages expose deterministic related content ranked by shared topics, same-family membership, recency, and canonical URL. They also provide chronological navigation within the current family plus archive and topic pathways.
+
 ## Operational telemetry
 
 The `main` branch is the production site. Its build requires `APPLICATIONINSIGHTS_CONNECTION_STRING` and fails before rendering when that value is missing or invalid. Other branches do not generate or reference the telemetry asset, even if the connection string is present, so development and pull-request activity cannot contaminate production telemetry. Eleventy's development server does not reference telemetry on any branch; its built-in run mode distinguishes serving from a production build without a separate environment flag. Build context is derived from `GITHUB_REF_NAME` when available and otherwise from the current Git branch.
