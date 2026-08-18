@@ -278,7 +278,9 @@ function resolveLocalTarget(currentFile, href) {
 
 const htmlFiles = walkFiles(OUTPUT_ROOT, (file) => file.endsWith(".html"));
 const telemetryAsset = path.join(OUTPUT_ROOT, "assets", "telemetry", "application-insights.js");
+const analyticsAsset = path.join(OUTPUT_ROOT, "assets", "telemetry", "simple-analytics.js");
 assert.equal(exactCaseExists(telemetryAsset), TELEMETRY.enabled, "Telemetry asset existence must match the build branch");
+assert.equal(exactCaseExists(analyticsAsset), TELEMETRY.enabled, "Analytics asset existence must match the build branch");
 const brokenLinks = [];
 for (const file of htmlFiles) {
   const source = readFileSync(file, "utf8");
@@ -289,9 +291,15 @@ for (const file of htmlFiles) {
   const $ = load(source);
   const telemetryExpected = TELEMETRY.enabled && relativeOutput !== "legacy/gamelog-entry.html";
   assert.equal($("script[src='/assets/telemetry/application-insights.js']").length, telemetryExpected ? 1 : 0, `${relativeOutput} has the wrong telemetry integration`);
+  const analytics = $("script[src='/assets/telemetry/simple-analytics.js']");
+  assert.equal(analytics.length, telemetryExpected ? 1 : 0, `${relativeOutput} has the wrong analytics integration`);
+  if (telemetryExpected) {
+    assert.equal(analytics.attr("data-collect-dnt"), undefined, `${relativeOutput} must respect Do Not Track`);
+    assert.equal(analytics.attr("data-ignore-metrics"), "session", `${relativeOutput} must not collect sessions`);
+  }
   const externalTelemetryScripts = $("script[src]").filter((_, element) => {
     const src = $(element).attr("src");
-    return /^(?:https?:)?\/\//i.test(src) && /(?:applicationinsights|monitor\.azure|services\.visualstudio\.com)/i.test(src);
+    return /^(?:https?:)?\/\//i.test(src) && /(?:applicationinsights|monitor\.azure|services\.visualstudio\.com|simpleanalytics)/i.test(src);
   });
   assert.equal(externalTelemetryScripts.length, 0, `${relativeOutput} loads a third-party telemetry executable`);
   for (const image of $("img").toArray()) {
