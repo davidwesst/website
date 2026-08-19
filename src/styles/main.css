@@ -46,6 +46,31 @@ body { margin: 0; }
   -webkit-line-clamp: 3;
 }
 
+.share-action {
+  align-items: center;
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 9999px;
+  color: #334155;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  gap: 0.5rem;
+  padding: 0.65rem 1rem;
+  text-decoration: none;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.share-action:hover,
+.share-action:focus-visible,
+.share-action.is-copied {
+  background: #f0fdfa;
+  border-color: #0d9488;
+  color: #0f766e;
+}
+
 @media (min-width: 1024px) {
   .home-posts { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 

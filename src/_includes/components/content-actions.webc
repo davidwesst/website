@@ -1,0 +1,92 @@
+<script webc:setup>
+  function contentType(type, site) {
+    const value = site.postTypes[type];
+    if (!value) throw new Error(`Unknown content type for content actions: ${type}`);
+    return value;
+  }
+
+  function canonicalUrl(page, site) {
+    return new URL(page.url, site.url).href;
+  }
+
+  function emailUrl(title, page, site) {
+    const url = canonicalUrl(page, site);
+    return `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(`Read “${title}”: ${url}`)}`;
+  }
+
+  function blueskyUrl(title, page, site) {
+    return `https://bsky.app/intent/compose?text=${encodeURIComponent(`Read “${title}” ${canonicalUrl(page, site)}`)}`;
+  }
+
+  function linkedInUrl(page, site) {
+    return `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(canonicalUrl(page, site))}`;
+  }
+</script>
+
+<aside class="content-actions mt-12 border-t border-slate-200 pt-8" aria-label="Share and explore">
+  <h2 class="text-center text-sm font-black uppercase tracking-[0.18em] text-slate-500">Share this <span @text="contentType(type, site).label.toLowerCase()"></span></h2>
+  <div class="mt-4 flex flex-wrap justify-center gap-3" data-share-actions :data-share-url="canonicalUrl(page, site)">
+    <a class="share-action" :href="emailUrl(title, page, site)">
+      <i class="fa-solid fa-envelope" aria-hidden="true"></i><span>Email</span>
+    </a>
+    <a class="share-action" :href="blueskyUrl(title, page, site)" target="_blank" rel="noopener noreferrer">
+      <i class="fa-brands fa-bluesky" aria-hidden="true"></i><span>Bluesky</span>
+    </a>
+    <a class="share-action" :href="linkedInUrl(page, site)" target="_blank" rel="noopener noreferrer">
+      <i class="fa-brands fa-linkedin" aria-hidden="true"></i><span>LinkedIn</span>
+    </a>
+    <button class="share-action" type="button" data-copy-link>
+      <i class="fa-solid fa-link" aria-hidden="true"></i><span data-copy-label>Copy link</span>
+    </button>
+    <p class="sr-only" role="status" aria-live="polite" data-copy-status></p>
+  </div>
+  <p class="mt-8 text-center">
+    <a class="font-bold text-teal-700 hover:text-teal-900" :href="contentType(type, site).archiveUrl">
+      Explore the complete <span @text="contentType(type, site).label.toLowerCase()"></span> archive <span aria-hidden="true">→</span>
+    </a>
+  </p>
+</aside>
+
+<script webc:keep>
+  async function copyShareUrl(url) {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(url);
+      return;
+    }
+
+    const input = document.createElement("textarea");
+    input.value = url;
+    input.setAttribute("readonly", "");
+    input.style.position = "fixed";
+    input.style.opacity = "0";
+    document.body.append(input);
+    input.select();
+    const copied = document.execCommand("copy");
+    input.remove();
+    if (!copied) throw new Error("Copy command was rejected");
+  }
+
+  document.querySelectorAll("[data-share-actions]").forEach((actions) => {
+    const button = actions.querySelector("[data-copy-link]");
+    const label = actions.querySelector("[data-copy-label]");
+    const status = actions.querySelector("[data-copy-status]");
+    if (!button || !label || !status) return;
+
+    button.addEventListener("click", async () => {
+      try {
+        await copyShareUrl(actions.dataset.shareUrl);
+        label.textContent = "Copied!";
+        status.textContent = "Link copied to clipboard.";
+        button.classList.add("is-copied");
+      } catch {
+        label.textContent = "Copy failed";
+        status.textContent = "The link could not be copied. Copy it from the address bar instead.";
+      }
+
+      window.setTimeout(() => {
+        label.textContent = "Copy link";
+        button.classList.remove("is-copied");
+      }, 2500);
+    });
+  });
+</script>

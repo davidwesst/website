@@ -21,6 +21,7 @@ layout: base.webc
     <game-details webc:if="type === 'gamelog'" :@game="gameMetadata"></game-details>
     <gamelog-details webc:if="type === 'gamelog'" :@custom-data="customData"></gamelog-details>
     <section class="prose-content" aria-label="Post content" @raw="content"></section>
+    <content-actions :type="type" :title="title" :@site="site" :@page="page"></content-actions>
     <footer webc:if="type === 'gamelog' && gameMetadata" class="mt-10 border-t border-slate-200 pt-5 text-center text-sm text-slate-500">
       Artwork and game details data from <a class="font-semibold text-teal-700 hover:text-teal-900" href="https://www.igdb.com/">IGDB.com</a>.
     </footer>

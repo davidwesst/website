@@ -20,5 +20,6 @@ layout: base.webc
     <p webc:if="summary" class="mb-8 border-l-4 border-teal-600 pl-5 font-serif text-xl leading-8 text-slate-700" @text="summary"></p>
     <section webc:if="content" class="prose-content" aria-label="Talk description" @raw="content"></section>
     <talk-details :@custom-data="customData"></talk-details>
+    <content-actions type="talk" :title="title" :@site="site" :@page="page"></content-actions>
   </div>
 </article>

@@ -20,9 +20,9 @@ export default {
     { name: "YouTube", url: "https://youtube.com/davidwesst", iconClass: "fa-brands fa-youtube" },
   ],
   postTypes: {
-    article: { label: "Article", iconClass: "fa-solid fa-newspaper", fallbackColor: "#0f766e" },
-    gamelog: { label: "Gamelog", iconClass: "fa-solid fa-gamepad", fallbackColor: "#7c3aed" },
-    dungeonlog: { label: "Dungeonlog", iconClass: "fa-solid fa-dungeon", fallbackColor: "#b45309" },
-    talk: { label: "Talk", iconClass: "fa-solid fa-person-chalkboard", fallbackColor: "#0369a1" },
+    article: { label: "Article", archiveUrl: "/blog/articles/", iconClass: "fa-solid fa-newspaper", fallbackColor: "#0f766e" },
+    gamelog: { label: "Gamelog", archiveUrl: "/blog/gamelogs/", iconClass: "fa-solid fa-gamepad", fallbackColor: "#7c3aed" },
+    dungeonlog: { label: "Dungeonlog", archiveUrl: "/blog/dungeonlogs/", iconClass: "fa-solid fa-dungeon", fallbackColor: "#b45309" },
+    talk: { label: "Talk", archiveUrl: "/talks/", iconClass: "fa-solid fa-person-chalkboard", fallbackColor: "#0369a1" },
   },
 };

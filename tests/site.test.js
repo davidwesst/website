@@ -83,6 +83,15 @@ test("Font Awesome CSS and webfonts are included in the build", async () => {
   assert.ok(solidFont.length > 0);
 });
 
+test("the home feed keeps its asymmetric mosaic at large viewports", async () => {
+  const stylesheet = await readFile(join(process.cwd(), "src", "styles", "main.css"), "utf8");
+  assert.match(stylesheet, /\.home-posts\s*>\s*li:nth-child\(1\)[\s\S]*grid-column:\s*span 2/);
+  assert.match(stylesheet, /\.home-posts\s*>\s*li:nth-child\(4\)[\s\S]*grid-column:\s*span 3/);
+  assert.match(stylesheet, /\.home-posts\s*>\s*li:nth-child\(6\)[\s\S]*grid-column:\s*span 4/);
+  assert.match(stylesheet, /\.home-posts\s*>\s*li:nth-child\(1\) figure[\s\S]*height:\s*18rem/);
+  assert.match(stylesheet, /\.home-posts\s*>\s*li:nth-child\(4\) figure[\s\S]*height:\s*14rem/);
+});
+
 test("operational telemetry is branch-gated and served as a first-party asset", async () => {
   const $ = await page("index.html");
   const telemetry = telemetryBuildConfig();
@@ -174,6 +183,26 @@ test("representative post types render normalized data", async () => {
   const dungeonlog = await page("blog/2026-03-16/index.html");
   assert.equal(dungeonlog("h1").text(), "The Queen Who Refused to Die");
   assert.ok(dungeonlog("figure img").length);
+});
+
+test("detail pages offer type-specific archives and functional share actions", async () => {
+  const cases = [
+    ["blog/from-11ty-to-wordpress-and-back-again/index.html", "article", "/blog/articles/"],
+    ["blog/clair-obscur-expedition-33/index.html", "gamelog", "/blog/gamelogs/"],
+    ["blog/2026-03-16/index.html", "dungeonlog", "/blog/dungeonlogs/"],
+    ["talks/no-mission-impossible/index.html", "talk", "/talks/"],
+  ];
+
+  for (const [path, type, archiveUrl] of cases) {
+    const $ = await page(path);
+    const actions = $(".content-actions");
+    assert.equal(actions.find(`a[href='${archiveUrl}']`).text().replace(/\s+/g, " ").trim(), `Explore the complete ${type} archive →`);
+    assert.match(actions.find("a").first().attr("href"), /^mailto:\?subject=[^&]+&body=[^&]+$/);
+    assert.equal(actions.find("a").first().attr("href").includes("javascript"), false);
+    assert.equal(actions.find("[data-copy-link]").attr("type"), "button");
+    assert.equal(actions.find("[data-copy-status][aria-live='polite']").length, 1);
+    assert.match(actions.find("[data-copy-link] i").attr("class"), /fa-link/);
+  }
 });
 
 test("post visuals use banners or accessible type-specific fallbacks", async () => {
