@@ -18,12 +18,12 @@ layout: base.webc
     </div>
     <a class="font-bold text-teal-700 hover:text-teal-900" href="/blog/">View the full blog <span aria-hidden="true">→</span></a>
   </div>
-  <div class="mt-8 grid gap-10 lg:grid-cols-3">
-    <section webc:for="section of site.homeSections" :aria-labelledby="`home-${section.type}`">
-      <div class="flex items-end justify-between gap-3"><h3 class="text-2xl font-black" :id="`home-${section.type}`" @text="section.label"></h3><a class="text-sm font-bold text-teal-700" :href="section.url">View all</a></div>
-      <ol class="mt-5 grid list-none gap-6 p-0"><li webc:for="item of homeContent.sections[section.type]"><post-card :@item="item" :@site="site" :@featured="false" :@description="item.data.summary"></post-card></li></ol>
-    </section>
-  </div>
+  <nav class="mt-8 flex flex-wrap gap-x-6 gap-y-3" aria-label="Featured post archives">
+    <a webc:for="section of site.homeSections" class="font-bold text-teal-700 hover:text-teal-900" :id="`home-${section.type}`" :href="section.url"><span @text="section.label"></span> <span aria-hidden="true">→</span></a>
+  </nav>
+  <ol class="home-posts mt-6 grid list-none gap-8 p-0 md:grid-cols-2">
+    <li webc:for="item of homeContent.mosaic"><post-card :@item="item" :@site="site" :@featured="false" :@description="item.data.summary"></post-card></li>
+  </ol>
 </section>
 
 <section class="rounded-xl bg-white p-8 shadow-lg md:p-12" aria-labelledby="explore-heading">

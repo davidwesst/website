@@ -57,7 +57,8 @@ test("the home page renders the Ghostwind shell and configured content", async (
   assert.ok(featured.find(".post-card-description").text().trim());
   assert.match($("#recent-heading").closest("section").find("ol > li article time").first().closest("footer").attr("class"), /\bmt-auto\b/);
   assert.match($("#recent-heading").closest("section").find("ol > li article time").first().closest("footer").attr("class"), /\bpt-6\b/);
-  for (const section of site.homeSections) assert.ok($(`#home-${section.type}`).closest("section").find("ol > li").length <= site.recentPostCount);
+  for (const section of site.homeSections) assert.equal($(`#home-${section.type}`).attr("href"), section.url);
+  assert.equal($("#recent-heading").closest("section").find("ol.home-posts > li").length, site.homeSections.length * site.recentPostCount);
   assert.equal($("#home-article").length, 1);
   assert.equal($("#home-gamelog").length, 1);
   assert.equal($("#home-talk").length, 1);
