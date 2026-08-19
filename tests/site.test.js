@@ -91,6 +91,15 @@ test("Font Awesome CSS and webfonts are included in the build", async () => {
   assert.ok(solidFont.length > 0);
 });
 
+test("the home feed keeps its asymmetric mosaic at large viewports", async () => {
+  const stylesheet = await readFile(join(process.cwd(), "src", "styles", "main.css"), "utf8");
+  assert.match(stylesheet, /\.home-posts\s*>\s*li:nth-child\(1\)[\s\S]*grid-column:\s*span 2/);
+  assert.match(stylesheet, /\.home-posts\s*>\s*li:nth-child\(4\)[\s\S]*grid-column:\s*span 3/);
+  assert.match(stylesheet, /\.home-posts\s*>\s*li:nth-child\(6\)[\s\S]*grid-column:\s*span 4/);
+  assert.match(stylesheet, /\.home-posts\s*>\s*li:nth-child\(1\) figure[\s\S]*height:\s*18rem/);
+  assert.match(stylesheet, /\.home-posts\s*>\s*li:nth-child\(4\) figure[\s\S]*height:\s*14rem/);
+});
+
 test("operational telemetry is branch-gated and served as a first-party asset", async () => {
   const $ = await page("index.html");
   const telemetry = telemetryBuildConfig();
