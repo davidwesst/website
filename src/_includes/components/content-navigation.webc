@@ -7,5 +7,5 @@
     <h2 id="related-heading" class="text-3xl font-black">Related content</h2>
     <ol class="mt-6 grid list-none gap-6 p-0 md:grid-cols-3"><li webc:for="item of model.related"><post-card :@item="item" :@site="site" :@featured="false" :@description="item.data.summary"></post-card></li></ol>
   </section>
-  <p class="mt-8 text-center"><a class="font-bold text-teal-700" :href="model.archiveUrl">Explore the complete archive</a><span webc:if="model.topics.length"> · <a href="/topics/">Browse topics</a></span></p>
+  <p class="mt-8 text-center"><a class="font-bold text-teal-700" :href="model.archiveUrl">Explore the complete <span @text="model.type"></span> archive</a><span webc:if="model.topics.length"> · <a href="/topics/">Browse topics</a></span></p>
 </aside>

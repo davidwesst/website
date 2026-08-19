@@ -196,6 +196,21 @@ test("representative post types render normalized data", async () => {
   assert.ok(dungeonlog("figure img").length);
 });
 
+test("detail pages link to their type-specific archives", async () => {
+  const cases = [
+    ["blog/from-11ty-to-wordpress-and-back-again/index.html", "article", "/blog/articles/"],
+    ["blog/clair-obscur-expedition-33/index.html", "gamelog", "/blog/gamelogs/"],
+    ["blog/2026-03-16/index.html", "dungeonlog", "/blog/dungeonlogs/"],
+    ["talks/no-mission-impossible/index.html", "talk", "/talks/"],
+  ];
+
+  for (const [path, type, archiveUrl] of cases) {
+    const $ = await page(path);
+    const archive = $(`a[href='${archiveUrl}']`).filter((_, element) => $(element).text().includes("Explore the complete"));
+    assert.equal(archive.text().replace(/\s+/g, " ").trim(), `Explore the complete ${type} archive`);
+  }
+});
+
 test("post visuals use banners or accessible type-specific fallbacks", async () => {
   const article = await page("blog/i-miss-blogging/index.html");
   assert.equal(article("figure [role=img]").attr("aria-label"), "Article placeholder image");
