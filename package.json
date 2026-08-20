@@ -11,6 +11,7 @@
     "prepare:igdb:local": "node tools/prepare-igdb-interactive.mjs",
     "prepare:telemetry": "node tools/prepare-telemetry.mjs",
     "check:content": "node tools/check-content.mjs",
+    "campaign:links": "node tools/campaign-links.mjs",
     "build": "pnpm run clean && pnpm run prepare:igdb && pnpm run prepare:telemetry && pnpm run build:site && pnpm run build:css",
     "build:site": "eleventy",
     "build:css": "tailwindcss -i ./src/styles/main.css -o ./_site/assets/main.css --minify",

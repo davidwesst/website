@@ -12,7 +12,18 @@ export default {
   description: "The personal website of David Wesst.",
   url: "https://david.wes.st",
   featuredPost: null,
-  recentPostCount: 9,
+  recentPostCount: 3,
+  homeSections: [
+    { type: "article", label: "Latest articles", url: "/blog/articles/" },
+    { type: "gamelog", label: "Latest gamelogs", url: "/blog/gamelogs/" },
+    { type: "talk", label: "Latest talks", url: "/talks/" },
+  ],
+  exploreLinks: [
+    { label: "About", description: "Background, work, and current interests.", url: "/about/" },
+    { label: "Projects", description: "Active and archived creative projects.", url: "/projects/" },
+    { label: "Topics", description: "Browse writing and talks by subject.", url: "/topics/" },
+    { label: "Complete blog", description: "Explore the complete post archive.", url: "/blog/" },
+  ],
   socialLinks: [
     { name: "GitHub", url: "https://github.com/davidwesst", iconClass: "fa-brands fa-github" },
     { name: "LinkedIn", url: "https://ca.linkedin.com/in/davidwesst", iconClass: "fa-brands fa-linkedin" },

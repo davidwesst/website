@@ -2,6 +2,7 @@
 title: Gamelogs
 layout: collection.webc
 collectionName: gamelogs
+feedUrl: /blog/gamelogs/feed.xml
 eleventyExcludeFromCollections: true
 ---
 

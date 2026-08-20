@@ -5,9 +5,12 @@ import test from "node:test";
 import { load } from "cheerio";
 import matter from "gray-matter";
 import { getPostDescription, prepareHomeContent } from "../src/_lib/home-content.js";
+import { preparePageMetadata } from "../src/_lib/page-metadata.js";
+import { prepareContentNavigation } from "../src/_lib/content-navigation.js";
 import site from "../src/_data/site.js";
 import { IGDB_CACHE_SCHEMA_VERSION, hasCachedImages, readIgdbManifest } from "../lib/igdb.js";
 import { telemetryBuildConfig } from "../lib/telemetry-build.js";
+import { campaignUrl } from "../lib/campaign-links.js";
 
 const output = join(process.cwd(), "_site");
 const content = join(process.cwd(), "src", "content");
@@ -37,7 +40,6 @@ async function page(relativePath) {
 test("the home page renders the Ghostwind shell and configured content", async () => {
   const $ = await page("index.html");
   const authored = await inventory;
-  const blog = await page("blog/index.html");
   assert.equal($("h1").text(), site.title);
   assert.equal($("link[rel=stylesheet][href='/assets/main.css']").length, 1);
   assert.equal($("link[href='/assets/fontawesome.css']").length, 1);
@@ -47,15 +49,24 @@ test("the home page renders the Ghostwind shell and configured content", async (
   assert.deepEqual(primaryNavigation.find("ul a").map((_, link) => $(link).text().trim()).get(), site.navigationLinks.map((link) => link.name));
   assert.equal(primaryNavigation.find("a[href='/projects/']").length, 0);
   const featured = $("#featured-heading + article");
-  const expectedFeaturedUrl = site.featuredPost || blog("#blog-post-list > li article h2 a").first().attr("href");
+  const eligible = [
+    ...authored.articles.map((item) => ({ date: item.date, url: `/blog/${item.slug}/` })),
+    ...authored.gamelogs.map((item) => ({ date: item.date, url: `/blog/${item.slug}/` })),
+    ...authored.talks.map((item) => ({ date: item.date, url: `/talks/${item.slug}/` })),
+  ].sort((left, right) => new Date(right.date) - new Date(left.date));
+  const expectedFeaturedUrl = site.featuredPost || eligible[0].url;
   assert.equal(featured.find("h2 a").attr("href"), expectedFeaturedUrl);
   assert.ok(featured.find(".post-card-description").text().trim());
   assert.match($("#recent-heading").closest("section").find("ol > li article time").first().closest("footer").attr("class"), /\bmt-auto\b/);
   assert.match($("#recent-heading").closest("section").find("ol > li article time").first().closest("footer").attr("class"), /\bpt-6\b/);
-  const postCount = authored.articles.length + authored.gamelogs.length + authored.dungeonlogs.length;
-  assert.equal($("#recent-heading").closest("section").find("ol > li").length, Math.min(site.recentPostCount, postCount - 1));
+  for (const section of site.homeSections) assert.equal($(`#home-${section.type}`).attr("href"), section.url);
+  assert.equal($("#recent-heading").closest("section").find("ol.home-posts > li").length, site.homeSections.length * site.recentPostCount);
+  assert.equal($("#home-article").length, 1);
+  assert.equal($("#home-gamelog").length, 1);
+  assert.equal($("#home-talk").length, 1);
+  assert.equal($("#recent-heading").closest("section").find("[data-content-type='dungeonlog']").length, 0);
   const pageLinks = $("#explore-heading").closest("section").find("ul > li a");
-  assert.deepEqual(pageLinks.map((_, link) => $(link).find("strong").text().trim()).get(), ["About", "Projects"]);
+  assert.deepEqual(pageLinks.map((_, link) => $(link).find("strong").text().trim()).get(), site.exploreLinks.map((item) => item.label));
   assert.equal(pageLinks.filter("[href='/projects/']").length, 1);
   const heroSocialLinks = $("header ul[aria-label='Social links'] a");
   const footerSocialLinks = $("footer ul[aria-label='Social links'] a");
@@ -81,6 +92,15 @@ test("Font Awesome CSS and webfonts are included in the build", async () => {
   assert.match(stylesheet, /url\(\.\.\/webfonts\/fa-solid-900\.woff2\)/);
   assert.ok(brandsFont.length > 0);
   assert.ok(solidFont.length > 0);
+});
+
+test("the home feed keeps its asymmetric mosaic at large viewports", async () => {
+  const stylesheet = await readFile(join(process.cwd(), "src", "styles", "main.css"), "utf8");
+  assert.match(stylesheet, /\.home-posts\s*>\s*li:nth-child\(1\)[\s\S]*grid-column:\s*span 2/);
+  assert.match(stylesheet, /\.home-posts\s*>\s*li:nth-child\(4\)[\s\S]*grid-column:\s*span 3/);
+  assert.match(stylesheet, /\.home-posts\s*>\s*li:nth-child\(6\)[\s\S]*grid-column:\s*span 4/);
+  assert.match(stylesheet, /\.home-posts\s*>\s*li:nth-child\(1\) figure[\s\S]*height:\s*18rem/);
+  assert.match(stylesheet, /\.home-posts\s*>\s*li:nth-child\(4\) figure[\s\S]*height:\s*14rem/);
 });
 
 test("operational telemetry is branch-gated and served as a first-party asset", async () => {
@@ -142,6 +162,7 @@ test("featured post selection defaults to latest, supports configuration, and re
   assert.equal(prepareHomeContent(posts, "/older/", 2).featured.url, "/older/");
   assert.deepEqual(prepareHomeContent(posts, "/older/", 2).recent.map((item) => item.url), ["/newer/", "/middle/"]);
   assert.throws(() => prepareHomeContent(posts, "/missing/", 2), /was not found/);
+  assert.equal(prepareHomeContent([...posts, { url: "/dungeon/", date: new Date("2026-01-01"), data: { type: "dungeonlog" } }], null, 2).featured.url, "/newer/");
 });
 
 test("representative post types render normalized data", async () => {
@@ -174,6 +195,21 @@ test("representative post types render normalized data", async () => {
   const dungeonlog = await page("blog/2026-03-16/index.html");
   assert.equal(dungeonlog("h1").text(), "The Queen Who Refused to Die");
   assert.ok(dungeonlog("figure img").length);
+});
+
+test("detail pages link to their type-specific archives", async () => {
+  const cases = [
+    ["blog/from-11ty-to-wordpress-and-back-again/index.html", "article", "/blog/articles/"],
+    ["blog/clair-obscur-expedition-33/index.html", "gamelog", "/blog/gamelogs/"],
+    ["blog/2026-03-16/index.html", "dungeonlog", "/blog/dungeonlogs/"],
+    ["talks/no-mission-impossible/index.html", "talk", "/talks/"],
+  ];
+
+  for (const [path, type, archiveUrl] of cases) {
+    const $ = await page(path);
+    const archive = $(`a[href='${archiveUrl}']`).filter((_, element) => $(element).text().includes("Explore the complete"));
+    assert.equal(archive.text().replace(/\s+/g, " ").trim(), `Explore the complete ${type} archive`);
+  }
 });
 
 test("post visuals use banners or accessible type-specific fallbacks", async () => {
@@ -277,4 +313,72 @@ test("Azure redirects and the legacy query dispatcher are generated", async () =
   assert.match(dispatcher, /"clair-obscur-expedition-33":"\/blog\/clair-obscur-expedition-33\/"/);
   assert.match(dispatcher, /\/blog\/gamelogs\//);
   assert.match(dispatcher, /noindex/);
+});
+
+test("page metadata normalizes descriptions, canonical URLs, images, and schema", () => {
+  const result = preparePageMetadata({ site: { title: "David Wesst", description: "Fallback", url: "https://david.wes.st", socialLinks: [] }, page: { url: "/blog/example/" }, title: "Example", summary: "**Useful** [summary](https://example.com).", type: "article", date: "2026-01-01", banner: { src: "./cover.png", alt: "Cover" } });
+  assert.equal(result.description, "Useful summary.");
+  assert.equal(result.canonicalUrl, "https://david.wes.st/blog/example/");
+  assert.equal(result.imageUrl, "https://david.wes.st/blog/example/cover.png");
+  assert.equal(result.openGraphType, "article");
+  assert.equal(JSON.parse(result.jsonLd)["@graph"][0]["@type"], "BlogPosting");
+});
+
+test("page metadata derives a pre-render description from authored Markdown", () => {
+  const result = preparePageMetadata({ site: { title: "David Wesst", description: "Fallback", url: "https://david.wes.st", socialLinks: [] }, page: { url: "/blog/example/", rawInput: "---\ntitle: Example\n---\nA **distinct** introduction without a summary." }, title: "Example", type: "gamelog" });
+  assert.equal(result.description, "A distinct introduction without a summary.");
+});
+
+test("sitemap, robots, and feeds expose canonical content", async () => {
+  const sitemap = await readFile(join(output, "sitemap.xml"), "utf8");
+  assert.match(sitemap, /https:\/\/david\.wes\.st\/blog\/paranormasight-the-mermaids-curse\//);
+  assert.match(sitemap, /https:\/\/david\.wes\.st\/blog\/articles\//);
+  assert.match(sitemap, /https:\/\/david\.wes\.st\/topics\/eleventy\//);
+  assert.doesNotMatch(sitemap, /\/categories\//);
+  const robots = await readFile(join(output, "robots.txt"), "utf8");
+  assert.match(robots, /Sitemap: https:\/\/david\.wes\.st\/sitemap\.xml/);
+  for (const file of ["feed.xml", "blog/articles/feed.xml", "blog/gamelogs/feed.xml", "blog/dungeonlogs/feed.xml", "talks/feed.xml"]) {
+    const feed = await readFile(join(output, file), "utf8");
+    assert.match(feed, /<feed xmlns="http:\/\/www\.w3\.org\/2005\/Atom">/);
+    assert.match(feed, /<author><name>David Wesst<\/name>/);
+    assert.match(feed, new RegExp(`<id>https://david\\.wes\\.st/${file.replaceAll(".", "\\.")}</id>`));
+  }
+});
+
+test("content navigation ranks topics and provides family sequence", () => {
+  const items = [
+    { url: "/older/", date: new Date("2024-01-01"), data: { type: "article", topics: ["web"] } },
+    { url: "/current/", date: new Date("2025-01-01"), data: { type: "article", topics: ["web", "games"] } },
+    { url: "/talk/", date: new Date("2026-01-01"), data: { type: "talk", topics: ["web", "games"] } },
+    { url: "/newer/", date: new Date("2026-02-01"), data: { type: "article", topics: ["games"] } },
+  ];
+  const result = prepareContentNavigation(items, "/current/", "article", ["web", "games"]);
+  assert.deepEqual(result.related.map((item) => item.url), ["/talk/", "/newer/", "/older/"]);
+  assert.equal(result.previous.url, "/older/");
+  assert.equal(result.next.url, "/newer/");
+});
+
+test("campaign links standardize supported sources", () => {
+  assert.equal(campaignUrl("/blog/example/", "bluesky", "example"), "https://david.wes.st/blog/example/?utm_source=bluesky&utm_medium=social&utm_campaign=example");
+  assert.throws(() => campaignUrl("https://example.com/post/", "youtube", "post"), /canonical published/);
+  assert.throws(() => campaignUrl("/blog/example/", "discord", "example"), /Unsupported/);
+  assert.throws(() => campaignUrl("/blog/example", "youtube", "example"), /canonical published/);
+  assert.throws(() => campaignUrl("/sitemap.xml", "youtube", "sitemap"), /canonical published/);
+  assert.throws(() => campaignUrl("/categories", "youtube", "categories"), /canonical published/);
+});
+
+test("detail sharing uses canonical untracked links with accessible fallbacks", async () => {
+  const $ = await page("blog/from-11ty-to-wordpress-and-back-again/index.html");
+  const share = $("[data-share-url]");
+  assert.equal(share.attr("data-share-url"), "https://david.wes.st/blog/from-11ty-to-wordpress-and-back-again/");
+  assert.equal(share.find("button.copy-share").length, 1);
+  assert.equal(share.find("[aria-live='polite']").length, 1);
+  assert.match(share.find("button.copy-share i").attr("class"), /fa-link/);
+  assert.ok(share.find("i.fa-solid, i.fa-brands").length >= 5);
+  const emailUrl = share.find("a[href^='mailto:']").attr("href");
+  assert.equal(emailUrl, "mailto:?subject=From%2011ty%20to%20Wordpress%20and%20Back%20Again&body=https%3A%2F%2Fdavid.wes.st%2Fblog%2Ffrom-11ty-to-wordpress-and-back-again%2F");
+  assert.doesNotMatch(emailUrl, /document|querySelector|navigator/);
+  assert.match($.html(), /execCommand\(["']copy["']\)/);
+  assert.equal(share.find(".copy-share-label").text(), "Copy link");
+  assert.doesNotMatch(share.html(), /utm_/);
 });

@@ -1,0 +1,3 @@
+import { renderSitemap } from "./_lib/discovery-documents.js";
+const INDEX_URLS = ["/", "/blog/", "/blog/articles/", "/blog/gamelogs/", "/blog/dungeonlogs/", "/talks/", "/topics/"];
+export default class { data() { return { permalink: "/sitemap.xml", eleventyExcludeFromCollections: true }; } render({ collections, site }) { const explicit = [...INDEX_URLS.map((url) => ({ url })), ...(collections.topicPages || []).map((topic) => ({ url: `/topics/${topic.slug}/` }))]; return renderSitemap([...(collections.posts || []), ...(collections.talks || []), ...(collections.pages || []), ...explicit], site.url); } }

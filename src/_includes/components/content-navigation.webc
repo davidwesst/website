@@ -1,0 +1,11 @@
+<aside class="mx-auto mt-12 max-w-4xl" aria-label="Continue exploring">
+  <nav class="flex flex-wrap justify-between gap-4 border-y border-slate-300 py-5" aria-label="Previous and next content">
+    <a webc:if="model.previous" class="font-bold text-teal-700" :href="model.previous.url">← <span @text="model.previous.data.title"></span></a>
+    <a webc:if="model.next" class="ml-auto font-bold text-teal-700" :href="model.next.url"><span @text="model.next.data.title"></span> →</a>
+  </nav>
+  <section webc:if="model.related.length" class="mt-10" aria-labelledby="related-heading">
+    <h2 id="related-heading" class="text-3xl font-black">Related content</h2>
+    <ol class="mt-6 grid list-none gap-6 p-0 md:grid-cols-3"><li webc:for="item of model.related"><post-card :@item="item" :@site="site" :@featured="false" :@description="item.data.summary"></post-card></li></ol>
+  </section>
+  <p class="mt-8 text-center"><a class="font-bold text-teal-700" :href="model.archiveUrl">Explore the complete <span @text="model.type"></span> archive</a><span webc:if="model.topics.length"> · <a href="/topics/">Browse topics</a></span></p>
+</aside>

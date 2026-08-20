@@ -21,4 +21,6 @@ layout: base.webc
     <section webc:if="content" class="prose-content" aria-label="Talk description" @raw="content"></section>
     <talk-details :@custom-data="customData"></talk-details>
   </div>
+  <share-content :share-url="pageMetadata.canonicalUrl" :share-title="title"></share-content>
+  <content-navigation :@model="contentNavigation" :@site="site"></content-navigation>
 </article>

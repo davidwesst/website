@@ -1,0 +1,1 @@
+export default class { data() { return { permalink: "/robots.txt", eleventyExcludeFromCollections: true }; } render({ site }) { return `User-agent: *\nAllow: /\nSitemap: ${site.url}/sitemap.xml\n`; } }

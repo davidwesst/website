@@ -2,7 +2,7 @@
 layout: base.webc
 ---
 <script webc:setup>
-  const homeContent = home.prepare(collections.posts, site.featuredPost, site.recentPostCount);
+  const homeContent = home.prepare([...(collections.posts || []), ...(collections.talks || [])], site.featuredPost, site.recentPostCount);
 </script>
 
 <section class="-mt-28 md:-mt-36" aria-labelledby="featured-heading">
@@ -18,20 +18,23 @@ layout: base.webc
     </div>
     <a class="font-bold text-teal-700 hover:text-teal-900" href="/blog/">View the full blog <span aria-hidden="true">→</span></a>
   </div>
-  <ol class="home-posts mt-8 grid list-none gap-8 p-0 md:grid-cols-2">
-    <li webc:for="item of homeContent.recent"><post-card :@item="item" :@site="site" :@featured="false" :@description="item.data.summary"></post-card></li>
+  <nav class="mt-8 flex flex-wrap gap-x-6 gap-y-3" aria-label="Featured post archives">
+    <a webc:for="section of site.homeSections" class="font-bold text-teal-700 hover:text-teal-900" :id="`home-${section.type}`" :href="section.url"><span @text="section.label"></span> <span aria-hidden="true">→</span></a>
+  </nav>
+  <ol class="home-posts mt-6 grid list-none gap-8 p-0 md:grid-cols-2">
+    <li webc:for="item of homeContent.mosaic"><post-card :@item="item" :@site="site" :@featured="false" :@description="item.data.summary"></post-card></li>
   </ol>
 </section>
 
 <section class="rounded-xl bg-white p-8 shadow-lg md:p-12" aria-labelledby="explore-heading">
   <p class="text-sm font-bold uppercase tracking-[0.2em] text-teal-700">More to explore</p>
-  <h2 id="explore-heading" class="mt-2 text-3xl font-black text-slate-950">Pages</h2>
+  <h2 id="explore-heading" class="mt-2 text-3xl font-black text-slate-950">Explore the site</h2>
   <div class="prose-content mt-5 max-w-3xl" @raw="content"></div>
   <ul class="mt-8 grid gap-4 sm:grid-cols-2">
-    <li webc:for="item of [...(collections.pages || [])].sort((left, right) => left.data.title.localeCompare(right.data.title))">
+    <li webc:for="item of site.exploreLinks">
       <a class="block rounded-lg border border-slate-200 p-5 no-underline transition hover:border-teal-500 hover:bg-teal-50" :href="item.url">
-        <strong class="block text-lg text-slate-950" @text="item.data.title"></strong>
-        <span webc:if="item.data.summary" class="mt-1 block text-sm text-slate-600" @text="item.data.summary"></span>
+        <strong class="block text-lg text-slate-950" @text="item.label"></strong>
+        <span class="mt-1 block text-sm text-slate-600" @text="item.description"></span>
       </a>
     </li>
   </ul>

@@ -1,0 +1,10 @@
+import { existsSync, statSync } from "node:fs";
+import path from "node:path";
+import { campaignUrl, canonicalPageUrl } from "../lib/campaign-links.js";
+const [input, campaign] = process.argv.slice(2);
+if (!input) throw new Error("Usage: pnpm campaign:links <canonical-url> [campaign]");
+const url = canonicalPageUrl(input);
+const outputPath = path.join("_site", ...url.pathname.split("/").filter(Boolean), "index.html");
+if (!existsSync(path.resolve(outputPath)) || !statSync(path.resolve(outputPath)).isFile()) throw new Error(`Published canonical page was not found in _site: ${url.pathname}`);
+const defaultCampaign = campaign || url.pathname.split("/").filter(Boolean).at(-1) || "homepage";
+for (const source of ["youtube", "bluesky", "linkedin", "instagram"]) console.log(`${source}: ${campaignUrl(url.href, source, defaultCampaign)}`);
