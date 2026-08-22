@@ -369,11 +369,14 @@ test("campaign links standardize supported sources", () => {
 
 test("detail sharing uses canonical untracked links with accessible fallbacks", async () => {
   const $ = await page("blog/from-11ty-to-wordpress-and-back-again/index.html");
+  const css = await readFile(join(output, "assets", "main.css"), "utf8");
   const share = $("[data-share-url]");
   assert.equal(share.attr("data-share-url"), "https://david.wes.st/blog/from-11ty-to-wordpress-and-back-again/");
   assert.equal(share.find("button.copy-share").length, 1);
   assert.equal(share.find("[aria-live='polite']").length, 1);
   assert.match(share.find("button.copy-share i").attr("class"), /fa-link/);
+  assert.match(css, /\.copy-share\s*\{[^}]*inline-size:\s*8\.5rem/);
+  assert.match(css, /\.copy-share\s*\{[^}]*justify-content:\s*center/);
   assert.ok(share.find("i.fa-solid, i.fa-brands").length >= 5);
   const emailUrl = share.find("a[href^='mailto:']").attr("href");
   assert.equal(emailUrl, "mailto:?subject=From%2011ty%20to%20Wordpress%20and%20Back%20Again&body=https%3A%2F%2Fdavid.wes.st%2Fblog%2Ffrom-11ty-to-wordpress-and-back-again%2F");
