@@ -1,6 +1,6 @@
 ---
 title: I Miss Blogging
-date: '2020-06-24'
+date: 2020-06-24
 redirectFrom:
   - /blog/i-miss-blogging/index.html
 ---

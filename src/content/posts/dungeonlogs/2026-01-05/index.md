@@ -1,6 +1,6 @@
 ---
 title: 'The Thighs, the Stars, and the Scream'
-date: '2026-01-05'
+date: 2026-01-05
 redirectFrom:
   - /blog/dungeonlog/2026-01-05/
 banner:

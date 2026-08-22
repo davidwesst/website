@@ -1,6 +1,6 @@
 ---
 title: 'Capture HTTPS Traffic in Java with Eclipse, and Fiddler'
-date: '2015-10-07'
+date: 2015-10-07
 topics:
   - eclipse
   - fiddler

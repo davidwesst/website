@@ -1,7 +1,7 @@
 ---
 title: Introducing My Game Project - March 2017 Devblog
-date: '2017-04-03'
-updated: '2017-04-03'
+date: 2017-04-03
+updated: 2017-04-03
 summary: >-
   This is the first of monthly status update posts on my video game project I
   call Conquest.

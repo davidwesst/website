@@ -1,7 +1,7 @@
 ---
 title: Initial Thoughts on Using Phaser
-date: '2017-03-07'
-updated: '2017-03-07'
+date: 2017-03-07
+updated: 2017-03-07
 summary: >-
   As a side project, I started making another JavaScript-based video game and
   decided to go with Phaser as my framework of choice. Here are my initial

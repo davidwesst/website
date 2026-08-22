@@ -15,7 +15,7 @@
     <li webc:for="appearance of customData.appearances">
       <section>
         <h3 @text="appearance.event"></h3>
-        <p><time :datetime="appearance.start" @text="appearance.start"></time><span webc:if="appearance.end"> to <time :datetime="appearance.end" @text="appearance.end"></time></span></p>
+        <p webc:if="appearance.start"><content-date :@value="appearance.start"></content-date><span webc:if="appearance.end"> to <content-date :@value="appearance.end"></content-date></span></p>
         <p webc:if="appearance.location" @text="appearance.location"></p>
         <p webc:if="appearance.speakers && appearance.speakers.length">Presented by <span @text="speakerText(appearance.speakers)"></span></p>
         <ul webc:if="appearance.links && appearance.links.length">

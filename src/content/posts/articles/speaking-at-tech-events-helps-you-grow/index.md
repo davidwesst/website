@@ -1,6 +1,6 @@
 ---
 title: Speaking at Tech Events Helps You Grow
-date: '2022-12-20'
+date: 2022-12-20
 summary: >-
   A large part of my career growth is tied directly to speaking at tech events
   like conferences and user groups. I have had many people ask me about my

@@ -1,6 +1,6 @@
 ---
 title: Return to Grace
-date: '2025-01-27'
+date: 2025-01-27
 redirectFrom:
   - /blog/gamelog/entry.html?slug=return-to-grace
   - /gamelog/return-to-grace/
@@ -11,8 +11,8 @@ customData:
     ids:
       igdb: 249477
   playthrough:
-    started: '2025-01-27'
-    completed: '2025-01-27'
+    started: 2025-01-27
+    completed: 2025-01-27
     platform: XBox Series X
   ratings:
     gameplay: 2

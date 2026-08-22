@@ -1,6 +1,6 @@
 ---
 title: Sagres
-date: '2025-01-04'
+date: 2025-01-04
 redirectFrom:
   - /blog/gamelog/entry.html?slug=sagres
   - /gamelog/sagres/
@@ -11,8 +11,8 @@ customData:
     ids:
       igdb: 213121
   playthrough:
-    started: '2024-11-01'
-    completed: '2024-11-28'
+    started: 2024-11-01
+    completed: 2024-11-28
     platform: Steam Deck / PC
   ratings:
     gameplay: 2

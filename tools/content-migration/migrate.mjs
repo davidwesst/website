@@ -90,9 +90,9 @@ function clean(value) {
 
 function isoDate(value) {
   if (!value) return undefined;
-  if (value instanceof Date) return value.toISOString().slice(0, 10);
+  if (value instanceof Date) return value;
   const parsed = new Date(value);
-  return Number.isNaN(parsed.valueOf()) ? String(value) : parsed.toISOString().slice(0, 10);
+  return Number.isNaN(parsed.valueOf()) ? String(value) : parsed;
 }
 
 function inferLinkType(label = "") {
@@ -310,7 +310,7 @@ function talkData(entry, events) {
 }
 
 function talkDate(entry, data) {
-  const latestAppearance = data.appearances?.map((appearance) => appearance.start).filter(Boolean).sort().at(-1);
+  const latestAppearance = data.appearances?.map((appearance) => appearance.start).filter(Boolean).sort((left, right) => left - right).at(-1);
   const date = isoDate(entry.data.dates?.published || entry.data.date) || latestAppearance || TALK_DATE_OVERRIDES.get(entry.slug);
   if (!date) throw new Error(`Missing publication or presentation date for talk ${entry.slug}`);
   return date;
@@ -335,7 +335,9 @@ function collectAssets(entry, targetPath, stageContent, manifestAssets) {
 function writeEntry(stageContent, targetPath, data, body) {
   const destination = path.join(stageContent, targetPath, "index.md");
   mkdirSync(path.dirname(destination), { recursive: true });
-  writeFileSync(destination, matter.stringify(`${body.trim()}\n`, data), "utf8");
+  const source = matter.stringify(`${body.trim()}\n`, data)
+    .replace(/(\d{4}-\d{2}-\d{2})T00:00:00\.000Z/g, "$1");
+  writeFileSync(destination, source, "utf8");
 }
 
 function createMigration(stageRoot) {

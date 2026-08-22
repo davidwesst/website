@@ -1,6 +1,6 @@
 ---
 title: Blue Prince
-date: '2025-04-20'
+date: 2025-04-20
 redirectFrom:
   - /blog/gamelog/entry.html?slug=blue-prince
   - /gamelog/blue-prince/
@@ -11,8 +11,8 @@ customData:
     ids:
       igdb: 149657
   playthrough:
-    started: '2025-04-10'
-    completed: '2025-04-18'
+    started: 2025-04-10
+    completed: 2025-04-18
     platform: XBox Series X
   ratings:
     gameplay: 3

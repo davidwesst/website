@@ -1,6 +1,6 @@
 ---
 title: The Séance of Blake Manor
-date: '2025-12-17'
+date: 2025-12-17
 redirectFrom:
   - /blog/gamelog/entry.html?slug=seance-at-blake-manor
   - /blog/gamelog/seance-at-blake-manor/
@@ -9,8 +9,8 @@ customData:
     ids:
       igdb: 335833
   playthrough:
-    started: '2025-11-28'
-    completed: '2025-12-14'
+    started: 2025-11-28
+    completed: 2025-12-14
     platform: Steam
   ratings:
     gameplay: 2

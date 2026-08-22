@@ -1,6 +1,6 @@
 ---
 title: My Secret Addiction to Likes
-date: '2021-05-31'
+date: 2021-05-31
 summary: >-
   I decided to take a month off of contributing to social media. More
   specifically Twitter and YouTube, but Facebook and Instagram as well. That

@@ -1,6 +1,6 @@
 ---
 title: The Room That Remembered Us
-date: '2025-11-17'
+date: 2025-11-17
 redirectFrom:
   - /blog/dungeonlog/2025-11-17/
 banner:

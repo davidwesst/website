@@ -1,6 +1,6 @@
 ---
 title: Excited about WebGL because of Grandia II
-date: '2013-07-18'
+date: 2013-07-18
 summary: >-
   Last week, I was asking my partner for some advice on what game I should play.
   This is a regular occurrence for both of us, as we are both video game lovers

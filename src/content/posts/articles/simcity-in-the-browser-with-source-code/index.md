@@ -1,6 +1,6 @@
 ---
 title: SimCity in the Browser...with Source Code
-date: '2014-10-31'
+date: 2014-10-31
 summary: >-
   If you haven't played the classic SimCity, I mean Micropolis then you missed
   out.

@@ -1,6 +1,6 @@
 ---
 title: 'November 27 - Going Terminal: Learning to be IDE Free'
-date: '2014-11-13'
+date: 2014-11-13
 summary: >-
   I'm making my public speaking comeback after nearly a full year off with a new
   original presentation called Going Terminal: Learning to be IDE Free.

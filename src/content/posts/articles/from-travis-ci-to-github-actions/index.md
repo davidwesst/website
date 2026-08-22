@@ -1,6 +1,6 @@
 ---
 title: From Travis CI to GitHub Actions (and GitHub Pages)
-date: '2020-11-10'
+date: 2020-11-10
 summary: >-
   We recently migrated the continuous integration and deployment workflow for
   the Western Devs website from Travis CI to GitHub Actions. These are the steps

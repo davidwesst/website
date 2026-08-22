@@ -1,6 +1,6 @@
 ---
 title: Why Networking is Critical
-date: '2015-07-09'
+date: 2015-07-09
 summary: >-
   With my new gig as an Application Developer, I started back into technology
   podcasts. I'm not sure how I came across MSDevShow, but I did notice that Lori

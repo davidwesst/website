@@ -1,6 +1,6 @@
 ---
 title: HTML Gaming for Core Gamers
-date: '2013-09-07'
+date: 2013-09-07
 summary: >-
   This is part of a blog series discussing my afterthought on attending PAX Dev
   and Prime 2013 in Seattle.

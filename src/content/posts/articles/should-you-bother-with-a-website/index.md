@@ -1,6 +1,6 @@
 ---
 title: Should you bother with a Website?
-date: '2021-06-07'
+date: 2021-06-07
 summary: >-
   It's 2021. Websites are sooooooo....2006. With social media dominating the way
   people consume content these days, what is the point of having a website

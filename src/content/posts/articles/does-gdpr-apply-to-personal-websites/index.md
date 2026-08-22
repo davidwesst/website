@@ -1,6 +1,6 @@
 ---
 title: Does GDPR Apply to Personal Websites?
-date: '2022-11-16'
+date: 2022-11-16
 summary: >-
   While rebuilding my personal website in 2022, I wanted to know how or if GDPR
   applied to my little side project. My internet sleuthing did not bring up any

@@ -1,6 +1,6 @@
 ---
 title: NetFront-- the Unknown Browser Everyone Owns
-date: '2015-01-14'
+date: 2015-01-14
 summary: >-
   Netfront is a web browser that I hadn't heard of before, but I have installed
   on six of my devices.

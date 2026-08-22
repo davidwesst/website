@@ -1,6 +1,6 @@
 ---
 title: Living on the (Microsoft) Edge on May 5 & 6
-date: '2015-05-04'
+date: 2015-05-04
 summary: >-
   2015 brought introduced a lot of new stuff in the Microsoft space, including
   how Windows 10 is changing up the web application game.

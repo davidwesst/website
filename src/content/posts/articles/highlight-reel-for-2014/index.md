@@ -1,6 +1,6 @@
 ---
 title: Highlight Reel for 2014
-date: '2015-01-01'
+date: 2015-01-01
 summary: >-
   This past year has been a rough one for me personally, but professionally, not
   so bad.

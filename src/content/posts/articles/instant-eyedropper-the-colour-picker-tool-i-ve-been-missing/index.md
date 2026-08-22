@@ -1,6 +1,6 @@
 ---
 title: 'Instant Eyedropper: The Colour Picker Tool I''ve Been Missing'
-date: '2013-08-20'
+date: 2013-08-20
 summary: >-
   I came across this today, and I wanted to share it as this is the first time
   I've found a simple, minimalistic eyedropper tool that allows me to get the

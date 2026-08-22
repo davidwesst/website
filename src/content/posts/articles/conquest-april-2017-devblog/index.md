@@ -1,7 +1,7 @@
 ---
 title: Conquest April 2017 Devblog
-date: '2017-05-02'
-updated: '2017-05-02'
+date: 2017-05-02
+updated: 2017-05-02
 topics:
   - conquest
   - ink

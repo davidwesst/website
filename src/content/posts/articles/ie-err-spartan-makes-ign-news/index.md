@@ -1,6 +1,6 @@
 ---
 title: IE...err...Spartan Makes IGN News
-date: '2015-01-02'
+date: 2015-01-02
 summary: >-
   Watching my YouTube based video game news on IGN News, I came across this
   report that blends the two worlds.

@@ -20,15 +20,15 @@ banner:
     Abstract icons representing databases, cloud services, applications, users,
     and automation tools surround the center in a clean event-driven
     architecture layout with soft gradients and futuristic UI styling.
-date: '2026-04-19'
+date: 2026-04-19
 customData:
   speakers:
     - David Wesst
     - Jackson Bruno
   appearances:
     - event: Ellucian LIVE 2026
-      start: '2026-04-19'
-      end: '2026-04-22'
+      start: 2026-04-19
+      end: 2026-04-22
       location: 'Denver, CO, USA'
       speakers:
         - David Wesst

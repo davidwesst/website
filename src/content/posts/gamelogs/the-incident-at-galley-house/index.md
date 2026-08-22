@@ -1,6 +1,6 @@
 ---
 title: The Incident at Galley House
-date: '2026-07-23'
+date: 2026-07-23
 redirectFrom:
   - /blog/gamelog/entry.html?slug=the-incident-at-galley-house
   - /blog/gamelog/the-incident-at-galley-house/
@@ -9,8 +9,8 @@ customData:
     ids:
       igdb: 350434
   playthrough:
-    started: '2026-07-20'
-    completed: '2026-07-22'
+    started: 2026-07-20
+    completed: 2026-07-22
     platform: Steam
   ratings:
     gameplay: 2

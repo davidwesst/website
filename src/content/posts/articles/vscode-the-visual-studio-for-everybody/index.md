@@ -1,6 +1,6 @@
 ---
 title: Code - The Visual Studio for Everybody
-date: '2015-12-07'
+date: 2015-12-07
 topics:
   - visual-studio-code
   - vscode

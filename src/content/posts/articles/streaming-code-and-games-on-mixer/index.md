@@ -1,6 +1,6 @@
 ---
 title: Streaming Code and Play on Mixer every Thursday and Sunday
-date: '2018-09-27'
+date: 2018-09-27
 summary: >-
   This month I started livestreaming game code and gameplay every Thursday and
   Sunday night at 9:30pm CT

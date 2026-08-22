@@ -1,6 +1,6 @@
 ---
 title: 'Sonar, the Linter I Never Knew I Wanted'
-date: '2017-09-19'
+date: 2017-09-19
 summary: >-
   Meet Nellie the Narwhal, the official mascot for Sonar, the linting tool for
   the web. Nellie represents a tool that is long-overdue. It provides any web

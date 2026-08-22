@@ -14,15 +14,15 @@ topics:
 banner:
   src: ./Slide2.jpg
   alt: Purple Ellucian Live 2024 title slide with the talk title and speakers.
-date: '2024-04-07'
+date: 2024-04-07
 customData:
   speakers:
     - David Wesst
     - Jackson Bruno
   appearances:
     - event: Ellucian LIVE 2024
-      start: '2024-04-07'
-      end: '2024-04-10'
+      start: 2024-04-07
+      end: 2024-04-10
       location: 'San Antonio, TX, USA'
       speakers:
         - David Wesst

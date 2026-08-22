@@ -1,6 +1,6 @@
 ---
 title: Game Portfolio Self Evaluation (in prep for Ludum Dare 47)
-date: '2020-09-18'
+date: 2020-09-18
 summary: >-
   Ludum Dare 47, a weekend long global gamejam, is coming up in a few weeks. In
   order to prep for the event, I decided to take the time for review and reflect

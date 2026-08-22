@@ -1,6 +1,6 @@
 ---
 title: 'Kathy Rain 2: Soothsayer'
-date: '2026-03-23'
+date: 2026-03-23
 redirectFrom:
   - /blog/gamelog/entry.html?slug=kathy-rain-2-soothsayer
   - /blog/gamelog/kathy-rain-2-soothsayer/
@@ -9,8 +9,8 @@ customData:
     ids:
       igdb: 322691
   playthrough:
-    started: '2026-03-20'
-    completed: '2026-03-22'
+    started: 2026-03-20
+    completed: 2026-03-22
     platform: Steam
   ratings:
     gameplay: 2

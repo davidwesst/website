@@ -1,6 +1,6 @@
 ---
 title: JavaScript Coding is Gameplay in Screeps
-date: '2014-11-19'
+date: 2014-11-19
 summary: >-
   I found this on reddit last week. It's called Screeps and it comes out
   tomorrow (November 20th).

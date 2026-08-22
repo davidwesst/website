@@ -1,6 +1,6 @@
 ---
 title: 'Answering the question: When will IE support that HTML feature?'
-date: '2014-04-03'
+date: 2014-04-03
 summary: >-
   Tired of waiting to hear from Microsoft on whether or not IE will support the
   latest HTML5 feature?
