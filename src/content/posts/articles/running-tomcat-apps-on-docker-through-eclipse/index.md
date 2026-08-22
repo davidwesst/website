@@ -1,6 +1,6 @@
 ---
 title: Running Tomcat Apps on Docker through Eclipse
-date: '2015-08-07'
+date: 2015-08-07
 topics:
   - docker
   - eclipse

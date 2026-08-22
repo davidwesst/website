@@ -1,6 +1,6 @@
 ---
 title: Highlight Reel for 2022
-date: '2023-01-05'
+date: 2023-01-05
 summary: >-
   When a new year arrives, it is a great opportunity to take a moment to reflect
   on where you started at the beginning of the year, and where you ended. When I

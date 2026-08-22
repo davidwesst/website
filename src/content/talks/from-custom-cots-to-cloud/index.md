@@ -8,7 +8,7 @@ summary: >-
 banner:
   src: ./From-COTS-to-Cloud-thumbnail.jpg
   alt: Title slide for From Custom COTS to Cloud over an abstract blue backdrop.
-date: '2022-11-28'
+date: 2022-11-28
 customData:
   speakers:
     - David Wesst

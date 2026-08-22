@@ -1,6 +1,6 @@
 ---
 title: The Mermaid Mask
-date: '2026-08-14'
+date: 2026-08-14
 redirectFrom:
   - /blog/gamelog/the-mermaid-mask/
 customData:
@@ -8,8 +8,8 @@ customData:
     ids:
       igdb: 279369
   playthrough:
-    started: '2026-08-02'
-    completed: '2026-08-04'
+    started: 2026-08-02
+    completed: 2026-08-04
     platform: Steam
   ratings:
     gameplay: 3

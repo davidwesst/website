@@ -1,6 +1,6 @@
 ---
 title: How to Blog with VSTS (Part 2)
-date: '2016-11-07'
+date: 2016-11-07
 summary: >-
   I wanted to understand how to use Visual Studio Team Services (VSTS) for a
   "real" project. Being a noob, I decided to move my blog to VSTS to understand

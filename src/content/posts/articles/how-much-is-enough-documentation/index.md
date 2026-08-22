@@ -1,6 +1,6 @@
 ---
 title: How much is enough documentation?
-date: '2022-11-08'
+date: 2022-11-08
 summary: >-
   Documentation is important, but it takes a lot of time and if you are a solo
   developer, what documentation to you really need? Still, good docs can provide

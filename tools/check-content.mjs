@@ -74,9 +74,9 @@ function exactCaseExists(file) {
 
 function parseDate(value, context) {
   assert.ok(value, `${context} must have a date`);
-  const date = value instanceof Date ? value : new Date(value);
-  assert.ok(!Number.isNaN(date.valueOf()), `${context} has an invalid date`);
-  return date;
+  assert.ok(value instanceof Date, `${context} must be an unquoted YAML date`);
+  assert.ok(!Number.isNaN(value.valueOf()), `${context} has an invalid date`);
+  return value;
 }
 
 const markdownFiles = walkFiles(CONTENT_ROOT, (file) => path.basename(file) === "index.md");
@@ -139,11 +139,18 @@ for (const document of documents) {
     assert.ok(Array.isArray(document.data.customData?.speakers) && document.data.customData.speakers.length, `${context} needs speakers`);
     assert.ok(document.data.customData?.appearances === undefined || Array.isArray(document.data.customData.appearances), `${context} appearances must be a list`);
     appearanceCount += document.data.customData.appearances?.length || 0;
+    for (const [index, appearance] of (document.data.customData.appearances || []).entries()) {
+      if (appearance.start) parseDate(appearance.start, `${context} appearance ${index + 1} start`);
+      if (appearance.end) parseDate(appearance.end, `${context} appearance ${index + 1} end`);
+    }
   }
   if (document.type === "gamelogs") {
     assert.ok(document.data.customData?.game?.ids?.igdb, `${context} needs an IGDB id`);
     assert.ok(document.data.customData?.playthrough, `${context} needs playthrough data`);
     assert.ok(document.data.customData?.ratings?.overall, `${context} needs ratings`);
+    const playthrough = document.data.customData.playthrough;
+    if (playthrough.started) parseDate(playthrough.started, `${context} playthrough start`);
+    if (playthrough.completed) parseDate(playthrough.completed, `${context} playthrough completion`);
   }
   if (["gamelogs", "dungeonlogs"].includes(document.type)) {
     const legacyType = document.type === "gamelogs" ? "gamelog" : "dungeonlog";

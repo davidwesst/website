@@ -1,6 +1,6 @@
 ---
 title: The MVP Network is Awesome
-date: '2014-09-23'
+date: 2014-09-23
 summary: >-
   Over the weekend I hit a Windows Azure issue in my side project that totally
   blocked me. Yesterday, I reached out on Twitter, and the Canadian MVP network

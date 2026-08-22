@@ -1,6 +1,6 @@
 ---
 title: Tangle Tower
-date: '2025-04-21'
+date: 2025-04-21
 redirectFrom:
   - /blog/gamelog/entry.html?slug=tangle-tower
   - /gamelog/tangle-tower/
@@ -11,8 +11,8 @@ customData:
     ids:
       igdb: 123775
   playthrough:
-    started: '2025-04-20'
-    completed: '2025-04-20'
+    started: 2025-04-20
+    completed: 2025-04-20
     platform: Steam Deck / PC
   ratings:
     gameplay: 2

@@ -1,6 +1,6 @@
 ---
 title: Looking Forward into 2016
-date: '2016-01-01'
+date: 2016-01-01
 summary: >-
   DW documents and shares his planning session for 2016 based on what he's
   learned from 2015.

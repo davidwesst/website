@@ -1,6 +1,6 @@
 ---
 title: Downgrading Windows Phone 10 Technical Preview - The Lowlights
-date: '2015-09-22'
+date: 2015-09-22
 topics:
   - windows-10
   - windows-phone

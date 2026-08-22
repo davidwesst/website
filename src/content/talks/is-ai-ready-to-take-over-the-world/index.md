@@ -8,7 +8,7 @@ summary: >-
 banner:
   src: ./is-ai-ready-to-take-over-the-world_thumbnail.jpg
   alt: Robotic hands cradle Earth beside the talk title on a white panel.
-date: '2023-10-16'
+date: 2023-10-16
 customData:
   speakers:
     - David Wesst

@@ -1,6 +1,6 @@
 ---
 title: Final Fantasy IV (Pixel Remaster)
-date: '2026-07-22'
+date: 2026-07-22
 redirectFrom:
   - /blog/gamelog/entry.html?slug=final-fantasy-iv
   - /blog/gamelog/final-fantasy-iv/
@@ -9,8 +9,8 @@ customData:
     ids:
       igdb: 158983
   playthrough:
-    started: '2026-04-06'
-    completed: '2026-07-01'
+    started: 2026-04-06
+    completed: 2026-07-01
     platform: XBox Series X
   ratings:
     gameplay: 2

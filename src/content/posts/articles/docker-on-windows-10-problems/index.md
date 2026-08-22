@@ -1,6 +1,6 @@
 ---
 title: Docker on Windows 10 Problems
-date: '2015-08-10'
+date: 2015-08-10
 topics:
   - docker
   - windows-10

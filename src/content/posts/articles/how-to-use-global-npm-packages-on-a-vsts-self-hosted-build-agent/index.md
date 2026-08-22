@@ -1,6 +1,6 @@
 ---
 title: How to Use Global NPM Packages on a VSTS Self-Hosted Build Agent
-date: '2016-10-24'
+date: 2016-10-24
 summary: >-
   I setup a self-hosted build agent in Visual Studio Team Services. My build
   installed global NPM packages, but the tasks that used them later on in the

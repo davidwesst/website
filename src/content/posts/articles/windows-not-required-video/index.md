@@ -1,6 +1,6 @@
 ---
 title: Windows Not Required - The New Microsoft Development Story (Video)
-date: '2016-10-03'
+date: 2016-10-03
 summary: >-
   I delivered a presentation at the Winnipeg .NET User Group last week, where I
   recorded it and posted it on YouTube. I go over a number of Microsoft

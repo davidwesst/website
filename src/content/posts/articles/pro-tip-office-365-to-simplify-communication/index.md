@@ -1,6 +1,6 @@
 ---
 title: 'Pro Tip: Office 365 to Simplify Communication'
-date: '2013-11-05'
+date: 2013-11-05
 summary: I believe the key to being professional is communication.
 topics:
   - microsoft-365

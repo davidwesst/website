@@ -1,6 +1,6 @@
 ---
 title: Retro Mystery Club Vol. 1 - The Ise-Shima Case
-date: '2026-01-10'
+date: 2026-01-10
 redirectFrom:
   - /blog/gamelog/entry.html?slug=retro-mystery-club-vol-1
   - /blog/gamelog/retro-mystery-club-vol-1/
@@ -9,8 +9,8 @@ customData:
     ids:
       igdb: 260478
   playthrough:
-    started: '2026-01-02'
-    completed: '2026-01-10'
+    started: 2026-01-02
+    completed: 2026-01-10
     platform: Steam
   ratings:
     gameplay: 1

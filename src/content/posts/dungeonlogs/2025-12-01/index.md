@@ -1,6 +1,6 @@
 ---
 title: When the Room Let Us Go
-date: '2025-12-01'
+date: 2025-12-01
 redirectFrom:
   - /blog/dungeonlog/2025-12-01/
 banner:

@@ -1,6 +1,6 @@
 ---
 title: Microsoft IE MVP - Year Four
-date: '2014-04-05'
+date: 2014-04-05
 summary: >-
   That's right everyone, I've been awarded the the Microsoft MVP award in the
   area of Internet Explorer again for 2014.

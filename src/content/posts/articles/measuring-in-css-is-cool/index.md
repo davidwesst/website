@@ -1,6 +1,6 @@
 ---
 title: Measuring in CSS is Cool
-date: '2016-03-07'
+date: 2016-03-07
 summary: >-
   I've been on this CSS kick for the past while, and I had forgotten how much
   CSS can do now. More specifically how things have changed when it comes to

@@ -1,6 +1,6 @@
 ---
 title: From 11ty to Wordpress and Back Again
-date: '2025-01-30'
+date: 2025-01-30
 summary: >-
   I stepped away from blogging thinking that the problem was that my Eleventy
   (11ty) setup and continually tinkering with it was keeping me away from

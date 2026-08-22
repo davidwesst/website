@@ -1,6 +1,6 @@
 ---
 title: Make New Habits with New IE VMs in the New Year
-date: '2015-01-07'
+date: 2015-01-07
 summary: >-
   Happy New Year! Time to start working on self improvement and developing new
   habits.

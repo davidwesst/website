@@ -1,6 +1,6 @@
 ---
 title: Service Workers and PWAs are Super Cool
-date: '2017-09-18'
+date: 2017-09-18
 summary: >-
   One of the core items highlighted by the Microsoft Edge team, along with many
   others who were just web professionals, was the importance of Progressive Web

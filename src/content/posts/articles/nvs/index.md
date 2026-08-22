@@ -1,6 +1,6 @@
 ---
 title: 'NVS, the Node Version Manger for Everyone'
-date: '2017-08-15'
+date: 2017-08-15
 summary: >-
   Here's another dev thing I use: NVS, or the Node Version Switcher. It works on
   Windows and it's great.

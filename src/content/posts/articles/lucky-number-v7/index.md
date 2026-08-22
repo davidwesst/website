@@ -1,6 +1,6 @@
 ---
 title: Lucky Number v7
-date: '2021-05-24'
+date: 2021-05-24
 summary: >-
   I fixed up my blog-website-thingy again. I'm calling this v7, although I'm
   pretty sure there are a few incarnations of the site that were lost early on
