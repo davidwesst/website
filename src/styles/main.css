@@ -25,6 +25,11 @@ body { margin: 0; }
   text-decoration: none;
 }
 
+.copy-share {
+  inline-size: 8.5rem;
+  justify-content: center;
+}
+
 .share-action:hover,
 .share-action:focus-visible,
 .share-action.is-copied {
