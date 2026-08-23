@@ -1,6 +1,6 @@
 ---
 title: Smoke over Fernia
-date: '2025-10-18'
+date: 2025-10-18
 redirectFrom:
   - /blog/dungeonlog/2025-10-18/
 banner:

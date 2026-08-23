@@ -1,6 +1,6 @@
 ---
 title: Defining the Problem before the Solution
-date: '2023-01-27'
+date: 2023-01-27
 summary: >-
   Before you create a solution, you need to understand the problem. It sounds
   obvious enough, yet I see developers (including myself) getting into the code

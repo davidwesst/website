@@ -20,15 +20,15 @@ banner:
     automation orbit around the center with dotted connection paths and subtle
     neon gradients, representing secure SaaS-safe integrations and governed
     architecture.
-date: '2026-06-01'
+date: 2026-06-01
 customData:
   speakers:
     - David Wesst
     - Jackson Bruno
   appearances:
     - event: Ellucian LIVE 2026
-      start: '2026-04-19'
-      end: '2026-04-22'
+      start: 2026-04-19
+      end: 2026-04-22
       location: 'Denver, CO, USA'
       speakers:
         - David Wesst
@@ -39,8 +39,8 @@ customData:
             https://davidwesst-my.sharepoint.com/:b:/p/dw/IQDOK4PB2GHSSJPpOCo6lX9nAcvhF7Jp82IGlmM_WHWcAT0?e=s5f6cI
           type: slides
     - event: CANHEIT 2026
-      start: '2026-06-01'
-      end: '2026-06-04'
+      start: 2026-06-01
+      end: 2026-06-04
       location: 'Waterloo, ON, Canada'
       speakers:
         - David Wesst

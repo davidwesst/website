@@ -1,6 +1,6 @@
 ---
 title: Can ASP.NET Become the Next Node.JS?
-date: '2014-11-14'
+date: 2014-11-14
 summary: >-
   I realize how crazy that sounds, but after yesterday's keynote from Microsoft
   at the VS Connect event in New York, I'm wondering if my goal to find a true

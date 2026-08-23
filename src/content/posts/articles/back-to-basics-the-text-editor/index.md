@@ -1,6 +1,6 @@
 ---
 title: 'Back to Basics: The Text Editor'
-date: '2014-04-24'
+date: 2014-04-24
 topics:
   - notepad++
   - sublime-text

@@ -1,6 +1,6 @@
 ---
 title: 'Think Before You Tweet: A Lesson in Humility'
-date: '2014-11-17'
+date: 2014-11-17
 summary: >-
   Over the weekend I tripped over brain and sounded like a goof on Twitter while
   trying to engage a number of technology experts.

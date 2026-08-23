@@ -1,6 +1,6 @@
 ---
 title: Conference recap extravaganza!
-date: '2015-06-11'
+date: 2015-06-11
 topics:
   - conference
   - healthcare

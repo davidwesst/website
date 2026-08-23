@@ -1,6 +1,6 @@
 ---
 title: 'Get to the Point: My Pilot Video'
-date: '2014-12-30'
+date: 2014-12-30
 summary: >-
   To close out the year, I'm kicking off a new project that I've wanted to do
   for a long time now.

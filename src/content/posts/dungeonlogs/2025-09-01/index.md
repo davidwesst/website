@@ -1,6 +1,6 @@
 ---
 title: Firefinger
-date: '2025-09-01'
+date: 2025-09-01
 redirectFrom:
   - /blog/dungeonlog/2025-09-01/
 banner:

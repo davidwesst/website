@@ -1,6 +1,6 @@
 ---
 title: 'Jabba, the Java Version Manager for Everyone'
-date: '2017-08-16'
+date: 2017-08-16
 summary: >-
   Here's another dev thing I use: Jabba, a cross-platform Java version manager
   that works for Windows.

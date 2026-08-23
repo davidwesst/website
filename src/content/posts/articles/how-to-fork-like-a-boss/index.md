@@ -1,6 +1,6 @@
 ---
 title: How to fork (a repo) like a boss!
-date: '2022-11-01'
+date: 2022-11-01
 summary: >-
   Everyone thinks about forking. It is a natural thing, yet how do get the job
   done and fork? I used to ask myself the same thing, until I learned these

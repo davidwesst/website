@@ -1,6 +1,6 @@
 ---
 title: Indiana Jones and the Great Circle
-date: '2025-01-02'
+date: 2025-01-02
 redirectFrom:
   - /blog/gamelog/entry.html?slug=indiana-jones-and-the-great-circle
   - /gamelog/indiana-jones-and-the-great-circle/
@@ -11,8 +11,8 @@ customData:
     ids:
       igdb: 142415
   playthrough:
-    started: '2025-12-25'
-    completed: '2025-01-02'
+    started: 2025-12-25
+    completed: 2025-01-02
     platform: XBox Series X
   ratings:
     gameplay: 2

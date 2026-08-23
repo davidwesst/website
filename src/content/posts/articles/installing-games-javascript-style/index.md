@@ -1,6 +1,6 @@
 ---
 title: Installing Games JavaScript Style
-date: '2014-10-24'
+date: 2014-10-24
 summary: >-
   I bought the Humble Mozilla Bundle earlier this week and I wanted to take a
   moment to show people what it looks like to install a JavaScript game in the

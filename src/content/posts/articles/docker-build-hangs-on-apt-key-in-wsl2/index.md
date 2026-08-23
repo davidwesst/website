@@ -1,6 +1,6 @@
 ---
 title: Docker Build Hangs When Adding Key with apt-key in WSL2
-date: '2023-01-11'
+date: 2023-01-11
 summary: >-
   The solution to the problem where an apt-key command seems to run forever in
   your docker build.

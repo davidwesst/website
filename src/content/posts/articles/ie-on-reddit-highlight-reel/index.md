@@ -1,6 +1,6 @@
 ---
 title: IE on Reddit - Highlight Reel
-date: '2014-08-15'
+date: 2014-08-15
 summary: >-
   To me, this is IamA (I am a something ask me anything) is historic with web
   platforms.

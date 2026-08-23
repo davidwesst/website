@@ -1,6 +1,6 @@
 ---
 title: Why do you RequireJS?
-date: '2014-10-07'
+date: 2014-10-07
 summary: >-
   Get it? RequireJS is a dependency management framework I use in JavaScript to
   manage...well my dependencies. But, the title is a play on words cause...of

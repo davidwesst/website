@@ -1,6 +1,6 @@
 ---
 title: How to Use Highlight.Js with Bower and Gulp
-date: '2016-08-29'
+date: 2016-08-29
 summary: >-
   One of the best libraries I've seen for syntax highlighting on the web is
   highlight.js, IMHO. The catch to using the library is that it takes a bit more

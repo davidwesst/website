@@ -8,10 +8,10 @@
   <h2 id="gamelog-details-heading">Play details</h2>
   <dl class="gamelog-detail-list">
     <div class="play-detail-card" webc:if="customData.playthrough && customData.playthrough.started">
-      <dt>Started</dt><dd @text="customData.playthrough.started"></dd>
+      <dt>Started</dt><dd><content-date :@value="customData.playthrough.started"></content-date></dd>
     </div>
     <div class="play-detail-card" webc:if="customData.playthrough && customData.playthrough.completed">
-      <dt>Completed</dt><dd @text="customData.playthrough.completed"></dd>
+      <dt>Completed</dt><dd><content-date :@value="customData.playthrough.completed"></content-date></dd>
     </div>
     <div class="play-detail-card" webc:if="customData.playthrough && customData.playthrough.platform">
       <dt>Platform</dt><dd @text="customData.playthrough.platform"></dd>

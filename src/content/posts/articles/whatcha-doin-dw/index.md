@@ -1,6 +1,6 @@
 ---
 title: Whatcha doin' DW?
-date: '2014-07-29'
+date: 2014-07-29
 summary: 'Lot''s of stuff really, but here''s the big ones at 50,000 feet.'
 topics:
   - html5

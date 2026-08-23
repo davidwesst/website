@@ -1,6 +1,6 @@
 ---
 title: Code - The Visual Studio for Everybody
-date: '2015-12-07'
+date: 2015-12-07
 summary: >-
   Last week I delivered three presentations: one at the Winnipeg .NET User Group
   and the other two at Winnipeg Code Camp. Being as awesome as we are, the user

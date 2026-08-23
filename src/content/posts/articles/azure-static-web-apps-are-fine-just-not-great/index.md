@@ -1,6 +1,6 @@
 ---
 title: 'Azure Static Web Apps (SWA) are fine, just not great'
-date: '2022-10-12'
+date: 2022-10-12
 summary: >-
   Azure Static Web Apps feel like a good idea, but in practice I struggled with
   understanding what the product is trying to be. This post documents my

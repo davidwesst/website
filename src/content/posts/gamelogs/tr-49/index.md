@@ -1,6 +1,6 @@
 ---
 title: TR-49
-date: '2026-02-17'
+date: 2026-02-17
 redirectFrom:
   - /blog/gamelog/entry.html?slug=tr-49
   - /blog/gamelog/tr-49/
@@ -9,8 +9,8 @@ customData:
     ids:
       igdb: 378335
   playthrough:
-    started: '2026-02-14'
-    completed: '2026-02-16'
+    started: 2026-02-14
+    completed: 2026-02-16
     platform: SteamDeck
   ratings:
     gameplay: 3

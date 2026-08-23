@@ -1,6 +1,6 @@
 ---
 title: Prairie Dev Con 2022 Takeaways
-date: '2022-12-06'
+date: 2022-12-06
 summary: >-
   The talented speakers that come together for Prairie Dev Con always bring
   fresh ideas to my mind and give me pause to think about my own efforts and how

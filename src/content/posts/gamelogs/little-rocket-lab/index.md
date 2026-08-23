@@ -1,6 +1,6 @@
 ---
 title: Little Rocket Lab
-date: '2025-12-30'
+date: 2025-12-30
 redirectFrom:
   - /blog/gamelog/entry.html?slug=little-rocket-lab
   - /blog/gamelog/little-rocket-lab/
@@ -9,8 +9,8 @@ customData:
     ids:
       igdb: 325176
   playthrough:
-    started: '2025-11-15'
-    completed: '2025-12-29'
+    started: 2025-11-15
+    completed: 2025-12-29
     platform: Steam / Xbox
   ratings:
     gameplay: 3

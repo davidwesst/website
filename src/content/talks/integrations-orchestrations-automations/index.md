@@ -25,14 +25,14 @@ topics:
 banner:
   src: ./integrations-cover-image-1400x800.webp
   alt: Neon servers and computers connected by bright multicolored data lines.
-date: '2024-09-23'
+date: 2024-09-23
 customData:
   speakers:
     - David Wesst
   appearances:
     - event: Prairie Dev Con 2024 (Winnipeg)
-      start: '2024-09-23'
-      end: '2024-09-24'
+      start: 2024-09-23
+      end: 2024-09-24
       location: 'Winnipeg, MB, Canada'
       links:
         - label: Slides (PDF)

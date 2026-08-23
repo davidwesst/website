@@ -1,6 +1,6 @@
 ---
 title: 'Advent of Code 2021: Day 1'
-date: '2021-12-02'
+date: 2021-12-02
 summary: >-
   My initial thoughts after completing the first day of my first journey into
   the Advent of Code

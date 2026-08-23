@@ -1,6 +1,6 @@
 ---
 title: Crowdsourcing Documentation is Cool
-date: '2018-03-13'
+date: 2018-03-13
 topics:
   - documentation
   - javascript

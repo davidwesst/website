@@ -1,6 +1,6 @@
 ---
 title: The Prophecy That Wanted Us Dead
-date: '2025-12-15'
+date: 2025-12-15
 redirectFrom:
   - /blog/dungeonlog/2025-12-15/
 banner:

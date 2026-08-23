@@ -1,6 +1,6 @@
 ---
 title: DW on Tour
-date: '2013-10-29'
+date: 2013-10-29
 summary: >-
   That's right, I'm heading out on a small tour out west in November and
   December to do some talking about HTML and JavaScript. I suggest you find your

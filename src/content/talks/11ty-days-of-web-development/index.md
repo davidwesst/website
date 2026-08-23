@@ -16,13 +16,13 @@ banner:
     A silver laptop with the Eleventy logo on the screen sitting on a desk
     covered in holiday gifts, a holiday calendar and surrounded with floating
     technology text and holiday-theme decor.
-date: '2024-12-18'
+date: 2024-12-18
 customData:
   speakers:
     - David Wesst
   appearances:
     - event: Full Stack Manitoba (Dec 2024)
-      start: '2024-12-18'
+      start: 2024-12-18
       links:
         - label: Slides (PDF)
           url: >-

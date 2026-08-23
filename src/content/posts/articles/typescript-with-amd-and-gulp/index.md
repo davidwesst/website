@@ -1,6 +1,6 @@
 ---
 title: How to Compile Typescript into a Single File with AMD Modules with Gulp
-date: '2016-09-12'
+date: 2016-09-12
 summary: >-
   The lessons I learned and the steps I took to compile TypeScript modules into
   a single file with AMD modules using Gulp, along with how I consumed those

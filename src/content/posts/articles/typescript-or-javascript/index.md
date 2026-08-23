@@ -1,6 +1,6 @@
 ---
 title: Picking between TypeScript and JavaScript
-date: '2018-03-15'
+date: 2018-03-15
 topics:
   - javascript
   - typescript

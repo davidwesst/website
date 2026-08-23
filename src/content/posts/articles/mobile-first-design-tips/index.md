@@ -1,6 +1,6 @@
 ---
 title: Mobile First Design Tips
-date: '2016-08-16'
+date: 2016-08-16
 summary: >-
   When redesigning my personal website and blog, I started from scratch and
   attempted to apply a mobile-first design approach. Here are a few tips that I

@@ -1,6 +1,6 @@
 ---
 title: My Favourite Online Dev Tools
-date: '2015-10-28'
+date: 2015-10-28
 topics:
   - agile
   - cloud-ide

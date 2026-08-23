@@ -1,6 +1,6 @@
 ---
 title: Open Graph Tools and Resources for Web Nerds (Like Me)
-date: '2022-11-29'
+date: 2022-11-29
 summary: >-
   A compilation of tools and resources I used to implemented the Open Graph
   Protocol (OGP) for my website to make posts and pages more engaging on

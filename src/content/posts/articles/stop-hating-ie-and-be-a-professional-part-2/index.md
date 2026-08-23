@@ -1,6 +1,6 @@
 ---
 title: Stop Hating IE and Be a Professional (Part 2)
-date: '2013-01-17'
+date: 2013-01-17
 summary: >-
   This post is part two of three. Part 1 (Be a Realist) and Part 3 (Be a Leader)
   are also available.

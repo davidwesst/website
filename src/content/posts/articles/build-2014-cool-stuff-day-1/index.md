@@ -1,6 +1,6 @@
 ---
 title: BUILD 2014 Cool Stuff - Day 1
-date: '2014-04-03'
+date: 2014-04-03
 summary: >-
   I haven't been to BUILD, but I always follow it as Microsoft makes a bunch of
   really cool announcements throughout that pump me up.

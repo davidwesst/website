@@ -1,6 +1,6 @@
 ---
 title: Hover! A Next-Gen HTML Experience
-date: '2013-10-02'
+date: 2013-10-02
 topics:
   - html5
   - internet-explorer

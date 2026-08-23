@@ -6,7 +6,7 @@ summary: >-
 banner:
   src: ./IMG_8261-1067x800.jpg
   alt: Two speakers sit onstage before a projected ghostly AI image.
-date: '2023-12-20'
+date: 2023-12-20
 customData:
   speakers:
     - David Wesst

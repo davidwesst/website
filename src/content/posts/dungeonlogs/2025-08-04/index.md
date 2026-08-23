@@ -1,6 +1,6 @@
 ---
 title: Heart of Ubutao
-date: '2025-08-04'
+date: 2025-08-04
 redirectFrom:
   - /blog/dungeonlog/2025-08-04/
 banner:

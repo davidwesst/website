@@ -1,6 +1,6 @@
 ---
 title: The Roottrees are Dead
-date: '2025-02-19'
+date: 2025-02-19
 redirectFrom:
   - /blog/gamelog/entry.html?slug=the-roottrees-are-dead
   - /gamelog/the-roottrees-are-dead/
@@ -11,8 +11,8 @@ customData:
     ids:
       igdb: 288983
   playthrough:
-    started: '2025-02-08'
-    completed: '2025-02-15'
+    started: 2025-02-08
+    completed: 2025-02-15
     platform: Steam Deck / PC
   ratings:
     gameplay: 1

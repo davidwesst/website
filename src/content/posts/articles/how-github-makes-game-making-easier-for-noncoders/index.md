@@ -1,6 +1,6 @@
 ---
 title: How Github Makes Game Making Easier for Noncoders
-date: '2020-02-19'
+date: 2020-02-19
 topics:
   - game-design
   - game-development

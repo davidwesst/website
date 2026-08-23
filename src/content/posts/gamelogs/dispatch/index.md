@@ -1,6 +1,6 @@
 ---
 title: Dispatch
-date: '2025-12-16'
+date: 2025-12-16
 redirectFrom:
   - /blog/gamelog/entry.html?slug=dispatch
   - /blog/gamelog/dispatch/
@@ -9,8 +9,8 @@ customData:
     ids:
       igdb: 325609
   playthrough:
-    started: '2025-11-22'
-    completed: '2025-11-29'
+    started: 2025-11-22
+    completed: 2025-11-29
     platform: Steam
   ratings:
     gameplay: 2

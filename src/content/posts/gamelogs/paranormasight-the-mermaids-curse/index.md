@@ -1,6 +1,6 @@
 ---
 title: "Paranormasight: The Mermaid's Curse"
-date: '2026-07-23'
+date: 2026-07-23
 redirectFrom:
   - /blog/gamelog/entry.html?slug=paranormasight-the-mermaids-curse
   - /blog/gamelog/paranormasight-the-mermaids-curse/
@@ -9,8 +9,8 @@ customData:
     ids:
       igdb: 388426
   playthrough:
-    started: '2026-06-27'
-    completed: '2026-07-20'
+    started: 2026-06-27
+    completed: 2026-07-20
     platform: Steam
   ratings:
     gameplay: 2

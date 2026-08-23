@@ -2,9 +2,6 @@
   function hasDetails(game) {
     return game && (game.firstReleaseDate || game.developers?.length || game.publishers?.length || game.series?.length || game.ageRatings?.length);
   }
-  function formatDate(value) {
-    return new Intl.DateTimeFormat("en-CA", { dateStyle: "long", timeZone: "UTC" }).format(new Date(`${value}T00:00:00Z`));
-  }
   function formatRatings(ratings = []) {
     return ratings.map((rating) => `${rating.organization}: ${rating.rating}`).join(", ");
   }
@@ -14,7 +11,7 @@
   <h2 id="game-details-heading">Game details</h2>
   <dl class="game-detail-list">
     <div class="game-detail-card" webc:if="game.firstReleaseDate">
-      <dt>Released</dt><dd><time :datetime="game.firstReleaseDate" @text="formatDate(game.firstReleaseDate)"></time></dd>
+      <dt>Released</dt><dd><content-date :@value="game.firstReleaseDate"></content-date></dd>
     </div>
     <div class="game-detail-card" webc:if="game.developers && game.developers.length">
       <dt @text="game.developers.length === 1 ? 'Developer' : 'Developers'"></dt><dd @text="game.developers.join(', ')"></dd>

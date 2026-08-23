@@ -16,15 +16,15 @@ banner:
     featuring classical university buildings, modern skyscrapers, a digital
     workstation, and abstract data visualizations, symbolizing digital
     transformation and institutional modernization.
-date: '2025-10-14'
+date: 2025-10-14
 customData:
   speakers:
     - David Wesst
     - Jackson Bruno
   appearances:
     - event: Ellucian LIVE 2025
-      start: '2025-04-06'
-      end: '2025-04-09'
+      start: 2025-04-06
+      end: 2025-04-09
       location: 'Orlando, FL, USA'
       speakers:
         - David Wesst
@@ -35,8 +35,8 @@ customData:
             https://cocobokostudios-my.sharepoint.com/:b:/p/david/EbkIcah2dfJBsTxfG4_q0AABNMsRjZ112Y9H_BM7XDa6Hg?e=eT5oSD
           type: slides
     - event: CANHEIT 2025
-      start: '2025-06-16'
-      end: '2025-06-19'
+      start: 2025-06-16
+      end: 2025-06-19
       location: 'Regina, SK, Canada'
       links:
         - label: Slides (PDF)
@@ -44,8 +44,8 @@ customData:
             https://cocobokostudios-my.sharepoint.com/:b:/p/david/EftE-UX7VKRKmZ_noB_g-BgB8padLZNnOk076IRtHgOVYQ?e=AAMz6i
           type: slides
     - event: Prairie Dev Con 2025
-      start: '2025-09-22'
-      end: '2025-09-23'
+      start: 2025-09-22
+      end: 2025-09-23
       location: 'Winnipeg, MB, Canada'
       links:
         - label: Slides (PDF)
@@ -53,8 +53,8 @@ customData:
             https://cocobokostudios-my.sharepoint.com/:b:/p/david/EYjrGkO2zNJEvviRJIZJOdYBGXKebeMh9hrx7lDxlUi8iQ?e=0agp7f
           type: slides
     - event: CEUG 2025
-      start: '2025-10-14'
-      end: '2025-10-16'
+      start: 2025-10-14
+      end: 2025-10-16
       location: 'Ottawa, ON, Canada'
       links:
         - label: Slides (PDF)

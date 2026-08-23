@@ -1,6 +1,6 @@
 ---
 title: Highlight Reel for 2015
-date: '2016-01-01'
+date: 2016-01-01
 summary: >-
   David Wesst takes a moment to look back at his personal and professional
   development throughout 2015.

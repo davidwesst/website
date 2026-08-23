@@ -1,6 +1,6 @@
 ---
 title: Docker Desktop for Linux is not the same as Docker Engine
-date: '2022-12-13'
+date: 2022-12-13
 summary: >-
   With Docker for Desktop available for Linux (which I like), I managed to get
   myself confused regarding its role on my Linux-based development machine. This

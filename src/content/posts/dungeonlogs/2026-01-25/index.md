@@ -1,6 +1,6 @@
 ---
 title: 'A Monkey, a Lie, and a Garden Full of Teeth'
-date: '2026-01-25'
+date: 2026-01-25
 redirectFrom:
   - /blog/dungeonlog/2026-01-25/
 banner:

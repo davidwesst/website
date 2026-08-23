@@ -1,6 +1,6 @@
 ---
 title: 'Using text-overflow:ellipsis with Inline Flex'
-date: '2016-02-29'
+date: 2016-02-29
 summary: >-
   Two out of three Dave's hit this obscure CSS problem that turned out to be
   expected behaviour. David Wesst walks us through the reason why and how to fix

@@ -1,6 +1,6 @@
 ---
 title: Jan 2020 Devlog
-date: '2020-02-04'
+date: 2020-02-04
 summary: A vlog post where I review the progress I've made on the game Car Scientist.
 topics:
   - car-scientist

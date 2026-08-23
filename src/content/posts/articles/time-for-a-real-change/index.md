@@ -1,6 +1,6 @@
 ---
 title: Time for a Real Change
-date: '2013-07-07'
+date: 2013-07-07
 summary: >-
   I know I seem to change my blog once a year saying 'this time it's different'.
   The message this time around isn't different than that, except the change is

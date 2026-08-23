@@ -169,12 +169,14 @@ test("representative post types render normalized data", async () => {
   const article = await page("blog/from-11ty-to-wordpress-and-back-again/index.html");
   assert.equal(article("h1").text(), "From 11ty to Wordpress and Back Again");
   assert.equal(article("time").first().attr("datetime"), "2025-01-30");
+  assert.equal(article("time").first().text(), "January 30, 2025");
   assert.equal(article("figure img").attr("src"), "./from-11ty-to-wordpress-and-back-again_title-image.webp");
 
   const gamelog = await page("blog/clair-obscur-expedition-33/index.html");
   assert.match(gamelog("dl").text(), /XBox Series X/);
   assert.match(gamelog("dl").text(), /overall\s*3/);
   assert.equal(gamelog(".play-detail-card").length, 3);
+  assert.deepEqual(gamelog(".play-detail-card time").map((_, time) => gamelog(time).text()).get(), ["May 19, 2025", "July 5, 2025"]);
   assert.equal(gamelog(".rating-detail-row").length, 1);
   assert.ok(gamelog(".rating-detail-row .rating-detail-card").length >= 1);
   if (igdbGames[305152]) {
@@ -234,8 +236,10 @@ test("post visuals use banners or accessible type-specific fallbacks", async () 
 test("talks render publication and appearance dates separately", async () => {
   const $ = await page("talks/no-mission-impossible/index.html");
   assert.equal($("header time").first().attr("datetime"), "2024-04-07");
+  assert.equal($("header time").first().text(), "April 7, 2024");
   assert.equal($("#appearances-heading + ol > li").length, 1);
   assert.equal($("#appearances-heading + ol time").first().attr("datetime"), "2024-04-07");
+  assert.equal($("#appearances-heading + ol time").first().text(), "April 7, 2024");
   assert.match($("#speakers-heading + ul").text(), /David Wesst/);
   assert.match($("#speakers-heading + ul").text(), /Jackson Bruno/);
 });
@@ -271,7 +275,7 @@ test("indexes, topics, compatibility pages, and standalone pages render", async 
   const latestTalk = authored.talks.toSorted((left, right) => new Date(right.date) - new Date(left.date))[0];
   assert.equal(talks("ol > li").length, authored.talks.length);
   assert.equal(talks("ol > li").first().find("h2").text().trim(), latestTalk.title);
-  assert.equal(talks("ol > li").first().find("time").attr("datetime"), new Date(latestTalk.date).toISOString());
+  assert.equal(talks("ol > li").first().find("time").attr("datetime"), new Date(latestTalk.date).toISOString().slice(0, 10));
   assert.match(talks("ol").attr("class"), /\bmd:grid-cols-1\b/);
   assert.match(talks("ol").attr("class"), /\blg:grid-cols-1\b/);
   assert.doesNotMatch(talks("ol").attr("class"), /\bmax-w-3xl\b/);

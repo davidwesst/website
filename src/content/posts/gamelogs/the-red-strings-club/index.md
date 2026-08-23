@@ -1,6 +1,6 @@
 ---
 title: The Red Strings Club
-date: '2025-02-19'
+date: 2025-02-19
 redirectFrom:
   - /blog/gamelog/entry.html?slug=the-red-strings-club
   - /gamelog/the-red-strings-club/
@@ -11,8 +11,8 @@ customData:
     ids:
       igdb: 75247
   playthrough:
-    started: '2025-02-16'
-    completed: '2025-02-17'
+    started: 2025-02-16
+    completed: 2025-02-17
     platform: Steam Deck / PC
   ratings:
     gameplay: 2

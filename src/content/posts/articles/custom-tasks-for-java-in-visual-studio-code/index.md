@@ -1,6 +1,6 @@
 ---
 title: Custom Tasks for Java in Visual Studio Code
-date: '2015-10-14'
+date: 2015-10-14
 topics:
   - java
   - vscode

@@ -1,6 +1,6 @@
 ---
 title: Personal and Professional Fulfillment through Cake and Ice Cream
-date: '2022-01-12'
+date: 2022-01-12
 summary: >-
   I made a cake and two kinds of ice cream, from scratch, for my daughter's
   birthday. The process of making a plan, adapting, executing, delivering, and

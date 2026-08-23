@@ -1,6 +1,6 @@
 ---
 title: How to Fix node-gyp Error on Windows
-date: '2016-09-26'
+date: 2016-09-26
 summary: >-
   Whenever I get a new machine, I pull down a new project using the `npm install
   command and get an error related to python and node-gyp. This post will

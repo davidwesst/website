@@ -1,6 +1,6 @@
 ---
 title: The Ratline
-date: '2026-05-24'
+date: 2026-05-24
 redirectFrom:
   - /blog/gamelog/the-ratline/
 customData:
@@ -8,8 +8,8 @@ customData:
     ids:
       igdb: 351273
   playthrough:
-    started: '2026-05-15'
-    completed: '2026-05-17'
+    started: 2026-05-15
+    completed: 2026-05-17
     platform: Steam
   ratings:
     gameplay: 2

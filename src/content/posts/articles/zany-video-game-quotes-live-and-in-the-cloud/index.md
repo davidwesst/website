@@ -1,6 +1,6 @@
 ---
 title: Zany Video Game Quotes - Live and in the Cloud
-date: '2015-04-28'
+date: 2015-04-28
 summary: >-
   I've been working on a side project for roughly 5 years now, and this past
   week I managed to finally launch it. Zany Video Game Quotes, is a site worked

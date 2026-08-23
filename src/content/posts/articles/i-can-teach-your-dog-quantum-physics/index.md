@@ -1,6 +1,6 @@
 ---
 title: I Can Teach Your Dog Quantum Physics
-date: '2021-06-28'
+date: 2021-06-28
 summary: >-
   It's true! I read a book about it and everything. Let me breakdown the
   highlights of this book that does a pretty good job of explaining the physics

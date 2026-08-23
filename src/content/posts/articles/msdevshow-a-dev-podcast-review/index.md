@@ -1,6 +1,6 @@
 ---
 title: MSDevShow...A Dev Podcast Review
-date: '2015-04-30'
+date: 2015-04-30
 summary: >-
   I like podcasts. Especially the technical kind, but I find it's challenging to
   find quality dev podcasts in the sea of options out there. MSDevShow is one

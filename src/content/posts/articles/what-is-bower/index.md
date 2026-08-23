@@ -1,6 +1,6 @@
 ---
 title: What is Bower?
-date: '2014-10-16'
+date: 2014-10-16
 summary: I mentioned Bower last time when talking about npm.
 topics:
   - bower

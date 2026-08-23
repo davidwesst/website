@@ -1,6 +1,6 @@
 ---
 title: Video Games Preventing Cancer with AGDQ
-date: '2015-01-08'
+date: 2015-01-08
 summary: >-
   I wanted to share something I find freaking cool. It's called Awesome Games
   Done Quickly, or AGDQ.

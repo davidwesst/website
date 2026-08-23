@@ -1,6 +1,6 @@
 ---
 title: Using Java Build Script Tasks in Visual Studio Code
-date: '2015-10-21'
+date: 2015-10-21
 topics:
   - java
   - visual-studio-code

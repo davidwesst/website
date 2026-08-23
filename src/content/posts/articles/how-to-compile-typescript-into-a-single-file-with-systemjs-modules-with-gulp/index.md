@@ -1,6 +1,6 @@
 ---
 title: How to Compile TypeScript into a Single File with SystemJS Modules with Gulp
-date: '2017-03-14'
+date: 2017-03-14
 summary: >-
   I decided to move a TypeScript project from AMD modules (i.e. RequireJS) to
   SystemJS, still using Gulp. In this post, I walk you through the sample

@@ -1,6 +1,6 @@
 ---
 title: 'Clair Obscur: Expedition 33'
-date: '2025-07-08'
+date: 2025-07-08
 redirectFrom:
   - /blog/gamelog/entry.html?slug=clair-obscur-expedition-33
   - /gamelog/clair-obscur-expedition-33/
@@ -11,8 +11,8 @@ customData:
     ids:
       igdb: 305152
   playthrough:
-    started: '2025-05-19'
-    completed: '2025-07-05'
+    started: 2025-05-19
+    completed: 2025-07-05
     platform: XBox Series X
   ratings:
     gameplay: 2

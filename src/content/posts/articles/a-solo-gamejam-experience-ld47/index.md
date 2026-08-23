@@ -1,6 +1,6 @@
 ---
 title: A Solo Gamejam Experience | A Ludum Dare 47 Story
-date: '2020-10-23'
+date: 2020-10-23
 topics:
   - game-design
   - game-development

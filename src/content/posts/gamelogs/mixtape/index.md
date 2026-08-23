@@ -1,6 +1,6 @@
 ---
 title: Mixtape
-date: '2026-05-14'
+date: 2026-05-14
 redirectFrom:
   - /blog/gamelog/mixtape/
 customData:
@@ -8,8 +8,8 @@ customData:
     ids:
       igdb: 305157
   playthrough:
-    started: '2026-05-08'
-    completed: '2026-08-08'
+    started: 2026-05-08
+    completed: 2026-08-08
     platform: XBox
   ratings:
     gameplay: 1

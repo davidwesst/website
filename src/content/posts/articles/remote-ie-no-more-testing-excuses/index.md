@@ -1,6 +1,6 @@
 ---
 title: Remote IE - No More Testing Excuses
-date: '2014-11-03'
+date: 2014-11-03
 summary: Today the IE team released Remote IE. This is awesome. Let me explain.
 topics:
   - ie
