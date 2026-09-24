@@ -14,6 +14,7 @@ Cloudflare Workers Static Assets hosts the Eleventy output. Cloudflare DNS becom
 - `david.wes.st` is attached directly to the production `davidwesst-website` Worker. Cloudflare manages its proxied DNS record and certificate; the former Azure CNAME has been removed.
 - Registrar: nic.st. The owner changed delegation to the assigned Cloudflare nameservers on 2026-09-24.
 - nic.st does not expose DS-record management. Cloudflare DNSSEC was disabled on 2026-09-24 after it remained pending without a parent DS record. The zone is intentionally unsigned; revisit DNSSEC if the registrar adds DS support or the domain moves to a registrar that supports it.
+- Cloudflare Web Analytics/RUM is disabled and automatic beacon injection is off. Simple Analytics is the only production browser analytics script.
 
 Local private rollback inventory is in ignored `.cache/migration/`: Azure DNS JSON and zone export, resource inventory, and pre-migration source ZIP. The previous GitHub deployment artifact has expired; the deployed Azure site remains the immediate rollback target. Retain newly generated artifacts for 14 days. Do not commit telemetry exports or credentials.
 
@@ -30,7 +31,7 @@ GitHub secret `CLOUDFLARE_API_TOKEN` must grant Account > Workers Scripts > Edit
 
 The checked artifact is deployed without rebuilding. Ordinary PR events cannot deploy or access deployment credentials. No Cloudflare Git build integration is needed.
 
-The CI build, Cloudflare staging deployment, and live smoke checks passed on 2026-09-24. Main-branch run 36039791515 deployed the production Worker successfully. The custom-domain cutover and the full production smoke suite also passed on 2026-09-24.
+The CI build, Cloudflare staging deployment, and live smoke checks passed on 2026-09-24. Main-branch run 36039791515 deployed the production Worker successfully. The custom-domain cutover and the full production smoke suite also passed on 2026-09-24 after disabling Cloudflare's automatically created Web Analytics site and confirming its beacon was absent.
 
 ## Ordered checklist
 
