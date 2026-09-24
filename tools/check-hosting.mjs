@@ -4,8 +4,25 @@ const base = process.argv[2];
 assert.ok(base, "Provide the deployed site URL");
 const origin = new URL(base).origin;
 const request = (route) => fetch(`${origin}${route}`, { redirect: "manual", signal: AbortSignal.timeout(20000) });
+
+async function waitForDeployment() {
+  let lastStatus = "unreachable";
+  for (let attempt = 0; attempt < 13; attempt += 1) {
+    try {
+      const response = await request("/");
+      if (response.status === 200) return response;
+      lastStatus = `HTTP ${response.status}`;
+    } catch (error) {
+      lastStatus = error.message;
+    }
+    if (attempt < 12) await new Promise((resolve) => setTimeout(resolve, 5000));
+  }
+  assert.fail(`Deployment did not become ready within 60 seconds: ${lastStatus}`);
+}
+
+const readyHome = await waitForDeployment();
 for (const route of ["/", "/blog/", "/talks/", "/about/", "/feed.xml", "/sitemap.xml", "/assets/main.css"]) {
-  const response = await request(route);
+  const response = route === "/" ? readyHome : await request(route);
   assert.equal(response.status, 200, `${route} should return 200`);
   assert.equal(response.headers.get("x-content-type-options"), "nosniff", `${route} security header`);
 }
