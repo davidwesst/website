@@ -7,7 +7,7 @@ Cloudflare Workers Static Assets hosts the Eleventy output. Cloudflare DNS becom
 - Branch: `ft/cloudflare-migration`.
 - Production Worker: `davidwesst-website`.
 - Staging Worker: `davidwesst-website-staging`.
-- Account: `bfcb6ac5b3ceaf42a09607f6f7925823`.
+- Account: `97e526198c138c4e71e6210d40547648`.
 - Zone: `335a79cb0a0dfe4ccb6ecebdbe6292d6`.
 - Assigned nameservers: `cruz.ns.cloudflare.com`, `matias.ns.cloudflare.com`.
 - Six application DNS records copied from Azure, with original 3600-second TTLs and proxying disabled: MX, SPF TXT, federation SRV, autodiscover CNAME, Bitly `d` CNAME, website `david` CNAME.
@@ -19,7 +19,7 @@ Local private rollback inventory is in ignored `.cache/migration/`: Azure DNS JS
 
 ## Deployment controls
 
-GitHub secret `CLOUDFLARE_API_TOKEN` must grant Workers deployment access for the account. Repository variable `CLOUDFLARE_ACCOUNT_ID` identifies the same account. The owner's same-named secret may remain, but the workflow uses the variable.
+GitHub secret `CLOUDFLARE_API_TOKEN` must grant Account > Workers Scripts > Edit for DW Account, including newly created Workers. The asset-upload endpoint requires this permission. A user API token is the fallback if an account-owned token is rejected despite equivalent scope. Repository variable `CLOUDFLARE_ACCOUNT_ID` identifies the same account. The owner's same-named secret may remain, but the workflow uses the variable.
 
 - `CLOUDFLARE_DEPLOY_ENABLED=true` enables Cloudflare deployments after successful builds.
 - Pushes to `ft/cloudflare-migration` deploy analytics-free staging; pushes to `main` deploy production.
@@ -29,6 +29,8 @@ GitHub secret `CLOUDFLARE_API_TOKEN` must grant Workers deployment access for th
 - Custom-domain attachment is an explicit cutover operation through the Cloudflare MCP, not a side effect of branch deployment.
 
 The checked artifact is deployed without rebuilding. Ordinary PR events cannot deploy or access deployment credentials. No Cloudflare Git build integration is needed.
+
+The first CI build and PR build passed. Staging deployment is awaiting corrected token access to the static-assets upload endpoint; do not change registrar delegation until live staging checks pass.
 
 ## Ordered checklist
 
@@ -48,7 +50,7 @@ The checked artifact is deployed without rebuilding. Ordinary PR events cannot d
 
 Run `pnpm test` for the current branch. To exercise production analytics, set `GITHUB_REF_NAME=main` for that invocation; no Azure connection string is required. Stop `wrangler dev` before rebuilding on Windows because its asset watcher can lock `_site`.
 
-After building, run `pnpm exec wrangler dev --env staging` and `node tools/check-hosting.mjs http://127.0.0.1:8787`. The same smoke script runs against each deployed URL. It verifies key pages/assets, headers, permanent legacy redirects and query preservation, gamelog dispatcher query handling, 404s, and absence of browser diagnostics scripts.
+After building, run `pnpm exec wrangler dev --env staging` and `node tools/check-hosting.mjs http://127.0.0.1:8787`. All 197 generated permanent redirects and their query preservation have also been verified against local Wrangler. The same smoke script runs against each deployed URL. It verifies key pages/assets, headers, permanent legacy redirects and query preservation, gamelog dispatcher query handling, 404s, and absence of browser diagnostics scripts.
 
 Rollback triggers: TLS failure, sustained availability failure, material missing content, or broken legacy routing. For a Cloudflare release regression, use `pnpm exec wrangler rollback <verified-previous-version>` with account credentials. For hosting rollback, detach the Worker custom-domain binding, restore the DNS-only CNAME `david.wes.st -> gray-smoke-09b0c160f.7.azurestaticapps.net`, and verify Azure responds through the custom hostname. Keep Cloudflare authoritative; do not reverse nameservers for a hosting-only failure. Set `HOSTING_PROVIDER=azure` to restore future Azure deployments. Preserve the original Azure custom-domain binding throughout the observation period.
 
