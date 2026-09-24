@@ -5,7 +5,7 @@ function escapeScriptJson(value) {
 export default class LegacyGamelogDispatcher {
   data() {
     return {
-      permalink: "/legacy/gamelog-entry.html",
+      permalink: "/blog/gamelog/entry.html",
       eleventyExcludeFromCollections: true,
     };
   }

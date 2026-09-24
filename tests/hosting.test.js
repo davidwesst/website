@@ -9,7 +9,7 @@ test("route model preserves explicit index redirects, skips query routes, and de
   assert.equal(routes.filter(r => r.route === "/old/").length, 1);
   assert.ok(routes.some(r => r.route === "/blog/example/index.html" && r.statusCode === 301));
   assert.ok(!routes.some(r => r.route.includes("?")));
-  assert.match(cloudflareRedirects(routes), /^\/blog\/gamelog\/entry.html \/legacy\/gamelog-entry.html 200\n/);
+  assert.doesNotMatch(cloudflareRedirects(routes), /\/blog\/gamelog\/entry\.html/);
 });
 
 test("conflicting destinations fail rather than silently changing legacy links", () => {
@@ -28,7 +28,7 @@ test("built Cloudflare routes preserve every Azure rollback rule", async () => {
   const azure = JSON.parse(await readFile("_site/staticwebapp.config.json", "utf8"));
   const lines = (await readFile("_site/_redirects", "utf8")).trim().split("\n");
   for (const route of azure.routes) {
-    assert.ok(lines.includes(`${route.route} ${route.redirect || route.rewrite} ${route.statusCode || 200}`), route.route);
+    assert.ok(lines.includes(`${route.route} ${route.redirect} ${route.statusCode}`), route.route);
   }
   const headers = await readFile("_site/_headers", "utf8");
   assert.match(headers, /X-Content-Type-Options: nosniff/);

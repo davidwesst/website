@@ -296,13 +296,13 @@ test("Azure redirects and the legacy query dispatcher are generated", async () =
   const config = JSON.parse(await readFile(join(output, "staticwebapp.config.json"), "utf8"));
   assert.equal(config.trailingSlash, "auto");
   assert.ok(config.routes.some((route) => route.route === "/talks/concensus-in-the-chaos/" && route.statusCode === 301));
-  assert.ok(config.routes.some((route) => route.route === "/blog/gamelog/entry.html" && route.rewrite === "/legacy/gamelog-entry.html"));
+  assert.ok(!config.routes.some((route) => route.route === "/blog/gamelog/entry.html"));
   assert.ok(config.routes.some((route) => route.route === "/blog/gamelog/clair-obscur-expedition-33/" && route.redirect === "/blog/clair-obscur-expedition-33/" && route.statusCode === 301));
   assert.ok(config.routes.some((route) => route.route === "/blog/dungeonlog/2026-03-16/" && route.redirect === "/blog/2026-03-16/" && route.statusCode === 301));
   assert.ok(config.routes.some((route) => route.route === "/blog/gamelog/" && route.redirect === "/blog/gamelogs/"));
   assert.ok(config.routes.some((route) => route.route === "/blog/dungeonlog/" && route.redirect === "/blog/dungeonlogs/"));
 
-  const dispatcher = await readFile(join(output, "legacy", "gamelog-entry.html"), "utf8");
+  const dispatcher = await readFile(join(output, "blog", "gamelog", "entry.html"), "utf8");
   assert.match(dispatcher, /URLSearchParams/);
   assert.match(dispatcher, /clair-obscur-expedition-33/);
   assert.match(dispatcher, /"clair-obscur-expedition-33":"\/blog\/clair-obscur-expedition-33\/"/);
