@@ -30,7 +30,7 @@ GitHub secret `CLOUDFLARE_API_TOKEN` must grant Account > Workers Scripts > Edit
 
 The checked artifact is deployed without rebuilding. Ordinary PR events cannot deploy or access deployment credentials. No Cloudflare Git build integration is needed.
 
-The first CI build and PR build passed. Staging deployment is awaiting corrected token access to the static-assets upload endpoint; do not change registrar delegation until live staging checks pass.
+The CI build, Cloudflare staging deployment, and live smoke checks passed on 2026-09-24. Registrar delegation can proceed while the website record continues to point to Azure.
 
 ## Ordered checklist
 
@@ -38,7 +38,7 @@ The first CI build and PR build passed. Staging deployment is awaiting corrected
 2. [x] Create Cloudflare zone and copy/verify the six application DNS records through MCP.
 3. [x] Implement shared route adapters, security headers, Cloudflare configuration, and removal of Application Insights.
 4. [x] Run branch and production builds/tests; validate hosting behavior with local Wrangler.
-5. [ ] Confirm GitHub staging deployment and live smoke checks succeed; review and merge the PR through the normal review process.
+5. [x] Confirm GitHub staging deployment and live smoke checks succeed. Review and merge the PR through the normal review process.
 6. [ ] **Human:** after staging passes, change nameservers at nic.st to the assigned Cloudflare pair. Keep website DNS pointing at Azure. Confirm mail send/receive and Bitly behavior.
 7. [ ] Verify Cloudflare zone activation and public DNS. Enable Cloudflare DNSSEC and give the resulting DS values to the owner for registrar publication; verify the resulting chain. Preserve Azure DNS throughout propagation.
 8. [ ] Verify the main-branch production Worker. Attach `david.wes.st` through MCP, replacing the existing CNAME conflict. Verify certificate issuance and HTTPS before declaring cutover complete. Set `HOSTING_PROVIDER=cloudflare` and update the production smoke-check URL.
