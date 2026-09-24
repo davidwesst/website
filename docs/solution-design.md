@@ -14,7 +14,6 @@ The active site publishes:
 - Blog, Articles, Gamelogs, Dungeonlogs, Talks, and Topics indexes
 - generated pages for topics shared by posts and talks
 - stable content assets and legacy URL compatibility
-- production-only client operational telemetry for diagnosing errors, load performance, and failed network requests
 - production-only, privacy-first aggregate engagement analytics
 
 Talks are a separate content family from posts. Both use the shared authored fields and presentation components, while their type-specific data remains under `customData`.
@@ -28,7 +27,7 @@ Talks are a separate content family from posts. Both use the shared authored fie
 - WebC for layouts and reusable web components
 - Tailwind CSS at the version declared by the dependency manifest
 - Font Awesome Free for locally hosted post-type icons
-- the lockfile-controlled Application Insights JavaScript SDK, bundled at build time and served as a first-party asset
+- Cloudflare Workers Static Assets for hosting and Cloudflare DNS for authoritative DNS
 - Node scripts for deterministic migration and output integrity validation
 
 ## Authored content model
@@ -63,15 +62,13 @@ Canonical pages derive descriptions, canonical URLs, Open Graph fields, preview 
 
 Post and talk detail pages expose deterministic related content ranked by shared topics, same-family membership, recency, and canonical URL. They also provide chronological navigation within the current family plus archive and topic pathways. Detail pages provide progressively enhanced native sharing, canonical-link copying, and direct Bluesky, LinkedIn, and email links. Visitor sharing never adds campaign parameters; a development-only generator validates built pages and emits consistent platform campaign URLs for owner-published distribution.
 
-## Operational telemetry
+## Analytics and hosting
 
-The `main` branch is the production site. Its build requires `APPLICATIONINSIGHTS_CONNECTION_STRING` and fails before rendering when that value is missing or invalid. Other branches do not generate or reference the telemetry asset, even if the connection string is present, so development and pull-request activity cannot contaminate production telemetry. Eleventy's development server does not reference telemetry on any branch; its built-in run mode distinguishes serving from a production build without a separate environment flag. Build context is derived from `GITHUB_REF_NAME` when available and otherwise from the current Git branch.
+Client-side operational diagnostics are intentionally removed. Application Insights, Sentry, and Cloudflare browser beacons are not installed. Simple Analytics remains responsible only for aggregate engagement analytics; future browser monitoring requires a separate design decision.
 
-Application Insights is limited to operational observability. It collects uncaught client exceptions, unhandled promise rejections, page-load performance, failed XMLHttpRequest and Fetch dependencies, and coarse browser, operating-system, device-category, and Azure-provided geographic context. Successful dependencies, clicks, custom engagement events, time on page, single-page-application route changes, request and response headers, DOM or authored content, query strings, fragments, and persistent user or session identifiers are excluded.
+The main branch enables Simple Analytics without Azure credentials. Other branches and Eleventy serving omit analytics assets and integration. Build context uses GITHUB_REF_NAME when available, otherwise the current Git branch. The pinned first-party analytics bundle is generated beneath .cache/telemetry and published under /assets/telemetry.
 
-The client disables cookies and local and session storage. A telemetry initializer removes user, authenticated-user, and session identifiers; reduces page and dependency URLs to origins and pathnames; sanitizes exception URLs; discards successful dependencies; and prevents ingestion requests from being recorded as dependencies. Azure IP masking remains enabled so the ingestion service can derive coarse geography without retaining the client IP address.
-
-The official browser SDK is a lockfile-controlled build dependency. Every production build bundles the installed version together with the repository-controlled initializer and publishes the result as `/assets/telemetry/application-insights.js`. No runtime CDN fallback is allowed. The Azure ingestion endpoint remains an external data destination, but all executable browser resources are served by the site itself. SDK upgrades are intentional dependency updates rather than floating downloads during a build.
+GitHub Actions builds and tests once, then deploys the verified artifact to Cloudflare Workers Static Assets using pinned Wrangler tooling. Staging is isolated from production. Cloudflare DNS hosts the wes.st zone, preserving existing mail and unrelated subdomains. DNS delegation and website hosting change separately. Azure remains available during the migration observation period; docs/cloudflare-migration.md records rollout gates and final cleanup.
 
 ## Migration and assets
 
@@ -84,13 +81,11 @@ Available authored binary assets are copied byte-for-byte beside their owning `s
 
 IGDB banner images are generated build assets rather than authored banners. The preparation step downloads artwork or screenshots at the resolution selected by the preparation configuration into the ignored `.cache/igdb/images/` directory, and Eleventy publishes them under `/assets/igdb/`. Known poor-fit IGDB banner image IDs can be rejected by the preparation layer so the deterministic selection falls through to a better candidate or placeholder. The accompanying normalized manifest uses the freshness window defined by the cache implementation. A stale manifest remains a non-blocking fallback when credentials or IGDB are unavailable; a build without any usable cache retains the existing placeholders. Cache refresh uses a batched games request for the current inventory, bounded retries for rate limits and server errors, and the download concurrency defined by the preparation implementation. The Twitch app access token is ephemeral and is never written to the cache.
 
-Application Insights browser code is also generated build data rather than authored content. Its preparation step writes only beneath `.cache/telemetry/`, and Eleventy publishes the resulting bundle under `/assets/telemetry/`. A production build fails instead of falling back to a third-party executable resource when telemetry configuration or asset preparation is unavailable.
-
 Simple Analytics owns aggregate engagement analytics: page views, referrers, UTM campaign values, time on page, scroll depth, and coarse browser/device information. It does not own errors, performance, or failed-request diagnostics. Session metrics and custom events are disabled, Do Not Track is respected, and the integration uses no cookies, browser storage, persistent visitor identifiers, user-generated content, or intentionally collected PII. Its required collection requests remain external to the Simple Analytics endpoint.
 
 The telemetry preparation step downloads the Simple Analytics browser library from an exact upstream commit, verifies its repository-controlled SHA-256 digest, and publishes it as `/assets/telemetry/simple-analytics.js`. Production builds fail when the pinned resource cannot be downloaded or verified. Updating the library is an intentional source-commit and digest change; no runtime third-party executable fallback is allowed.
 
-Azure routing is generated as `staticwebapp.config.json`, with trailing slashes, explicit redirects for changed canonical locations, and a size assertion. Archived hierarchical gamelog and dungeonlog detail routes redirect to the flat canonical post routes. Query-based legacy gamelog URLs use a generated noindex dispatcher at `/blog/gamelog/entry.html` backed by a validated slug map. RSS feeds can later select the existing `posts`, `articles`, `gamelogs`, and `dungeonlogs` collections independently of canonical URL shape.
+A shared route model generates Cloudflare `_redirects` and temporary Azure `staticwebapp.config.json` rollback configuration. Cloudflare `_headers` preserves security headers and revalidates unversioned content. Wrangler enables automatic trailing slashes and genuine 404 responses; explicit permanent redirects cover legacy index URLs. Provider limits fail the build rather than dropping routes. Archived hierarchical gamelog and dungeonlog detail routes redirect to the flat canonical post routes. Query-based legacy gamelog URLs use a generated noindex dispatcher at `/blog/gamelog/entry.html` backed by a validated slug map. RSS feeds can later select the existing `posts`, `articles`, `gamelogs`, and `dungeonlogs` collections independently of canonical URL shape.
 
 ## Validation
 
@@ -108,4 +103,4 @@ The production build removes only `_site`, prepares the optional IGDB cache, ren
 - absence of telemetry integration on non-production branches and absence of runtime third-party executable telemetry resources
 - Simple Analytics production gating, pinned asset integrity, Do Not Track behavior, and session-metric exclusion
 
-`pnpm test` performs a branch-aware build, runs `check:content`, and then runs the Node test suite. Output tests retain home-page and stylesheet coverage and add representative checks for articles, gamelogs, dungeonlogs, talks, pages, indexes, topics, compatibility pages, redirects, the legacy dispatcher, and telemetry policy. CI runs this complete suite on the repository-configured Node.js runtime. Builds of `main` receive the required Application Insights connection string, verify and upload the telemetry-enabled `_site` artifact, and deploy it; builds of every other branch verify telemetry-free output.
+`pnpm test` performs a branch-aware build, runs `check:content`, and then runs the Node test suite. Output tests retain home-page and stylesheet coverage and add representative checks for articles, gamelogs, dungeonlogs, talks, pages, indexes, topics, compatibility pages, redirects, the legacy dispatcher, and telemetry policy. CI runs this complete suite on the repository-configured Node.js runtime. Builds of `main` verify and upload the Simple Analytics-enabled `_site` artifact and deploy it; builds of every other branch verify analytics-free output. Checks also require Application Insights to be absent.

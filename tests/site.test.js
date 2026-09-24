@@ -103,24 +103,19 @@ test("the home feed keeps its asymmetric mosaic at large viewports", async () =>
   assert.match(stylesheet, /\.home-posts\s*>\s*li:nth-child\(4\) figure[\s\S]*height:\s*14rem/);
 });
 
-test("operational telemetry is branch-gated and served as a first-party asset", async () => {
+test("operational telemetry is absent", async () => {
   const $ = await page("index.html");
-  const telemetry = telemetryBuildConfig();
   const script = $("script[src='/assets/telemetry/application-insights.js']");
   const externalTelemetryScripts = $("script[src]").filter((_, element) => {
     const src = $(element).attr("src");
     return /^(?:https?:)?\/\//i.test(src) && /(?:applicationinsights|monitor\.azure|services\.visualstudio\.com|simpleanalytics)/i.test(src);
   });
 
-  assert.equal(script.length, telemetry.enabled ? 1 : 0);
+  assert.equal(script.length, 0);
   assert.equal(externalTelemetryScripts.length, 0);
 
   const asset = readFile(join(output, "assets", "telemetry", "application-insights.js"), "utf8");
-  if (telemetry.enabled) {
-    assert.ok((await asset).length > 0);
-  } else {
-    await assert.rejects(asset, { code: "ENOENT" });
-  }
+  await assert.rejects(asset, { code: "ENOENT" });
 });
 
 test("engagement analytics is branch-gated, privacy-sensitive, and served as a first-party asset", async () => {

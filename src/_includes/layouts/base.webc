@@ -20,7 +20,6 @@
     <link webc:keep rel="stylesheet" href="/assets/main.css">
     <title @text="pageMetadata.title"></title>
     <script type="application/ld+json" @raw="pageMetadata.jsonLd"></script>
-    <application-insights :@enabled="telemetry.applicationInsights.enabled"></application-insights>
   </head>
   <body class="min-h-screen bg-slate-100 text-slate-900 antialiased">
     <header :class="page.url === '/' ? 'site-hero' : 'bg-slate-950 shadow-lg'">

@@ -1,0 +1,22 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "davidwesst-website",
+  "compatibility_date": "2026-09-24",
+  "workers_dev": true,
+  "preview_urls": false,
+  "assets": {
+    "directory": "./_site",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "none"
+  },
+  "env": {
+    "staging": {
+      "name": "davidwesst-website-staging",
+      "assets": {
+        "directory": "./_site",
+        "html_handling": "auto-trailing-slash",
+        "not_found_handling": "none"
+      }
+    }
+  }
+}
