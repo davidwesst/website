@@ -12,8 +12,8 @@ Cloudflare Workers Static Assets hosts the Eleventy output. Cloudflare DNS becom
 - Assigned nameservers: `cruz.ns.cloudflare.com`, `matias.ns.cloudflare.com`.
 - Six application DNS records copied from Azure, with original 3600-second TTLs and proxying disabled: MX, SPF TXT, federation SRV, autodiscover CNAME, Bitly `d` CNAME, website `david` CNAME.
 - Website CNAME still targets `gray-smoke-09b0c160f.7.azurestaticapps.net` until hosting cutover.
-- No parent DS record observed on 2026-09-24; recheck immediately before delegation.
-- Registrar: nic.st. The owner performs nameserver and DS changes.
+- Registrar: nic.st. The owner changed delegation to the assigned Cloudflare nameservers on 2026-09-24.
+- nic.st does not expose DS-record management. Cloudflare DNSSEC was disabled on 2026-09-24 after it remained pending without a parent DS record. The zone is intentionally unsigned; revisit DNSSEC if the registrar adds DS support or the domain moves to a registrar that supports it.
 
 Local private rollback inventory is in ignored `.cache/migration/`: Azure DNS JSON and zone export, resource inventory, and pre-migration source ZIP. The previous GitHub deployment artifact has expired; the deployed Azure site remains the immediate rollback target. Retain newly generated artifacts for 14 days. Do not commit telemetry exports or credentials.
 
@@ -38,13 +38,15 @@ The CI build, Cloudflare staging deployment, and live smoke checks passed on 202
 2. [x] Create Cloudflare zone and copy/verify the six application DNS records through MCP.
 3. [x] Implement shared route adapters, security headers, Cloudflare configuration, and removal of Application Insights.
 4. [x] Run branch and production builds/tests; validate hosting behavior with local Wrangler.
-5. [x] Confirm GitHub staging deployment and live smoke checks succeed. Review and merge the PR through the normal review process.
-6. [ ] **Human:** after staging passes, change nameservers at nic.st to the assigned Cloudflare pair. Keep website DNS pointing at Azure. Confirm mail send/receive and Bitly behavior.
-7. [ ] Verify Cloudflare zone activation and public DNS. Enable Cloudflare DNSSEC and give the resulting DS values to the owner for registrar publication; verify the resulting chain. Preserve Azure DNS throughout propagation.
-8. [ ] Verify the main-branch production Worker. Attach `david.wes.st` through MCP, replacing the existing CNAME conflict. Verify certificate issuance and HTTPS before declaring cutover complete. Set `HOSTING_PROVIDER=cloudflare` and update the production smoke-check URL.
-9. [ ] Observe seven consecutive healthy days and at least one later successful production deployment. Check website, redirects, DNS, mail, and Simple Analytics. Browser errors and client performance are intentionally not collected. A material regression resets the observation period.
-10. [ ] Prepare final deletion: archive available last-30-day Azure telemetry and monitoring configuration privately; confirm archive access and disclose loss of older telemetry. Remove the Azure workflow job, rollback route adapter, obsolete GitHub secrets, and provider-specific tests in a follow-up PR; verify that deployment. Recheck all resource dependencies and obtain owner confirmation for the exact deletion list.
-11. [ ] **Final step:** delete only the six resources below and verify their removal plus website/DNS/analytics health. Retain the subscription and resource group.
+5. [x] Confirm GitHub staging deployment and live smoke checks succeed. The migration PR is ready for normal review.
+6. [ ] **Human:** review and merge the migration PR.
+7. [x] **Human:** change nameservers at nic.st to the assigned Cloudflare pair while keeping website DNS pointed at Azure.
+8. [x] Verify Cloudflare zone activation, delegated DNS records, and website availability. DNSSEC is intentionally disabled because nic.st does not expose DS-record management. Preserve Azure DNS throughout propagation.
+9. [ ] **Human:** confirm Microsoft 365 mail send/receive and representative Bitly-managed `d.wes.st` links after delegation.
+10. [ ] After the PR merge, verify the main-branch production Worker. Attach `david.wes.st` through MCP, replacing the existing CNAME conflict. Verify certificate issuance and HTTPS before declaring cutover complete. Set `HOSTING_PROVIDER=cloudflare` and update the production smoke-check URL.
+11. [ ] Observe seven consecutive healthy days and at least one later successful production deployment. Check website, redirects, DNS, mail, and Simple Analytics. Browser errors and client performance are intentionally not collected. A material regression resets the observation period.
+12. [ ] Prepare final deletion: archive available last-30-day Azure telemetry and monitoring configuration privately; confirm archive access and disclose loss of older telemetry. Remove the Azure workflow job, rollback route adapter, obsolete GitHub secrets, and provider-specific tests in a follow-up PR; verify that deployment. Recheck all resource dependencies and obtain owner confirmation for the exact deletion list.
+13. [ ] **Final step:** delete only the six resources below and verify their removal plus website/DNS/analytics health. Retain the subscription and resource group.
 
 ## Validation and rollback
 
