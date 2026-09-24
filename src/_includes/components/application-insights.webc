@@ -1,1 +1,0 @@
-<script webc:if="enabled" webc:keep defer src="/assets/telemetry/application-insights.js"></script>

@@ -253,7 +253,7 @@ assert.ok(Buffer.byteLength(configSource) <= 20 * 1024, "Azure Static Web Apps c
 const config = JSON.parse(configSource);
 assert.equal(config.trailingSlash, "auto");
 const configuredRoutes = new Map(config.routes.map((route) => [route.route, route]));
-assert.equal(configuredRoutes.get("/blog/gamelog/entry.html")?.rewrite, "/legacy/gamelog-entry.html");
+assert.equal(configuredRoutes.has("/blog/gamelog/entry.html"), false, "Legacy dispatcher must be a real asset, not a provider rewrite");
 assert.equal(configuredRoutes.get("/blog/gamelog/")?.redirect, BLOG_INDEX_ROUTES.gamelogs);
 assert.equal(configuredRoutes.get("/blog/dungeonlog/")?.redirect, BLOG_INDEX_ROUTES.dungeonlogs);
 for (const [source, target] of redirects) {
@@ -262,14 +262,18 @@ for (const [source, target] of redirects) {
   assert.equal(configuredRoutes.get(source)?.redirect, target, `Missing Azure redirect for ${source}`);
 }
 
-const dispatcher = readFileSync(path.join(OUTPUT_ROOT, "legacy", "gamelog-entry.html"), "utf8");
+const dispatcher = readFileSync(path.join(OUTPUT_ROOT, "blog", "gamelog", "entry.html"), "utf8");
 for (const document of documents.filter((item) => item.type === "gamelogs")) {
   const slug = path.basename(path.dirname(document.file));
   assert.match(dispatcher, new RegExp(`"${slug}":"${canonicalUrl(document).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`), `Legacy dispatcher is missing ${slug}`);
 }
 
 for (const route of Object.values(BLOG_INDEX_ROUTES)) assert.ok(exactCaseExists(outputFile(route)), `Missing post type index: ${route}`);
-assert.ok(!existsSync(path.join(OUTPUT_ROOT, "blog", "gamelog")), "Unpublished nested gamelog output must not be generated");
+assert.deepEqual(
+  walkFiles(path.join(OUTPUT_ROOT, "blog", "gamelog")).map((file) => slash(path.relative(path.join(OUTPUT_ROOT, "blog", "gamelog"), file))),
+  ["entry.html"],
+  "Legacy gamelog output must contain only the query dispatcher",
+);
 assert.ok(!existsSync(path.join(OUTPUT_ROOT, "blog", "dungeonlog")), "Unpublished nested dungeonlog output must not be generated");
 
 function resolveLocalTarget(currentFile, href) {
@@ -286,7 +290,7 @@ function resolveLocalTarget(currentFile, href) {
 const htmlFiles = walkFiles(OUTPUT_ROOT, (file) => file.endsWith(".html"));
 const telemetryAsset = path.join(OUTPUT_ROOT, "assets", "telemetry", "application-insights.js");
 const analyticsAsset = path.join(OUTPUT_ROOT, "assets", "telemetry", "simple-analytics.js");
-assert.equal(exactCaseExists(telemetryAsset), TELEMETRY.enabled, "Telemetry asset existence must match the build branch");
+assert.equal(exactCaseExists(telemetryAsset), false, "Application Insights must not be published");
 assert.equal(exactCaseExists(analyticsAsset), TELEMETRY.enabled, "Analytics asset existence must match the build branch");
 const brokenLinks = [];
 for (const file of htmlFiles) {
@@ -296,8 +300,8 @@ for (const file of htmlFiles) {
   assert.ok(!/MISSING_IMG|sediment:\/\/|oai_citation|\[object Object\]|\bwebc:|\s:[@a-z-]+=/i.test(source), `${relativeOutput} contains unresolved migration or WebC output`);
   assert.equal(load(source)("template").length, 0, `${relativeOutput} contains inert template markup`);
   const $ = load(source);
-  const telemetryExpected = TELEMETRY.enabled && relativeOutput !== "legacy/gamelog-entry.html";
-  assert.equal($("script[src='/assets/telemetry/application-insights.js']").length, telemetryExpected ? 1 : 0, `${relativeOutput} has the wrong telemetry integration`);
+  const telemetryExpected = TELEMETRY.enabled && relativeOutput !== "blog/gamelog/entry.html";
+  assert.equal($("script[src='/assets/telemetry/application-insights.js']").length, 0, `${relativeOutput} must not include Application Insights`);
   const analytics = $("script[src='/assets/telemetry/simple-analytics.js']");
   assert.equal(analytics.length, telemetryExpected ? 1 : 0, `${relativeOutput} has the wrong analytics integration`);
   if (telemetryExpected) {

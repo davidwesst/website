@@ -103,24 +103,19 @@ test("the home feed keeps its asymmetric mosaic at large viewports", async () =>
   assert.match(stylesheet, /\.home-posts\s*>\s*li:nth-child\(4\) figure[\s\S]*height:\s*14rem/);
 });
 
-test("operational telemetry is branch-gated and served as a first-party asset", async () => {
+test("operational telemetry is absent", async () => {
   const $ = await page("index.html");
-  const telemetry = telemetryBuildConfig();
   const script = $("script[src='/assets/telemetry/application-insights.js']");
   const externalTelemetryScripts = $("script[src]").filter((_, element) => {
     const src = $(element).attr("src");
     return /^(?:https?:)?\/\//i.test(src) && /(?:applicationinsights|monitor\.azure|services\.visualstudio\.com|simpleanalytics)/i.test(src);
   });
 
-  assert.equal(script.length, telemetry.enabled ? 1 : 0);
+  assert.equal(script.length, 0);
   assert.equal(externalTelemetryScripts.length, 0);
 
   const asset = readFile(join(output, "assets", "telemetry", "application-insights.js"), "utf8");
-  if (telemetry.enabled) {
-    assert.ok((await asset).length > 0);
-  } else {
-    await assert.rejects(asset, { code: "ENOENT" });
-  }
+  await assert.rejects(asset, { code: "ENOENT" });
 });
 
 test("engagement analytics is branch-gated, privacy-sensitive, and served as a first-party asset", async () => {
@@ -305,13 +300,13 @@ test("Azure redirects and the legacy query dispatcher are generated", async () =
   const config = JSON.parse(await readFile(join(output, "staticwebapp.config.json"), "utf8"));
   assert.equal(config.trailingSlash, "auto");
   assert.ok(config.routes.some((route) => route.route === "/talks/concensus-in-the-chaos/" && route.statusCode === 301));
-  assert.ok(config.routes.some((route) => route.route === "/blog/gamelog/entry.html" && route.rewrite === "/legacy/gamelog-entry.html"));
+  assert.ok(!config.routes.some((route) => route.route === "/blog/gamelog/entry.html"));
   assert.ok(config.routes.some((route) => route.route === "/blog/gamelog/clair-obscur-expedition-33/" && route.redirect === "/blog/clair-obscur-expedition-33/" && route.statusCode === 301));
   assert.ok(config.routes.some((route) => route.route === "/blog/dungeonlog/2026-03-16/" && route.redirect === "/blog/2026-03-16/" && route.statusCode === 301));
   assert.ok(config.routes.some((route) => route.route === "/blog/gamelog/" && route.redirect === "/blog/gamelogs/"));
   assert.ok(config.routes.some((route) => route.route === "/blog/dungeonlog/" && route.redirect === "/blog/dungeonlogs/"));
 
-  const dispatcher = await readFile(join(output, "legacy", "gamelog-entry.html"), "utf8");
+  const dispatcher = await readFile(join(output, "blog", "gamelog", "entry.html"), "utf8");
   assert.match(dispatcher, /URLSearchParams/);
   assert.match(dispatcher, /clair-obscur-expedition-33/);
   assert.match(dispatcher, /"clair-obscur-expedition-33":"\/blog\/clair-obscur-expedition-33\/"/);
