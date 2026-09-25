@@ -14,6 +14,7 @@ A minimal Eleventy site using Markdown for content, WebC for components and layo
 - `pnpm start` delegates to `pnpm dev`.
 - `pnpm build` creates the production site in `_site`.
 - `pnpm test` performs a production build, validates content integrity, and runs the Node test suite.
+- `pnpm run new gamelog <name>` creates `src/content/posts/gamelogs/<slug>/index.md` from the unpublished `templates/gamelog/index.md` template. Replace its placeholder metadata before building.
 - `pnpm campaign:links <canonical-url> [campaign]` emits validated YouTube, Bluesky, LinkedIn, and Instagram campaign URLs for a page in the current `_site` build. Visitor-facing share links always use the untracked canonical URL.
 
 ## Content distribution
