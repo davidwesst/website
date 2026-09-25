@@ -160,6 +160,23 @@ test("featured post selection defaults to latest, supports configuration, and re
   assert.equal(prepareHomeContent([...posts, { url: "/dungeon/", date: new Date("2026-01-01"), data: { type: "dungeonlog" } }], null, 2).featured.url, "/newer/");
 });
 
+test("home mosaic displays selected posts newest first across content types", () => {
+  const posts = [
+    { url: "/article-old/", date: new Date("2026-01-01"), data: { type: "article" } },
+    { url: "/article-new/", date: new Date("2026-05-01"), data: { type: "article" } },
+    { url: "/game-new/", date: new Date("2026-04-01"), data: { type: "gamelog" } },
+    { url: "/talk-new/", date: new Date("2026-03-01"), data: { type: "talk" } },
+    { url: "/game-old/", date: new Date("2026-02-01"), data: { type: "gamelog" } },
+    { url: "/featured/", date: new Date("2026-06-01"), data: { type: "talk" } },
+  ];
+
+  const home = prepareHomeContent(posts, null, 2);
+  assert.deepEqual(home.mosaic.map((item) => item.url), [
+    "/article-new/", "/game-new/", "/talk-new/", "/game-old/", "/article-old/",
+  ]);
+  assert.equal(home.featured.url, "/featured/");
+});
+
 test("representative post types render normalized data", async () => {
   const article = await page("blog/from-11ty-to-wordpress-and-back-again/index.html");
   assert.equal(article("h1").text(), "From 11ty to Wordpress and Back Again");
