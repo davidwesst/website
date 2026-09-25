@@ -46,7 +46,7 @@ export function prepareHomeContent(posts, configuredUrl, recentPostCount) {
   if (!featured) throw new Error(`Configured featured post was not found: ${configuredUrl}`);
 
   const sections = Object.fromEntries(["article", "gamelog", "talk"].map((type) => [type, sorted.filter((item) => item.data?.type === type && item.url !== featured.url).slice(0, recentPostCount)]));
-  const mosaic = Array.from({ length: recentPostCount }, (_, index) => ["article", "gamelog", "talk"].map((type) => sections[type][index]).filter(Boolean)).flat();
+  const mosaic = Object.values(sections).flat().sort((left, right) => right.date - left.date);
 
   return {
     featured,
