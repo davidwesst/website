@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "clean": "node tools/clean.mjs",
+    "new": "node tools/new-content.mjs",
     "content:migrate": "node tools/content-migration/migrate.mjs --write",
     "content:migrate:check": "node tools/content-migration/migrate.mjs --check",
     "prepare:igdb": "node tools/prepare-igdb.mjs",
