@@ -9,7 +9,7 @@ customData:
     ids:
       igdb: 141114
   playthrough:
-    started: 2026-09-05
+    started: 2026-08-05
     completed: 2026-08-18
     platform: XBox
   ratings:
