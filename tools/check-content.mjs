@@ -290,7 +290,7 @@ function resolveLocalTarget(currentFile, href) {
 const htmlFiles = walkFiles(OUTPUT_ROOT, (file) => file.endsWith(".html"));
 const telemetryAsset = path.join(OUTPUT_ROOT, "assets", "telemetry", "application-insights.js");
 const analyticsAsset = path.join(OUTPUT_ROOT, "assets", "telemetry", "simple-analytics.js");
-assert.equal(exactCaseExists(telemetryAsset), false, "Application Insights must not be published");
+assert.equal(exactCaseExists(telemetryAsset), TELEMETRY.enabled, "Application Insights asset existence must match the build branch");
 assert.equal(exactCaseExists(analyticsAsset), TELEMETRY.enabled, "Analytics asset existence must match the build branch");
 const brokenLinks = [];
 for (const file of htmlFiles) {
@@ -301,7 +301,9 @@ for (const file of htmlFiles) {
   assert.equal(load(source)("template").length, 0, `${relativeOutput} contains inert template markup`);
   const $ = load(source);
   const telemetryExpected = TELEMETRY.enabled && relativeOutput !== "blog/gamelog/entry.html";
-  assert.equal($("script[src='/assets/telemetry/application-insights.js']").length, 0, `${relativeOutput} must not include Application Insights`);
+  const applicationInsights = $("script[src='/assets/telemetry/application-insights.js']");
+  assert.equal(applicationInsights.length, telemetryExpected ? 1 : 0, `${relativeOutput} has the wrong Application Insights integration`);
+  if (telemetryExpected) assert.equal(applicationInsights.is("[defer]"), true, `${relativeOutput} must defer Application Insights`);
   const analytics = $("script[src='/assets/telemetry/simple-analytics.js']");
   assert.equal(analytics.length, telemetryExpected ? 1 : 0, `${relativeOutput} has the wrong analytics integration`);
   if (telemetryExpected) {

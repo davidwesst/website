@@ -14,7 +14,7 @@ The active site publishes:
 - Blog, Articles, Gamelogs, Dungeonlogs, Talks, and Topics indexes
 - generated pages for topics shared by posts and talks
 - stable content assets and legacy URL compatibility
-- production-only, privacy-first aggregate engagement analytics
+- production-only, privacy-first engagement analytics and browser operational diagnostics
 
 Talks are a separate content family from posts. Both use the shared authored fields and presentation components, while their type-specific data remains under `customData`.
 
@@ -64,9 +64,9 @@ Post and talk detail pages expose deterministic related content ranked by shared
 
 ## Analytics and hosting
 
-Client-side operational diagnostics are intentionally removed. Application Insights, Sentry, and Cloudflare browser beacons are not installed. Simple Analytics remains responsible only for aggregate engagement analytics; future browser monitoring requires a separate design decision.
+Simple Analytics remains responsible only for aggregate engagement analytics. Application Insights provides client-side errors, failed-request diagnostics, and performance data to the existing production resource. Sentry and Cloudflare browser beacons are not installed. The browser integration uses Microsoft's supported Application Insights JavaScript SDK with W3C trace context; Azure's OpenTelemetry distribution remains limited to server-side Node.js and is not used by this static site.
 
-The main branch enables Simple Analytics without Azure credentials. Other branches and Eleventy serving omit analytics assets and integration. Build context uses GITHUB_REF_NAME when available, otherwise the current Git branch. The pinned first-party analytics bundle is generated beneath .cache/telemetry and published under /assets/telemetry.
+The main branch enables both integrations without Azure credentials. Other branches and Eleventy serving omit telemetry assets and integration. Build context uses GITHUB_REF_NAME when available, otherwise the current Git branch. The pinned first-party telemetry bundles are generated beneath `.cache/telemetry` and published under `/assets/telemetry`. The public Application Insights connection string binds the client to `appi-davidwesstcom-prod` and is repository configuration rather than a secret.
 
 GitHub Actions builds and tests once, then deploys the verified artifact to Cloudflare Workers Static Assets using pinned Wrangler tooling. Staging is isolated from production. Cloudflare DNS hosts the wes.st zone, preserving existing mail and unrelated subdomains. DNS delegation and website hosting change separately. Azure remains available during the migration observation period; docs/cloudflare-migration.md records rollout gates and final cleanup.
 
@@ -83,7 +83,9 @@ IGDB banner images are generated build assets rather than authored banners. The 
 
 Simple Analytics owns aggregate engagement analytics: page views, referrers, UTM campaign values, time on page, scroll depth, and coarse browser/device information. It does not own errors, performance, or failed-request diagnostics. Session metrics and custom events are disabled, Do Not Track is respected, and the integration uses no cookies, browser storage, persistent visitor identifiers, user-generated content, or intentionally collected PII. Its required collection requests remain external to the Simple Analytics endpoint.
 
-The telemetry preparation step downloads the Simple Analytics browser library from an exact upstream commit, verifies its repository-controlled SHA-256 digest, and publishes it as `/assets/telemetry/simple-analytics.js`. Production builds fail when the pinned resource cannot be downloaded or verified. Updating the library is an intentional source-commit and digest change; no runtime third-party executable fallback is allowed.
+Application Insights owns browser operational diagnostics: uncaught exceptions, unhandled promise rejections, failed Fetch/XHR dependencies, page-load timing, and dependency performance. Page views are collected only as the context required for performance diagnostics. Do Not Track prevents SDK initialization. Cookies, browser storage, persistent identifiers, click tracking, cross-origin correlation headers, request and response headers, and response bodies are disabled. Simple Analytics and Azure ingestion requests are excluded from dependency auto-collection.
+
+The telemetry preparation step downloads the Simple Analytics browser library from an exact upstream commit, verifies its repository-controlled SHA-256 digest, and publishes it as `/assets/telemetry/simple-analytics.js`. It bundles the locked Application Insights package and site configuration as `/assets/telemetry/application-insights.js`. Production builds fail when either first-party asset cannot be prepared. Updating either library is an intentional dependency or source-integrity change; no runtime third-party executable fallback is allowed.
 
 A shared route model generates Cloudflare `_redirects` and temporary Azure `staticwebapp.config.json` rollback configuration. Cloudflare `_headers` preserves security headers and revalidates unversioned content. Wrangler enables automatic trailing slashes and genuine 404 responses; explicit permanent redirects cover legacy index URLs. Provider limits fail the build rather than dropping routes. Archived hierarchical gamelog and dungeonlog detail routes redirect to the flat canonical post routes. Query-based legacy gamelog URLs use a generated noindex dispatcher at `/blog/gamelog/entry.html` backed by a validated slug map. RSS feeds can later select the existing `posts`, `articles`, `gamelogs`, and `dungeonlogs` collections independently of canonical URL shape.
 
@@ -101,6 +103,6 @@ The production build removes only `_site`, prepares the optional IGDB cache, ren
 - absence of archive paths, raw front matter, unresolved WebC data, and migration markers
 - production-branch telemetry configuration, first-party script URLs, generated asset existence, and privacy-sensitive client settings
 - absence of telemetry integration on non-production branches and absence of runtime third-party executable telemetry resources
-- Simple Analytics production gating, pinned asset integrity, Do Not Track behavior, and session-metric exclusion
+- Simple Analytics and Application Insights production gating, pinned first-party assets, Do Not Track behavior, privacy-sensitive configuration, and responsibility boundaries
 
-`pnpm test` performs a branch-aware build, runs `check:content`, and then runs the Node test suite. Output tests retain home-page and stylesheet coverage and add representative checks for articles, gamelogs, dungeonlogs, talks, pages, indexes, topics, compatibility pages, redirects, the legacy dispatcher, and telemetry policy. CI runs this complete suite on the repository-configured Node.js runtime. Builds of `main` verify and upload the Simple Analytics-enabled `_site` artifact and deploy it; builds of every other branch verify analytics-free output. Checks also require Application Insights to be absent.
+`pnpm test` performs a branch-aware build, runs `check:content`, and then runs the Node test suite. Output tests retain home-page and stylesheet coverage and add representative checks for articles, gamelogs, dungeonlogs, talks, pages, indexes, topics, compatibility pages, redirects, the legacy dispatcher, and telemetry policy. CI runs this complete suite on the repository-configured Node.js runtime. Builds of `main` verify and upload the telemetry-enabled `_site` artifact and deploy it; builds of every other branch verify telemetry-free output.
