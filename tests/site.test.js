@@ -92,7 +92,7 @@ test("the home page renders the Ghostwind shell and configured content", async (
   assert.equal($("footer a[href='https://www.11ty.dev/']").text(), "Build Awesome / 11ty");
   const igdbCredit = $("body > footer a[href='https://www.igdb.com/']");
   assert.equal(igdbCredit.text(), "IGDB.com");
-  assert.match(igdbCredit.parent().text(), /Video game images and game data provided by IGDB\.com\./);
+  assert.match(igdbCredit.parent().text(), /Video game images and game details provided by IGDB\.com\./);
 });
 
 test("Font Awesome CSS and webfonts are included in the build", async () => {
