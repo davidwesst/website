@@ -2,10 +2,12 @@ import { createHash } from "node:crypto";
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { build } from "esbuild";
 import { telemetryBuildConfig } from "../lib/telemetry-build.js";
 
 const projectDirectory = resolve(".");
 const telemetryDirectory = resolve(".cache", "telemetry");
+const applicationInsightsOutputFile = resolve(telemetryDirectory, "application-insights.js");
 const simpleAnalyticsOutputFile = resolve(telemetryDirectory, "simple-analytics.js");
 export const SIMPLE_ANALYTICS_VERSION = "c14b69456bcd6a758067a6fac0541e1a43e10cbb";
 export const SIMPLE_ANALYTICS_SHA256 = "820fd384e3307235dbbfe78ac212f9bf936ceb9d9e731b26aa4b852299880d55";
@@ -37,9 +39,21 @@ export async function prepareTelemetry(options = {}) {
   const response = await (options.fetchImpl || fetch)(SIMPLE_ANALYTICS_SOURCE);
   if (!response.ok) throw new Error(`Unable to prepare Simple Analytics browser asset: HTTP ${response.status}`);
   const simpleAnalyticsSource = verifySimpleAnalyticsSource(await response.arrayBuffer());
-  await writeFile(simpleAnalyticsOutputFile, simpleAnalyticsSource);
+  await Promise.all([
+    writeFile(simpleAnalyticsOutputFile, simpleAnalyticsSource),
+    build({
+      entryPoints: [resolve("lib", "application-insights-browser.js")],
+      outfile: applicationInsightsOutputFile,
+      bundle: true,
+      format: "iife",
+      platform: "browser",
+      target: ["es2020"],
+      minify: true,
+      legalComments: "none",
+    }),
+  ]);
 
-  return { ...config, simpleAnalyticsOutputFile };
+  return { ...config, applicationInsightsOutputFile, simpleAnalyticsOutputFile };
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

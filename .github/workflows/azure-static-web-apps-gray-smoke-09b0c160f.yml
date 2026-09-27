@@ -140,5 +140,6 @@ jobs:
           command: deploy ${{ github.ref_name != 'main' && '--env staging' || '' }}
       - name: Verify deployed site
         env:
+          EXPECT_TELEMETRY: ${{ github.ref_name == 'main' }}
           SITE_URL: ${{ github.ref_name == 'main' && vars.CLOUDFLARE_PRODUCTION_URL || vars.CLOUDFLARE_STAGING_URL }}
         run: node tools/check-hosting.mjs "$SITE_URL"

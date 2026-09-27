@@ -34,7 +34,9 @@
     "tailwindcss": "^4.1.11"
   },
   "devDependencies": {
+    "@microsoft/applicationinsights-web": "3.4.4",
     "cheerio": "^1.2.0",
+    "esbuild": "0.28.2",
     "gray-matter": "^4.0.3",
     "wrangler": "4.137.0"
   }

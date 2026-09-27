@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 const base = process.argv[2];
 assert.ok(base, "Provide the deployed site URL");
 const origin = new URL(base).origin;
+const telemetryExpected = process.env.EXPECT_TELEMETRY === "true";
 const request = (route) => fetch(`${origin}${route}`, { redirect: "manual", signal: AbortSignal.timeout(20000) });
 
 async function waitForDeployment() {
@@ -39,5 +40,11 @@ assert.equal(new URL(legacy.url).searchParams.get("slug"), "clair-obscur-expedit
 assert.match(await legacy.text(), /URLSearchParams/);
 assert.equal((await request("/migration-missing-page-93a10/")).status, 404);
 const home = await (await request("/")).text();
-assert.doesNotMatch(home, /application-insights\.js|static\.cloudflareinsights\.com|sentry/i);
+assert.doesNotMatch(home, /static\.cloudflareinsights\.com|sentry/i);
+if (telemetryExpected) {
+  assert.match(home, /\/assets\/telemetry\/application-insights\.js/);
+  assert.equal((await request("/assets/telemetry/application-insights.js")).status, 200);
+} else {
+  assert.doesNotMatch(home, /\/assets\/telemetry\/application-insights\.js/);
+}
 console.log(`Hosting checks passed: ${origin}`);
