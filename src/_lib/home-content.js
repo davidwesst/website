@@ -35,23 +35,17 @@ export function getPostDescription(post) {
   return introduction.join(" ") || null;
 }
 
-export function prepareHomeContent(posts, configuredUrl, recentPostCount) {
+export function prepareHomeContent(posts, recentPostCount) {
   const sorted = [...(posts || [])].filter((item) => item.data?.type !== "dungeonlog").sort((left, right) => right.date - left.date);
-  if (!sorted.length) throw new Error("The home page requires at least one post");
+  const featured = ["article", "gamelog"].map((type) => sorted.find((item) => item.data?.type === type)).filter(Boolean);
+  if (!featured.length) throw new Error("The home page requires an article or gamelog");
 
-  const featured = configuredUrl
-    ? sorted.find((post) => post.url === configuredUrl)
-    : sorted[0];
-
-  if (!featured) throw new Error(`Configured featured post was not found: ${configuredUrl}`);
-
-  const sections = Object.fromEntries(["article", "gamelog", "talk"].map((type) => [type, sorted.filter((item) => item.data?.type === type && item.url !== featured.url).slice(0, recentPostCount)]));
+  const featuredUrls = new Set(featured.map((item) => item.url));
+  const sections = Object.fromEntries(["article", "gamelog", "talk"].map((type) => [type, sorted.filter((item) => item.data?.type === type && !featuredUrls.has(item.url)).slice(0, recentPostCount)]));
   const mosaic = Object.values(sections).flat().sort((left, right) => right.date - left.date);
 
   return {
-    featured,
-    featuredDescription: getPostDescription(featured),
-    recent: sorted.filter((post) => post.url !== featured.url).slice(0, recentPostCount),
+    featured: featured.map((item) => ({ item, description: getPostDescription(item) })),
     sections,
     mosaic,
   };

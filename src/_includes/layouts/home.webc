@@ -2,12 +2,23 @@
 layout: base.webc
 ---
 <script webc:setup>
-  const homeContent = home.prepare([...(collections.posts || []), ...(collections.talks || [])], site.featuredPost, site.recentPostCount);
+  const homeContent = home.prepare([...(collections.posts || []), ...(collections.talks || [])], site.recentPostCount);
 </script>
 
 <section class="-mt-28 md:-mt-36" aria-labelledby="featured-heading">
-  <h2 id="featured-heading" class="sr-only">Featured post</h2>
-  <post-card :@item="homeContent.featured" :@site="site" :@featured="true" :@description="homeContent.featuredDescription"></post-card>
+  <h2 id="featured-heading" class="sr-only">Featured posts</h2>
+  <div class="featured-rotation" data-featured-rotation>
+    <div class="featured-tabs" role="tablist" aria-label="Featured post types">
+      <button webc:for="feature, index of homeContent.featured" type="button" role="tab" class="featured-tab" :id="`featured-tab-${index}`" :aria-controls="`featured-panel-${index}`" :aria-selected="index === 0 ? 'true' : 'false'" :tabindex="index === 0 ? '0' : '-1'">
+        <i :class="site.postTypes[feature.item.data.type].iconClass" aria-hidden="true"></i>
+        <span @text="site.postTypes[feature.item.data.type].label"></span>
+      </button>
+    </div>
+    <div webc:for="feature, index of homeContent.featured" role="tabpanel" class="featured-panel" :id="`featured-panel-${index}`" :aria-labelledby="`featured-tab-${index}`" :hidden="index !== 0">
+      <post-card :@item="feature.item" :@site="site" :@featured="true" :@description="feature.description"></post-card>
+    </div>
+  </div>
+  <script webc:keep src="/assets/featured-rotation.js" defer></script>
 </section>
 
 <section class="py-16" aria-labelledby="recent-heading">

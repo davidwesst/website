@@ -48,15 +48,18 @@ test("the home page renders the Ghostwind shell and configured content", async (
   assert.equal(primaryNavigation.children("a[href='/']").text(), site.navigationTitle);
   assert.deepEqual(primaryNavigation.find("ul a").map((_, link) => $(link).text().trim()).get(), site.navigationLinks.map((link) => link.name));
   assert.equal(primaryNavigation.find("a[href='/projects/']").length, 0);
-  const featured = $("#featured-heading + article");
-  const eligible = [
-    ...authored.articles.map((item) => ({ date: item.date, url: `/blog/${item.slug}/` })),
-    ...authored.gamelogs.map((item) => ({ date: item.date, url: `/blog/${item.slug}/` })),
-    ...authored.talks.map((item) => ({ date: item.date, url: `/talks/${item.slug}/` })),
-  ].sort((left, right) => new Date(right.date) - new Date(left.date));
-  const expectedFeaturedUrl = site.featuredPost || eligible[0].url;
-  assert.equal(featured.find("h2 a").attr("href"), expectedFeaturedUrl);
-  assert.ok(featured.find(".post-card-description").text().trim());
+  const features = $(".featured-panel");
+  assert.equal(features.length, 2);
+  for (const [index, family] of [authored.articles, authored.gamelogs].entries()) {
+    const latest = family.sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+    assert.equal(features.eq(index).find("h2 a").attr("href"), `/blog/${latest.slug}/`);
+    assert.ok(features.eq(index).find(".post-card-description").text().trim());
+    assert.equal($(".featured-tab").eq(index).attr("aria-controls"), `featured-panel-${index}`);
+    assert.equal($(".featured-tab").eq(index).find("i").attr("class"), site.postTypes[index === 0 ? "article" : "gamelog"].iconClass);
+  }
+  assert.equal(features.eq(0).attr("hidden"), undefined);
+  assert.notEqual(features.eq(1).attr("hidden"), undefined);
+  assert.equal($("script[src='/assets/featured-rotation.js']").length, 1);
   assert.match($("#recent-heading").closest("section").find("ol > li article time").first().closest("footer").attr("class"), /\bmt-auto\b/);
   assert.match($("#recent-heading").closest("section").find("ol > li article time").first().closest("footer").attr("class"), /\bpt-6\b/);
   for (const section of site.homeSections) assert.equal($(`#home-${section.type}`).attr("href"), section.url);
@@ -147,17 +150,17 @@ test("featured descriptions prefer summaries and fall back to the Markdown intro
   );
 });
 
-test("featured post selection defaults to latest, supports configuration, and rejects mistakes", () => {
+test("featured selection finds the latest article and gamelog and excludes dungeonlogs", () => {
   const posts = [
-    { url: "/older/", date: new Date("2024-01-01") },
-    { url: "/newer/", date: new Date("2025-01-01") },
-    { url: "/middle/", date: new Date("2024-06-01") },
+    { url: "/article-old/", date: new Date("2024-01-01"), data: { type: "article" } },
+    { url: "/article-new/", date: new Date("2025-01-01"), data: { type: "article" } },
+    { url: "/game/", date: new Date("2024-06-01"), data: { type: "gamelog" } },
+    { url: "/dungeon/", date: new Date("2026-01-01"), data: { type: "dungeonlog" } },
   ];
-  assert.equal(prepareHomeContent(posts, null, 2).featured.url, "/newer/");
-  assert.equal(prepareHomeContent(posts, "/older/", 2).featured.url, "/older/");
-  assert.deepEqual(prepareHomeContent(posts, "/older/", 2).recent.map((item) => item.url), ["/newer/", "/middle/"]);
-  assert.throws(() => prepareHomeContent(posts, "/missing/", 2), /was not found/);
-  assert.equal(prepareHomeContent([...posts, { url: "/dungeon/", date: new Date("2026-01-01"), data: { type: "dungeonlog" } }], null, 2).featured.url, "/newer/");
+  const home = prepareHomeContent(posts, 2);
+  assert.deepEqual(home.featured.map(({ item }) => item.url), ["/article-new/", "/game/"]);
+  assert.deepEqual(home.mosaic.map((item) => item.url), ["/article-old/"]);
+  assert.throws(() => prepareHomeContent([], 2), /requires an article or gamelog/);
 });
 
 test("home mosaic displays selected posts newest first across content types", () => {
@@ -170,11 +173,11 @@ test("home mosaic displays selected posts newest first across content types", ()
     { url: "/featured/", date: new Date("2026-06-01"), data: { type: "talk" } },
   ];
 
-  const home = prepareHomeContent(posts, null, 2);
+  const home = prepareHomeContent(posts, 2);
   assert.deepEqual(home.mosaic.map((item) => item.url), [
-    "/article-new/", "/game-new/", "/talk-new/", "/game-old/", "/article-old/",
+    "/featured/", "/talk-new/", "/game-old/", "/article-old/",
   ]);
-  assert.equal(home.featured.url, "/featured/");
+  assert.deepEqual(home.featured.map(({ item }) => item.url), ["/article-new/", "/game-new/"]);
 });
 
 test("representative post types render normalized data", async () => {

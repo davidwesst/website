@@ -45,6 +45,24 @@ body { margin: 0; }
     linear-gradient(135deg, #020617 0%, #0f172a 48%, #134e4a 100%);
 }
 
+.featured-tabs { display: flex; gap: 0.5rem; margin-bottom: 0.75rem; }
+.featured-tab {
+  background: rgb(255 255 255 / 0.72);
+  border: 2px solid transparent;
+  border-radius: 0.75rem;
+  color: #334155;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 1.2rem;
+  font: 700 0.875rem Inter, ui-sans-serif, system-ui, sans-serif;
+}
+.featured-tab[aria-selected="true"] { background: white; border-color: #0f766e; color: #0f766e; }
+.featured-tab:hover { background: white; }
+.featured-tab:focus-visible { outline: 3px solid #0f766e; outline-offset: 2px; }
+.featured-panel[hidden] { display: none; }
+
 .nav-link {
   color: rgb(203 213 225);
   text-decoration: none;
