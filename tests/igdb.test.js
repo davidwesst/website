@@ -80,6 +80,7 @@ test("normalizes game metadata and selects deterministic landscape artwork", () 
   ]);
   assert.equal(game.banner.kind, "artwork");
   assert.match(game.banner.src, /7-larger\.jpg$/);
+  assert.equal(game.banner.credit, undefined);
   assert.match(image.url, /t_1080p\/larger\.jpg$/);
 });
 

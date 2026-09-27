@@ -90,6 +90,9 @@ test("the home page renders the Ghostwind shell and configured content", async (
   assert.match(blueskyLinks.first().find("i").attr("class"), /fa-bluesky/);
   assert.equal($("footer a[href='https://github.com/tailwindtoolbox/Ghostwind/']").text(), "Ghostwind");
   assert.equal($("footer a[href='https://www.11ty.dev/']").text(), "Build Awesome / 11ty");
+  const igdbCredit = $("body > footer a[href='https://www.igdb.com/']");
+  assert.equal(igdbCredit.text(), "IGDB.com");
+  assert.match(igdbCredit.parent().text(), /Video game images and game details provided by IGDB\.com\./);
 });
 
 test("Font Awesome CSS and webfonts are included in the build", async () => {
@@ -207,7 +210,7 @@ test("representative post types render normalized data", async () => {
       assert.equal(gamelog("#game-details-heading + dl dt").filter((_, element) => gamelog(element).text() === "Ratings").length, 1);
       assert.match(gamelog("#game-details-heading + dl").text(), /ESRB|PEGI|CERO/);
     }
-    assert.equal(gamelog("footer a[href='https://www.igdb.com/']").text(), "IGDB.com");
+    assert.equal(gamelog("article footer a[href='https://www.igdb.com/']").length, 0);
   }
 
   const julyGamelog = await page("blog/paranormasight-the-mermaids-curse/index.html");
