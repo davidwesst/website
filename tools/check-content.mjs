@@ -103,7 +103,7 @@ for (const [id, game] of Object.entries(IGDB_GAMES)) {
   assert.deepEqual(Object.keys(game).sort(), ["ageRatings", "banner", "developers", "firstReleaseDate", "id", "name", "publishers", "series", "sourceUrl"], `IGDB cache game ${id} has unexpected fields`);
   assert.ok(Array.isArray(game.developers) && Array.isArray(game.publishers) && Array.isArray(game.series) && Array.isArray(game.ageRatings), `IGDB cache game ${id} company, series, and rating fields must be lists`);
   if (game.banner) {
-    assert.deepEqual(Object.keys(game.banner).sort(), ["alt", "credit", "kind", "src"], `IGDB cache game ${id} banner has unexpected fields`);
+    assert.deepEqual(Object.keys(game.banner).sort(), ["alt", "kind", "src"], `IGDB cache game ${id} banner has unexpected fields`);
     assert.match(game.banner.src, /^\/assets\/igdb\/\d+-[A-Za-z0-9_-]+\.jpg$/, `IGDB cache game ${id} has an invalid banner path`);
     assert.ok(game.banner.alt?.trim(), `IGDB cache game ${id} needs banner alt text`);
     assert.ok(exactCaseExists(path.join(OUTPUT_ROOT, game.banner.src)), `IGDB banner is missing from output for game ${id}`);
