@@ -11,7 +11,6 @@ export default {
   tagline: "Building and playing games, while sharing software development ideas from Winnipeg, Canada.",
   description: "The personal website of David Wesst.",
   url: "https://david.wes.st",
-  featuredPost: null,
   recentPostCount: 3,
   homeSections: [
     { type: "article", label: "Latest articles", url: "/blog/articles/" },
