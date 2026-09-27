@@ -8,9 +8,9 @@
   }
 </script>
 
-<figure class="overflow-hidden bg-slate-200" :class="featured ? 'aspect-[16/9] md:aspect-auto md:h-full' : cropped ? 'aspect-[32/9]' : 'aspect-video'">
+<figure class="post-visual overflow-hidden bg-slate-200" :class="featured ? 'aspect-[16/9] md:aspect-auto md:h-full' : cropped ? 'aspect-[32/9]' : 'aspect-video'">
   <img webc:if="banner && banner.src" class="h-full w-full object-cover" :src="imageSource(banner, baseUrl)" :alt="banner.alt">
-  <div webc:if="!banner || !banner.src" class="flex h-full min-h-48 w-full items-center justify-center text-white" :style="`background-color: ${configFor(type, site).fallbackColor}`" role="img" :aria-label="`${configFor(type, site).label} placeholder image`">
+  <div webc:if="!banner || !banner.src" class="flex h-full w-full items-center justify-center text-white" :style="`background-color: ${configFor(type, site).fallbackColor}`" role="img" :aria-label="`${configFor(type, site).label} placeholder image`">
     <i :class="`${configFor(type, site).iconClass} text-6xl opacity-90`" aria-hidden="true"></i>
   </div>
   <figcaption webc:if="banner && banner.credit" class="bg-slate-950 px-4 py-2 text-xs text-slate-300" @text="banner.credit"></figcaption>

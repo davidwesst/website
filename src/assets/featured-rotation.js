@@ -6,6 +6,8 @@ for (const rotation of document.querySelectorAll("[data-featured-rotation]")) {
   let active = 0;
   let timer;
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const toggle = rotation.querySelector("[data-rotation-toggle]");
+  let playing = !reducedMotion.matches;
 
   function select(index, focus = false) {
     active = (index + tabs.length) % tabs.length;
@@ -20,7 +22,9 @@ for (const rotation of document.querySelectorAll("[data-featured-rotation]")) {
 
   function restart() {
     window.clearInterval(timer);
-    if (!reducedMotion.matches && !rotation.matches(":hover") && !rotation.contains(document.activeElement) && !document.hidden) {
+    const focusedContent = rotation.contains(document.activeElement) && document.activeElement !== toggle;
+    if (toggle) toggle.checked = !playing;
+    if (playing && !focusedContent && !document.hidden) {
       timer = window.setInterval(() => select(active + 1), 8000);
     }
   }
@@ -35,11 +39,13 @@ for (const rotation of document.querySelectorAll("[data-featured-rotation]")) {
       restart();
     });
   });
-  rotation.addEventListener("mouseenter", restart);
-  rotation.addEventListener("mouseleave", restart);
+  if (toggle) {
+    toggle.parentElement.hidden = false;
+    toggle.addEventListener("change", () => { playing = !toggle.checked; restart(); });
+  }
   rotation.addEventListener("focusin", restart);
   rotation.addEventListener("focusout", () => window.setTimeout(restart, 0));
   document.addEventListener("visibilitychange", restart);
-  reducedMotion.addEventListener("change", restart);
+  reducedMotion.addEventListener("change", () => { playing = !reducedMotion.matches; restart(); });
   restart();
 }

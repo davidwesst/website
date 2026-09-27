@@ -49,16 +49,22 @@ test("the home page renders the Ghostwind shell and configured content", async (
   assert.deepEqual(primaryNavigation.find("ul a").map((_, link) => $(link).text().trim()).get(), site.navigationLinks.map((link) => link.name));
   assert.equal(primaryNavigation.find("a[href='/projects/']").length, 0);
   const features = $(".featured-panel");
-  assert.equal(features.length, 2);
-  for (const [index, family] of [authored.articles, authored.gamelogs].entries()) {
+  assert.equal(features.length, 3);
+  assert.deepEqual($(".featured-tab span").map((_, span) => $(span).text()).get(), ["Latest article", "Latest gamelog", "Latest talk"]);
+  assert.equal($(".featured-controls input[type=checkbox][role=switch][data-rotation-toggle]").length, 1);
+  assert.equal($(".featured-playback").text().trim(), "Pause slideshow");
+  for (const [index, family] of [authored.articles, authored.gamelogs, authored.talks].entries()) {
     const latest = family.sort((a, b) => new Date(b.date) - new Date(a.date))[0];
-    assert.equal(features.eq(index).find("h2 a").attr("href"), `/blog/${latest.slug}/`);
+    const url = `${index === 2 ? "/talks/" : "/blog/"}${latest.slug}/`;
+    assert.equal(features.eq(index).find("h2 a").attr("href"), url);
     assert.ok(features.eq(index).find(".post-card-description").text().trim());
+    assert.equal($(".home-posts h2 a").filter((_, link) => $(link).attr("href") === url).length, 1);
     assert.equal($(".featured-tab").eq(index).attr("aria-controls"), `featured-panel-${index}`);
-    assert.equal($(".featured-tab").eq(index).find("i").attr("class"), site.postTypes[index === 0 ? "article" : "gamelog"].iconClass);
+    assert.equal($(".featured-tab").eq(index).find("i").attr("class"), site.postTypes[["article", "gamelog", "talk"][index]].iconClass);
   }
   assert.equal(features.eq(0).attr("hidden"), undefined);
   assert.notEqual(features.eq(1).attr("hidden"), undefined);
+  assert.notEqual(features.eq(2).attr("hidden"), undefined);
   assert.equal($("script[src='/assets/featured-rotation.js']").length, 1);
   assert.match($("#recent-heading").closest("section").find("ol > li article time").first().closest("footer").attr("class"), /\bmt-auto\b/);
   assert.match($("#recent-heading").closest("section").find("ol > li article time").first().closest("footer").attr("class"), /\bpt-6\b/);
@@ -159,8 +165,8 @@ test("featured selection finds the latest article and gamelog and excludes dunge
   ];
   const home = prepareHomeContent(posts, 2);
   assert.deepEqual(home.featured.map(({ item }) => item.url), ["/article-new/", "/game/"]);
-  assert.deepEqual(home.mosaic.map((item) => item.url), ["/article-old/"]);
-  assert.throws(() => prepareHomeContent([], 2), /requires an article or gamelog/);
+  assert.deepEqual(home.mosaic.map((item) => item.url), ["/article-new/", "/game/", "/article-old/"]);
+  assert.throws(() => prepareHomeContent([], 2), /requires an article, gamelog, or talk/);
 });
 
 test("home mosaic displays selected posts newest first across content types", () => {
@@ -175,9 +181,9 @@ test("home mosaic displays selected posts newest first across content types", ()
 
   const home = prepareHomeContent(posts, 2);
   assert.deepEqual(home.mosaic.map((item) => item.url), [
-    "/featured/", "/talk-new/", "/game-old/", "/article-old/",
+    "/featured/", "/article-new/", "/game-new/", "/talk-new/", "/game-old/", "/article-old/",
   ]);
-  assert.deepEqual(home.featured.map(({ item }) => item.url), ["/article-new/", "/game-new/"]);
+  assert.deepEqual(home.featured.map(({ item }) => item.url), ["/article-new/", "/game-new/", "/featured/"]);
 });
 
 test("representative post types render normalized data", async () => {

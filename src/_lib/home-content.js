@@ -37,11 +37,10 @@ export function getPostDescription(post) {
 
 export function prepareHomeContent(posts, recentPostCount) {
   const sorted = [...(posts || [])].filter((item) => item.data?.type !== "dungeonlog").sort((left, right) => right.date - left.date);
-  const featured = ["article", "gamelog"].map((type) => sorted.find((item) => item.data?.type === type)).filter(Boolean);
-  if (!featured.length) throw new Error("The home page requires an article or gamelog");
+  const featured = ["article", "gamelog", "talk"].map((type) => sorted.find((item) => item.data?.type === type)).filter(Boolean);
+  if (!featured.length) throw new Error("The home page requires an article, gamelog, or talk");
 
-  const featuredUrls = new Set(featured.map((item) => item.url));
-  const sections = Object.fromEntries(["article", "gamelog", "talk"].map((type) => [type, sorted.filter((item) => item.data?.type === type && !featuredUrls.has(item.url)).slice(0, recentPostCount)]));
+  const sections = Object.fromEntries(["article", "gamelog", "talk"].map((type) => [type, sorted.filter((item) => item.data?.type === type).slice(0, recentPostCount)]));
   const mosaic = Object.values(sections).flat().sort((left, right) => right.date - left.date);
 
   return {
