@@ -20,6 +20,7 @@ test("the root favicon publishes the repository-owned multi-resolution ICO intac
     assert.equal(icon.readUInt32LE(offset), 40, "ICO contains a bitmap header");
     assert.equal(icon.readInt32LE(offset + 4), size);
     assert.equal(icon.readInt32LE(offset + 8), size * 2, "ICO includes the transparency mask");
+    assert.equal(icon[offset + 43], 0, "Circular logo retains transparent corners");
     assert.equal(bytes, 40 + size * size * 4 + Math.ceil(size / 32) * 4 * size);
   }
 });
