@@ -22,10 +22,17 @@ async function waitForDeployment() {
 }
 
 const readyHome = await waitForDeployment();
-for (const route of ["/", "/blog/", "/talks/", "/about/", "/feed.xml", "/sitemap.xml", "/assets/main.css"]) {
+for (const route of ["/", "/blog/", "/talks/", "/about/", "/feed.xml", "/sitemap.xml", "/assets/main.css", "/favicon.ico"]) {
   const response = route === "/" ? readyHome : await request(route);
   assert.equal(response.status, 200, `${route} should return 200`);
   assert.equal(response.headers.get("x-content-type-options"), "nosniff", `${route} security header`);
+  if (route === "/favicon.ico") {
+    assert.match(response.headers.get("content-type") || "", /^image\/(?:x-icon|vnd\.microsoft\.icon)(?:;|$)/i, "Favicon Content-Type");
+    const icon = Buffer.from(await response.arrayBuffer());
+    assert.ok(icon.length >= 6, "Favicon must have an ICO header");
+    assert.equal(icon.readUInt32LE(0), 0x00010000, "Favicon must be an ICO image");
+    assert.ok(icon.readUInt16LE(4) > 0, "Favicon must contain an image");
+  }
 }
 for (const [source, target] of [["/blog.html", "/blog/"], ["/blog/gamelog/", "/blog/gamelogs/"], ["/blog/dungeonlog/", "/blog/dungeonlogs/"]]) {
   const response = await request(`${source}?migration=check`);
