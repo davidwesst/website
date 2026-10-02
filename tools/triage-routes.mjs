@@ -35,9 +35,11 @@ const subsequent = subsequentFile ? snapshot(subsequentFile) : undefined;
 const files = readdirSync(output, { recursive: true, withFileTypes: true }).filter((entry) => entry.isFile());
 const published = new Set();
 const references = new Map();
+const redirects = new Map(readFileSync(path.join(output, "_redirects"), "utf8").trim().split("\n").map((line) => line.split(" ").slice(0, 2)));
 for (const entry of files) {
   const file = path.join(entry.parentPath, entry.name);
   const url = `/${path.relative(output, file).replaceAll("\\", "/")}`;
+  if (["/_redirects", "/_headers"].includes(url)) continue;
   published.add(url);
   if (url.endsWith("/index.html")) {
     published.add(url.slice(0, -10));
@@ -55,7 +57,7 @@ for (const entry of files) {
     references.set(resolved.pathname, referrers);
   }
 }
-const rows = triageRoutes(baseline.rows, { published, references }, subsequent?.rows, subsequent?.paths ? new Set(subsequent.paths) : undefined);
+const rows = triageRoutes(baseline.rows, { published, references, redirects }, subsequent?.rows, subsequent?.paths ? new Set(subsequent.paths) : undefined);
 const summary = {};
 for (const row of rows) {
   const group = summary[row.classification] ||= { routes: 0, estimatedResponses: 0 };

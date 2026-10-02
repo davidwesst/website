@@ -55,6 +55,9 @@ test("classification keeps probes, excluded favicon, and unresolved cases out of
   assert.equal(classifyRoute("/tags/unknown/").target, null);
   assert.equal(classifyRoute("/blog/feed.xml").target, "/blog/articles/feed.xml");
   assert.equal(classifyRoute("/topics/wordpress/", { published: new Set(["/topics/wordpress/"]) }).classification, "currently-published");
+  const existing = classifyRoute("/old-article/", { redirects: new Map([["/old-article/", "/blog/article/"]]) });
+  assert.equal(existing.classification, "currently-redirected");
+  assert.equal(existing.target, "/blog/article/");
 });
 
 test("subsequent requests and generated referrers remain separate; CSV escapes evidence", () => {

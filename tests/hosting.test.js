@@ -55,9 +55,12 @@ test("confirmed route repairs are direct permanent redirects to published destin
   assert.ok(!sources.has("/tags/no-such-topic/"));
 });
 
-test("legacy feeds keep their original article, gamelog, and dungeonlog families", async () => {
+test("legacy compatibility retains content families and observed slash variants", async () => {
   const redirects = await readFile("_site/_redirects", "utf8");
   for (const [source, target] of [["/blog/feed.xml", "/blog/articles/feed.xml"], ["/blog/gamelog/feed.xml", "/blog/gamelogs/feed.xml"], ["/blog/dungeonlog/feed.xml", "/blog/dungeonlogs/feed.xml"]]) {
     assert.ok(redirects.split("\n").includes(`${source} ${target} 301`), source);
+  }
+  for (const [source, target] of [["/blog/gamelog/blue-prince", "/blog/blue-prince/"], ["/gamelog/blue-prince", "/blog/blue-prince/"], ["/gamelog/sagres", "/blog/sagres/"], ["/remember-the-human", "/projects/"]]) {
+    assert.ok(redirects.split("\n").includes(`${source} ${target} 301`), `${source} must match its existing slash alias`);
   }
 });

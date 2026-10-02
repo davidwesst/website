@@ -2,6 +2,8 @@
 title: Blue Prince
 date: 2025-04-20
 redirectFrom:
+  - /blog/gamelog/blue-prince
+  - /gamelog/blue-prince
   - /blog/gamelog/entry.html?slug=blue-prince
   - /gamelog/blue-prince/
   - /gamelog/blue-prince/index.html

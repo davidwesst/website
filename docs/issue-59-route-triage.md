@@ -1,6 +1,6 @@
 # Issue #59: route investigation and repairs
 
-The implementation repairs 21 generated links and three malformed YouTube iframe sources, and adds 31 explicit permanent aliases for confirmed historic content, the authored MVP topic link, and three family-specific feeds. The 21 affected paths observed in the baseline account for 71 estimated 404 responses. Scanner-like paths and unresolved destinations continue to return genuine 404s.
+The implementation repairs 21 generated links and three malformed YouTube iframe sources, and adds 35 explicit permanent aliases for confirmed historic content, the authored MVP topic link, and three family-specific feeds. The 25 affected paths observed in the baseline account for 76 estimated 404 responses. Scanner-like paths and unresolved destinations continue to return genuine 404s.
 
 ## Capture provenance and limits
 
@@ -11,8 +11,8 @@ The implementation repairs 21 generated links and three malformed YouTube iframe
 - The issue reports 14,346 estimated responses and 10,111 scanner-like responses. This fresh capture differs by four estimated responses; estimates can change between captures. This implementation uses its own explicit conservative probe patterns, including private configuration and editor probes, so its classification totals differ. Neither classification identifies human visitors.
 - The original private report snapshot could not be located. Its referenced manifest hash has **not** been verified. This report uses the new saved capture, rather than claiming to reproduce that archive.
 - Azure MCP was unavailable in this session. Authenticated Azure CLI queries of the existing Application Insights resource found 217 page views and zero dependency events in the baseline window. There is no browser dependency evidence supporting or refuting a route failure. The September 25–26 gap was intentional.
-- A later capture covers only the 21 confirmed baseline paths from `2026-10-02T00:00:00Z` to `2026-10-02T19:17:14.000Z`, before this PR is deployed. It records two requests: one each to `/get-to-the-point-video-is-up/` and `/humble-bundle-games-go-javascript/`. Different window lengths and the absence of deployment prevent a recovery claim.
-- Saved subsequent SHA-256: `38092c1b78c75bd801a44ebcd892d71a8b00a957ff7c1dfded0a3ba474cc3fee`.
+- A later capture covers only the 25 confirmed baseline paths from `2026-10-02T00:00:00Z` to `2026-10-02T19:36:05Z`, before this PR is deployed. It records two requests: one each to `/get-to-the-point-video-is-up/` and `/humble-bundle-games-go-javascript/`. Different window lengths and the absence of deployment prevent a recovery claim.
+- Saved subsequent SHA-256: `16ee604f2a8960a11ba9eb68a8b900c96f2aaf3c3f0a5eacb56b1addfbcd05d9`.
 
 The full route-level CSV, JSON, capture queries, and Azure aggregates remain in ignored `.cache/route-triage/`. They contain no visitor identifiers, request query strings, or referring query strings. This document includes only selected sanitized route decisions and aggregate counts; do not commit telemetry exports.
 
@@ -22,8 +22,8 @@ The full route-level CSV, JSON, capture queries, and Azure aggregates remain in 
 | --- | ---: | ---: |
 | scanner-like | 1176 | 10,583 |
 | excluded-favicon-56 | 1 | 98 |
-| unresolved | 1074 | 3,588 |
-| confirmed-legacy-route | 18 | 68 |
+| unresolved | 1070 | 3,583 |
+| confirmed-legacy-route | 22 | 73 |
 | expected-404 | 1 | 8 |
 | currently-published | 1 | 2 |
 | confirmed-generated-embed | 3 | 3 |
@@ -47,6 +47,7 @@ The later count is scoped to these paths. All have zero generated referring link
 | `/stop-hating-ie-and-be-a-professional-part-3` | 3 | 0 | `/blog/stop-hating-ie-and-be-a-professional-part-3/` | `/blog/stop-hating-ie-and-be-a-professional-part-1/`, `/blog/stop-hating-ie-and-be-a-professional-part-2/` |
 | `/always-use-node/` | 2 | 0 | `/blog/always-use-node-even-on-non-node-projects/` | `/blog/what-is-bower/` |
 | `/blog/feed.xml` | 2 | 0 | `/blog/articles/feed.xml` | Historical feed permalink at 9447db9^ |
+| `/blog/gamelog/blue-prince` | 2 | 0 | `/blog/blue-prince/` | Authored links/redirectFrom and canonical content inventory |
 | `/stop-hating-ie-and-be-a-professional-part-1` | 2 | 0 | `/blog/stop-hating-ie-and-be-a-professional-part-1/` | `/blog/stop-hating-ie-and-be-a-professional-part-2/`, `/blog/stop-hating-ie-and-be-a-professional-part-3/` |
 | `/stop-hating-ie-and-be-a-professional-part-2` | 2 | 0 | `/blog/stop-hating-ie-and-be-a-professional-part-2/` | `/blog/stop-hating-ie-and-be-a-professional-part-1/`, `/blog/stop-hating-ie-and-be-a-professional-part-3/` |
 | `/the-difference-between-apps-and-games/` | 2 | 0 | `/blog/the-difference-between-apps-and-games/` | `/blog/why-the-humble-mozilla-bundle-is-awesome/` |
@@ -55,10 +56,15 @@ The later count is scoped to these paths. All have zero generated referring link
 | `//www.youtube.com/embed/pAfPqxzyBIc` | 1 | 0 | `https://www.youtube.com/embed/pAfPqxzyBIc` | `/blog/javascript-coding-is-gameplay-in-screeps/` |
 | `/blog/dungeonlog/feed.xml` | 1 | 0 | `/blog/dungeonlogs/feed.xml` | Historical feed permalink at 9447db9^ |
 | `/blog/gamelog/feed.xml` | 1 | 0 | `/blog/gamelogs/feed.xml` | Historical feed permalink at 9447db9^ |
-| `/humble-bundle-games-go-javascript` | 1 | 0 | `/blog/humble-bundle-games-go-javascript/` | Authored referring link and canonical content inventory |
+| `/gamelog/blue-prince` | 1 | 0 | `/blog/blue-prince/` | Authored links/redirectFrom and canonical content inventory |
+| `/gamelog/sagres` | 1 | 0 | `/blog/sagres/` | Authored links/redirectFrom and canonical content inventory |
+| `/humble-bundle-games-go-javascript` | 1 | 0 | `/blog/humble-bundle-games-go-javascript/` | Authored links/redirectFrom and canonical content inventory |
 | `/humble-bundle-games-go-javascript/` | 1 | 1 | `/blog/humble-bundle-games-go-javascript/` | `/blog/why-the-humble-mozilla-bundle-is-awesome/` |
+| `/remember-the-human` | 1 | 0 | `/projects/` | Authored links/redirectFrom and canonical content inventory |
 
 For renamed articles, titles, publication context, and the referring article identify the destination: “Get to the Point: My Pilot Video”, “Script Unscripted Starts January 8th”, and “Always Use Node (Even on Non-Node Projects)”. Feed evidence comes from `9447db9^:src/blog/feed.11ty.js`, `src/blog/gamelog/feed.11ty.js`, and `src/blog/dungeonlog/feed.11ty.js`, before the archive move. Asset ownership was checked against the active migration manifest and colocated files; unrelated thumbnail names and stale asset paths do not establish a destination.
+
+The four slashless requests for `/blog/gamelog/blue-prince`, `/gamelog/blue-prince`, `/gamelog/sagres`, and `/remember-the-human` already have slash aliases in authored `redirectFrom`. All four reproduced HTTP 404 locally before repair. Their exact missing aliases now return 301 to the existing Blue Prince, Sagres, and Projects destinations, preserving query strings.
 
 ## Selected unresolved cases
 
@@ -143,7 +149,7 @@ dependencies
 ## Completion evidence and remaining deployment gate
 
 - Before: 21 broken generated anchors and three malformed iframe URLs. After: zero, verified by the expanded content-integrity check and output regressions.
-- 31 new explicit aliases; the artifact contains 231 permanent redirect rules. Local hosting validation checks their status, same-origin destination, query preservation, and a real HTTP 200 target, together with genuine missing-route 404s and the unchanged gamelog query dispatcher.
+- 35 new explicit aliases; the artifact contains 235 permanent redirect rules. Local hosting validation checks their status, same-origin destination, query preservation, and a real HTTP 200 target, together with genuine missing-route 404s and the unchanged gamelog query dispatcher.
 - Required branch and production builds, content-integrity checks, and the Node suite pass. The image cache corruption regression reads metadata from a buffer to release Windows file handles before intentionally corrupting the file; its assertions remain intact.
 - Optional `pnpm content:migrate:check` still stops on a pre-existing `pages/about/index.md` difference (expected “Hullo. My name…”; current page “Hullo.”). This PR leaves that page unchanged. Migration normalization retains the repaired aliases, canonical links, and embeds, covered by focused regressions.
 - **After merge and production deployment:** save the deployment timestamp and commit, verify all repaired HTTP routes, and repeat the scoped Cloudflare capture for a comparable window. Re-run triage against that deployed artifact. Distinguish continued external requests to retained 404s from any remaining generated bad references. Only then mark the production follow-up acceptance criterion complete; this pre-deployment report does not close #59.
