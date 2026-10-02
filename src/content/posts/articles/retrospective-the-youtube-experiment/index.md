@@ -13,7 +13,7 @@ redirectFrom:
 ---
 [1]: ./youtube-logo-full_color.png
 
-At the [beginning of the month](https://www.davidwesst.com/script-unscripted-starts-january-8th-2015/) I announced I'd be doing a web series on YouTube called Script Unscripted. 
+At the [beginning of the month](/blog/script-unscripted-starts-january-8th/) I announced I'd be doing a web series on YouTube called Script Unscripted.
 
 ![Illustration for “Retrospective: The YouTube Experiment”.](./youtube-logo-full_color.png)
 

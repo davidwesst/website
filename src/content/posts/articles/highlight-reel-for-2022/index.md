@@ -30,12 +30,12 @@ banner:
 [1]: https://www.githubunwrapped.com/davidwesst
 [2]: https://github.com/cocobokostudios/videogamelibrary
 [3]: https://github.com/davidwesst/website/releases
-[4]: https://www.davidwesst.com/tags/mvp/
+[4]: /topics/mvp/
 [5]: https://www.davidwesst.com/blog/prairie-dev-con-2022-takeaways/
 [6]: https://www.davidwesst.com/blog/open-graph-tools-and-resources-for-web-nerds/
 [7]: https://www.davidwesst.com/blog/does-gdpr-apply-to-personal-websites/
 [8]: https://www.davidwesst.com/talks/concensus-in-the-chaos/
-[9]: https://davidwesst.com/talks/cots-to-cloud/
+[9]: /talks/from-custom-cots-to-cloud/
 
 While working on revamping my website and blog, I revisited a number of my old posts. Two of my favourites are the Highlight Reels for [2014][1] and [2015][2] as they document how I felt about myself and my accomplishments at that point in my life and career. Considering that this past year has been one of pretty extreme personal transformation, I thought it would be appropriate to document my self-reflection for 2022 in a similar style. The difference this time around will be that I focus on observed behaviours related to event and work, rather than the events themselves. More specifically, the behaviours that I like, love, and need to improve.
 

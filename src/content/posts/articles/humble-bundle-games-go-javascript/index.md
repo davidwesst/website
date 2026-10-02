@@ -9,6 +9,8 @@ topics:
   - javascript
   - video-games
 redirectFrom:
+  - /humble-bundle-games-go-javascript
+  - /humble-bundle-games-go-javascript/
   - /blog/humble-bundle-games-go-javascript/index.html
 ---
 Last week, I noticed a playable game on the Firefox start page. The link at the base of the page lead me to this:

@@ -11,7 +11,7 @@ redirectFrom:
 [1]: ./bower-logo.png
 [2]: ./bower-screen.png
 
-I mentioned [Bower](http://bower.io/) [last time](http://davidwesst.com/always-use-node/) when talking about [npm](https://www.npmjs.org/).
+I mentioned [Bower](http://bower.io/) [last time](/blog/always-use-node-even-on-non-node-projects/) when talking about [npm](https://www.npmjs.org/).
 
 If you haven't heard of it, neither of many people.
 

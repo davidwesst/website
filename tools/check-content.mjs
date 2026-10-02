@@ -7,6 +7,7 @@ import matter from "gray-matter";
 import { BLOG_INDEX_ROUTES, RESERVED_BLOG_SLUGS, canonicalContentUrl } from "../lib/content-routing.js";
 import { IGDB_CACHE_SCHEMA_VERSION, hasCachedImages, readIgdbManifest } from "../lib/igdb.js";
 import { telemetryBuildConfig } from "../lib/telemetry-build.js";
+import { siteLinkUrl } from "../lib/site-links.js";
 
 const ROOT = process.cwd();
 const CONTENT_ROOT = path.join(ROOT, "src", "content");
@@ -277,8 +278,9 @@ assert.deepEqual(
 assert.ok(!existsSync(path.join(OUTPUT_ROOT, "blog", "dungeonlog")), "Unpublished nested dungeonlog output must not be generated");
 
 function resolveLocalTarget(currentFile, href) {
-  const currentUrl = `https://site.test/${slash(path.relative(OUTPUT_ROOT, currentFile)).replace(/index\.html$/, "")}`;
-  const parsed = new URL(href, currentUrl);
+  const currentUrl = `https://david.wes.st/${slash(path.relative(OUTPUT_ROOT, currentFile)).replace(/index\.html$/, "")}`;
+  const parsed = siteLinkUrl(href, currentUrl);
+  if (!parsed) return { external: true };
   const pathname = decodeURIComponent(parsed.pathname);
   if (configuredRoutes.has(pathname)) return { file: undefined, fragment: parsed.hash, redirected: true };
   const relative = pathname.replace(/^\//, "");
@@ -323,8 +325,9 @@ for (const file of htmlFiles) {
     const src = $(image).attr("src");
     assert.ok(src, `${slash(path.relative(OUTPUT_ROOT, file))} has an image without src`);
     assert.ok($(image).attr("alt")?.trim(), `${slash(path.relative(OUTPUT_ROOT, file))} has an image without alt text`);
-    if (/^(?:https?:)?\/\//.test(src) || src.startsWith("data:")) continue;
-    const target = resolveLocalTarget(file, src).file;
+    const resolved = resolveLocalTarget(file, src);
+    if (resolved.external) continue;
+    const target = resolved.file;
     assert.ok(target && exactCaseExists(target), `${slash(path.relative(OUTPUT_ROOT, file))} has broken image ${src}`);
   }
   for (const source of $("picture source[srcset]").toArray()) {
@@ -338,10 +341,10 @@ for (const file of htmlFiles) {
     const image = $(source).siblings("img");
     assert.ok(Number(image.attr("width")) > 0 && Number(image.attr("height")) > 0, `${relativeOutput} must reserve intrinsic image dimensions`);
   }
-  for (const anchor of $("a[href]").toArray()) {
-    const href = $(anchor).attr("href");
-    if (/^(?:https?:|mailto:|tel:|javascript:|data:|\/\/)/i.test(href)) continue;
+  for (const anchor of $("a[href], iframe[src], script[src], link[href]").toArray()) {
+    const href = $(anchor).attr("href") ?? $(anchor).attr("src");
     const target = resolveLocalTarget(file, href);
+    if (target.external) continue;
     if (target.redirected) continue;
     if (!target.file || !exactCaseExists(target.file)) {
       brokenLinks.push(`${slash(path.relative(OUTPUT_ROOT, file))}: ${href}`);

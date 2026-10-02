@@ -50,7 +50,7 @@ It turns out that technology evolves over time, and quickly for that matter.
 
 Although it might be exciting to have conversations with other experts via social media, it is important to make sure you know that your point is before you start engaging. If you don't, you could get lost in the conversation and end up sounding like a goof.
 
-In my case, I logged into Twitter to find that [Cecil L. Phillip](https://twitter.com/cecilphillip) and [Tugberk Ugurlu](https://twitter.com/tourismgeek) were discussing [my post on ASP.NET replacing NodeJS](http://davidwesst.com/can-asp-net-become-the-next-node-js/) and immediately wanted to engage. 
+In my case, I logged into Twitter to find that [Cecil L. Phillip](https://twitter.com/cecilphillip) and [Tugberk Ugurlu](https://twitter.com/tourismgeek) were discussing [my post on ASP.NET replacing NodeJS](/blog/can-asp-net-become-the-next-node-js/) and immediately wanted to engage.
 
 Unfortunately, I got caught up in the excitement of engaging new professionals rather than actually making a point. This resulted in me confusing my words and ultimately getting Chocolatey confused with Nuget/NPM, and [Simon Timms](https://twitter.com/stimms) winning the day. 
 

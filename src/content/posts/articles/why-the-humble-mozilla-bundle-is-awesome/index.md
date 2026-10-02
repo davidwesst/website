@@ -9,7 +9,7 @@ topics:
 redirectFrom:
   - /blog/why-the-humble-mozilla-bundle-is-awesome/index.html
 ---
-[Last week](http://www.davidwesst.com/humble-bundle-games-go-javascript/), I saw my worlds collide in this [Humble Bundle](https://www.humblebundle.com/?asmjs_bundle&amp;utm_source=Firefox&amp;utm_medium=Snippet1b&amp;utm_campaign=Humble%20Mozilla%20Bundle#asmjs_bundle-time-remaining) my mind was blown.
+[Last week](/blog/humble-bundle-games-go-javascript/), I saw my worlds collide in this [Humble Bundle](https://www.humblebundle.com/?asmjs_bundle&amp;utm_source=Firefox&amp;utm_medium=Snippet1b&amp;utm_campaign=Humble%20Mozilla%20Bundle#asmjs_bundle-time-remaining) my mind was blown.
 
 Let me explain.
 
@@ -25,7 +25,7 @@ Now I have eight examples thanks to Humble Bundle.
 
 ### Games Aren't Apps
 
-[Totally agree](http://www.davidwesst.com/the-difference-between-apps-and-games/). -- It's a link to my blog post about that exact topic.
+[Totally agree](/blog/the-difference-between-apps-and-games/). -- It's a link to my blog post about that exact topic.
 
 That being said, games are highly complex software that demand high performance to work. Plus, gamers (a.k.a. the users) don't care about the tech underneath the covers, they care that the game is fun. The tech just has to work, and work well, otherwise your game sucks.
 

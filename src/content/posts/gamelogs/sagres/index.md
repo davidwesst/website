@@ -2,6 +2,7 @@
 title: Sagres
 date: 2025-01-04
 redirectFrom:
+  - /gamelog/sagres
   - /blog/gamelog/entry.html?slug=sagres
   - /gamelog/sagres/
   - /gamelog/sagres/index.html

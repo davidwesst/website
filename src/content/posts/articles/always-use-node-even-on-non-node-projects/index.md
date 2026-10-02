@@ -9,6 +9,8 @@ topics:
   - nodejs
   - npm
 redirectFrom:
+  - /always-use-node
+  - /always-use-node/
   - /blog/always-use-node-even-on-non-node-projects/index.html
 ---
 That's right. I said it: Always use Node, no matter what! Even if your server isn't going to be a Node server, just have it installed because you'll use it.

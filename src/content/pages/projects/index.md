@@ -2,6 +2,7 @@
 title: Projects
 summary: Active and retired projects by David Wesst.
 redirectFrom:
+  - /remember-the-human
   - /cocoboko-studios.html
   - /cocoboko-studios/
   - /remember-the-human.html

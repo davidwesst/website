@@ -25,7 +25,7 @@ banner:
 [1]: https://github.com/davidwesst/website/
 [2]: https://www.davidwesst.com/talks/concensus-in-the-chaos/
 [3]: https://www.davidwesst.com/talks
-[4]: https://www.davidwesst.com/talks/cots-to-cloud/
+[4]: /talks/from-custom-cots-to-cloud/
 
 Developers love to code.
 

@@ -31,6 +31,9 @@ customData:
           url: >-
             https://cocobokostudios-my.sharepoint.com/:b:/p/david/ESgKKdCTbYtPnf8O01KxPeYBLR9mAXOGBmxL_wVjKeDCiw?e=fGHWai
           type: slides
+redirectFrom:
+  - /talks/cots-to-cloud
+  - /talks/cots-to-cloud/
 ---
 They said it was impossible. They said it couldn’t be done. They said they would never move our customized commercial off the shelf (COTS) application and move it into the cloud.
 They were not a Solution Architect.

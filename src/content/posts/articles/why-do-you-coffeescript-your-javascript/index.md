@@ -23,7 +23,7 @@ That second question is also the answer: I _want_ a compiler, because a compiler
 
 ### For Example
 
-Remember our script from the [last post](http://davidwesst.com/why-do-i-javascript/)? Well, let's see that same thing in [CoffeeScript](http://coffeescript.org).
+Remember our script from the [last post](/blog/why-do-i-javascript/)? Well, let's see that same thing in [CoffeeScript](http://coffeescript.org).
 
 [JS Bin](http://jsbin.com/codizu/1/embed?js,console)<script src="http://static.jsbin.com/js/embed.js"></script>
 
@@ -33,7 +33,7 @@ Now I can compile it and get optimal JavaScript.
 
 I don't need to worry about the nuiances of the language syntax nor what "optimal" means for JavaScript. There is a [whole community](https://github.com/jashkenas/coffeescript) of people worrying about it for me which is put into the compiler.
 
-Plus, like I [said in the last post](http://davidwesst.com/why-do-i-javascript/), JavaScript doesn't really look like other languages. Sure, it's easy once you get used to it, but so is eating broken glass. 
+Plus, like I [said in the last post](/blog/why-do-i-javascript/), JavaScript doesn't really look like other languages. Sure, it's easy once you get used to it, but so is eating broken glass.
 
 I have a background in C# which is more of a so-called "traditional" OO language, like Java, which I find easier to read.
 

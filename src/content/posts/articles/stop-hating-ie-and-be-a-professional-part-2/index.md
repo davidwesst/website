@@ -8,9 +8,11 @@ topics:
   - ie
   - internet-explorer
 redirectFrom:
+  - /stop-hating-ie-and-be-a-professional-part-2
+  - /stop-hating-ie-and-be-a-professional-part-2/
   - /blog/stop-hating-ie-and-be-a-professional-part-2/index.html
 ---
-This post is part two of three. [Part 1 (Be a Realist)](http://www.davidwesst.com/stop-hating-ie-and-be-a-professional-part-1) and [Part 3 (Be a Leader)](http://www.davidwesst.com/stop-hating-ie-and-be-a-professional-part-3) are also available.
+This post is part two of three. [Part 1 (Be a Realist)](/blog/stop-hating-ie-and-be-a-professional-part-1/) and [Part 3 (Be a Leader)](/blog/stop-hating-ie-and-be-a-professional-part-3/) are also available.
 
 It’s 2013, and it is time for people to get over their hate for Internet Explorer. Yes, IE has had its issues in the past. I know it, you know it, even [Microsoft knows it](http://www.ie6countdown.com/). At the end of the day, developers that whine and complain and about supporting IE are trying to be trendy and fit-in rather than be a professional. Supporting IE isn’t nearly as painful as the complainers make it out to be and that it actually makes the most sense for any web project. 
 
