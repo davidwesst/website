@@ -34,6 +34,7 @@ export default function (eleventyConfig) {
     components: "src/_includes/components/**/*.webc",
   });
   eleventyConfig.addPassthroughCopy("src/assets");
+  eleventyConfig.addPassthroughCopy({ "src/assets/favicon.ico": "favicon.ico" });
   if (existsSync(path.resolve(".cache", "igdb", "images"))) {
     eleventyConfig.addPassthroughCopy({ ".cache/igdb/images": "assets/igdb" });
   }

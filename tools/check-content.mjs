@@ -300,6 +300,10 @@ for (const file of htmlFiles) {
   assert.ok(!/MISSING_IMG|sediment:\/\/|oai_citation|\[object Object\]|\bwebc:|\s:[@a-z-]+=/i.test(source), `${relativeOutput} contains unresolved migration or WebC output`);
   assert.equal(load(source)("template").length, 0, `${relativeOutput} contains inert template markup`);
   const $ = load(source);
+  if ($("link[rel=canonical]").length) {
+    assert.equal($("link[rel=icon][href='/favicon.ico'][type='image/x-icon']").length, 1, `${relativeOutput} must reference the shared favicon`);
+    assert.ok(exactCaseExists(path.join(OUTPUT_ROOT, "favicon.ico")), "Favicon is missing from output");
+  }
   const telemetryExpected = TELEMETRY.enabled && relativeOutput !== "blog/gamelog/entry.html";
   const applicationInsights = $("script[src='/assets/telemetry/application-insights.js']");
   assert.equal(applicationInsights.length, telemetryExpected ? 1 : 0, `${relativeOutput} has the wrong Application Insights integration`);
