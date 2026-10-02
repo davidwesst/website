@@ -4,7 +4,7 @@ All 19 routes flagged by the saved technical-health 1.0.2 report have working re
 
 ## Measurement conditions
 
-The baseline artifact was built from commit `32a49f93dafea6e4f3318bcbd0032259fadf3bf7` before responsive image processing. Before and after used Chromium 151.0.7922.34, Node v26.9.0, local Wrangler HTTP, no network or CPU throttling, a fresh browser context per page, and reduced motion. Mobile is 390 × 844 CSS pixels at DPR 2; desktop is 1440 × 900 at DPR 1. One navigation per page/viewport measured resource bytes, not timing performance. Each audit captured 110 image uses across detail pages, inline prose, the home page, Blog, Talks, and Dungeonlogs. Below-the-fold cards were scrolled into view to load lazy images.
+The baseline artifact was built from commit `87b6c171de582c519a9c806c3386316b70a336dc` before responsive image processing. Before and after used Chromium 151.0.7922.34, Node v26.9.0, local Wrangler HTTP, no network or CPU throttling, a fresh browser context per page, and reduced motion. Mobile is 390 × 844 CSS pixels at DPR 2; desktop is 1440 × 900 at DPR 1. One navigation per page/viewport measured resource bytes, not timing performance. Each audit captured 110 image uses across detail pages, inline prose, the home page, Blog, Talks, and Dungeonlogs. Below-the-fold cards were scrolled into view to load lazy images.
 
 Bytes are exact image response body lengths from the browser-selected resources (excluding headers). The original source file lengths matched the baseline responses. Cloudflare estimated mean response sizes were only the route selection signal and are not interchangeable with these lab measurements. These results do not measure LCP, INP, CLS, uptime, or a production visitor cohort.
 

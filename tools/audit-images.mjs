@@ -37,8 +37,8 @@ try {
         // Include lazy cards below the fold without counting navigation as a timing benchmark.
         await page.evaluate(async () => {
           await document.fonts.ready;
-          for (const img of document.querySelectorAll("img")) { img.scrollIntoView(); await img.decode().catch(() => {}); }
-          window.scrollTo(0, 0);
+          for (const img of document.querySelectorAll("img")) { img.scrollIntoView({ behavior: "instant" }); await img.decode().catch(() => {}); }
+          window.scrollTo({ top: 0, behavior: "instant" });
         });
         const images = await page.evaluate((routes) => [...document.querySelectorAll("img")]
           .filter((img) => routes.includes(decodeURIComponent(new URL(img.getAttribute("src"), location.href).pathname)))
@@ -63,6 +63,11 @@ try {
             status: response.status, contentType: response.contentType });
         }
         if (screenshots.has(pageRoute)) {
+          await page.evaluate(() => new Promise((resolve) => {
+            window.scrollTo({ top: 0, behavior: "instant" });
+            requestAnimationFrame(() => requestAnimationFrame(resolve));
+          }));
+          assert.equal(await page.evaluate(() => window.scrollY), 0, "Screenshot must start at the top of the page");
           const filename = pageRoute === "/" ? "home" : pageRoute.replaceAll("/", "-").replace(/^-|-$/g, "");
           await page.screenshot({ path: path.join(screenshotDirectory, `${name}-${filename}.png`), fullPage: !["/blog/", "/talks/"].includes(pageRoute) });
         }
