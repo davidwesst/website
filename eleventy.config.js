@@ -2,6 +2,8 @@ import pluginWebc from "@11ty/eleventy-plugin-webc";
 import { existsSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { canonicalAssetDirectory } from "./lib/content-routing.js";
+import { readResponsiveManifest } from "./lib/responsive-images.js";
+import { enhanceBodyImages } from "./src/_lib/responsive-images.js";
 
 const IMAGE_EXTENSIONS = new Set([".gif", ".jpeg", ".jpg", ".png", ".webp"]);
 
@@ -29,7 +31,8 @@ function topicSlug(value) {
     .replace(/^-|-$/g, "");
 }
 
-export default function (eleventyConfig) {
+export default async function (eleventyConfig) {
+  const responsiveImages = (await readResponsiveManifest()).images;
   eleventyConfig.addPlugin(pluginWebc, {
     components: "src/_includes/components/**/*.webc",
   });
@@ -46,6 +49,13 @@ export default function (eleventyConfig) {
     "node_modules/@fortawesome/fontawesome-free/webfonts": "webfonts",
   });
   eleventyConfig.addPassthroughCopy(colocatedAssets());
+  eleventyConfig.addPassthroughCopy(Object.fromEntries(Object.values(responsiveImages).flatMap((image) => image.variants.map((variant) => [
+    path.join(".cache/responsive-images/images", variant.src.slice("/assets/responsive/".length)), variant.src.slice(1),
+  ]))));
+  eleventyConfig.addTransform("responsive-body-images", function (content) {
+    if (!this.page.outputPath?.endsWith(".html")) return content;
+    return enhanceBodyImages(content, this.page.url, responsiveImages);
+  });
   eleventyConfig.addFilter("topicSlug", topicSlug);
   eleventyConfig.addCollection("topicPages", (collectionApi) => {
     const topics = new Map();
