@@ -8,13 +8,15 @@ topics:
   - html5
   - video-games
 redirectFrom:
+  - /html-gaming-for-core-gamers
+  - /html-gaming-for-core-gamers/
   - /blog/html-gaming-for-core-gamers/index.html
 ---
 [1]: ./ieatpax.jpg
 
 This is part of a blog series discussing my afterthought on attending PAX Dev and Prime 2013 in Seattle.
 
-You can read the others [here](http://www.davidwesst.com/html-gaming-for-core-gamers/) and [here](http://www.davidwesst.com/html-gaming-for-core-gamers/).  
+You can read the others [here](/blog/html-gaming-for-core-gamers/) and [here](/blog/html-gaming-for-core-gamers/).\
 
 I've been a gamer for a really long time. Since the Commodore 64, but particularly when my dad brought home an NES in the late 80's fro the US as they were exceptionally hard to come across in Canada. Having the family over to go swimming and play Duck Hunt and Super Mario Bros. was a defining moment in my life that has lead me down the path to love video games the way I do. I identify as a "core gamer", which to me is someone who looks deeper into video games as a medium, much like movie buffs or cinephiles look deeper into film. 
 

@@ -5,6 +5,8 @@ summary: 'No, really. Are they actually that different?'
 topics:
   - video-games
 redirectFrom:
+  - /the-difference-between-apps-and-games
+  - /the-difference-between-apps-and-games/
   - /blog/the-difference-between-apps-and-games/index.html
 ---
 [1]: ./blog_appsvsgames.png

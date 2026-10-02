@@ -8,6 +8,8 @@ topics:
   - code
   - javascript
 redirectFrom:
+  - /why-do-i-javascript
+  - /why-do-i-javascript/
   - /blog/why-do-i-javascript/index.html
 ---
 The answer is simple: I don't want to limit about my platform options on day one.

@@ -7,7 +7,7 @@ topics:
 redirectFrom:
   - /blog/hypertext-gaming-starting-june-29th-on-twitch/index.html
 ---
-<iframe src="http://www.davidwesst.com//www.youtube.com/embed/-nbC9Pvykv8" allowfullscreen></iframe>
+<iframe src="https://www.youtube.com/embed/-nbC9Pvykv8" allowfullscreen></iframe>
 
 Starting Sunday, June 29th I will be hosting a livestream on Twitch I call [Hypertext Gaming](http://twitch.tv/hypertextgaming).
 

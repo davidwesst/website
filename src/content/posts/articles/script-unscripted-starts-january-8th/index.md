@@ -11,11 +11,13 @@ topics:
   - script-unscripted
   - youtube
 redirectFrom:
+  - /script-unscripted-starts-january-8th-2015
+  - /script-unscripted-starts-january-8th-2015/
   - /blog/script-unscripted-starts-january-8th/index.html
 ---
 [1]: ./cordova_256.png
 
-Last week I launched [my first YouTube video](https://www.davidwesst.com/get-to-the-point-video-is-up/) with Get to the Point.
+Last week I launched [my first YouTube video](/blog/get-to-the-point-my-pilot-video/) with Get to the Point.
 
 This week, I'm taking a step further.
 

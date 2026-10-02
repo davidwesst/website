@@ -11,6 +11,8 @@ topics:
   - nodejs
   - thoughts
 redirectFrom:
+  - /can-asp-net-become-the-next-node-js
+  - /can-asp-net-become-the-next-node-js/
   - /blog/can-asp-net-become-the-next-node-js/index.html
 ---
 [1]: ./aspnetthenewnodejs.png

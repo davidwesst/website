@@ -8,6 +8,8 @@ topics:
   - html5
   - internet-explorer
 redirectFrom:
+  - /answering-the-question-when-will-ie-support-that-html-feature
+  - /answering-the-question-when-will-ie-support-that-html-feature/
   - >-
     /blog/answering-the-question-when-will-ie-support-that-html-feature/index.html
 ---

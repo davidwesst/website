@@ -38,7 +38,7 @@ You can get a more in-depth review of the dev tools from [this post from Aaron P
 
 ### [Status.modern.ie](http://status.modern.ie)
 
-I [blogged](http://www.davidwesst.com/answering-the-question-when-will-ie-support-that-html-feature/) about it already. 
+I [blogged](/blog/answering-the-question-when-will-ie-support-that-html-feature/) about it already.
 
 I am a huge fan of transparency when it comes to technology, and so I found this site to be fantastic.
 

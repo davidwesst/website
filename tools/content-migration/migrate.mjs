@@ -14,6 +14,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import matter from "gray-matter";
 import { canonicalContentUrl } from "../../lib/content-routing.js";
+import { repairedContentAliases, repairLegacyBodyLinks } from "../../lib/legacy-route-repairs.js";
 
 const ROOT = process.cwd();
 const ARCHIVE_CONTENT = path.join(ROOT, "_archive", "src", "content");
@@ -239,7 +240,7 @@ function rewriteBodyImages(entry, type, exceptions) {
   body = body
     .replace(/\]\(\/blog\/gamelog\/entry\.html\?slug=([a-z0-9-]+)\)/g, "](/blog/$1/)")
     .replace(/\]\(\/blog\/(?:gamelog|dungeonlog)\/([a-z0-9-]+)\/\)/g, "](/blog/$1/)");
-  return normalizeBodyHeadings(body);
+  return normalizeBodyHeadings(repairLegacyBodyLinks(body));
 }
 
 function makeBanner(entry, type, exceptions) {
@@ -264,7 +265,7 @@ function makeBanner(entry, type, exceptions) {
 function baseData(entry, type, eventIds, exceptions, { includeDate = true } = {}) {
   const topics = topicsFor(entry.data, eventIds);
   const canonical = canonicalContentUrl(type, entry.slug);
-  const redirectFrom = [...(entry.data.legacyUrls || []), entry.data.canonicalUrl]
+  const redirectFrom = [...(entry.data.legacyUrls || []), entry.data.canonicalUrl, ...repairedContentAliases(canonical)]
     .filter((value) => value && value !== canonical)
     .filter((value, index, values) => values.indexOf(value) === index);
   return clean({

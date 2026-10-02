@@ -34,7 +34,8 @@ test("preparation preserves originals, bounds widths, reuses verified cache, and
   assert.equal(image.sha256, digest(original));
   for (const variant of image.variants) {
     assert.ok(variant.bytes < original.length);
-    const metadata = await sharp(path.join(root, ".cache/responsive-images/images", variant.src.slice("/assets/responsive/".length))).metadata();
+    // Buffer input releases the file before the corruption test on Windows.
+    const metadata = await sharp(await readFile(path.join(root, ".cache/responsive-images/images", variant.src.slice("/assets/responsive/".length)))).metadata();
     assert.equal(metadata.format, "webp");
     assert.equal(metadata.width, variant.width);
     assert.equal(metadata.height, variant.height);

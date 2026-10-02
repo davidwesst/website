@@ -8,13 +8,15 @@ topics:
   - get-to-the-point
   - office-mix
 redirectFrom:
+  - /get-to-the-point-video-is-up
+  - /get-to-the-point-video-is-up/
   - /blog/get-to-the-point-my-pilot-video/index.html
 ---
 To close out the year, I'm kicking off a new project that I've wanted to do for a long time now.
 
 I bring you the pilot episode of my (hopefully) [new video series](http://youtu.be/M5OQchl9bQA) Get to the Point.
 
-<iframe src="http://www.davidwesst.com//www.youtube.com/embed/M5OQchl9bQA" allowfullscreen></iframe>
+<iframe src="https://www.youtube.com/embed/M5OQchl9bQA" allowfullscreen></iframe>
 
 ## Powered by Office Mix
 
