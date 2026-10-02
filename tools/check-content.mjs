@@ -323,6 +323,17 @@ for (const file of htmlFiles) {
     const target = resolveLocalTarget(file, src).file;
     assert.ok(target && exactCaseExists(target), `${slash(path.relative(OUTPUT_ROOT, file))} has broken image ${src}`);
   }
+  for (const source of $("picture source[srcset]").toArray()) {
+    assert.equal($(source).attr("type"), "image/webp", `${relativeOutput} has an unexpected responsive format`);
+    assert.ok($(source).attr("sizes"), `${relativeOutput} has responsive sources without sizes`);
+    for (const candidate of $(source).attr("srcset").split(",")) {
+      const match = candidate.trim().match(/^(\/assets\/responsive\/[^\s]+\.webp) (\d+)w$/);
+      assert.ok(match, `${relativeOutput} has an invalid responsive candidate: ${candidate}`);
+      assert.ok(exactCaseExists(resolveLocalTarget(file, match[1]).file), `${relativeOutput} has a missing responsive source: ${match[1]}`);
+    }
+    const image = $(source).siblings("img");
+    assert.ok(Number(image.attr("width")) > 0 && Number(image.attr("height")) > 0, `${relativeOutput} must reserve intrinsic image dimensions`);
+  }
   for (const anchor of $("a[href]").toArray()) {
     const href = $(anchor).attr("href");
     if (/^(?:https?:|mailto:|tel:|javascript:|data:|\/\/)/i.test(href)) continue;

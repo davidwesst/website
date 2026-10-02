@@ -9,7 +9,7 @@ layout: base.webc
     <p webc:if="updated" class="mt-2 text-sm text-slate-500">Updated <content-date :@value="updated"></content-date></p>
     <div class="flex justify-center"><topic-links :@topics="topics"></topic-links></div>
   </header>
-  <div class="mx-auto mt-10 max-w-6xl overflow-hidden rounded-xl shadow-xl"><content-banner :@banner="banner"></content-banner></div>
+  <div class="mx-auto mt-10 max-w-6xl overflow-hidden rounded-xl shadow-xl"><content-banner :@banner="displayBanner"></content-banner></div>
   <div class="relative mx-auto max-w-4xl rounded-xl bg-white p-7 shadow-xl md:-mt-16 md:p-14" :class="banner && banner.src ? '-mt-2' : 'mt-10'">
     <p webc:if="summary" class="mb-8 border-l-4 border-teal-600 pl-5 font-serif text-xl leading-8 text-slate-700" @text="summary"></p>
     <section webc:if="content" class="prose-content" aria-label="Talk description" @raw="content"></section>

@@ -93,7 +93,9 @@ body { margin: 0; }
 /* Images and placeholders fill the same frame without intrinsic sizing. */
 .post-visual { position: relative; }
 .post-visual > img,
+.post-visual > picture,
 .post-visual > [role="img"] { position: absolute; inset: 0; width: 100%; height: 100%; }
+.post-visual > picture > img { width: 100%; height: 100%; }
 .post-visual > figcaption { position: absolute; inset: auto 0 0; }
 
 .nav-link {
