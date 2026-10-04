@@ -6,6 +6,9 @@ export default class CloudflareHeaders {
   X-Content-Type-Options: nosniff
   Referrer-Policy: same-origin
   Strict-Transport-Security: max-age=10886400; includeSubDomains; preload
+/deployment.json
+  ! Cache-Control
+  Cache-Control: no-store
 `;
   }
 }

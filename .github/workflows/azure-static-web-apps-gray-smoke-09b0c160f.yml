@@ -68,6 +68,11 @@ jobs:
           IGDB_CLIENT_ID: ${{ secrets.IGDB_CLIENT_ID }}
           IGDB_CLIENT_SECRET: ${{ secrets.IGDB_CLIENT_SECRET }}
 
+      - name: Verify local hosting before upload
+        run: pnpm check:hosting:local
+        env:
+          EXPECT_TELEMETRY: ${{ github.ref_name == 'main' }}
+
       - name: Upload site artifact
         uses: actions/upload-artifact@v7
         with:
@@ -131,6 +136,10 @@ jobs:
         with:
           name: site
           path: _site
+      - name: Verify downloaded artifact before deployment
+        run: pnpm check:hosting:local
+        env:
+          EXPECT_TELEMETRY: ${{ github.ref_name == 'main' }}
       - name: Deploy verified artifact
         uses: cloudflare/wrangler-action@25853364521e0d392ece9b0c1e97a4b37b638087 # v4
         with:
@@ -142,4 +151,4 @@ jobs:
         env:
           EXPECT_TELEMETRY: ${{ github.ref_name == 'main' }}
           SITE_URL: ${{ github.ref_name == 'main' && vars.CLOUDFLARE_PRODUCTION_URL || vars.CLOUDFLARE_STAGING_URL }}
-        run: node tools/check-hosting.mjs "$SITE_URL"
+        run: node tools/check-hosting.mjs "$SITE_URL" --all-redirects --wait-for-release
