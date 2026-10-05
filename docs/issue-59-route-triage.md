@@ -91,7 +91,7 @@ These remain explicit unresolved cases in the full table. A similar slug, a matc
 
 ## Reproduction
 
-1. Build with the repository's Node 26 and pnpm 11 runtime. Use `GITHUB_REF_NAME=main` to include the production telemetry asset in the inventory.
+1. Build with the repository's Node 26 runtime and pnpm version pinned in `package.json`. Use `GITHUB_REF_NAME=main` to include the production telemetry asset in the inventory.
 2. Through the Cloudflare plugin, POST the query below to `/graphql`. Start `after` at the empty string; repeat with the final returned path until a page contains fewer than 250 rows. Save every query and response. Also query the same filter without dimensions to obtain the total count. Check that the path sum reconciles; split windows or re-query if sampling prevents reconciliation. Record estimation and any access/retention limitations.
 3. Normalize the capture to the JSON contract below, set `complete` only after confirming coverage, and keep it under `.cache/route-triage/`. Preserve exact path casing and encoding. Remove query strings and visitor fields. For a scoped subsequent capture, include `paths` listing every queried path, including those with zero returned rows; paths outside that scope retain a null comparison count.
 4. Run `pnpm routes:triage .cache/route-triage/cloudflare-baseline.json .cache/route-triage/cloudflare-subsequent.json`. It writes a ranked CSV and JSON with counts, classifications, evidence, targets, generated referrers, unresolved cases, and separate subsequent counts. Keep the checked artifact's commit and telemetry mode alongside the capture.

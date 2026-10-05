@@ -5,7 +5,7 @@ A minimal Eleventy site using Markdown for content, WebC for components and layo
 ## Requirements
 
 - Node.js 26
-- pnpm 11
+- pnpm 12.9.1 (pinned in `package.json`)
 
 ## Commands
 
