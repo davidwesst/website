@@ -137,6 +137,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: "4.137.0"
+          packageManager: pnpm
           command: deploy ${{ github.ref_name != 'main' && '--env staging' || '' }}
       - name: Verify deployed site
         env:
