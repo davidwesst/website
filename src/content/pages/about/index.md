@@ -8,7 +8,7 @@ Hullo.
 
 My name is David Wesst, but you can call me DW or Wessty. I am a solution architect based out of Winnipeg, Manitoba, Canada. By day, I am an Enterprise Solutions Architect in higher education, while by night I am father and founder of my own indie video game studio [Cocoboko Studios](https://cocobokostudios.com).
 
-Find me on [GitHub](https://github.com/davidwesst/), [LinkedIn](https://ca.linkedin.com/in/davidwesst), [YouTube](https://youtube.com/davidwesst), [BlueSky](https://bsky.app/profile/davidwesst.bsky.social) once and a while.
+Find me on [GitHub](https://github.com/davidwesst/), [LinkedIn](https://ca.linkedin.com/in/davidwesst), [YouTube](https://youtube.com/davidwesst), [Bluesky](https://bsky.app/profile/david.wes.st) once and a while.
 
 ## Current Building
 

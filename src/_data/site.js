@@ -26,7 +26,7 @@ export default {
   socialLinks: [
     { name: "GitHub", url: "https://github.com/davidwesst", iconClass: "fa-brands fa-github" },
     { name: "LinkedIn", url: "https://ca.linkedin.com/in/davidwesst", iconClass: "fa-brands fa-linkedin" },
-    { name: "Bluesky", url: "https://bsky.app/profile/davidwesst.bsky.social", iconClass: "fa-brands fa-bluesky" },
+    { name: "Bluesky", url: "https://bsky.app/profile/david.wes.st", iconClass: "fa-brands fa-bluesky" },
     { name: "YouTube", url: "https://youtube.com/davidwesst", iconClass: "fa-brands fa-youtube" },
   ],
   postTypes: {
