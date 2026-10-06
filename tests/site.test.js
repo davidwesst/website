@@ -85,7 +85,7 @@ test("the home page renders the Ghostwind shell and configured content", async (
   assert.deepEqual(footerSocialLinks.map((_, link) => $(link).text().trim()).get(), site.socialLinks.map((link) => link.name));
   assert.match(heroSocialLinks.first().find("i").attr("class"), /fa-github/);
   assert.match(footerSocialLinks.first().find("i").attr("class"), /fa-github/);
-  const blueskyLinks = $("a[href='https://bsky.app/profile/davidwesst.bsky.social']");
+  const blueskyLinks = $("a[href='https://bsky.app/profile/david.wes.st']");
   assert.equal(blueskyLinks.length, 2);
   assert.match(blueskyLinks.first().find("i").attr("class"), /fa-bluesky/);
   assert.equal($("footer a[href='https://github.com/tailwindtoolbox/Ghostwind/']").text(), "Ghostwind");
@@ -329,7 +329,9 @@ test("indexes, topics, compatibility pages, and standalone pages render", async 
   assert.equal(compatibility("link[rel=canonical]").attr("href"), "https://david.wes.st/topics/eleventy/");
   assert.equal(compatibility("a[href='/topics/eleventy/']").length, 1);
 
-  assert.equal((await page("about/index.html"))("h1").text(), "About");
+  const about = await page("about/index.html");
+  assert.equal(about("h1").text(), "About");
+  assert.equal(about("main a[href='https://bsky.app/profile/david.wes.st']").text(), "Bluesky");
   assert.equal((await page("projects/index.html"))("h1").text(), "Projects");
 });
 
@@ -358,6 +360,9 @@ test("page metadata normalizes descriptions, canonical URLs, images, and schema"
   assert.equal(result.imageUrl, "https://david.wes.st/blog/example/cover.png");
   assert.equal(result.openGraphType, "article");
   assert.equal(JSON.parse(result.jsonLd)["@graph"][0]["@type"], "BlogPosting");
+  const homeMetadata = preparePageMetadata({ site, page: { url: "/" }, title: site.title });
+  const person = JSON.parse(homeMetadata.jsonLd)["@graph"].find((item) => item["@type"] === "Person");
+  assert.deepEqual(person.sameAs.filter((url) => url.startsWith("https://bsky.app/profile/")), ["https://bsky.app/profile/david.wes.st"]);
 });
 
 test("page metadata derives a pre-render description from authored Markdown", () => {
