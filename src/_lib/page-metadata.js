@@ -9,10 +9,13 @@ export function preparePageMetadata(data) {
   const canonicalUrl = data.robots === "noindex" && data.targetUrl ? absoluteUrl(data.targetUrl, site.url) : data.canonicalUrl || absoluteUrl(page.url || "/", site.url);
   const description = truncate(plainText(summary) || plainText(authoredSource(page)) || plainText(content) || site.description);
   const image = data.resolvedBanner || data.banner;
-  const imageUrl = absoluteUrl(image?.src || DEFAULT_IMAGE, site.url, page.url || "/");
+  const originalImageUrl = absoluteUrl(image?.src || DEFAULT_IMAGE, site.url, page.url || "/");
+  const socialImage = data.socialImages?.[new URL(originalImageUrl).pathname];
+  const imageUrl = absoluteUrl(socialImage?.src || originalImageUrl, site.url);
   const imageAlt = image?.alt || `${site.title}: software, games, and talks`;
   const fullTitle = title === site.title ? site.title : `${title} | ${site.title}`;
   const contentSchema = { "@type": schemaType(type), headline: title, name: title, description, url: canonicalUrl, image: imageUrl, author: { "@type": "Person", name: site.title, url: site.url }, ...(date ? { datePublished: new Date(date).toISOString() } : {}), ...(updated ? { dateModified: new Date(updated).toISOString() } : {}) };
   const graph = page.url === "/" ? [{ "@type": "WebSite", name: site.title, url: site.url, description: site.description }, { "@type": "Person", name: site.title, url: site.url, sameAs: site.socialLinks.map((item) => item.url) }, contentSchema] : [contentSchema];
-  return { title: fullTitle, description, canonicalUrl, imageUrl, imageAlt, openGraphType: ["article", "gamelog", "dungeonlog"].includes(type) ? "article" : "website", published: date ? new Date(date).toISOString() : null, modified: updated ? new Date(updated).toISOString() : null, jsonLd: JSON.stringify({ "@context": "https://schema.org", "@graph": graph }).replace(/</g, "\\u003c") };
+  const article = ["article", "gamelog", "dungeonlog"].includes(type);
+  return { title: fullTitle, description, canonicalUrl, imageUrl, imageAlt, imageWidth: socialImage?.width || (!image ? 1200 : null), imageHeight: socialImage?.height || (!image ? 630 : null), imageType: socialImage?.type || (!image ? "image/png" : null), openGraphType: article ? "article" : "website", published: article && date ? new Date(date).toISOString() : null, modified: article && updated ? new Date(updated).toISOString() : null, jsonLd: JSON.stringify({ "@context": "https://schema.org", "@graph": graph }).replace(/</g, "\\u003c") };
 }
