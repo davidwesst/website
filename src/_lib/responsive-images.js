@@ -16,7 +16,9 @@ export function responsiveImage(src, baseUrl, images) {
 
 export function prepareDisplayBanner(data) {
   const banner = data.resolvedBanner || data.banner;
-  return banner ? { ...banner, responsive: responsiveImage(banner.src, data.page.url, data.responsiveImages) } : null;
+  if (!banner) return null;
+  const original = data.socialImages?.[new URL(banner.src, `https://images.invalid${data.page.url}`).pathname];
+  return { ...banner, width: original?.sourceWidth, height: original?.sourceHeight, responsive: responsiveImage(banner.src, data.page.url, data.responsiveImages) };
 }
 
 export function enhanceBodyImages(html, pageUrl, images) {

@@ -6,6 +6,8 @@ export default class CloudflareHeaders {
   X-Content-Type-Options: nosniff
   Referrer-Policy: same-origin
   Strict-Transport-Security: max-age=10886400; includeSubDomains; preload
+https://:worker.:account.workers.dev/*
+  X-Robots-Tag: noindex
 /deployment.json
   ! Cache-Control
   Cache-Control: no-store

@@ -23,7 +23,7 @@
     <link webc:keep rel="stylesheet" href="/assets/fontawesome.css">
     <link webc:keep rel="stylesheet" href="/assets/main.css">
     <title @text="pageMetadata.title"></title>
-    <script type="application/ld+json" @raw="pageMetadata.jsonLd"></script>
+    <script webc:keep type="application/ld+json" @raw="pageMetadata.jsonLd"></script>
     <application-insights :@enabled="telemetry.applicationInsights.enabled"></application-insights>
   </head>
   <body class="min-h-screen bg-slate-100 text-slate-900 antialiased">
@@ -35,7 +35,11 @@
         <p class="mx-auto mt-6 max-w-2xl text-lg text-teal-50 md:text-2xl" @text="site.tagline"></p>
       </div>
     </header>
-    <main :class="page.url === '/' ? 'mx-auto min-h-screen max-w-6xl px-4 pb-20 sm:px-6' : 'mx-auto min-h-screen max-w-5xl px-4 py-12 sm:px-6 md:py-20'" @raw="content"></main>
+    <main :class="page.url === '/' ? 'mx-auto min-h-screen max-w-6xl px-4 pb-20 sm:px-6' : 'mx-auto min-h-screen max-w-5xl px-4 py-12 sm:px-6 md:py-20'">
+      <breadcrumbs webc:if="pageDiscovery.breadcrumbs.length" :@items="pageDiscovery.breadcrumbs"></breadcrumbs>
+      <div webc:nokeep @raw="content"></div>
+      <discovery-links webc:if="pageDiscovery.showStudio" :@discovery="discovery"></discovery-links>
+    </main>
     <site-footer :@site="site"></site-footer>
     <simple-analytics :@enabled="telemetry.simpleAnalytics.enabled"></simple-analytics>
   </body>
