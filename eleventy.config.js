@@ -1,5 +1,5 @@
 import pluginWebc from "@11ty/eleventy-plugin-webc";
-import { existsSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { canonicalAssetDirectory } from "./lib/content-routing.js";
 import { readResponsiveManifest } from "./lib/responsive-images.js";
@@ -37,8 +37,11 @@ export default async function (eleventyConfig) {
     components: "src/_includes/components/**/*.webc",
   });
   eleventyConfig.addPassthroughCopy("src/assets");
-  if (existsSync(".cache/social-images/images")) {
-    eleventyConfig.addPassthroughCopy({ ".cache/social-images/images": "assets/social" });
+  if (existsSync(".cache/social-images/manifest.json")) {
+    const socialImages = JSON.parse(readFileSync(".cache/social-images/manifest.json", "utf8")).images;
+    eleventyConfig.addPassthroughCopy(Object.fromEntries(Object.values(socialImages).map((image) => [
+      path.join(".cache/social-images/images", path.basename(image.src)), image.src.slice(1),
+    ])));
   }
   eleventyConfig.addPassthroughCopy({ "src/assets/favicon.ico": "favicon.ico" });
   if (existsSync(path.resolve(".cache", "igdb", "images"))) {

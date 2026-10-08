@@ -56,3 +56,9 @@ test("every shareable built page has complete Open Graph metadata and a real JPE
     if ($('meta[property="og:type"]').attr("content") !== "article") assert.equal($('meta[property="article:published_time"]').length, 0);
   }
 });
+
+test("published social assets contain only the current source manifest", async () => {
+  const { images } = JSON.parse(await readFile(".cache/social-images/manifest.json", "utf8"));
+  const expected = [...new Set(Object.values(images).map((image) => path.basename(image.src)))].sort();
+  assert.deepEqual((await readdir("_site/assets/social")).sort(), expected);
+});
