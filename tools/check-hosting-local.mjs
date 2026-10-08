@@ -1,4 +1,5 @@
 import { spawn, execFile } from "node:child_process";
+import assert from "node:assert/strict";
 import { createServer } from "node:net";
 import { setTimeout as delay } from "node:timers/promises";
 import { promisify } from "node:util";
@@ -44,6 +45,18 @@ try {
   await new Promise((resolve, reject) => {
     check.once("error", reject);
     check.once("exit", (code, signal) => code === 0 ? resolve() : reject(new Error(`Local hosting checks failed (${code ?? signal})`)));
+  });
+  // Wrangler's proxy rewrites Host; its dispatch API uses MF-Original-URL to preserve it.
+  const preview = await fetch(origin, { headers: { "MF-Original-URL": "https://davidwesst-website-staging.test.workers.dev/" }, signal: AbortSignal.timeout(10000) });
+  assert.equal(preview.headers.get("x-robots-tag"), "noindex", "workers.dev previews must be excluded from indexing");
+  const canonical = await fetch(origin, { headers: { "MF-Original-URL": "https://david.wes.st/" }, signal: AbortSignal.timeout(10000) });
+  assert.equal(canonical.headers.get("x-robots-tag"), null, "production must remain indexable");
+  const crawlerCheck = spawn(process.execPath, ["tools/check-crawlers.mjs", origin, "--policy"], {
+    stdio: "inherit", windowsHide: true, signal: cancellation.signal,
+  });
+  await new Promise((resolve, reject) => {
+    crawlerCheck.once("error", reject);
+    crawlerCheck.once("exit", (code, signal) => code === 0 ? resolve() : reject(new Error(`Local crawler checks failed (${code ?? signal})`)));
   });
 } catch (error) {
   console.error(output);

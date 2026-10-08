@@ -24,7 +24,8 @@
     "start": "pnpm run dev",
     "test": "pnpm run build && pnpm run check:content && node --test tests/*.test.js",
     "prepare:social": "node tools/prepare-social-images.mjs",
-    "indexnow:manifest": "node tools/indexnow.mjs manifest"
+    "indexnow:manifest": "node tools/indexnow.mjs manifest",
+    "check:crawlers": "node tools/check-crawlers.mjs"
   },
   "engines": {
     "node": ">=26 <27",
