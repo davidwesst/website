@@ -15,6 +15,7 @@ on:
     types: [opened, synchronize, reopened]
     branches:
       - main
+      - codex/**
     paths-ignore:
       - "_archive/**"
       - "docs/**"
