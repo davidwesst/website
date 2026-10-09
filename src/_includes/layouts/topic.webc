@@ -6,5 +6,6 @@ layout: base.webc
     <p class="text-sm font-bold uppercase tracking-[0.2em] text-teal-700">Topic</p>
     <h1 class="mt-3 text-4xl font-black tracking-tight text-slate-950 md:text-5xl"><span @text="topic.name"></span></h1>
   </header>
+  <p webc:if="pageDiscovery.intro" class="mt-5 max-w-3xl text-lg text-slate-700" @text="pageDiscovery.intro"></p>
   <content-list :@items="topic.items" :@site="site"></content-list>
 </section>

@@ -1,0 +1,5 @@
+<nav aria-label="Breadcrumb" class="mb-6 text-sm text-slate-600">
+  <ol class="flex flex-wrap gap-2">
+    <li webc:for="item, index of items"><span webc:if="index > 0" aria-hidden="true"> / </span><a :href="item.url" :aria-current="index === items.length - 1 ? 'page' : undefined" @text="item.name"></a></li>
+  </ol>
+</nav>

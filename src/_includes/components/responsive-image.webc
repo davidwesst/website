@@ -2,4 +2,4 @@
   <source type="image/webp" :srcset="image.responsive.srcset" :sizes="sizes">
   <img :class="imageClass" :src="src || image.src" :alt="image.alt" :width="image.responsive.width" :height="image.responsive.height" :loading="lazy ? 'lazy' : undefined">
 </picture>
-<img webc:if="!image.responsive" :class="imageClass" :src="src || image.src" :alt="image.alt">
+<img webc:if="!image.responsive" :class="imageClass" :src="src || image.src" :alt="image.alt" :width="image.width" :height="image.height" :loading="lazy ? 'lazy' : undefined">

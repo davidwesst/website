@@ -15,6 +15,7 @@ on:
     types: [opened, synchronize, reopened]
     branches:
       - main
+      - codex/**
     paths-ignore:
       - "_archive/**"
       - "docs/**"
@@ -26,10 +27,13 @@ permissions:
 
 concurrency:
   group: azure-static-web-apps-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.ref_name != 'main' }}
 
 jobs:
   build:
+    permissions:
+      contents: read
+      actions: read
     runs-on: ubuntu-latest
     name: Build and test (Node 26)
     steps:
@@ -79,6 +83,40 @@ jobs:
           name: site
           path: _site/
           if-no-files-found: error
+          retention-days: 14
+
+      - name: Locate saved IndexNow state before production deployment
+        id: indexnow-state
+        if: github.event_name == 'push' && github.ref_name == 'main'
+        continue-on-error: true
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const restore = require('./tools/restore-indexnow-state.cjs');
+            await restore({ github, context, core });
+
+      - name: Restore saved IndexNow state
+        if: github.event_name == 'push' && github.ref_name == 'main' && steps.indexnow-state.outputs.artifact_id != ''
+        continue-on-error: true
+        uses: actions/download-artifact@v7
+        with:
+          artifact-ids: ${{ steps.indexnow-state.outputs.artifact_id }}
+          github-token: ${{ github.token }}
+          path: .cache/indexnow
+          merge-multiple: true
+
+      - name: Preserve pre-deployment IndexNow baseline
+        if: github.event_name == 'push' && github.ref_name == 'main'
+        continue-on-error: true
+        run: node tools/indexnow.mjs prepare
+
+      - name: Upload IndexNow baseline for this release
+        if: github.event_name == 'push' && github.ref_name == 'main'
+        uses: actions/upload-artifact@v7
+        with:
+          name: indexnow-baseline
+          path: .cache/indexnow/state.json
+          if-no-files-found: warn
           retention-days: 14
 
   deploy:
@@ -153,3 +191,41 @@ jobs:
           EXPECT_TELEMETRY: ${{ github.ref_name == 'main' }}
           SITE_URL: ${{ github.ref_name == 'main' && vars.CLOUDFLARE_PRODUCTION_URL || vars.CLOUDFLARE_STAGING_URL }}
         run: node tools/check-hosting.mjs "$SITE_URL" --all-redirects --wait-for-release
+
+  indexnow:
+    if: always() && github.event_name == 'push' && github.ref_name == 'main' && (needs.deploy.result == 'success' || needs.deploy-cloudflare.result == 'success')
+    needs: [build, deploy, deploy-cloudflare]
+    runs-on: ubuntu-latest
+    name: Notify IndexNow after verified production deployment
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/setup@v2
+        with:
+          runtime: node@26
+          install: false
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v7
+        with:
+          name: site
+          path: _site
+      - uses: actions/download-artifact@v7
+        with:
+          name: indexnow-baseline
+          path: .cache/indexnow
+      - name: Verify canonical production release
+        env:
+          EXPECT_TELEMETRY: 'true'
+        run: node tools/check-hosting.mjs https://david.wes.st --all-redirects --wait-for-release
+      - name: Submit changed URLs
+        run: node tools/indexnow.mjs submit
+      - name: Preserve acknowledged baseline and pending URLs
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: indexnow-state
+          path: .cache/indexnow/state.json
+          if-no-files-found: warn
+          retention-days: 90

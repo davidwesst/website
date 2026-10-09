@@ -1,0 +1,4 @@
+<aside class="mx-auto my-8 max-w-4xl rounded-lg border border-teal-200 bg-teal-50 p-6" aria-label="Explore game development">
+  <p class="font-semibold text-slate-900">Follow David's game development journey</p>
+  <p class="mt-2 text-slate-700"><a class="font-bold text-teal-800 underline" :href="discovery.devlogs.url" @text="discovery.devlogs.name"></a> · <a class="font-bold text-teal-800 underline" :href="discovery.studio.url" @text="discovery.studio.name"></a></p>
+</aside>

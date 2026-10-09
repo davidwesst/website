@@ -281,10 +281,10 @@ test("indexes, topics, compatibility pages, and standalone pages render", async 
   const postCount = authored.articles.length + authored.gamelogs.length + authored.dungeonlogs.length;
   const blog = await page("blog/index.html");
   assert.equal(blog("h1").text(), "Blog");
-  assert.equal(blog("ol > li").length, postCount);
-  assert.match(blog("ol").attr("class"), /\bmd:grid-cols-1\b/);
-  assert.match(blog("ol").attr("class"), /\blg:grid-cols-1\b/);
-  assert.ok(blog("ol > li article figure").first().attr("class").split(/\s+/).includes("aspect-[32/9]"));
+  assert.equal(blog("main section ol > li").length, postCount);
+  assert.match(blog("main section ol").attr("class"), /\bmd:grid-cols-1\b/);
+  assert.match(blog("main section ol").attr("class"), /\blg:grid-cols-1\b/);
+  assert.ok(blog("main section ol > li article figure").first().attr("class").split(/\s+/).includes("aspect-[32/9]"));
   const typeFilters = blog("[data-content-type-filter] input[type='checkbox']");
   assert.equal(typeFilters.length, 3);
   const postTypes = Object.keys(site.postTypes).filter((type) => type !== "talk").sort();
@@ -299,22 +299,22 @@ test("indexes, topics, compatibility pages, and standalone pages render", async 
   );
   assert.match(blog("script").text(), /Showing 0 posts\? That's silly\./);
 
-  assert.equal((await page("blog/articles/index.html"))("ol > li").length, authored.articles.length);
-  assert.equal((await page("blog/gamelogs/index.html"))("ol > li").length, authored.gamelogs.length);
-  assert.equal((await page("blog/dungeonlogs/index.html"))("ol > li").length, authored.dungeonlogs.length);
+  assert.equal((await page("blog/articles/index.html"))("main section ol > li").length, authored.articles.length);
+  assert.equal((await page("blog/gamelogs/index.html"))("main section ol > li").length, authored.gamelogs.length);
+  assert.equal((await page("blog/dungeonlogs/index.html"))("main section ol > li").length, authored.dungeonlogs.length);
 
   const talks = await page("talks/index.html");
   const latestTalk = authored.talks.toSorted((left, right) => new Date(right.date) - new Date(left.date))[0];
-  assert.equal(talks("ol > li").length, authored.talks.length);
-  assert.equal(talks("ol > li").first().find("h2").text().trim(), latestTalk.title);
-  assert.equal(talks("ol > li").first().find("time").attr("datetime"), new Date(latestTalk.date).toISOString().slice(0, 10));
-  assert.match(talks("ol").attr("class"), /\bmd:grid-cols-1\b/);
-  assert.match(talks("ol").attr("class"), /\blg:grid-cols-1\b/);
-  assert.doesNotMatch(talks("ol").attr("class"), /\bmax-w-3xl\b/);
-  assert.doesNotMatch(talks("ol").attr("class"), /\blg:grid-cols-2\b/);
-  assert.doesNotMatch(talks("ol").attr("class"), /\blg:grid-cols-3\b/);
-  assert.equal(talks("ol > li article figure").length, authored.talks.length);
-  assert.ok(talks("ol > li article figure").first().attr("class").split(/\s+/).includes("aspect-[32/9]"));
+  assert.equal(talks("main section ol > li").length, authored.talks.length);
+  assert.equal(talks("main section ol > li").first().find("h2").text().trim(), latestTalk.title);
+  assert.equal(talks("main section ol > li").first().find("time").attr("datetime"), new Date(latestTalk.date).toISOString().slice(0, 10));
+  assert.match(talks("main section ol").attr("class"), /\bmd:grid-cols-1\b/);
+  assert.match(talks("main section ol").attr("class"), /\blg:grid-cols-1\b/);
+  assert.doesNotMatch(talks("main section ol").attr("class"), /\bmax-w-3xl\b/);
+  assert.doesNotMatch(talks("main section ol").attr("class"), /\blg:grid-cols-2\b/);
+  assert.doesNotMatch(talks("main section ol").attr("class"), /\blg:grid-cols-3\b/);
+  assert.equal(talks("main section ol > li article figure").length, authored.talks.length);
+  assert.ok(talks("main section ol > li article figure").first().attr("class").split(/\s+/).includes("aspect-[32/9]"));
   assert.equal(
     talks("article:has(h2 a[href='/talks/no-mission-impossible/']) figure img").attr("src"),
     "/talks/no-mission-impossible/Slide2.jpg",
@@ -322,7 +322,7 @@ test("indexes, topics, compatibility pages, and standalone pages render", async 
 
   const topic = await page("topics/eleventy/index.html");
   assert.equal(topic("h1").text().trim(), "eleventy");
-  assert.ok(topic("ol > li").length > 0);
+  assert.ok(topic("main section ol > li").length > 0);
 
   const compatibility = await page("categories/eleventy/index.html");
   assert.equal(compatibility("meta[name=robots]").attr("content"), "noindex");

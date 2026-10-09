@@ -5,6 +5,7 @@ layout: base.webc
   <header class="mx-auto max-w-4xl text-center">
     <post-type-marker :type="type" :@site="site"></post-type-marker>
     <h1 class="mt-4 text-4xl font-black tracking-tight text-slate-950 md:text-6xl" @text="title"></h1>
+    <p class="mt-3 text-sm text-slate-600">By <a href="/about/" rel="author" @text="site.title"></a></p>
     <p class="mt-5 text-sm font-semibold uppercase tracking-wider text-slate-500"><content-date :@value="date"></content-date></p>
     <p webc:if="updated" class="mt-2 text-sm text-slate-500">Updated <content-date :@value="updated"></content-date></p>
     <div class="flex justify-center"><topic-links :@topics="topics"></topic-links></div>

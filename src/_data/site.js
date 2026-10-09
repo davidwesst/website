@@ -9,7 +9,7 @@ export default {
     { name: "About", url: "/about/" },
   ],
   tagline: "Building and playing games, while sharing software development ideas from Winnipeg, Canada.",
-  description: "The personal website of David Wesst.",
+  description: "Game development devlogs, software ideas, and game journals by David Wesst, founder of Cocoboko Studios in Winnipeg, Canada.",
   url: "https://david.wes.st",
   recentPostCount: 3,
   homeSections: [
@@ -18,6 +18,7 @@ export default {
     { type: "talk", label: "Latest talks", url: "/talks/" },
   ],
   exploreLinks: [
+    { label: "Game development devlogs", description: "Project updates and lessons from building games.", url: "/topics/devlog/" },
     { label: "About", description: "Background, work, and current interests.", url: "/about/" },
     { label: "Projects", description: "Active and archived creative projects.", url: "/projects/" },
     { label: "Topics", description: "Browse writing and talks by subject.", url: "/topics/" },
