@@ -31,6 +31,8 @@ concurrency:
 
 jobs:
   build:
+    outputs:
+      indexnow-ready: ${{ steps.indexnow-state-upload.outcome == 'success' }}
     permissions:
       contents: read
       actions: read
@@ -85,39 +87,29 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
-      - name: Locate saved IndexNow state before production deployment
-        id: indexnow-state
+      - name: Prepare IndexNow state before production deployment
+        id: indexnow-prepare
         if: github.event_name == 'push' && github.ref_name == 'main'
         continue-on-error: true
         uses: actions/github-script@v9
+        env:
+          GH_TOKEN: ${{ github.token }}
         with:
           script: |
-            const restore = require('./tools/restore-indexnow-state.cjs');
-            await restore({ github, context, core });
+            await require('./tools/restore-indexnow-state.cjs')({ github, context });
+            require('node:child_process').execFileSync(process.execPath, ['tools/indexnow.mjs', 'prepare'], { stdio: 'inherit' });
 
-      - name: Restore saved IndexNow state
-        if: github.event_name == 'push' && github.ref_name == 'main' && steps.indexnow-state.outputs.artifact_id != ''
+      - name: Save IndexNow state for this release
+        id: indexnow-state-upload
+        if: github.event_name == 'push' && github.ref_name == 'main' && steps.indexnow-prepare.outcome == 'success'
         continue-on-error: true
-        uses: actions/download-artifact@v7
-        with:
-          artifact-ids: ${{ steps.indexnow-state.outputs.artifact_id }}
-          github-token: ${{ github.token }}
-          path: .cache/indexnow
-          merge-multiple: true
-
-      - name: Preserve pre-deployment IndexNow baseline
-        if: github.event_name == 'push' && github.ref_name == 'main'
-        continue-on-error: true
-        run: node tools/indexnow.mjs prepare
-
-      - name: Upload IndexNow baseline for this release
-        if: github.event_name == 'push' && github.ref_name == 'main'
         uses: actions/upload-artifact@v7
         with:
-          name: indexnow-baseline
+          name: indexnow-state
           path: .cache/indexnow/state.json
-          if-no-files-found: warn
-          retention-days: 14
+          overwrite: true
+          if-no-files-found: error
+          retention-days: 90
 
   deploy:
     if: github.event_name == 'push' && github.ref_name == 'main' && vars.HOSTING_PROVIDER != 'cloudflare'
@@ -211,9 +203,11 @@ jobs:
         with:
           name: site
           path: _site
+      - name: Require prepared IndexNow state
+        run: test "${{ needs.build.outputs.indexnow-ready }}" = "true" || { echo "::error::IndexNow state preparation or upload failed. See Prepare IndexNow state in the build job."; exit 1; }
       - uses: actions/download-artifact@v7
         with:
-          name: indexnow-baseline
+          name: indexnow-state
           path: .cache/indexnow
       - name: Verify canonical production release
         env:
