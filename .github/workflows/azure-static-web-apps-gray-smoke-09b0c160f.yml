@@ -227,5 +227,6 @@ jobs:
         with:
           name: indexnow-state
           path: .cache/indexnow/state.json
+          overwrite: true
           if-no-files-found: warn
           retention-days: 90
