@@ -2,12 +2,12 @@
 
 ## Implementation Reference
 
-- Read [`docs/solution-design.md`](/home/dw/Code/davidwesst/website/docs/solution-design.md) before implementing code.
-- Treat [`docs/solution-design.md`](/home/dw/Code/davidwesst/website/docs/solution-design.md) as the canonical implementation reference unless the user explicitly overrides it.
+- Read [`docs/solution-design.md`](docs/solution-design.md) before implementing code.
+- Treat [`docs/solution-design.md`](docs/solution-design.md) as the canonical implementation reference unless the user explicitly overrides it.
 
 ## Conflict Handling
 
-- Before implementation, identify any conflicts between the requested change and [`docs/solution-design.md`](/home/dw/Code/davidwesst/website/docs/solution-design.md).
+- Before implementation, identify any conflicts between the requested change and [`docs/solution-design.md`](docs/solution-design.md).
 - Call out those conflicts explicitly before making code changes.
 - Do not silently implement around a conflict or reinterpret the design without surfacing it first.
 

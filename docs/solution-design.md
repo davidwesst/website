@@ -1,124 +1,119 @@
 # Solution Design
 
-## Purpose
+## Purpose and authority
 
-This repository contains David Wesst's active Eleventy website and its normalized authored-content model. The former merged-site implementation remains in `_archive` as a migration source only: normal builds, tests, integrity checks, and deployment inputs must not read it.
+David Wesst's website helps readers discover his game development, devlogs, and Cocoboko Studios, and contributes writing and talks to the technology community. Website visits and engagement measure on-site discovery; distribution through feeds or other readers can contribute to the community without producing a website visit.
 
-## Current Scope
+This document is the canonical implementation contract for the active site. It records responsibilities, data ownership, and behavior that changes must preserve. Task procedures belong in skills; dated observations, account setup, and incident evidence belong in the linked runbooks. Plans from other chats or branches become implemented architecture only when their source changes are present here.
 
-The active site publishes:
+## Scope and boundaries
 
-- a home page plus migrated About and Projects pages
-- articles, gamelogs, and dungeonlogs discovered from the active authored-content inventory
-- talks and their appearances discovered from the active authored-content inventory
-- Blog, Articles, Gamelogs, Dungeonlogs, Talks, and Topics indexes
-- generated pages for topics shared by posts and talks
-- stable content assets and legacy URL compatibility
-- production-only, privacy-first engagement analytics and browser operational diagnostics
+The Eleventy site publishes Home, About, Projects, articles, gamelogs, dungeonlogs, talks and appearances, family indexes, and shared topic pages. It preserves content assets and legacy URLs and provides production-only engagement analytics and browser diagnostics.
 
-Talks are a separate content family from posts. Both use the shared authored fields and presentation components, while their type-specific data remains under `customData`.
+- Active authored content lives in `src/content/`. `_archive` is a migration source only; normal builds, tests, integrity checks, and deployment inputs never read it.
+- The separate `website-insights` project owns private telemetry snapshots, atomic provider collection, health assessments, and report exports. This repository owns website behavior and fixes informed by those reports. Its build has no dependency on the reporting project or its archives.
+- External publishing, account changes, DNS changes, and retired-resource cleanup are separate operations. Website sharing and campaign-link generation provide owner tools without automatically publishing announcements.
 
-## Technology
+The stack is Node.js, pnpm, Eleventy, Markdown, WebC, Tailwind CSS, locally hosted Font Awesome Free, and focused Node preparation/validation tools. Runtime and dependency versions come from `.nvmrc`, `package.json`, `pnpm-workspace.yaml`, and the lockfile. Cloudflare Workers Static Assets hosts the output; Cloudflare DNS is authoritative for `wes.st`.
 
-- Node.js at the version declared by the repository runtime configuration
-- pnpm at the version declared by the package manager configuration
-- Eleventy at the version declared by the dependency manifest
-- Markdown for authored content and index pages
-- WebC for layouts and reusable web components
-- Tailwind CSS at the version declared by the dependency manifest
-- Font Awesome Free for locally hosted post-type icons
-- Cloudflare Workers Static Assets for hosting and Cloudflare DNS for authoritative DNS
-- Node scripts for deterministic migration and output integrity validation
+## Responsibility map
 
-## Authored content model
+Keep source-specific behavior in adapters or preparation code and give presentation components normalized data. Add the smallest coherent unit with one responsibility.
 
-Authored documents live beneath `src/content/` as Markdown `index.md` files grouped into `pages`, `posts/articles`, `posts/gamelogs`, `posts/dungeonlogs`, and `talks`. Images owned by an individual document are stored in the same directory as that document and referenced with a relative `./filename` path.
+| Responsibility | Implementation boundary |
+| --- | --- |
+| Authored content, family defaults, public identity | `src/content/`, directory data, `src/_data/site.js` |
+| External data, image and telemetry preparation | Focused `tools/prepare-*.mjs` entrypoints and `lib/` modules |
+| Metadata, discovery, navigation, display models | `src/_lib/` and focused `src/_data/` providers |
+| Accessible rendering and progressive enhancement | `src/_includes/`, `src/assets/`, `src/styles/main.css` |
+| Canonical/legacy routes and provider output | `lib/content-routing.js`, `lib/hosting-routes.js`, `lib/legacy-route-repairs.js` |
+| Integrity, hosting verification, deployment and notification | `tools/check-*.mjs`, `lib/hosting-*.js`, `lib/indexnow.js`, tests, GitHub Actions |
 
-Posts and talks require `title` and an explicit publication `date`. Static pages require `title`. The optional shared fields are `summary`, `updated`, `topics`, `redirectFrom`, `banner`, and `customData`. A banner contains `src`, meaningful `alt`, and optional `credit`.
+`_site` is a generated release artifact. Ignored `.cache` directories hold derived data and local evidence; neither replaces authored source or repository-controlled configuration.
 
-Eleventy derives the slug from `page.fileSlug`. All post types share a flat canonical detail route while directory data continues to derive layout, type, and collection tags:
+## Authored content and routes
 
-- articles: `posts` and `articles`, at `/blog/{slug}/`
-- gamelogs: `posts` and `gamelogs`, at `/blog/{slug}/`
-- dungeonlogs: `posts` and `dungeonlogs`, at `/blog/{slug}/`
-- talks: `talks`, at `/talks/{slug}/`
-- pages: at `/{slug}/`
+Documents are Markdown `index.md` files in the family directories below. Document-owned images are colocated and referenced as `./filename`. Posts and talks require `title` and an explicit publication `date`; static pages require `title`. Optional shared fields are `summary`, `updated`, `topics`, `redirectFrom`, `banner`, and family-supported `customData`. Banners require `src` and meaningful `alt`, with optional `credit`. Slugs derive from `page.fileSlug`; directory data derives layout, type, and collection tags.
 
-Post slugs must be globally unique across all supported post types and cannot use the reserved type-index slugs `articles`, `gamelogs`, or `dungeonlogs`. The filtered indexes live at `/blog/articles/`, `/blog/gamelogs/`, and `/blog/dungeonlogs/`. Topics are authored taxonomy values, separate from Eleventy collection tags. Topic routes use normalized slugs and combine posts and talks in descending publication order. Canonical topic pages live under `/topics/`; legacy `/categories/` pages remain noindex compatibility forwarders.
+| Family | Source under `src/content/` | Canonical detail route | Collections |
+| --- | --- | --- | --- |
+| Article | `posts/articles/` | `/blog/{slug}/` | `posts`, `articles` |
+| Gamelog | `posts/gamelogs/` | `/blog/{slug}/` | `posts`, `gamelogs` |
+| Dungeonlog | `posts/dungeonlogs/` | `/blog/{slug}/` | `posts`, `dungeonlogs` |
+| Talk | `talks/` | `/talks/{slug}/` | `talks` |
+| Page | `pages/` | `/{slug}/` | `pages` |
 
-Gamelog-specific authored data is stored under `customData.game.ids`, `customData.playthrough`, and `customData.ratings`. Every gamelog has an IGDB ID. Before Eleventy renders, a source-specific preparation layer joins those IDs to normalized IGDB game data containing the earliest release date, developers, publishers, collection-based series membership, ESRB/PEGI/CERO age ratings, and an optional generated banner. IGDB data remains derived build data rather than authored front matter, and presentation components receive only the normalized model. Talk-specific data is stored under `customData.speakers` and `customData.appearances`. A talk's page `date` is its original publication date when recoverable, otherwise its latest presentation date. The resolved page date controls collection sorting; individual appearance dates do not otherwise participate in sorting.
+Post slugs are globally unique across post types and reserve `articles`, `gamelogs`, and `dungeonlogs` for `/blog/{family}/` indexes. Topics are authored taxonomy, separate from Eleventy collection tags. Normalized `/topics/{slug}/` pages combine posts and talks in descending publication order. Devlogs are articles with the `devlog` topic, reachable at `/topics/devlog/`.
 
-## Rendering
+Gamelog authored data lives under `customData.game.ids`, `customData.playthrough`, and `customData.ratings`. Every gamelog has an IGDB ID. Preparation joins it to normalized game metadata: earliest release date, developers, publishers, collection-based series, ESRB/PEGI/CERO ratings, and optional imagery. These remain derived data; game details render separately from authored playthrough details.
 
-`src/_includes/layouts` contains focused WebC layouts for the home page, posts, talks, static pages, collections, and topic pages. `src/_includes/components` contains reusable navigation, footer, social-link, post-card, post-visual, topic, banner, gamelog, and talk-detail components. The base WebC shell provides site navigation and one main landmark. The shared footer provides site-wide attribution for IGDB-sourced video game images and details.
+Talks are a separate content family with `customData.speakers` and `customData.appearances`. A talk's page date is its recoverable original publication date, otherwise its latest presentation date. That resolved date controls collection sorting; individual appearances do not independently reorder the talk.
 
-Detail pages render semantic articles with a single top-level heading, publication metadata, topics, banner figures or type-specific fallback artwork, Markdown body content, and applicable type-specific data. Gamelogs additionally render normalized game details separately from authored playthrough details. Their visual precedence is an authored banner, generated IGDB artwork, generated IGDB screenshot, then the accessible gamelog placeholder. Indexes use semantic content cards. The combined Blog index uses single-column cards with cropped banners, summary-or-introduction descriptions, and progressively enhanced, default-enabled type filters for articles, gamelogs, and dungeonlogs. The Ghostwind-inspired presentation uses a gradient masthead, elevated cards, local Font Awesome icons, and readable serif body typography; `src/styles/main.css` remains the single authored stylesheet entry point.
+## Rendering and reader pathways
 
-Repository-controlled global site data defines the title, tagline, social links and their Font Awesome icon classes, post-type labels/icons/colors, and home-section limits. The same social-link component renders labeled icon links in the home hero and site footer. The home feature shows the newest article, newest gamelog, and newest talk in labeled icon tabs, switching automatically with accessible manual controls; reduced-motion preferences disable automatic switching unless the visitor explicitly starts it by turning off the pause toggle. Tabs are labeled “Latest article”, “Latest gamelog”, and “Latest talk”, with a “Pause slideshow” switch aligned to the right in the same row; keyboard focus within the tabs or panels pauses cycling, while hovering does not. Featured items remain included in their family's recent-content section. Articles, gamelogs, and talks receive independent recent-content sections. Dungeonlogs remain available through blog, topic, feed, and direct routes but are excluded from automatic home-page promotion.
+Focused WebC layouts compose reusable components. The base shell supplies navigation and one main landmark; detail pages use a semantic article and one top-level heading, publication metadata, topics, visuals, Markdown body, and applicable family data. The footer provides shared social links and IGDB attribution. Global data supplies identity, navigation, social icons, family labels/colors, and home-section limits. The Ghostwind-inspired presentation retains a gradient masthead, elevated cards, local icons, readable serif prose, and one authored stylesheet entrypoint, `src/styles/main.css`.
 
-The base shell contains only minimal integration points for telemetry. Source-specific configuration, filtering, and sanitization remain isolated from presentation code. The integrations are emitted only for the `main` branch and load executable code exclusively from the site's `/assets/` path.
+The Blog index uses single-column cards, cropped banners, summary-or-introduction descriptions, and progressively enhanced, initially enabled family filters. Gamelog visual precedence is authored banner, IGDB artwork, IGDB screenshot, then accessible placeholder.
 
-Canonical pages derive descriptions, canonical URLs, Open Graph fields, preview images, publication metadata, and Schema.org JSON-LD through a shared metadata preparation layer. Preview images prefer authored banners, then normalized gamelog artwork, then the repository-owned default social image. A focused Sharp preparation step generates content-addressed 1200×630 JPEG previews under /assets/social, fitting the complete source against a dark background without cropping. Original images remain intact. The shared metadata model supplies dimensions, MIME type, alt text, and article-only timestamps; previews and schema use the same selected image. Canonical content is exposed through a generated sitemap, robots policy, and Atom feeds for the combined blog and each content family; redirect and noindex compatibility pages are excluded.
+Home features the newest article, gamelog, and talk in labeled tabs with a pause switch and accessible manual controls. Reduced motion disables automatic cycling until explicitly started; keyboard focus within the feature pauses cycling, while hover does not. Featured content remains in independent recent-family sections. Dungeonlogs remain available through blog, topic, feed, and direct routes and receive no automatic home promotion.
 
-Post and talk detail pages expose deterministic related content ranked by shared topics, same-family membership, recency, and canonical URL. They also provide chronological navigation within the current family plus archive and topic pathways. Detail pages provide progressively enhanced native sharing, canonical-link copying, and direct Bluesky, LinkedIn, and email links. Visitor sharing never adds campaign parameters; a development-only generator validates built pages and emits consistent platform campaign URLs for owner-published distribution.
+Detail pages offer deterministic related content ranked by shared topics, family, recency, and canonical URL, plus chronological family navigation and archive/topic links. Repository-controlled discovery data adds devlog and studio pathways on relevant pages without rewriting migrated prose. Native sharing, canonical-link copying, and Bluesky, LinkedIn, and email links use untracked canonical URLs. Owner-generated campaign links validate the built page and use the existing campaign model.
 
-## Analytics and hosting
+## Assets and migration
 
-Simple Analytics remains responsible only for aggregate engagement analytics. Application Insights provides client-side errors, failed-request diagnostics, and performance data to the existing production resource. Sentry and Cloudflare browser beacons are not installed. The browser integration uses Microsoft's supported Application Insights JavaScript SDK with W3C trace context; Azure's OpenTelemetry distribution remains limited to server-side Node.js and is not used by this static site.
+Original authored assets retain their bytes, filenames, hashes, and canonical/legacy URLs. Eleventy publishes colocated images beside their owning page. `src/_data/migration-manifest.json` records migration destinations and hashes; `src/_data/asset-exceptions.json` records unavailable images, which render semantic notes instead of broken image elements.
 
-The main branch enables both integrations without Azure credentials. Other branches and Eleventy serving omit telemetry assets and integration. Build context uses GITHUB_REF_NAME when available, otherwise the current Git branch. The pinned first-party telemetry bundles are generated beneath `.cache/telemetry` and published under `/assets/telemetry`. The public Application Insights connection string binds the client to `appi-davidwesstcom-prod` and is repository configuration rather than a secret.
+`tools/content-migration/migrate.mjs` is the only active tool permitted to read `_archive`. It normalizes archived content through staging, preserves migration repairs, refuses to overwrite existing content/assets on initial migration, and supports comparison of the migrated subset. New authored documents outside the manifest are allowed.
 
-GitHub Actions builds and tests once, then deploys the verified artifact to Cloudflare Workers Static Assets using pinned Wrangler tooling. Staging is isolated from production. Cloudflare DNS hosts the wes.st zone, preserving existing mail and unrelated subdomains. DNS delegation and website hosting change separately. Azure remains available during the migration observation period; docs/cloudflare-migration.md records rollout gates and final cleanup.
+Image responsibilities remain separate:
 
-Each build emits an operational `/deployment.json` containing schema version 1, the commit SHA, and a unique build identity (GitHub run ID/attempt in CI, a UUID locally). It is excluded from content collections and discovery documents and served with `Cache-Control: no-store`. Deployment verification reads the expected identity from the verified artifact and checks its commit against the workflow commit; rerunning a deployment job preserves the original artifact identity. Local Wrangler verifies all generated redirects before artifact upload and again after download, without rebuilding. Live checks use a five-minute monotonic deadline and require two consecutive complete successful passes separated by five seconds, with matching identity before and after each pass. Failures reset the consecutive-pass count; each request and body read is bounded by 20 seconds or the remaining overall time. Permanent failures remain fatal. Redirect checks use at most six concurrent requests and check each unique target once per pass. Failure logs retain release identity and HTTP/Cloudflare diagnostics.
+- Responsive preparation discovers active static PNG/JPEG/WebP images of at least 1,000,000 bytes, creates bounded WebP widths without enlargement, and advertises only smaller derivatives. Verified cache: `.cache/responsive-images`; content-addressed output: `/assets/responsive/`. Components consume normalized `displayBanner` data; a separate transform handles inline prose images. Original-format fallbacks, alt text, and intrinsic dimensions remain intact.
+- IGDB preparation caches normalized metadata and selected artwork/screenshots under `.cache/igdb`, publishing images at `/assets/igdb/`. Poor-fit image exclusions belong in preparation. Cache freshness, bounded retries, and download concurrency come from the implementation. Stale data is a non-blocking fallback; an unavailable cache retains placeholders. Twitch access tokens stay ephemeral and are never cached.
+- Social preparation uses Sharp to fit complete images against a dark background without cropping, producing content-addressed 1200×630 JPEGs at `/assets/social/`. Selection prefers authored banners, normalized gamelog imagery, then the repository-owned default image. Originals remain intact.
 
-## Migration and assets
+Measured image evidence and audit conditions are in [responsive-images.md](responsive-images.md).
 
-`tools/content-migration/migrate.mjs` is the only active tool allowed to read `_archive`. It parses archived front matter and event records, normalizes taxonomy and type-specific data, rewrites recoverable image references, records missing images, removes unsupported migration artifacts, and produces the active content through a staging directory.
+## Discovery and distribution
 
-- `pnpm content:migrate` performs the initial migration and refuses to overwrite existing content or assets.
-- `pnpm content:migrate:check` regenerates the expected result in a temporary directory and verifies that the migrated subset of active content still matches without writing. New authored documents outside the migration manifest are allowed.
+Shared metadata supplies descriptions, absolute canonical URLs, Open Graph fields, image dimensions/type/alt, article-only timestamps, and Schema.org JSON-LD. Preview metadata and schema select the same image. David remains the author, represented by the stable `https://david.wes.st/#person` entity; Cocoboko Studios is his founder affiliation. About is a `ProfilePage`; structured breadcrumbs match visible navigation.
 
-Available authored binary assets are copied byte-for-byte beside their owning `src/content/.../index.md` file. Eleventy maps each colocated authored image to the same canonical output directory as its rendered document, so source ownership and published ownership remain aligned. `src/_data/migration-manifest.json` records source and colocated destination hashes. `src/_data/asset-exceptions.json` records unavailable images; rendered content uses semantic unavailable-image notes instead of broken image elements.
+One canonical inventory drives sitemap coverage and IndexNow fingerprints. Sitemap `lastmod` uses explicit authored publication/update dates. Redirects, noindex compatibility pages, and operational manifests are excluded. Atom feeds already publish summaries and canonical links for the combined blog and individual families, including talks; off-site feed reading does not execute website analytics. Preview `workers.dev` hosts send noindex response headers.
 
-Large authored raster images also receive derived responsive WebP assets from a focused preparation step. The original files, hashes, and canonical/legacy asset URLs remain intact; social previews are prepared separately. Preparation discovers static PNG, JPEG, and WebP files of at least 1,000,000 bytes in the active inventory, generates bounded widths without enlargement, and advertises only smaller derivatives. Verified caches live under `.cache/responsive-images`; content-addressed output is published separately under `/assets/responsive/`. Shared components consume normalized dimensions, responsive sources, and display-size hints through `displayBanner`. A separate rendered-content transform applies the same model to inline prose images. Pictures retain original-format fallbacks, meaningful alt text, and intrinsic dimensions. See `docs/responsive-images.md` for the measured route inventory and repeatable browser audit.
+IndexNow runs after a verified `main` production deployment. Saved acknowledged state and pending URLs preserve additions, edits, removals, and failed submissions. Missing historical state requires explicit recovery. Initial 403 responses receive bounded retries only while the public ownership key remains verified; permanent key/request failures remain fatal. Failed-job reruns replace their prior state artifact. Notification failure preserves retry state and does not roll back a healthy site deployment. [search-discovery.md](search-discovery.md) owns account verification, key management, state recovery, and traffic review details.
 
-IGDB banner images are generated build assets rather than authored banners. The preparation step downloads artwork or screenshots at the resolution selected by the preparation configuration into the ignored `.cache/igdb/images/` directory, and Eleventy publishes them under `/assets/igdb/`. Known poor-fit IGDB banner image IDs can be rejected by the preparation layer so the deterministic selection falls through to a better candidate or placeholder. The accompanying normalized manifest uses the freshness window defined by the cache implementation. A stale manifest remains a non-blocking fallback when credentials or IGDB are unavailable; a build without any usable cache retains the existing placeholders. Cache refresh uses a batched games request for the current inventory, bounded retries for rate limits and server errors, and the download concurrency defined by the preparation implementation. The Twitch app access token is ephemeral and is never written to the cache.
+The repository-owned crawler registry allows traditional search, AI retrieval, and user-directed agents while disallowing GPTBot, ClaudeBot, and Google-Extended. The latter also restricts some Gemini grounding while keeping ordinary Google Search allowed. Public `robots.txt` references the sitemap. Cloudflare managed robots and blanket AI blocking remain off so they do not override the registry. Robots directives are voluntary; probes establish accessibility, not crawler identity, indexing, citations, or prevention of unidentified training. Provider observations and owner validation are in [crawler-policy.md](crawler-policy.md).
 
-Simple Analytics owns aggregate engagement analytics: page views, referrers, UTM campaign values, time on page, scroll depth, and coarse browser/device information. It does not own errors, performance, or failed-request diagnostics. Session metrics and custom events are disabled, Do Not Track is respected, and the integration uses no cookies, browser storage, persistent visitor identifiers, user-generated content, or intentionally collected PII. Its required collection requests remain external to the Simple Analytics endpoint.
+## Analytics and privacy
 
-Application Insights owns browser operational diagnostics: uncaught exceptions, unhandled promise rejections, failed Fetch/XHR dependencies, page-load timing, and dependency performance. Page views are collected only as the context required for performance diagnostics. Do Not Track prevents SDK initialization. Cookies, browser storage, persistent identifiers, click tracking, cross-origin correlation headers, request and response headers, and response bodies are disabled. Simple Analytics and Azure ingestion requests are excluded from dependency auto-collection.
+Simple Analytics owns aggregate engagement: page views, referrers, UTM campaigns, time on page, scroll depth, and coarse browser/device data. Session metrics and custom events are disabled. Do Not Track is respected; the integration uses no cookies, browser storage, persistent identifiers, user-generated content, or intentionally collected PII. Collection requests go to its external endpoint.
 
-The telemetry preparation step downloads the Simple Analytics browser library from an exact upstream commit, verifies its repository-controlled SHA-256 digest, and publishes it as `/assets/telemetry/simple-analytics.js`. It bundles the locked Application Insights package and site configuration as `/assets/telemetry/application-insights.js`. Production builds fail when either first-party asset cannot be prepared. Updating either library is an intentional dependency or source-integrity change; no runtime third-party executable fallback is allowed.
+Application Insights owns uncaught errors, unhandled rejections, failed Fetch/XHR dependencies, page-load timing, and dependency performance; page views provide diagnostic context. Its supported browser SDK uses W3C trace context. Azure's server-side OpenTelemetry distribution is excluded. Do Not Track prevents initialization. Cookies, browser storage, persistent identifiers, click tracking, cross-origin correlation headers, request/response headers, and response bodies are disabled. Simple Analytics and Azure ingestion requests are excluded from dependency auto-collection. The public connection string for `appi-davidwesstcom-prod` is repository configuration, not a secret. Sentry and Cloudflare browser beacons are absent.
 
-A shared route model generates Cloudflare `_redirects` and temporary Azure `staticwebapp.config.json` rollback configuration. Cloudflare `_headers` preserves security headers and revalidates unversioned content. Wrangler enables automatic trailing slashes and genuine 404 responses; explicit permanent redirects cover legacy index URLs. Provider limits fail the build rather than dropping routes. Archived hierarchical gamelog and dungeonlog detail routes redirect to the flat canonical post routes. Query-based legacy gamelog URLs use a generated noindex dispatcher at `/blog/gamelog/entry.html` backed by a validated slug map. RSS feeds can later select the existing `posts`, `articles`, `gamelogs`, and `dungeonlogs` collections independently of canonical URL shape.
+Telemetry is emitted only for `main` builds and omitted during Eleventy serving. `GITHUB_REF_NAME` takes precedence over the current Git branch. The base shell provides minimal integration points; source configuration, filtering, and sanitization stay outside presentation. Preparation verifies the Simple Analytics script's exact upstream commit and SHA-256 and bundles the locked Application Insights SDK. Executables are published from `.cache/telemetry` to `/assets/telemetry`; production fails if preparation fails and has no runtime third-party executable fallback.
 
-Confirmed historic content aliases remain in authored `redirectFrom` data. `lib/legacy-route-repairs.js` records evidence-backed migration repairs and shared feed/topic compatibility rules. Migration regeneration retains these aliases and corrected links. Content integrity includes absolute URLs to the current and former website hosts plus iframe, script, and stylesheet references. Development-only `pnpm routes:triage` ranks sanitized Cloudflare path estimates against the checked artifact; captures and the full route table remain under ignored `.cache/route-triage/`. Scanner classifications are path-based inferences, unresolved requests retain genuine 404s, and subsequent request counts are reported separately from generated referring links.
+## Hosting and release integrity
 
-## Validation
+GitHub Actions builds and tests once, verifies the artifact with local Wrangler before upload and after download, and deploys that same artifact with pinned tooling. Staging and production remain isolated. Cloudflare DNS preserves mail and unrelated subdomains; DNS delegation and hosting changes are separate. Temporary Azure rollback output and cleanup gates are documented in [cloudflare-migration.md](cloudflare-migration.md); historical dates are not proof that resources have been retired.
 
-The production build removes only `_site`, prepares the optional IGDB cache and responsive image derivatives, renders the site, copies assets, and compiles the existing stylesheet. `pnpm check:content` validates active source data and rendered output without reading `_archive`, including:
+The shared route model generates Cloudflare `_redirects` and temporary Azure rollback configuration. `_headers` preserves security headers and revalidates unversioned content. Hosting provides trailing-slash canonicalization and genuine 404s. Explicit permanent aliases cover legacy routes; provider-limit failures stop the build. `/categories/` pages remain noindex forwarders. Query-based gamelog compatibility uses the validated noindex dispatcher at `/blog/gamelog/entry.html`.
 
-- source-derived document and appearance count consistency across authored content, rendered indexes, and the migration manifest
-- normalized schemas, dates, type-specific custom data, topics, globally unique post slugs, reserved routes, and canonical URLs
-- redirect uniqueness, coverage, collision safety, and query-based gamelog mappings
-- asset colocation, hashes, exact filename casing, rendered image existence, acceptable alt text, and missing-image exceptions
-- local links and fragments
-- expected output for every migrated document
-- semantic page structure and representative type-specific rendering
-- absence of archive paths, raw front matter, unresolved WebC data, and migration markers
-- production-branch telemetry configuration, first-party script URLs, generated asset existence, and privacy-sensitive client settings
-- absence of telemetry integration on non-production branches and absence of runtime third-party executable telemetry resources
-- Simple Analytics and Application Insights production gating, pinned first-party assets, Do Not Track behavior, privacy-sensitive configuration, and responsibility boundaries
+Content-specific aliases belong in `redirectFrom`; evidence-backed migration repairs and shared feed/topic rules belong in `lib/legacy-route-repairs.js`. Migration regeneration retains those repairs. Unresolved requests keep genuine 404s. Route-investigation evidence is in [issue-59-route-triage.md](issue-59-route-triage.md).
 
-`pnpm test` performs a branch-aware build, runs `check:content`, and then runs the Node test suite. Output tests retain home-page and stylesheet coverage and add representative checks for articles, gamelogs, dungeonlogs, talks, pages, indexes, topics, compatibility pages, redirects, the legacy dispatcher, and telemetry policy. CI runs this complete suite on the repository-configured Node.js runtime. Builds of `main` verify and upload the telemetry-enabled `_site` artifact and deploy it; builds of every other branch verify telemetry-free output.
+Every build emits schema-version-1 `/deployment.json` with its commit and unique build identity: CI run ID/attempt or a local UUID. It is excluded from discovery and served with `Cache-Control: no-store`. Verification checks the artifact commit against the workflow commit and preserves the original identity on deploy-job reruns. A healthy homepage alone never establishes readiness. Live verification uses a monotonic deadline, bounded requests/body reads, and consecutive complete passes bracketed by matching identities; broken assertions remain fatal when convergence expires. Failure logs retain identity and HTTP/Cloudflare diagnostics. Exact timing/concurrency behavior is maintained in the verifier and migration runbook.
 
-## Search discovery
+## Validation contract and workflow skills
 
-Canonical discovery uses one inventory for sitemap and IndexNow fingerprints. Sitemap lastmod uses explicit authored publication/update dates, never filesystem or build dates. Shared metadata references a stable Person entity at https://david.wes.st/#person, describes About as ProfilePage, and renders matching visible breadcrumbs. David remains the author; Cocoboko Studios is his documented founder affiliation. Repository-controlled discovery data adds local devlog and studio pathways without changing migrated documents or content families. The existing favicon and responsive image pipeline remain the implementation foundation.
+Build preparation cleans only `_site`, prepares IGDB, responsive images, social images and branch-gated telemetry, renders/copies assets, compiles CSS, and generates the IndexNow manifest. Active-source and rendered-output integrity cover schemas/counts/dates, taxonomy/slugs/canonicals, asset ownership/hashes/casing/alt, links/fragments/embeds, redirect coverage/collisions/dispatcher mappings, semantic rendering, discovery output, privacy configuration, and the absence of archive references or unresolved template/migration artifacts.
 
-IndexNow runs only after a verified main production deployment. A pre-deployment saved baseline and pending queue survive failed submissions in retained GitHub Actions artifacts; missing historical state requires explicit recovery. Initial IndexNow 403 responses receive bounded retries only while the published ownership key remains verified; permanent key/request failures stay fatal. Failed-job reruns replace their prior state artifact, preserving the latest acknowledged baseline and pending queue. Preview workers.dev hosts carry noindex response headers. See docs/search-discovery.md for account verification, protocol key ownership, recovery, and 28/56-day traffic review. Custom analytics events remain disabled.
+The Node suite checks observable behavior across content families, components, derived assets, telemetry modes, hosting, and discovery. Local hosting verification covers every generated redirect, exact permanent status, destination/query preservation, published targets, security headers, genuine 404s, telemetry, and crawler policy. CI verifies production telemetry on `main` and telemetry-free output on other branches. Changes review affected tests and preserve these guarantees.
 
-## AI crawler policy
+Use the matching workflow skill for task execution; its instructions are subordinate to this contract and the user's current scope:
 
-A repository-owned policy registry permits traditional search, AI retrieval, and user-directed agents independently of named model-training crawlers. GPTBot, ClaudeBot, and Google-Extended are disallowed; the Google-Extended decision also limits some Gemini grounding uses while keeping ordinary Google Search allowed. Generated robots.txt remains publicly crawlable and references the sitemap. Cloudflare managed robots and blanket AI blocking remain off so they do not override this policy. Robots directives are voluntary; unidentified or non-compliant training cannot be categorically prevented. Static-hosting checks cover effective policy, initial content, authorship, dates, canonicals, and discovery assets using allowed crawler UAs. See docs/crawler-policy.md for the verified Cloudflare baseline, observability, and owner validation.
+| Skill | Responsibility |
+| --- | --- |
+| `$website-validate` | Build/test selection, branch and production modes, affected tools, image audits, and validation evidence |
+| `$website-route-triage` | Reproducible route evidence, artifact classification, confirmed repairs, and post-deployment comparison |
+| `$website-release-checks` | Failed deployment investigation, artifact identity, local/live verification, and IndexNow failure recovery |
+| `$website-discovery-review` | Search/social/crawler review and backlog decisions tied to devlog, studio, and community goals |
+
+Provider collection and health-report creation continue to use the existing skills in `website-insights`.
