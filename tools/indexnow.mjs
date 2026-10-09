@@ -3,7 +3,7 @@ import { existsSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import site from "../src/_data/site.js";
 import config from "../src/_data/indexnow.js";
-import { createIndexManifest, sitemapUrls, submitIndexNow, validateState } from "../lib/indexnow.js";
+import { createIndexManifest, sitemapUrls, submitIndexNow, validateState, verifyIndexNowKey } from "../lib/indexnow.js";
 
 const command = process.argv[2];
 const stateFile = ".cache/indexnow/state.json";
@@ -38,11 +38,10 @@ if (command === "manifest") {
   const live = await request("/indexnow-manifest.json");
   assert.equal(live.status, 200);
   assert.deepEqual(await live.json(), manifest, "Production manifest must match the verified artifact");
-  const key = await request(`/${config.key}.txt`);
-  assert.equal(key.status, 200);
-  assert.equal((await key.text()).trim(), config.key);
+  const verifyKey = () => verifyIndexNowKey({ origin: site.url, key: config.key });
+  await verifyKey();
   try {
-    const count = await submitIndexNow({ state, manifest, origin: site.url, ...config });
+    const count = await submitIndexNow({ state, manifest, origin: site.url, ...config, verifyKey, onRetry: (retry) => console.warn(`IndexNow retry: ${JSON.stringify(retry)}`) });
     console.log(`IndexNow accepted ${count} changed URLs (acceptance does not guarantee indexing).`);
   } finally {
     await writeFile(stateFile, `${JSON.stringify(state, null, 2)}\n`);
