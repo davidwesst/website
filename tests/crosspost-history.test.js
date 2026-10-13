@@ -100,3 +100,10 @@ test("frontmatter-looking code examples never acknowledge an unpublished article
   assert.equal(history.ids.size, 0);
   assert.equal(history.urls.size, 0);
 });
+
+test("permissive legacy frontmatter does not prevent reading unrelated identity fields", async (t) => {
+  const root = await repository(t);
+  await put(root, "source/_posts/legacy.md", "---\ntitle: Legacy\n!/bin/bash\noriginalurl: https://legacy.invalid/article/\n---\nBody");
+  const submitted = commit(root);
+  assert.equal(submittedCrossposts(root).urls.get("https://legacy.invalid/article/"), submitted);
+});
