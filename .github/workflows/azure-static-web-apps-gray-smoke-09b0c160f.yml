@@ -184,6 +184,64 @@ jobs:
           SITE_URL: ${{ github.ref_name == 'main' && vars.CLOUDFLARE_PRODUCTION_URL || vars.CLOUDFLARE_STAGING_URL }}
         run: node tools/check-hosting.mjs "$SITE_URL" --all-redirects --wait-for-release
 
+  western-devs:
+    if: always() && vars.WESTERN_DEVS_ENABLED == 'true' && github.event_name == 'push' && github.ref_name == 'main' && needs.build.result == 'success' && (needs.deploy.result == 'success' || needs.deploy-cloudflare.result == 'success')
+    needs: [build, deploy, deploy-cloudflare]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    name: Crosspost new articles after verified production deployment
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout exact source release with history
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: pnpm/setup@v2
+        with:
+          runtime: node@26
+          install: false
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v7
+        with:
+          name: site
+          path: _site
+      - name: Mint repository-scoped Western Devs token
+        id: western-devs-token
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3
+        with:
+          client-id: ${{ vars.WESTERN_DEVS_APP_CLIENT_ID }}
+          private-key: ${{ secrets.WESTERN_DEVS_APP_PRIVATE_KEY }}
+          owner: westerndevs
+          repositories: western-devs-website
+          permission-contents: write
+          permission-actions: read
+      - name: Read Western Devs publication history
+        uses: actions/checkout@v6
+        with:
+          repository: westerndevs/western-devs-website
+          ref: master
+          path: .cache/western-devs-target
+          fetch-depth: 0
+          token: ${{ steps.western-devs-token.outputs.token }}
+          persist-credentials: false
+      - name: Verify release and publish new articles
+        run: pnpm crosspost:western-devs publish
+        env:
+          WESTERN_DEVS_ENABLED: ${{ vars.WESTERN_DEVS_ENABLED }}
+          WESTERN_DEVS_TOKEN: ${{ steps.western-devs-token.outputs.token }}
+      - name: Preserve crossposting results
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: western-devs-report
+          path: .cache/western-devs/report.json
+          if-no-files-found: warn
+          overwrite: true
+          retention-days: 90
+
   indexnow:
     if: always() && github.event_name == 'push' && github.ref_name == 'main' && (needs.deploy.result == 'success' || needs.deploy-cloudflare.result == 'success')
     needs: [build, deploy, deploy-cloudflare]
