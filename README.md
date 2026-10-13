@@ -17,6 +17,8 @@ A minimal Eleventy site using Markdown for content, WebC for components and layo
 - `pnpm images:audit [site-url] [output-json]` records mobile/desktop image transfers and screenshots after installing Chromium with `pnpm exec playwright install chromium`. See [the responsive image audit](docs/responsive-images.md).
 - `pnpm test` performs a production build, validates content integrity, and runs the Node test suite.
 - `pnpm run new gamelog <name>` creates `src/content/posts/gamelogs/<slug>/index.md` from the unpublished `templates/gamelog/index.md` template. Replace its placeholder metadata before building.
+- `pnpm run new article <name>` creates `src/content/posts/articles/<slug>/index.md` from the unpublished `templates/article/index.md` template. Edit the generated title and publication date as needed, fill in the summary and topics, and write the article body. To add a banner, place its image beside `index.md` and uncomment the banner fields with the image filename and meaningful alt text.
+- Both new-content commands accept quoted names or multiple name words, generate the title and URL slug from the name, and default the publication date to the current UTC date. For example: `pnpm run new article "My Next Article"`.
 - `pnpm campaign:links <canonical-url> [campaign]` emits validated YouTube, Bluesky, LinkedIn, and Instagram campaign URLs for a page in the current `_site` build. Visitor-facing share links always use the untracked canonical URL.
 
 ## Content distribution
