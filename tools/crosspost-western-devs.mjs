@@ -6,17 +6,22 @@ import site from "../src/_data/site.js";
 import { readDeployment } from "../lib/deployment-identity.js";
 import { git, discoverNewArticles, submittedCrossposts } from "../lib/crosspost-history.js";
 import { convertWesternDevsPost, describeWesternDevsPost } from "../lib/western-devs-post.js";
-import { assertPublishContext, githubClient, partitionPosts, publishPosts, waitForDeployment } from "../lib/crosspost-publisher.js";
+import { githubClient, partitionPosts, publishPosts, waitForDeployment } from "../lib/crosspost-publisher.js";
+import { assertSharingContext, validateSharingArtifact } from "../lib/article-sharing.js";
 
 const command = process.argv[2];
 assert.ok(["plan", "publish"].includes(command), "Usage: node tools/crosspost-western-devs.mjs plan|publish");
 const root = process.cwd();
 const siteRoot = path.join(root, "_site");
 const output = path.join(root, ".cache", "western-devs");
-const release = await readDeployment(path.join(siteRoot, "deployment.json"));
+const sourceRun = command === "publish"
+  ? assertSharingContext(process.env, config.sourceRepository, JSON.parse(await readFile(process.env.GITHUB_EVENT_PATH, "utf8")))
+  : null;
+const release = await readDeployment(path.join(siteRoot, "deployment.json"), sourceRun?.head_sha || process.env.GITHUB_SHA);
+if (sourceRun) validateSharingArtifact(release, sourceRun);
 assert.equal(git(root, ["rev-parse", "HEAD"]).trim(), release.commit, "Checkout must match the deployed artifact");
 const candidates = discoverNewArticles({ root, activationCommit: config.activationCommit, commit: release.commit, repository: config.sourceRepository });
-const report = { release, eligible: candidates.map(({ file, id }) => ({ file, id })), published: [], skipped: [], deployments: [], failures: [] };
+const report = { release, ...(sourceRun ? { sourceRunId: sourceRun.id, sourceRunAttempt: sourceRun.run_attempt } : {}), eligible: candidates.map(({ file, id }) => ({ file, id })), published: [], skipped: [], deployments: [], failures: [] };
 await mkdir(output, { recursive: true });
 try {
   let request;
@@ -24,12 +29,11 @@ try {
   let pendingCandidates = candidates;
   const targetRoot = path.join(root, ".cache", "western-devs-target");
   if (command === "publish") {
-    assertPublishContext(process.env, config.sourceRepository);
     // Verify the full release again in the publisher, even if the workflow step
     // was bypassed or the site advanced between steps.
     // The established CLI owns readiness and all redirect assertions.
     const { execFileSync } = await import("node:child_process");
-    execFileSync(process.execPath, ["tools/check-hosting.mjs", site.url, "--all-redirects", "--wait-for-release"], { cwd: root, stdio: "inherit", env: { ...process.env, EXPECT_TELEMETRY: "true" } });
+    execFileSync(process.execPath, ["tools/check-hosting.mjs", site.url, "--all-redirects", "--wait-for-release"], { cwd: root, stdio: "inherit", env: { ...process.env, GITHUB_SHA: release.commit, EXPECT_TELEMETRY: "true" } });
     request = githubClient({ token: process.env.WESTERN_DEVS_TOKEN, repository: config.targetRepository });
     snapshot = async () => {
       git(targetRoot, ["fetch", "origin", config.targetBranch]);

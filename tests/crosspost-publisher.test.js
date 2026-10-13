@@ -1,17 +1,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { assertPublishContext, githubClient, partitionPosts, publishPosts, waitForDeployment } from "../lib/crosspost-publisher.js";
+import { githubClient, partitionPosts, publishPosts, waitForDeployment } from "../lib/crosspost-publisher.js";
 
 const post = { id: "abc", title: "Title", aliases: ["https://example.invalid/a/"], files: [{ path: "source/_posts/a.md", bytes: Buffer.from("Body") }, { path: "source/images/a.png", bytes: Buffer.from([1]) }] };
 const release = { commit: "source", buildId: "github-1-1" };
 const state = () => ({ commit: "target", tree: "old-tree", paths: new Set(), submitted: { ids: new Map(), urls: new Map() } });
 
-test("publishing rejects PRs, staging, manual runs, disabled integration and other repositories", () => {
-  const context = { GITHUB_ACTIONS: "true", GITHUB_EVENT_NAME: "push", GITHUB_REF_NAME: "main", GITHUB_REPOSITORY: "owner/site", WESTERN_DEVS_ENABLED: "true" };
-  assertPublishContext(context, "owner/site");
-  for (const [key, value] of [["GITHUB_ACTIONS", undefined], ["GITHUB_EVENT_NAME", "pull_request"], ["GITHUB_EVENT_NAME", "workflow_dispatch"], ["GITHUB_REF_NAME", "staging"], ["GITHUB_REPOSITORY", "owner/fork"], ["WESTERN_DEVS_ENABLED", undefined]]) {
-    assert.throws(() => assertPublishContext({ ...context, [key]: value }, "owner/site"));
-  }
+test("publishing requires a configured personal access token", () => {
   for (const token of [undefined, "", "   "]) assert.throws(() => githubClient({ token, repository: "owner/repo" }), /WESTERN_DEVS_TOKEN.*personal access token/);
 });
 

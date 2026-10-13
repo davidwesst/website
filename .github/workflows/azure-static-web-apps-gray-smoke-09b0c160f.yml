@@ -184,59 +184,6 @@ jobs:
           SITE_URL: ${{ github.ref_name == 'main' && vars.CLOUDFLARE_PRODUCTION_URL || vars.CLOUDFLARE_STAGING_URL }}
         run: node tools/check-hosting.mjs "$SITE_URL" --all-redirects --wait-for-release
 
-  western-devs:
-    if: always() && vars.WESTERN_DEVS_ENABLED == 'true' && github.event_name == 'push' && github.ref_name == 'main' && needs.build.result == 'success' && (needs.deploy.result == 'success' || needs.deploy-cloudflare.result == 'success')
-    needs: [build, deploy, deploy-cloudflare]
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    name: Crosspost new articles after verified production deployment
-    permissions:
-      contents: read
-    steps:
-      - name: Checkout exact source release with history
-        uses: actions/checkout@v6
-        with:
-          ref: ${{ github.sha }}
-          fetch-depth: 0
-          persist-credentials: false
-      - uses: pnpm/setup@v2
-        with:
-          runtime: node@26
-          install: false
-      - run: pnpm install --frozen-lockfile
-      - uses: actions/download-artifact@v7
-        with:
-          name: site
-          path: _site
-      - name: Require Western Devs personal access token
-        env:
-          WESTERN_DEVS_TOKEN: ${{ secrets.WESTERN_DEVS_TOKEN }}
-        run: |
-          test -n "$WESTERN_DEVS_TOKEN" || { echo "::error::Set the WESTERN_DEVS_TOKEN repository secret to a personal access token with access to Western Devs."; exit 1; }
-      - name: Read Western Devs publication history
-        uses: actions/checkout@v6
-        with:
-          repository: westerndevs/western-devs-website
-          ref: master
-          path: .cache/western-devs-target
-          fetch-depth: 0
-          token: ${{ secrets.WESTERN_DEVS_TOKEN }}
-          persist-credentials: false
-      - name: Verify release and publish new articles
-        run: pnpm crosspost:western-devs publish
-        env:
-          WESTERN_DEVS_ENABLED: ${{ vars.WESTERN_DEVS_ENABLED }}
-          WESTERN_DEVS_TOKEN: ${{ secrets.WESTERN_DEVS_TOKEN }}
-      - name: Preserve crossposting results
-        if: always()
-        uses: actions/upload-artifact@v7
-        with:
-          name: western-devs-report
-          path: .cache/western-devs/report.json
-          if-no-files-found: warn
-          overwrite: true
-          retention-days: 90
-
   indexnow:
     if: always() && github.event_name == 'push' && github.ref_name == 'main' && (needs.deploy.result == 'success' || needs.deploy-cloudflare.result == 'success')
     needs: [build, deploy, deploy-cloudflare]
