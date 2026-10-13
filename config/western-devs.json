@@ -1,0 +1,7 @@
+{
+  "activationCommit": "2e05599014f1d8e3553cfa736f495a129050325b",
+  "sourceRepository": "davidwesst/website",
+  "targetRepository": "westerndevs/western-devs-website",
+  "targetBranch": "master",
+  "targetWorkflow": "ci-cd.yml"
+}
