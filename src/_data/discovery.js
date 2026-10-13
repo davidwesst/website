@@ -1,6 +1,6 @@
 export default {
-  studio: { name: "Cocoboko Studios", url: "https://cocobokostudios.com" },
-  devlogs: { name: "Game development devlogs", url: "/topics/devlog/", description: "Follow David Wesst's game development journey through project updates, release notes, and lessons from building games." },
+  studio: { name: "Cocoboko Studios", linkText: "Cocoboko Studios (my game studio website)", url: "https://cocobokostudios.com" },
+  devlogs: { name: "Game development devlogs", url: "/topics/devlog/", callToAction: "Follow my game development journey from the highs to the lows to the ancient beginnings.", description: "Follow David Wesst's game development journey through project updates, release notes, and lessons from building games." },
   descriptions: {
     "/": "David Wesst shares game development devlogs, software ideas, and game journals. Explore his creative work and Cocoboko Studios in Winnipeg, Canada.",
     "/about/": "Meet David Wesst, a Winnipeg software architect and founder of Cocoboko Studios, and explore his game development journey.",
