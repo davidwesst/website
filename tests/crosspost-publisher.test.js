@@ -32,6 +32,74 @@ test("reconciles races and a successful write whose response was lost", async ()
   assert.equal(result.skipped[0].commit, "submitted");
 });
 
+test("reconciles applied updates with HTTP 5xx responses and retains deployment tracking", async () => {
+  for (const status of [500, 502, 503, 504]) for (const attempts of [1, 3]) {
+    let applied = false;
+    let reads = 0;
+    let updates = 0;
+    const request = githubClient({ token: "personal-token", repository: "owner/repo", fetchImpl: async (url, options) => {
+      if (options.method === "PATCH") {
+        updates++;
+        applied = true;
+        return { ok: false, status };
+      }
+      if (url.includes("actions/workflows")) {
+        assert.ok(url.includes("head_sha=submitted"));
+        return { ok: true, json: async () => ({ workflow_runs: [{ id: 1, head_sha: "submitted", head_branch: "master", event: "push", status: "completed", conclusion: "success", html_url: "https://github.com/run" }] }) };
+      }
+      return { ok: true, json: async () => ({ sha: "submitted" }) };
+    } });
+    const result = await publishPosts({ posts: [post], release, branch: "master", attempts, request, snapshot: async () => {
+      reads++;
+      const current = state();
+      if (applied) current.submitted.ids.set(post.id, "submitted");
+      return current;
+    } });
+    assert.equal(updates, 1, `HTTP ${status} must not cause duplicate submission`);
+    assert.equal(reads, 2);
+    assert.equal(result.skipped[0].commit, "submitted");
+    const deployment = await waitForDeployment({ request, commit: result.skipped[0].commit, branch: "master", workflow: "ci-cd.yml" });
+    assert.equal(deployment.success, true);
+  }
+});
+
+test("retries an unapplied server error after checking target history", async () => {
+  let reads = 0;
+  let updates = 0;
+  const result = await publishPosts({ posts: [post], release, branch: "master", snapshot: async () => { reads++; return state(); }, request: async (method) => {
+    if (method === "PATCH" && updates++ === 0) throw Object.assign(new Error("Server error"), { status: 502 });
+    return { sha: "submitted" };
+  } });
+  assert.equal(updates, 2);
+  assert.equal(reads, 2);
+  assert.equal(result.published[0].commit, "submitted");
+});
+
+test("persistent unapplied server errors preserve the bounded retry limit and final reconciliation", async () => {
+  let reads = 0;
+  let updates = 0;
+  const error = Object.assign(new Error("Server unavailable"), { status: 503 });
+  await assert.rejects(publishPosts({ posts: [post], release, branch: "master", snapshot: async () => { reads++; return state(); }, request: async (method) => {
+    if (method === "PATCH") { updates++; throw error; }
+    return { sha: "object" };
+  } }), (failure) => failure === error);
+  assert.equal(updates, 3);
+  assert.equal(reads, 4);
+});
+
+test("ref-update authorization failures remain fatal without retrying or reconciling", async () => {
+  for (const status of [401, 403]) {
+    let reads = 0;
+    let updates = 0;
+    await assert.rejects(publishPosts({ posts: [post], release, branch: "master", snapshot: async () => { reads++; return state(); }, request: async (method) => {
+      if (method === "PATCH") { updates++; throw Object.assign(new Error("Denied"), { status }); }
+      return { sha: "object" };
+    } }), (error) => error.status === status);
+    assert.equal(reads, 1);
+    assert.equal(updates, 1);
+  }
+});
+
 test("retries advancing target branches without overwriting and rejects permissions/collisions", async () => {
   let reads = 0;
   let updates = 0;
