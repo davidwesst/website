@@ -1,10 +1,20 @@
 name: article-sharing
 
 on:
-  workflow_run:
-    workflows: [CI/CD]
-    types: [completed]
-    branches: [main]
+  workflow_dispatch:
+    inputs:
+      source-run-id:
+        description: CI/CD run that published the articles
+        required: true
+        type: string
+      source-run-attempt:
+        description: CI/CD attempt that completed production deployment
+        required: true
+        type: string
+      source-sha:
+        description: Full commit SHA published by that CI/CD run
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -16,13 +26,14 @@ concurrency:
 
 jobs:
   release:
-    if: vars.WESTERN_DEVS_ENABLED == 'true' && github.event.workflow_run.event == 'push' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.head_repository.full_name == github.repository
+    if: vars.WESTERN_DEVS_ENABLED == 'true' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     name: Confirm production publication
     outputs:
       eligible: ${{ steps.release.outputs.eligible }}
       source-sha: ${{ steps.release.outputs.source-sha }}
       source-run-id: ${{ steps.release.outputs.source-run-id }}
+      source-run: ${{ steps.release.outputs.source-run }}
       artifact-id: ${{ steps.release.outputs.artifact-id }}
     steps:
       - name: Checkout trusted workflow code
@@ -43,6 +54,7 @@ jobs:
             if (release.eligible) {
               core.setOutput('source-sha', release.commit);
               core.setOutput('source-run-id', String(release.runId));
+              core.setOutput('source-run', JSON.stringify(release.sourceRun));
               core.setOutput('artifact-id', String(release.artifactId));
               await core.summary.addHeading('Article sharing').addRaw(`Source publishing run: ${release.runId}; commit: ${release.commit}`).write();
             } else {
@@ -95,6 +107,7 @@ jobs:
           WESTERN_DEVS_ENABLED: ${{ vars.WESTERN_DEVS_ENABLED }}
           WESTERN_DEVS_TOKEN: ${{ secrets.WESTERN_DEVS_TOKEN }}
           SHARING_RELEASE_READY: ${{ needs.release.outputs.eligible }}
+          SHARING_SOURCE_RUN: ${{ needs.release.outputs.source-run }}
       - name: Preserve sharing results
         if: always()
         uses: actions/upload-artifact@v7

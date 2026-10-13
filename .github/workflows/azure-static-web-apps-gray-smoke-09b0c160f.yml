@@ -184,6 +184,60 @@ jobs:
           SITE_URL: ${{ github.ref_name == 'main' && vars.CLOUDFLARE_PRODUCTION_URL || vars.CLOUDFLARE_STAGING_URL }}
         run: node tools/check-hosting.mjs "$SITE_URL" --all-redirects --wait-for-release
 
+  dispatch-article-sharing:
+    if: always() && vars.WESTERN_DEVS_ENABLED == 'true' && github.event_name == 'push' && github.ref_name == 'main' && needs.build.result == 'success' && (needs.deploy.result == 'success' || needs.deploy-cloudflare.result == 'success')
+    needs: [build, deploy, deploy-cloudflare]
+    runs-on: ubuntu-latest
+    name: Dispatch sharing when articles remain unsubmitted
+    continue-on-error: true
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - name: Checkout the published source history
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: pnpm/setup@v2
+        with:
+          runtime: node@26
+          install: false
+      - run: pnpm install --frozen-lockfile
+      - name: Read public Western Devs publication history
+        uses: actions/checkout@v6
+        with:
+          repository: westerndevs/western-devs-website
+          ref: master
+          path: .cache/western-devs-target
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Find unsubmitted articles
+        id: articles
+        run: node tools/check-western-devs-articles.mjs
+      - name: Dispatch article sharing
+        if: steps.articles.outputs.pending-count != '0'
+        uses: actions/github-script@v9
+        env:
+          PENDING_ARTICLES: ${{ steps.articles.outputs.pending-count }}
+        with:
+          script: |
+            const pending = Number(process.env.PENDING_ARTICLES);
+            if (!Number.isSafeInteger(pending) || pending < 1) return;
+            await github.rest.actions.createWorkflowDispatch({
+              ...context.repo,
+              workflow_id: 'article-sharing.yml',
+              ref: 'main',
+              inputs: {
+                'source-run-id': String(context.runId),
+                'source-run-attempt': process.env.GITHUB_RUN_ATTEMPT,
+                'source-sha': context.sha,
+              },
+            });
+            await core.summary.addHeading('Article sharing dispatched').addRaw(`Unsubmitted articles: ${pending}`).write();
+
   indexnow:
     if: always() && github.event_name == 'push' && github.ref_name == 'main' && (needs.deploy.result == 'success' || needs.deploy-cloudflare.result == 'success')
     needs: [build, deploy, deploy-cloudflare]
