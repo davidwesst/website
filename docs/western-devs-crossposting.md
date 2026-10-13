@@ -14,14 +14,16 @@ Article-owned image bytes are copied into `source/images/david-wesst/`, with con
 
 ## One-time setup and enablement
 
-1. Register a GitHub App with repository **Contents: read/write** and **Actions: read**. Metadata read is implicit. Install it on `westerndevs/western-devs-website` only.
-2. Confirm repository rules allow that app to update `master` directly. Do not weaken branch rules or replace direct publication with PR creation silently.
-3. In `davidwesst/website`, set the configuration variable `WESTERN_DEVS_APP_CLIENT_ID` to the app client ID. Set the secret `WESTERN_DEVS_APP_PRIVATE_KEY` to its complete PEM private key. The pinned token action mints a repository-scoped installation token and revokes it after the job.
+1. Create a personal access token from your GitHub account. Prefer a fine-grained token with resource owner **westerndevs**, repository access limited to **western-devs-website**, **Contents: read/write**, and **Actions: read**. Metadata read is implicit. Complete any organization approval required for the token. These permissions allow article commits and target workflow monitoring; no workflow-file write permission is needed.
+2. Confirm your account and token can update target `master` directly under its repository rules. Do not weaken branch rules or replace direct publication with PR creation silently. If fine-grained tokens cannot access the repository for your account (for example, an outside collaborator), a classic token with **public_repo** can access this public target repository. Complete SSO authorization if required. See [GitHub's token setup and limitations](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
+3. In **davidwesst/website → Settings → Secrets and variables → Actions → Repository secrets**, create **WESTERN_DEVS_TOKEN** with the token value. This single source-repository secret is used for target checkout, publication, and target workflow monitoring. There is no token secret to configure on the Western Devs repository. Remove obsolete `WESTERN_DEVS_APP_CLIENT_ID` / `WESTERN_DEVS_APP_PRIVATE_KEY` configuration if previously added; they are no longer used.
 4. Leave `WESTERN_DEVS_ENABLED` unset or `false` while reviewing conversion and validating the target build. The feature is disabled by default and missing credentials are never treated as success when enabled.
 5. Verify the activation commit, run `pnpm crosspost:western-devs plan` against a built artifact whose identity matches the checkout, and inspect `.cache/western-devs/report.json`. The unchanged activation release must produce zero eligible articles. Existing article conversion is covered by fixtures; it is not historical publication eligibility.
 6. Set `WESTERN_DEVS_ENABLED=true` when setup is complete. The next successful `main` push deployment runs the publisher. Articles added after the activation boundary, including while the integration was disabled, qualify; choose the enablement timing accordingly.
 
 No target templates, configuration, or deployment workflow are modified. The target's existing push workflow publishes the submitted commit.
+
+Personal-token-authenticated commits trigger the target's push workflow. The source repository's built-in `GITHUB_TOKEN` cannot replace this cross-repository token. See [GitHub's workflow-trigger authentication guidance](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/trigger-a-workflow).
 
 ## Validation
 
@@ -40,5 +42,7 @@ Ref updates are non-forced. The publisher retries at most three times after reco
 Target workflow discovery and completion are bounded to ten minutes per submitted commit. Failed or timed-out target deployment fails crossposting without rolling back the source site. Retry the existing Western Devs workflow run; source-job reruns inspect that same commit and do not create another article. A permanently removed crosspost remains acknowledged in target history.
 
 Disable future publication by setting `WESTERN_DEVS_ENABLED=false`. Historical source/target Git history is required; a missing activation boundary fails explicitly rather than resetting eligibility. Do not rewrite either history or change the activation boundary to recover a transient failure.
+
+Before the token expires, create a replacement with the same target access and update the source repository's `WESTERN_DEVS_TOKEN` secret. An unset token fails the enabled workflow before target checkout. An expired, revoked, unapproved, or insufficiently permitted token fails checkout or the GitHub request; it never falls back to another credential. Updating the secret and rerunning the failed job preserves publication identities and duplicate protection.
 
 Retain `redirectFrom` when renaming and heavily rewriting a document. Git rename detection, unchanged slugs, and redirects preserve content identity across family moves. An addition combined with an unrecognizable document deletion fails as ambiguous; separate new additions from unrelated deletions before merging. Already acknowledged articles are skipped before conversion, so later edits cannot require another target conversion or publish an update.

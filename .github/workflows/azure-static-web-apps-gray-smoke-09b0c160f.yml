@@ -208,16 +208,11 @@ jobs:
         with:
           name: site
           path: _site
-      - name: Mint repository-scoped Western Devs token
-        id: western-devs-token
-        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3
-        with:
-          client-id: ${{ vars.WESTERN_DEVS_APP_CLIENT_ID }}
-          private-key: ${{ secrets.WESTERN_DEVS_APP_PRIVATE_KEY }}
-          owner: westerndevs
-          repositories: western-devs-website
-          permission-contents: write
-          permission-actions: read
+      - name: Require Western Devs personal access token
+        env:
+          WESTERN_DEVS_TOKEN: ${{ secrets.WESTERN_DEVS_TOKEN }}
+        run: |
+          test -n "$WESTERN_DEVS_TOKEN" || { echo "::error::Set the WESTERN_DEVS_TOKEN repository secret to a personal access token with access to Western Devs."; exit 1; }
       - name: Read Western Devs publication history
         uses: actions/checkout@v6
         with:
@@ -225,13 +220,13 @@ jobs:
           ref: master
           path: .cache/western-devs-target
           fetch-depth: 0
-          token: ${{ steps.western-devs-token.outputs.token }}
+          token: ${{ secrets.WESTERN_DEVS_TOKEN }}
           persist-credentials: false
       - name: Verify release and publish new articles
         run: pnpm crosspost:western-devs publish
         env:
           WESTERN_DEVS_ENABLED: ${{ vars.WESTERN_DEVS_ENABLED }}
-          WESTERN_DEVS_TOKEN: ${{ steps.western-devs-token.outputs.token }}
+          WESTERN_DEVS_TOKEN: ${{ secrets.WESTERN_DEVS_TOKEN }}
       - name: Preserve crossposting results
         if: always()
         uses: actions/upload-artifact@v7
