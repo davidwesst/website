@@ -10,7 +10,7 @@ import { convertWesternDevsPost } from "../lib/western-devs-post.js";
 const origin = "https://david.wes.st";
 const candidate = { file: "src/content/posts/articles/example/index.md", originalPath: "src/content/posts/articles/example/index.md", id: "abc" };
 const release = { commit: "a".repeat(40), buildId: "github-1-1" };
-async function fixture(t, { fields = "topics: [devlog, C#]\nsummary: Full summary\nbanner: {src: ./image.png, alt: Banner, credit: Artist}", body = '<p>Text <a href="../other/#section">other</a><a href="#heading">here</a></p><picture><source srcset="/assets/responsive/a.webp 320w"><img src="./image.png" alt="Original"></picture><pre><code>{{ value }} {% endraw %}</code></pre><iframe src="https://www.youtube.com/embed/a"></iframe>', date = "2026-10-13" } = {}) {
+async function fixture(t, { fields = "topics: [devlog, C#]\nsummary: Full summary\nbanner: {src: ./image.png, alt: Banner, credit: Artist}", body = '<p>Text <a href="../other/#section">other</a><a href="#heading">here</a></p><picture><source srcset="/assets/responsive/a.webp 320w"><img src="./image.png" alt="Original"></picture><pre><code>{{ value }} {% endraw %}</code></pre><iframe src="https://www.youtube.com/embed/a"></iframe>', date = "2026-10-13", caption = "<figcaption>Artist</figcaption>" } = {}) {
   const root = await mkdtemp(path.join(os.tmpdir(), "western-devs-post-"));
   t.after(() => rm(root, { recursive: true, force: true }));
   await mkdir(path.dirname(path.join(root, candidate.file)), { recursive: true });
@@ -18,7 +18,7 @@ async function fixture(t, { fields = "topics: [devlog, C#]\nsummary: Full summar
   const siteRoot = path.join(root, "_site");
   await mkdir(path.join(siteRoot, "blog/example"), { recursive: true });
   await writeFile(path.join(siteRoot, "blog/example/image.png"), Buffer.from([1, 2, 3]));
-  await writeFile(path.join(siteRoot, "blog/example/index.html"), `<html><head><link rel="canonical" href="${origin}/blog/example/"><meta name="description" content="Normalized description"></head><body><article><h1>Heading</h1><figure class="post-visual"><img src="./image.png" alt="Banner" width="1672" height="941"><figcaption>Artist</figcaption></figure><section aria-label="Post content">${body}</section><aside>Navigation</aside></article><script>analytics()</script></body></html>`);
+  await writeFile(path.join(siteRoot, "blog/example/index.html"), `<html><head><link rel="canonical" href="${origin}/blog/example/"><meta name="description" content="Normalized description"></head><body><article><h1>Heading</h1><figure class="post-visual"><img src="./image.png" alt="Banner" width="1672" height="941">${caption}</figure><section aria-label="Post content">${body}</section><aside>Navigation</aside></article><script>analytics()</script></body></html>`);
   return { root, siteRoot, origin, candidate, release };
 }
 
@@ -44,6 +44,23 @@ test("maps metadata and full article HTML, copies original bytes, and excludes s
   assert.doesNotMatch(markdown, /analytics|Navigation|srcset|picture|class=/);
   const body = load(parsed.content.replace("{% raw %}", "").replace("{% endraw %}", ""), {}, false);
   assert.equal(body("code").text(), "{{ value }} {% endraw %}");
+  assert.equal(body("figure, figcaption").length, 0);
+  assert.equal(body("img").first().next("p").text(), "Artist");
+});
+
+test("exports an uncredited banner as a plain image and preserves authored body figures", async (t) => {
+  const post = await convertWesternDevsPost(await fixture(t, {
+    fields: "banner: {src: ./image.png, alt: Banner}", caption: "",
+    body: '<figure><img src="./image.png" alt="Body image"><figcaption>Authored caption</figcaption></figure>',
+  }));
+  const html = matter(post.files[0].bytes.toString()).content.replace("{% raw %}", "").replace("{% endraw %}", "");
+  const body = load(html, {}, false);
+  assert.equal(body.root().children().first().is("img"), true);
+  assert.equal(body.root().children().first().attr("alt"), "Banner");
+  assert.equal(body.root().children("p").length, 0);
+  assert.equal(body("figure").length, 1);
+  assert.equal(body("figure img").attr("alt"), "Body image");
+  assert.equal(body("figure figcaption").text(), "Authored caption");
 });
 
 test("uses description fallback and default category when summary/topics are absent", async (t) => {
