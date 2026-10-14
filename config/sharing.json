@@ -1,0 +1,14 @@
+{
+  "sourceRepository": "davidwesst/website",
+  "destinations": {
+    "wd": {
+      "name": "Western Devs",
+      "adapter": "western-devs",
+      "repository": "westerndevs/western-devs-website",
+      "branch": "master",
+      "workflow": "ci-cd.yml",
+      "authorId": "david_wesst",
+      "tokenEnv": "WESTERN_DEVS_TOKEN"
+    }
+  }
+}
