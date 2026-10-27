@@ -1,6 +1,6 @@
 ---
 
-title: "Video Games Are Built From Spreadsheets"
+title: "Video Games are Built with Spreadsheets"
 date: 2026-10-27
 summary: "I knew that spreadsheets were the glue that kept software projects together, but never realized how they would be so much more critical in video game development projects."
 topics:
