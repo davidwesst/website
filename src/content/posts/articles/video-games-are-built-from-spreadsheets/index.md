@@ -19,13 +19,13 @@ The more time I spend making a video game, the more I have come to realize that 
 
 Spreadsheets for funding. Spreadsheets for balancing. Spreadsheets for localization. Spreadsheets, spreadsheets, and more spreadsheets.
 
-Working in enterprise software, I am all too familiar with spreadsheets for managing projects, organizing teams, and all sorts of business activities.
+Working in enterprise software, I am all too familiar with spreadsheets for managing projects, organizing teams, and all sorts of business activities. 
 
-Video games aren't special on that front, but it isn't what I'm referring to.
+They are the glue or duct tape that hold the project together, in a lot of cases.
 
-For video games, I keep finding people coming back to spreadsheets _to build_ the video game itself, not just organize the business activities around it.
+For video games, I keep finding myself and the various experts I learn from using spreadsheets _to build_ the video game itself, not just organize the business activities around it.
 
-Although I'm sure there are more examples than I realize-- I wanted to share where they have served me quite well as compared to other tools.
+I'm sure there are more examples than I know about, but in this post I want to share where spreadsheets seem to make sense as the default tool to use.
 
 > If you have other examples, reach out to me on [Bluesky][1], [LinkedIn][2], or [YouTube][3] and tell me how you use spreadsheets to make your video game. I am genuinely interested in learning where else they fit into the development process.
 
