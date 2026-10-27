@@ -39,7 +39,7 @@ This is why when I look at tools to help me with dialogue or text in my game, I 
 
 ## Gameplay Models and Balancing
 
-This one is a little more involved, and although I can't remember exactly where I first heard about this-- my memory is that I read something from [Raph Koster][4] years ago about how he had used a spreadsheet to determine the balance of a trivia game he was making.
+This one is a little more involved. I heard [Jesse Schell][4] on a podcast talking about how he had used a spreadsheet to determine the balance of a trivia game he was making.
 
 I figure if you can create a model to simulate trivia gameplay, you must be able to do it for other systems.
 
@@ -80,7 +80,7 @@ They provide more than just the glue for video games. They provide the interface
 [1]: https://bsky.app/profile/david.wes.st
 [2]: https://ca.linkedin.com/in/davidwesst
 [3]: https://youtube.com/davidwesst
-[4]: https://www.raphkoster.com/
+[4]: https://jesseschell.com
 [5]: https://cocobokostudios.com/#games
 [6]: ./gameplay-model-screenshot.png
 [7]: /blog/defining-video-game-scope-with-documentation/
