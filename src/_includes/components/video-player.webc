@@ -1,0 +1,4 @@
+<div class="aspect-video overflow-hidden rounded-xl bg-slate-950 shadow-xl">
+  <iframe class="h-full w-full border-0" :src="video.embedUrl" :title="`Watch ${title} on YouTube`" allow="encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+<p class="mt-3 text-center"><a class="font-bold text-teal-700" :href="video.url">Watch on YouTube</a></p>

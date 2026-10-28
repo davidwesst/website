@@ -31,7 +31,8 @@ const inventory = Promise.all([
   collection(join("posts", "gamelogs")),
   collection(join("posts", "dungeonlogs")),
   collection("talks"),
-]).then(([articles, gamelogs, dungeonlogs, talks]) => ({ articles, gamelogs, dungeonlogs, talks }));
+  collection(join("posts", "videos")),
+]).then(([articles, gamelogs, dungeonlogs, talks, videos]) => ({ articles, gamelogs, dungeonlogs, talks, videos }));
 
 async function page(relativePath) {
   return load(await readFile(join(output, relativePath), "utf8"));
@@ -49,18 +50,18 @@ test("the home page renders the Ghostwind shell and configured content", async (
   assert.deepEqual(primaryNavigation.find("ul a").map((_, link) => $(link).text().trim()).get(), site.navigationLinks.map((link) => link.name));
   assert.equal(primaryNavigation.find("a[href='/projects/']").length, 0);
   const features = $(".featured-panel");
-  assert.equal(features.length, 3);
-  assert.deepEqual($(".featured-tab span").map((_, span) => $(span).text()).get(), ["Latest article", "Latest gamelog", "Latest talk"]);
+  assert.equal(features.length, 4);
+  assert.deepEqual($(".featured-tab span").map((_, span) => $(span).text()).get(), ["Latest video", "Latest article", "Latest gamelog", "Latest talk"]);
   assert.equal($(".featured-controls input[type=checkbox][role=switch][data-rotation-toggle]").length, 1);
   assert.equal($(".featured-playback").text().trim(), "Pause slideshow");
-  for (const [index, family] of [authored.articles, authored.gamelogs, authored.talks].entries()) {
+  for (const [index, family] of [authored.videos, authored.articles, authored.gamelogs, authored.talks].entries()) {
     const latest = family.sort((a, b) => new Date(b.date) - new Date(a.date))[0];
-    const url = `${index === 2 ? "/talks/" : "/blog/"}${latest.slug}/`;
+    const url = `${index === 3 ? "/talks/" : "/blog/"}${latest.slug}/`;
     assert.equal(features.eq(index).find("h2 a").attr("href"), url);
     assert.ok(features.eq(index).find(".post-card-description").text().trim());
     assert.equal($(".home-posts h2 a").filter((_, link) => $(link).attr("href") === url).length, 1);
     assert.equal($(".featured-tab").eq(index).attr("aria-controls"), `featured-panel-${index}`);
-    assert.equal($(".featured-tab").eq(index).find("i").attr("class"), site.postTypes[["article", "gamelog", "talk"][index]].iconClass);
+    assert.equal($(".featured-tab").eq(index).find("i").attr("class"), site.postTypes[["video", "article", "gamelog", "talk"][index]].iconClass);
   }
   assert.equal(features.eq(0).attr("hidden"), undefined);
   assert.notEqual(features.eq(1).attr("hidden"), undefined);
@@ -69,7 +70,7 @@ test("the home page renders the Ghostwind shell and configured content", async (
   assert.match($("#recent-heading").closest("section").find("ol > li article time").first().closest("footer").attr("class"), /\bmt-auto\b/);
   assert.match($("#recent-heading").closest("section").find("ol > li article time").first().closest("footer").attr("class"), /\bpt-6\b/);
   for (const section of site.homeSections) assert.equal($(`#home-${section.type}`).attr("href"), section.url);
-  assert.equal($("#recent-heading").closest("section").find("ol.home-posts > li").length, site.homeSections.length * site.recentPostCount);
+  assert.equal($("#recent-heading").closest("section").find("ol.home-posts > li").length, [authored.articles, authored.gamelogs, authored.talks, authored.videos].reduce((count, items) => count + Math.min(items.length, site.recentPostCount), 0));
   assert.equal($("#home-article").length, 1);
   assert.equal($("#home-gamelog").length, 1);
   assert.equal($("#home-talk").length, 1);
@@ -177,7 +178,7 @@ test("featured selection finds the latest article and gamelog and excludes dunge
   const home = prepareHomeContent(posts, 2);
   assert.deepEqual(home.featured.map(({ item }) => item.url), ["/article-new/", "/game/"]);
   assert.deepEqual(home.mosaic.map((item) => item.url), ["/article-new/", "/game/", "/article-old/"]);
-  assert.throws(() => prepareHomeContent([], 2), /requires an article, gamelog, or talk/);
+  assert.throws(() => prepareHomeContent([], 2), /requires an article, gamelog, talk, or video/);
 });
 
 test("home mosaic displays selected posts newest first across content types", () => {
@@ -278,7 +279,7 @@ test("talks render publication and appearance dates separately", async () => {
 
 test("indexes, topics, compatibility pages, and standalone pages render", async () => {
   const authored = await inventory;
-  const postCount = authored.articles.length + authored.gamelogs.length + authored.dungeonlogs.length;
+  const postCount = authored.articles.length + authored.gamelogs.length + authored.dungeonlogs.length + authored.videos.length;
   const blog = await page("blog/index.html");
   assert.equal(blog("h1").text(), "Blog");
   assert.equal(blog("main section ol > li").length, postCount);
@@ -286,7 +287,7 @@ test("indexes, topics, compatibility pages, and standalone pages render", async 
   assert.match(blog("main section ol").attr("class"), /\blg:grid-cols-1\b/);
   assert.ok(blog("main section ol > li article figure").first().attr("class").split(/\s+/).includes("aspect-[32/9]"));
   const typeFilters = blog("[data-content-type-filter] input[type='checkbox']");
-  assert.equal(typeFilters.length, 3);
+  assert.equal(typeFilters.length, 4);
   const postTypes = Object.keys(site.postTypes).filter((type) => type !== "talk").sort();
   assert.deepEqual(typeFilters.map((_, input) => blog(input).attr("value")).get(), postTypes);
   assert.ok(typeFilters.toArray().every((input) => blog(input).is("[checked]")));
@@ -378,7 +379,7 @@ test("sitemap, robots, and feeds expose canonical content", async () => {
   assert.doesNotMatch(sitemap, /\/categories\//);
   const robots = await readFile(join(output, "robots.txt"), "utf8");
   assert.match(robots, /Sitemap: https:\/\/david\.wes\.st\/sitemap\.xml/);
-  for (const file of ["feed.xml", "blog/articles/feed.xml", "blog/gamelogs/feed.xml", "blog/dungeonlogs/feed.xml", "talks/feed.xml"]) {
+  for (const file of ["feed.xml", "blog/articles/feed.xml", "blog/videos/feed.xml", "blog/gamelogs/feed.xml", "blog/dungeonlogs/feed.xml", "talks/feed.xml"]) {
     const feed = await readFile(join(output, file), "utf8");
     assert.match(feed, /<feed xmlns="http:\/\/www\.w3\.org\/2005\/Atom">/);
     assert.match(feed, /<author><name>David Wesst<\/name>/);

@@ -14,6 +14,6 @@ export function preparePageMetadata(data) {
   const imageUrl = absoluteUrl(socialImage?.src || originalImageUrl, site.url);
   const imageAlt = image?.alt || `${site.title}: software, games, and talks`;
   const fullTitle = title === site.title ? site.title : `${title} | ${site.title}`;
-  const article = ["article", "gamelog", "dungeonlog"].includes(type);
+  const article = ["article", "gamelog", "dungeonlog", "video"].includes(type);
   return { title: fullTitle, description, canonicalUrl, imageUrl, imageAlt, imageWidth: socialImage?.width || (!image ? 1200 : null), imageHeight: socialImage?.height || (!image ? 630 : null), imageType: socialImage?.type || (!image ? "image/png" : null), openGraphType: article ? "article" : "website", published: article && date ? new Date(date).toISOString() : null, modified: article && updated ? new Date(updated).toISOString() : null, jsonLd: preparePageSchema(data, { canonicalUrl, description, imageUrl }) };
 }

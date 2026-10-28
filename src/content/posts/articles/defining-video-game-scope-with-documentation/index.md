@@ -9,8 +9,8 @@ topics:
 - devlog
 - video
 banner:
-  src: ./0012-devlog-thumbnail_UPDATED.png
-  alt: 'A man holding up both hands, with the text "Defining Scope for Games".'
+  src: ./brett-jordan-7u2HFQnNcx4-unsplash.jpg
+  alt: 'Wooden letter tiles arranged in a pyramid to spell "prioritise".'
 
 ---
 
@@ -92,3 +92,8 @@ If I don't, then I either need to change my story or add the features I think I 
 I recorded and published a video on [YouTube][8]. I go into a bit more depth about some of these documents if you want more specific context about how I use them for Passenger.
 
 Have a great rest of your day.
+
+
+[Watch the companion video post](/blog/defining-video-game-scope-video/).
+
+Photo by [Brett Jordan](https://unsplash.com/@brett_jordan?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/photos/a-scrabbled-wooden-block-spelling-the-word-prize-7u2HFQnNcx4?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText).

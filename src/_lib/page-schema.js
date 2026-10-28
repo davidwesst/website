@@ -11,7 +11,7 @@ export function preparePageSchema(data, { canonicalUrl, description, imageUrl })
     "@type": "Organization", "@id": `${discovery.studio.url}/#organization`,
     name: discovery.studio.name, url: discovery.studio.url, founder: { "@id": personId },
   };
-  const authored = ["article", "gamelog", "dungeonlog", "talk"].includes(type);
+  const authored = ["article", "gamelog", "dungeonlog", "video", "talk"].includes(type);
   const schemaType = page.url === "/about/" ? "ProfilePage" : type === "talk" ? "CreativeWork" : authored ? "BlogPosting" : "WebPage";
   const content = {
     "@type": schemaType, "@id": `${canonicalUrl}#page`, headline: title, name: title,

@@ -9,6 +9,8 @@ import { IGDB_CACHE_SCHEMA_VERSION, hasCachedImages, readIgdbManifest } from "..
 import { telemetryBuildConfig } from "../lib/telemetry-build.js";
 import { siteLinkUrl } from "../lib/site-links.js";
 
+import { prepareVideo } from "../lib/video.js";
+
 const ROOT = process.cwd();
 const CONTENT_ROOT = path.join(ROOT, "src", "content");
 const OUTPUT_ROOT = path.join(ROOT, "_site");
@@ -16,9 +18,9 @@ const MANIFEST = JSON.parse(readFileSync(path.join(ROOT, "src", "_data", "migrat
 const EXCEPTIONS = JSON.parse(readFileSync(path.join(ROOT, "src", "_data", "asset-exceptions.json"), "utf8"));
 const IGDB_MANIFEST = readIgdbManifest();
 const IGDB_GAMES = IGDB_MANIFEST?.schemaVersion === IGDB_CACHE_SCHEMA_VERSION && hasCachedImages(IGDB_MANIFEST) ? IGDB_MANIFEST.games || {} : {};
-const ALLOWED_KEYS = new Set(["title", "date", "updated", "summary", "topics", "redirectFrom", "banner", "customData"]);
+const ALLOWED_KEYS = new Set(["title", "date", "updated", "summary", "topics", "redirectFrom", "banner", "customData", "youtube", "links"]);
 const DEPRECATED_KEYS = new Set(["id", "source", "docType", "series", "slug", "taxonomy", "canonicalUrl", "legacyUrls", "media", "review", "meta"]);
-const CONTENT_TYPES = ["articles", "gamelogs", "dungeonlogs", "talks", "pages"];
+const CONTENT_TYPES = ["articles", "gamelogs", "dungeonlogs", "videos", "talks", "pages"];
 const TELEMETRY = telemetryBuildConfig();
 
 function slash(value) {
@@ -42,6 +44,7 @@ function topicSlug(value) {
 }
 
 function typeFor(file) {
+  if (slash(path.relative(CONTENT_ROOT, file)).startsWith("posts/videos/")) return "videos";
   const relative = slash(path.relative(CONTENT_ROOT, file));
   if (relative.startsWith("posts/articles/")) return "articles";
   if (relative.startsWith("posts/gamelogs/")) return "gamelogs";
@@ -89,7 +92,7 @@ const documents = markdownFiles.map((file) => {
 
 const counts = Object.fromEntries(CONTENT_TYPES.map((type) => [type, documents.filter((document) => document.type === type).length]));
 assert.equal(Object.values(counts).reduce((total, count) => total + count, 0), documents.length, "Every active document must belong to a known content type");
-assert.deepEqual(Object.keys(MANIFEST.counts).sort(), [...CONTENT_TYPES, "appearances"].sort(), "Migration manifest has unexpected count fields");
+assert.deepEqual(Object.keys(MANIFEST.counts).sort(), [...CONTENT_TYPES.filter((type) => type !== "videos"), "appearances"].sort(), "Migration manifest has unexpected count fields");
 for (const [type, count] of Object.entries(MANIFEST.counts)) {
   assert.ok(Number.isInteger(count) && count >= 0, `Migration manifest has an invalid ${type} count`);
 }
@@ -122,12 +125,14 @@ let appearanceCount = 0;
 
 for (const document of documents) {
   const context = slash(path.relative(ROOT, document.file));
+  if (document.type === "videos") prepareVideo({ ...document.data, type: "video" });
+  else for (const key of ["youtube", "links"]) assert.equal(document.data[key], undefined, `${context}: ${key} is video-only`);
   assert.ok(document.data.title, `${context} must have a title`);
   for (const key of Object.keys(document.data)) assert.ok(ALLOWED_KEYS.has(key), `${context} has unsupported field ${key}`);
   for (const key of DEPRECATED_KEYS) assert.equal(document.data[key], undefined, `${context} retains deprecated field ${key}`);
 
   const slug = path.basename(path.dirname(document.file));
-  if (["articles", "gamelogs", "dungeonlogs"].includes(document.type)) {
+  if (["articles", "gamelogs", "dungeonlogs", "videos"].includes(document.type)) {
     assert.ok(!RESERVED_BLOG_SLUGS.has(slug), `${context} uses reserved blog index slug ${slug}`);
     assert.ok(!postSlugs.has(slug), `${context} duplicates post slug owned by ${postSlugs.get(slug)}`);
     postSlugs.set(slug, context);
@@ -189,7 +194,7 @@ for (const document of documents) {
 }
 
 assert.ok(appearanceCount >= MANIFEST.counts.appearances, "Active content must retain every migrated talk appearance");
-const postCount = documents.filter((document) => ["articles", "gamelogs", "dungeonlogs"].includes(document.type)).length;
+const postCount = documents.filter((document) => ["articles", "gamelogs", "dungeonlogs", "videos"].includes(document.type)).length;
 assert.equal(postSlugs.size, postCount, "Every post must have a globally unique flat-route slug");
 for (const [source, target] of redirects) {
   assert.notEqual(source, target, `Redirect source equals target: ${source}`);
@@ -225,7 +230,14 @@ for (const document of documents) {
   assert.equal($("h1").length, 1, `${canonicalUrl(document)} must have one h1`);
   assert.equal($("h1").text().trim(), document.data.title, `${canonicalUrl(document)} renders the wrong title`);
   if (document.type !== "pages") assert.ok($("time").length, `${canonicalUrl(document)} must render a publication date`);
-  if (document.data.banner) {
+  if (document.type === "videos") {
+    const video = prepareVideo({ ...document.data, type: "video" });
+    assert.equal($("main > article iframe").length, 1, "Video posts must render exactly one player");
+    assert.equal($("main > article iframe").attr("src"), video.embedUrl);
+    assert.ok($("main > article iframe").attr("title"));
+    assert.ok($("main a").toArray().some((link) => $(link).attr("href") === video.url));
+  }
+  if (document.data.banner && document.type !== "videos") {
     const image = $("figure img").first();
     assert.equal(image.attr("src"), document.data.banner.src, `${canonicalUrl(document)} renders the wrong banner`);
     assert.equal(image.attr("alt"), document.data.banner.alt, `${canonicalUrl(document)} renders the wrong banner alt text`);

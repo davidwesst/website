@@ -1,7 +1,7 @@
 function escapeXml(value = "") { return String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&apos;"); }
 export function canonicalItems(items = []) { return [...new Map(items.filter((item) => item.url?.startsWith("/") && item.url.endsWith("/") && !item.data?.robots?.includes("noindex") && !item.data?.targetUrl && !item.url.startsWith("/categories/") && !item.url.startsWith("/legacy/")).map((item) => [item.url, item])).values()].sort((a, b) => a.url.localeCompare(b.url)); }
 export function canonicalPageInventory(collections) {
-  const indexes = ["/", "/blog/", "/blog/articles/", "/blog/gamelogs/", "/blog/dungeonlogs/", "/talks/", "/topics/"];
+  const indexes = ["/", "/blog/", "/blog/articles/", "/blog/videos/", "/blog/gamelogs/", "/blog/dungeonlogs/", "/talks/", "/topics/"];
   return canonicalItems([...(collections.posts || []), ...(collections.talks || []), ...(collections.pages || []), ...indexes.map((url) => ({ url })), ...(collections.topicPages || []).map((topic) => ({ url: `/topics/${topic.slug}/` }))]);
 }
 export function reliableModified(item) {
