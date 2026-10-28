@@ -96,4 +96,4 @@ Have a great rest of your day.
 
 [Watch the companion video post](/blog/defining-video-game-scope-video/).
 
-Photo by [Brett Jordan](https://unsplash.com/@brett_jordan?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/photos/a-scrabbled-wooden-block-spelling-the-word-prize-7u2HFQnNcx4?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText).
+Post banner photo by [Brett Jordan](https://unsplash.com/@brett_jordan?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/photos/a-scrabbled-wooden-block-spelling-the-word-prize-7u2HFQnNcx4?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText).
