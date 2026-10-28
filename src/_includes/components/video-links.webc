@@ -1,0 +1,6 @@
+<section webc:if="links.length" class="mt-8" aria-labelledby="video-links-heading">
+  <h2 id="video-links-heading" class="text-xl font-bold">Related links</h2>
+  <ul class="mt-3 list-disc pl-5">
+    <li webc:for="link of links"><a class="font-bold text-teal-700" :href="link.url" @text="link.label"></a></li>
+  </ul>
+</section>

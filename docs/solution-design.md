@@ -8,7 +8,7 @@ This document is the canonical implementation contract for the active site. It r
 
 ## Scope and boundaries
 
-The Eleventy site publishes Home, About, Projects, articles, gamelogs, dungeonlogs, talks and appearances, family indexes, and shared topic pages. It preserves content assets and legacy URLs and provides production-only engagement analytics and browser diagnostics.
+The Eleventy site publishes Home, About, Projects, articles, gamelogs, dungeonlogs, videos, talks and appearances, family indexes, and shared topic pages. It preserves content assets and legacy URLs and provides production-only engagement analytics and browser diagnostics.
 
 - Active authored content lives in `src/content/`. `_archive` is a migration source only; normal builds, tests, integrity checks, and deployment inputs never read it.
 - The separate `website-insights` project owns private telemetry snapshots, atomic provider collection, health assessments, and report exports. This repository owns website behavior and fixes informed by those reports. Its build has no dependency on the reporting project or its archives.
@@ -40,14 +40,19 @@ Documents are Markdown `index.md` files in the family directories below. Documen
 | Article | `posts/articles/` | `/blog/{slug}/` | `posts`, `articles` |
 | Gamelog | `posts/gamelogs/` | `/blog/{slug}/` | `posts`, `gamelogs` |
 | Dungeonlog | `posts/dungeonlogs/` | `/blog/{slug}/` | `posts`, `dungeonlogs` |
+| Video | `posts/videos/` | `/blog/{slug}/` | `posts`, `videos` |
 | Talk | `talks/` | `/talks/{slug}/` | `talks` |
 | Page | `pages/` | `/{slug}/` | `pages` |
 
-Post slugs are globally unique across post types and reserve `articles`, `gamelogs`, and `dungeonlogs` for `/blog/{family}/` indexes. Topics are authored taxonomy, separate from Eleventy collection tags. Normalized `/topics/{slug}/` pages combine posts and talks in descending publication order. Devlogs are articles with the `devlog` topic, reachable at `/topics/devlog/`.
+Post slugs are globally unique across post types and reserve `articles`, `gamelogs`, `dungeonlogs`, and `videos` for `/blog/{family}/` indexes. Topics are authored taxonomy, separate from Eleventy collection tags. Normalized `/topics/{slug}/` pages combine posts and talks in descending publication order. Devlogs are posts with the `devlog` topic, reachable at `/topics/devlog/`.
 
 Gamelog authored data lives under `customData.game.ids`, `customData.playthrough`, and `customData.ratings`. Every gamelog has an IGDB ID. Preparation joins it to normalized game metadata: earliest release date, developers, publishers, collection-based series, ESRB/PEGI/CERO ratings, and optional imagery. These remain derived data; game details render separately from authored playthrough details.
 
 Talks are a separate content family with `customData.speakers` and `customData.appearances`. A talk's page date is its recoverable original publication date, otherwise its latest presentation date. That resolved date controls collection sorting; individual appearances do not independently reorder the talk.
+
+Video posts require a `youtube` URL identifying one video. Optional `links` contain labeled HTTPS or root-relative destinations. A normalized model supplies the canonical watch URL, embed URL, and validated links to components. Video banners remain local images for cards and social previews; detail pages show a responsive YouTube player instead, with a watch link and no overlapping body panel. The homepage video feature links to the post and does not embed a player. Missing thumbnails use the family placeholder and default social image.
+
+`pnpm new video` creates authored files from the repository template. Explicit `--fetch-youtube` uses a local `YOUTUBE_API_KEY` to prefill metadata and save a validated thumbnail; normal builds have no YouTube API dependency. Imported text and alt text require author review. The CLI never publishes or synchronizes content. See [video-posts.md](video-posts.md) for authoring examples.
 
 ## Rendering and reader pathways
 
@@ -55,7 +60,7 @@ Focused WebC layouts compose reusable components. The base shell supplies naviga
 
 The Blog index uses single-column cards, cropped banners, summary-or-introduction descriptions, and progressively enhanced, initially enabled family filters. Gamelog visual precedence is authored banner, IGDB artwork, IGDB screenshot, then accessible placeholder.
 
-Home features the newest article, gamelog, and talk in labeled tabs with a pause switch and accessible manual controls. Reduced motion disables automatic cycling until explicitly started; keyboard focus within the feature pauses cycling, while hover does not. Featured content remains in independent recent-family sections. Dungeonlogs remain available through blog, topic, feed, and direct routes and receive no automatic home promotion.
+Home features the newest video, article, gamelog, and talk in that tab order, with the video initially selected, a pause switch, and accessible manual controls. Reduced motion disables automatic cycling until explicitly started; keyboard focus within the feature pauses cycling, while hover does not. Featured content remains in independent recent-family sections. Dungeonlogs remain available through blog, topic, feed, and direct routes and receive no automatic home promotion.
 
 Detail pages offer deterministic related content ranked by shared topics, family, recency, and canonical URL, plus chronological family navigation and archive/topic links. Repository-controlled discovery data adds devlog and studio pathways on relevant pages without rewriting migrated prose. Native sharing, canonical-link copying, and Bluesky, LinkedIn, and email links use untracked canonical URLs. Owner-generated campaign links validate the built page and use the existing campaign model.
 
@@ -81,7 +86,7 @@ One canonical inventory drives sitemap coverage and IndexNow fingerprints. Sitem
 
 IndexNow runs after a verified `main` production deployment. Saved acknowledged state and pending URLs preserve additions, edits, removals, and failed submissions. Missing historical state requires explicit recovery. Initial 403 responses receive bounded retries only while the public ownership key remains verified; permanent key/request failures remain fatal. Failed-job reruns replace their prior state artifact. Notification failure preserves retry state and does not roll back a healthy site deployment. [search-discovery.md](search-discovery.md) owns account verification, key management, state recovery, and traffic review details.
 
-Article sharing is manual through `pnpm share <article-slug> <destination>`. `config/sharing.json` owns the source repository identity and named destination settings; `wd` selects the Western Devs adapter, repository, branch, author, token environment variable, and optional deployment workflow. The CLI selects exactly one article, including devlogs and explicitly selected historical articles. It excludes gamelogs, dungeonlogs, talks, and pages and has no activation cutoff, source-history enumeration, Actions context, or automatic publishing trigger. Its default mode prepares a local preview and report under a unique `.cache/sharing/<destination>/<slug>/` invocation directory without credentials or network access. A built `_site` article and valid build identity are required; source or asset edits newer than that page require a rebuild. Local and uncommitted articles can be previewed.
+Article sharing is manual through `pnpm share <article-slug> <destination>`. `config/sharing.json` owns the source repository identity and named destination settings; `wd` selects the Western Devs adapter, repository, branch, author, token environment variable, and optional deployment workflow. The CLI selects exactly one article, including devlogs and explicitly selected historical articles. It excludes gamelogs, dungeonlogs, videos, talks, and pages and has no activation cutoff, source-history enumeration, Actions context, or automatic publishing trigger. Its default mode prepares a local preview and report under a unique `.cache/sharing/<destination>/<slug>/` invocation directory without credentials or network access. A built `_site` article and valid build identity are required; source or asset edits newer than that page require a rebuild. Local and uncommitted articles can be previewed.
 
 The Western Devs adapter reads source metadata and the local build's authored body, banner, and description. It prepares full text as HTML within a Hexo Markdown post, copies original article-owned images, and resolves other links against the source canonical. The banner exports as a plain image without the source site's figure wrapper; any image credit follows as a paragraph. Figures authored in the article body retain their structure and captions. Exported images omit source-site layout classes, responsive attributes, and fixed width/height attributes so the target theme controls their sizing while retaining natural proportions, without added style overrides. All topics become tags; the first topic is the sole category, or the target default applies. `originalurl` supplies source attribution and canonical identity; the target's hard-coded standard description remains a template limitation. Author identity comes from the configured destination. No templates change and no website telemetry is copied.
 

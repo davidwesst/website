@@ -67,7 +67,7 @@ export default async function (eleventyConfig) {
     const topics = new Map();
     const items = collectionApi
       .getAll()
-      .filter((item) => ["article", "gamelog", "dungeonlog", "talk"].includes(item.data.type));
+      .filter((item) => ["article", "gamelog", "dungeonlog", "video", "talk"].includes(item.data.type));
 
     for (const item of items) {
       for (const topic of item.data.topics || []) {

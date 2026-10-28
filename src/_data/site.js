@@ -13,6 +13,7 @@ export default {
   url: "https://david.wes.st",
   recentPostCount: 3,
   homeSections: [
+    { type: "video", label: "Latest videos", url: "/blog/videos/" },
     { type: "article", label: "Latest articles", url: "/blog/articles/" },
     { type: "gamelog", label: "Latest gamelogs", url: "/blog/gamelogs/" },
     { type: "talk", label: "Latest talks", url: "/talks/" },
@@ -31,6 +32,7 @@ export default {
     { name: "YouTube", url: "https://youtube.com/davidwesst", iconClass: "fa-brands fa-youtube" },
   ],
   postTypes: {
+    video: { label: "Video", iconClass: "fa-solid fa-video", fallbackColor: "#be123c" },
     article: { label: "Article", iconClass: "fa-solid fa-newspaper", fallbackColor: "#0f766e" },
     gamelog: { label: "Gamelog", iconClass: "fa-solid fa-gamepad", fallbackColor: "#7c3aed" },
     dungeonlog: { label: "Dungeonlog", iconClass: "fa-solid fa-dungeon", fallbackColor: "#b45309" },

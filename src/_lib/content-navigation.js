@@ -1,4 +1,4 @@
-const ARCHIVES = { article: "/blog/articles/", gamelog: "/blog/gamelogs/", dungeonlog: "/blog/dungeonlogs/", talk: "/talks/" };
+const ARCHIVES = { video: "/blog/videos/", article: "/blog/articles/", gamelog: "/blog/gamelogs/", dungeonlog: "/blog/dungeonlogs/", talk: "/talks/" };
 function sharedTopicCount(left = [], right = []) { const rightSet = new Set(right.map((topic) => topic.toLowerCase())); return new Set(left.map((topic) => topic.toLowerCase()).filter((topic) => rightSet.has(topic))).size; }
 export function prepareContentNavigation(items, currentUrl, type, topics = [], limit = 3) {
   const canonical = [...(items || [])].filter((item) => item.url && !item.data?.robots && !item.data?.targetUrl);
