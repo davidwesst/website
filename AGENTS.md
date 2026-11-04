@@ -21,4 +21,5 @@
 
 ## Testing
 
+- Tests should not contain hardcoded fixture values or duplicated expected data. Generate inputs dynamically and derive expected values from fixtures, source data, or configuration. Keep fixed behavior contracts explicit so tests can detect regressions.
 - Run the build and the tests after making code changes to verify the changes should still work
