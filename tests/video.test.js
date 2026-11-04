@@ -151,7 +151,15 @@ test("video pages preserve routes and render one player, local thumbnails, and c
   assert.ok(article("a[href='/blog/defining-video-game-scope-video/']").length);
   assert.ok(article("a[href='https://youtu.be/EAB4uFQN6LE']").length);
   const archive = load(await readFile("_site/blog/videos/index.html", "utf8"));
-  assert.equal(archive("main section ol > li").length, 2);
+  const videoDirectories = (await readdir("src/content/posts/videos", { withFileTypes: true }))
+    .filter((entry) => entry.isDirectory());
+  const cards = archive("main > section > ol > li");
+  assert.equal(cards.length, videoDirectories.length, "The video archive must render one card per authored video");
+  assert.deepEqual(
+    cards.find("h2 a").map((_, link) => archive(link).attr("href")).get().sort(),
+    videoDirectories.map((entry) => `/blog/${entry.name}/`).sort(),
+    "The video archive must link to every authored video exactly once",
+  );
   assert.equal(archive("img[src^='https://']").length, 0);
   const feed = await readFile("_site/blog/videos/feed.xml", "utf8");
   assert.match(feed, /defining-video-game-scope-video/);
