@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import assert from "node:assert/strict";
 import test from "node:test";
 import os from "node:os";
@@ -97,4 +98,36 @@ test("refuses missing images, unsupported executable embeds and inconsistent can
   const options = await fixture(t);
   await writeFile(path.join(options.siteRoot, "blog/example/index.html"), '<link rel="canonical" href="https://elsewhere.invalid/">');
   await assert.rejects(convertWesternDevsPost(options), /canonical/);
+});
+
+test("video exports preserve metadata and render a sized player, watch link and supplementary links without a banner", async (t) => {
+  const videoId = randomUUID().replaceAll("-", "").slice(0, 11);
+  const topics = Array.from({ length: 2 }, () => randomUUID());
+  const link = { label: randomUUID(), url: `/${randomUUID()}/` };
+  const description = randomUUID();
+  const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+  const options = await fixture(t, { fields: matter.stringify("", { youtube: `https://youtu.be/${videoId}`, topics, links: [link] }).split("---")[1], body: "" });
+  const videoCandidate = { ...options.candidate, file: options.candidate.file.replace("/articles/", "/videos/"), originalPath: options.candidate.originalPath.replace("/articles/", "/videos/") };
+  await mkdir(path.dirname(path.join(options.root, videoCandidate.file)), { recursive: true });
+  const { readFile } = await import("node:fs/promises");
+  const source = await readFile(path.join(options.root, options.candidate.file), "utf8");
+  await writeFile(path.join(options.root, videoCandidate.file), source);
+  const slug = path.basename(path.dirname(videoCandidate.file));
+  const canonical = new URL(`/blog/${slug}/`, options.origin).href;
+  await writeFile(path.join(options.siteRoot, `blog/${slug}/index.html`), `<link rel="canonical" href="${canonical}"><meta name="description" content="${description}"><article><iframe src="${embedUrl}"></iframe><section aria-label="Post content"></section></article>`);
+  const result = await convertWesternDevsPost({ ...options, candidate: videoCandidate });
+  const parsed = matter(result.files[0].bytes.toString());
+  assert.deepEqual(parsed.data.tags, topics);
+  assert.deepEqual(parsed.data.categories, topics.slice(0, 1));
+  assert.equal(parsed.data.excerpt, description);
+  assert.equal(parsed.data.sourceBuildId, options.release.buildId);
+  const html = load(parsed.content);
+  assert.equal(html("iframe").attr("src"), embedUrl);
+  // Fixed rendering and protocol contracts are intentional, independent of fixture values.
+  assert.match(html("iframe").attr("style"), /aspect-ratio:16\/9/);
+  assert.equal(html("iframe").attr("title"), `Watch ${matter(source).data.title} on YouTube`);
+  assert.equal(html("a").last().attr("href"), new URL(link.url, options.origin).href);
+  assert.equal(html("img").length, 0);
+  await writeFile(path.join(options.root, videoCandidate.file), matter.stringify("", { ...matter(source).data, youtube: randomUUID() }));
+  await assert.rejects(convertWesternDevsPost({ ...options, candidate: videoCandidate }), /YouTube/);
 });
