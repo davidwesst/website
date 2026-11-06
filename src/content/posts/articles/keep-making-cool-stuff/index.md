@@ -37,7 +37,7 @@ They also brought in Victor Lucas from EPNtv and *Electric Playground* for the m
 
 And so, after another tough day at the day job, my partner and I sorted out the kiddos’ after-school activities so I could head over to pick up my game and hopefully meet Victor Lucas.
 
-And this is where the refuelling begins.
+And this is where the creative refuelling begins.
 
 ## I Met Lee from PnP Games
 
@@ -57,9 +57,11 @@ What sort of commercials make sense for a video game TV show? Video game store c
 
 That stuck with me. Sometimes you do something for your business simply because it _makes sense to do it_.
 
-While I was mulling that over, Lee got me set up at the counter to pick up my copy of *Ocarina of Time*. I waited there for Victor Lucas to finish his conversation.
+While I was mulling that over, Lee got me set up at the counter to pick up my copy of *Ocarina of Time* along with some adorable 3D printed rupees (the currency in the game). I waited there for Victor Lucas to finish his conversation.
 
 **Current Status: Intrigued**
+
+![A tabby cat lies on a bed beside an outstretched hand holding red, green, and blue Zelda rupees.](IMG_3799%20Medium.jpeg)
 
 ## I Met Victor Lucas from Electric Playground
 
