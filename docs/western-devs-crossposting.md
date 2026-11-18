@@ -1,6 +1,6 @@
-# Manual article sharing
+# Manual post sharing
 
-Article sharing is an owner CLI, invoked through pnpm. It selects one article by slug and one repository-configured destination. `wd` means Western Devs. There is no sharing GitHub workflow or CI/CD dispatcher, and the CLI needs no GitHub Actions context or enablement variable.
+Article sharing is an owner CLI, invoked through pnpm. It selects one article or video by slug and one repository-configured destination. `wd` means Western Devs. There is no sharing GitHub workflow or CI/CD dispatcher, and the CLI needs no GitHub Actions context or enablement variable.
 
 ## Preview and experiment
 
@@ -55,3 +55,7 @@ To repair an already published banner from an older export, edit the Western Dev
 Ref-update conflicts, lost responses, and ambiguous HTTP 5xx responses cause bounded history reconciliation, with at most three publication attempts. Successful writes whose responses were lost are acknowledged without another submission. Authentication and permission errors remain fatal. Destination path collisions stop publication instead of overwriting another contributor.
 
 Every attempted conversion/publication writes a report with the selected source/destination, preview files, build identity when converted, published or acknowledged commit, deployment results, and failures. A failed target deployment preserves the submitted commit. Retry that existing Western Devs workflow run; another `--publish` invocation acknowledges the existing article, and `--publish --wait` can inspect its deployment again. Conversion failures submit nothing. Rebuild and prepare another preview to correct local content issues.
+
+## Video sharing
+
+`pnpm run share is-scalable-game-design-a-thing wd` prepares a video preview. Videos inherit their family from the source directory. They export a validated YouTube iframe with accessible title, fullscreen support, full container width and a 16:9 aspect ratio, followed by a watch link, summary, supplementary links and authored body. Thumbnail banners are not exported above the player. Metadata and publication/recovery behavior match articles. WD templates remain unchanged.

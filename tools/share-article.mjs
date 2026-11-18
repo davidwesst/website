@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import site from "../src/_data/site.js";
 import { shareArticle } from "../lib/article-sharing.js";
 
-const usage = "Usage: pnpm share <article-slug> <destination> [--publish] [--wait]";
+const usage = "Usage: pnpm share <post-slug> <destination> [--publish] [--wait]";
 export function parseSharingArgs(argv) {
   const args = argv[0] === "--" ? argv.slice(1) : argv;
   if (args.includes("--help") || args.includes("-h")) return { help: true };
@@ -23,7 +23,7 @@ export function parseSharingArgs(argv) {
 async function main() {
   const options = parseSharingArgs(process.argv.slice(2));
   if (options.help) {
-    console.log(`${usage}\n\nPrepare a local preview by default. --publish submits it; --wait also checks the target deployment.\nDestinations are configured in config/sharing.json. Build the site with pnpm build first.`);
+    console.log(`${usage}\n\nShare an article or video. Prepare a local preview by default. --publish submits it; --wait also checks the target deployment.\nDestinations are configured in config/sharing.json. Build the site with pnpm build first.`);
     return;
   }
   const result = await shareArticle(options.slug, options.destination, { ...options, origin: site.url, onProgress: console.log });

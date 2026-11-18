@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import assert from "node:assert/strict";
 import test from "node:test";
 import path from "node:path";
@@ -78,10 +79,10 @@ test("invalid slugs, missing articles, non-articles, and unknown destinations fa
   for (const family of ["posts/gamelogs", "posts/dungeonlogs", "talks", "pages"]) {
     const slug = family.replaceAll("/", "-");
     await put(root, `src/content/${family}/${slug}/index.md`, "Content\n");
-    await assert.rejects(shareArticle(slug, "wd", { root, origin }), /Only articles/);
+    await assert.rejects(shareArticle(slug, "wd", { root, origin }), /Only articles and videos/);
   }
-  for (const slug of ["../example", "/example", "https://example.invalid/blog/example/"]) await assert.rejects(shareArticle(slug, "wd", { root, origin }), /Use an article slug/);
-  await assert.rejects(shareArticle("missing", "wd", { root, origin }), /Article not found/);
+  for (const slug of ["../example", "/example", "https://example.invalid/blog/example/"]) await assert.rejects(shareArticle(slug, "wd", { root, origin }), /Use a post slug/);
+  await assert.rejects(shareArticle("missing", "wd", { root, origin }), /Post not found/);
   await assert.rejects(shareArticle("example", "unknown", { root, origin }), /Unknown sharing destination.*wd/);
   await assert.rejects(shareArticle("example", "../wd", { root, origin }), /configured destination/);
 });
@@ -155,4 +156,31 @@ test("failed target deployment preserves the submitted commit and saved report f
   const report = JSON.parse(await readFile(failure.reportPath, "utf8"));
   assert.equal(report.published[0].commit, "shared");
   assert.equal(report.deployments[0].conclusion, "failure");
+});
+
+test("video previews, mocked publication, duplicate skipping and stale-build checks use the sharing pipeline", async (t) => {
+  const root = await fixture(t);
+  const slug = `video-${randomUUID()}`;
+  const destination = Object.keys(config.destinations)[0];
+  const tokenEnv = config.destinations[destination].tokenEnv;
+  const videoId = randomUUID().replaceAll("-", "").slice(0, 11);
+  const source = matter(await readFile(path.join(root, sourceFile), "utf8"));
+  const file = `src/content/posts/videos/${slug}/index.md`;
+  const canonical = new URL(`/blog/${slug}/`, origin).href;
+  await put(root, file, matter.stringify(source.content, { ...source.data, youtube: `https://youtu.be/${videoId}` }));
+  await put(root, `_site/blog/${slug}/index.html`, `<link rel="canonical" href="${canonical}"><meta name="description" content="${slug}"><article><iframe src="https://www.youtube.com/embed/${videoId}"></iframe><section aria-label="Post content">${source.content}</section></article>`);
+  assert.equal((await shareArticle(slug, destination, { root, origin, env: {}, request: noRequest, snapshot: noRequest })).status, "prepared");
+  const commit = randomUUID();
+  const options = { root, origin, publish: true, env: { [tokenEnv]: randomUUID() }, snapshot: async () => state(), request: async () => ({ sha: commit }) };
+  const published = await shareArticle(slug, destination, options);
+  assert.equal(published.status, "published");
+  assert.equal(published.published[0].commit, commit);
+  const acknowledged = randomUUID();
+  const skipped = await shareArticle(slug, destination, { ...options, request: noRequest, snapshot: async () => state(new Map(), new Map([[canonical, acknowledged]])) });
+  assert.equal(skipped.status, "already_shared");
+  assert.equal(skipped.skipped[0].commit, acknowledged);
+  const { mtimeMs } = await (await import("node:fs/promises")).stat(path.join(root, `_site/blog/${slug}/index.html`));
+  const newer = new Date(mtimeMs + 1000);
+  await utimes(path.join(root, file), newer, newer);
+  await assert.rejects(shareArticle(slug, destination, { root, origin }), /Run pnpm build/);
 });
